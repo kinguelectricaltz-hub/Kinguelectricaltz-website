@@ -21,22 +21,7 @@ Kingu Electrical Company Limited is a leading Tanzanian electrical engineering c
 - **SEO Optimized:** Includes structured JSON-LD schema for Organization, Services, WebPage, and WebSite.
 - **Breadcrumb Navigation:** Helps users and search engines navigate easily.
 - **Responsive Design:** Optimized for mobile, tablet, and desktop devices.
-
----
-
-## Technology Stack
-- **Frontend:** HTML5, CSS3, JavaScript
-- **Backend:** PHP (for WordPress integration)
-- **CMS:** WordPress (Elementor page builder)
-- **SEO:** JSON-LD structured data, meta tags, schema.org integration
-- **Security:** Google reCAPTCHA for forms
-
----
-
-## Installation
-1. Clone or download the repository:
-   ```bash
-   git clone https://github.com/kinguelectrical/website.git
+##
 
 
 
