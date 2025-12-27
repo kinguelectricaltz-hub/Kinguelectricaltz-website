@@ -66,7 +66,8 @@
             "HPU Conversion",
             "Power Distribution",
             "Industrial Automation",
-            "Telecom Infrastructure"
+            "Telecom Infrastructure",
+            "Technical Training"
           ],
           "makesOffer": [
             {
@@ -88,6 +89,11 @@
               "@type": "Service",
               "name": "HPU Conversion",
               "description": "HPU training, automation design and conversion of HPU units into standard diesel generators."
+            },
+            {
+              "@type": "Service",
+              "name": "Technical Training",
+              "description": "Comprehensive technical training on electrical and mechanical aspects of generators for trainees and telecom Operation & Maintenance companies."
             },
             {
               "@type": "Service",
@@ -807,6 +813,11 @@
                     <p>HPU training, automation design and conversion of HPU units into standard diesel generators for telecom applications.</p>
                 </div>
                 <div class="card">
+                    <div class="card-icon">📚</div>
+                    <h3>Technical Training</h3>
+                    <p>Comprehensive technical training on electrical and mechanical aspects of generators for trainees and telecom Operation & Maintenance companies.</p>
+                </div>
+                <div class="card">
                     <div class="card-icon">🏗️</div>
                     <h3>Electrical Installations</h3>
                     <p>Complete residential, commercial and industrial electrical installation works with compliance to Tanzanian standards.</p>
@@ -848,6 +859,15 @@
                         <p>Complete installation and commissioning of 800kVA diesel generator set with ATS integration for industrial facility.</p>
                         <p><strong>Client:</strong> Manufacturing Plant</p>
                         <p><strong>Year:</strong> 2023</p>
+                    </div>
+                </div>
+                <div class="project-item">
+                    <img src="https://via.placeholder.com/600x400/2e8b57/FFFFFF?text=Technical+Training" alt="Technical Training Program" class="project-img">
+                    <div class="project-content">
+                        <h3>Technical Training Program</h3>
+                        <p>Developed and delivered specialized generator technical training programs for telecom O&M teams across multiple regions.</p>
+                        <p><strong>Client:</strong> Telecom O&M Companies</p>
+                        <p><strong>Year:</strong> 2023-2024</p>
                     </div>
                 </div>
             </div>
@@ -943,38 +963,12 @@
             </div>
 
             <h3 class="text-center mb-20">Send Us a Message</h3>
-            <form id="contact-form">
-                <div class="form-group">
-                    <label for="name">Your Name *</label>
-                    <input type="text" id="name" name="name" required>
-                </div>
-                <div class="form-group">
-                    <label for="email">Your Email *</label>
-                    <input type="email" id="email" name="email" required>
-                </div>
-                <div class="form-group">
-                    <label for="phone">Phone Number</label>
-                    <input type="tel" id="phone" name="phone">
-                </div>
-                <div class="form-group">
-                    <label for="subject">Subject *</label>
-                    <select id="subject" name="subject" required>
-                        <option value="">Select a subject</option>
-                        <option value="generator">Generator Services</option>
-                        <option value="plc">PLC & Automation</option>
-                        <option value="ats">ATS Systems</option>
-                        <option value="hpu">HPU Conversion</option>
-                        <option value="installation">Electrical Installation</option>
-                        <option value="other">Other Inquiry</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="message">Your Message *</label>
-                    <textarea id="message" name="message" rows="5" required></textarea>
-                </div>
-                <button type="submit" class="btn btn-secondary" style="width: 100%;">
-                    <span>📨</span> Send Message
-                </button>
+            <form action="send-mail.php" method="post" style="max-width:600px; margin: 0 auto;">
+                <input type="text" name="name" placeholder="Your Name" required style="width:100%; padding:15px; margin-bottom:15px; border: 1px solid var(--medium-gray); border-radius: 5px;">
+                <input type="email" name="email" placeholder="Your Email" required style="width:100%; padding:15px; margin-bottom:15px; border: 1px solid var(--medium-gray); border-radius: 5px;">
+                <input type="text" name="subject" placeholder="Subject" required style="width:100%; padding:15px; margin-bottom:15px; border: 1px solid var(--medium-gray); border-radius: 5px;">
+                <textarea name="message" placeholder="Your Message" required style="width:100%; padding:15px; height:150px; margin-bottom:15px; border: 1px solid var(--medium-gray); border-radius: 5px;"></textarea>
+                <button type="submit" style="background:#1f6f43; color:#fff; padding:15px 30px; border:none; border-radius:5px; cursor: pointer; font-size: 1.1rem; transition: all 0.3s ease;">Send Message</button>
             </form>
         </section>
     </main>
@@ -1036,7 +1030,7 @@
         });
         
         // Form Submission
-        const contactForm = document.getElementById('contact-form');
+        const contactForm = document.querySelector('form[action="send-mail.php"]');
         contactForm.addEventListener('submit', (e) => {
             e.preventDefault();
             
@@ -1044,20 +1038,20 @@
             const originalText = submitBtn.innerHTML;
             
             // Show loading state
-            submitBtn.innerHTML = '<span>⏳</span> Sending...';
+            submitBtn.innerHTML = 'Sending...';
             submitBtn.disabled = true;
             
             // Simulate form submission
             setTimeout(() => {
                 // Success message
-                submitBtn.innerHTML = '<span>✅</span> Message Sent!';
+                submitBtn.innerHTML = 'Message Sent!';
                 submitBtn.style.background = '#2e8b57';
                 
                 // Reset form after 3 seconds
                 setTimeout(() => {
                     contactForm.reset();
                     submitBtn.innerHTML = originalText;
-                    submitBtn.style.background = '';
+                    submitBtn.style.background = '#1f6f43';
                     submitBtn.disabled = false;
                     
                     // Show success alert
