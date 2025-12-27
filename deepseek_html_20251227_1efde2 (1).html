@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Create Kingu Website ZIP</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+</head>
+<body>
+    <h2>Download Kingu Electrical Website ZIP</h2>
+    <button onclick="createZip()">Download ZIP</button>
+    
+    <script>
+    async function createZip() {
+        const zip = new JSZip();
+        
+        // Add index.html
+        zip.file("index.html", `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kingu Electrical Company Limited</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+    <header id="home">
+        <div class="container">
+            <h1>Kingu Electrical Company Limited</h1>
+            <p class="tagline">Quality Electrical Services with a Professional Experience</p>
+        </div>
+    </header>
+    <!-- Rest of the HTML content goes here -->
+</body>
+</html>`);
+        
+        // Add CSS file
+        zip.file("assets/css/style.css", `:root {
+    --primary-green: #1f6f43;
+    --secondary-green: #2e8b57;
+    --accent-red: #c62828;
+}
+/* Rest of CSS content */`);
+        
+        // Add JavaScript file
+        zip.file("assets/js/main.js", `// Main JavaScript
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('Website loaded');
+});`);
+        
+        // Add README
+        zip.file("README.md", `# Kingu Electrical Website
+Professional website for tender submissions.`);
+        
+        // Add .gitignore
+        zip.file(".gitignore", `node_modules/
+.DS_Store
+*.log`);
+        
+        // Generate ZIP
+        const content = await zip.generateAsync({type: "blob"});
+        saveAs(content, "kinguelectrical-website.zip");
+    }
+    </script>
+</body>
+</html>
