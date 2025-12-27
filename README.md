@@ -1,7 +1,7 @@
 # Kingu Electrical Company Limited Website
 
 ## Overview
-Kingu Electrical Company Limited is a leading Tanzanian electrical engineering company providing high-quality electrical services, including generator services, PLC automation, HPU conversion, ATS systems, and industrial electrical installations. This website serves as the official online presence for the company, showcasing its services, projects, credentials, and contact information.
+Kingu Electrical Company Limited is a leading Tanzanian electrical engineering company providing high-quality electrical services, including generator services, PLC automation, HPU conversion, ATS systems, and industrial electrical installations.
 
 ---
 
