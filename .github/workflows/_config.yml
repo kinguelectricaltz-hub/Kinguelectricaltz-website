@@ -1,0 +1,10 @@
+title: "Kingu Electrical Company Ltd"
+description: "Leading electrical engineering company in Tanzania providing professional power solutions"
+url: "https://kinguelectrical.com"
+theme: jekyll-theme-cayman  # Optional: adds professional theme
+
+# Your custom settings
+company_name: "Kingu Electrical Company Limited"
+contact_email: "Kinguelectricaltz@gmail.com"
+phone_numbers: ["+255677014740", "+255763957908", "+255682843552"]
+address: "Plot No. 485, Block 43, Nzasa, Dar-es-salaam"
