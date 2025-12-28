@@ -1,0 +1,352 @@
+<?php
+/*
+ * Kingu Electrical Company Limited - Contact Form Handler
+ * Version: 1.0
+ * Author: Kingu Electrical Team
+ * Date: <?php echo date('Y-m-d'); ?>
+ */
+
+// Enable error reporting for debugging (disable in production)
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+// Set timezone for Tanzania (East Africa Time)
+date_default_timezone_set('Africa/Dar_es_Salaam');
+
+// Configuration
+$config = [
+    'site_name' => 'Kingu Electrical Company Limited',
+    'site_email' => 'Kinguelectricaltz@gmail.com',
+    'admin_email' => 'Kinguelectricaltz@gmail.com',
+    'recipient_emails' => [
+        'Kinguelectricaltz@gmail.com',
+        // Add additional recipient emails here if needed
+    ],
+    'subject_prefix' => '[Kingu Electrical Website] ',
+    'success_message' => 'Thank you for contacting Kingu Electrical! We will get back to you within 24 hours.',
+    'error_message' => 'Sorry, there was an error sending your message. Please try again later or contact us directly.',
+    'required_fields' => ['name', 'email', 'subject', 'message'],
+    'honeypot_field' => 'website', // Anti-spam hidden field
+    'max_message_length' => 2000,
+    'enable_sms_notification' => true,
+    'sms_phone_numbers' => [
+        '+255677014740',
+        '+255763957908',
+        // Add additional SMS numbers here
+    ]
+];
+
+// Function to sanitize input data
+function sanitize_input($data) {
+    $data = trim($data);
+    $data = stripslashes($data);
+    $data = htmlspecialchars($data, ENT_QUOTES, 'UTF-8');
+    return $data;
+}
+
+// Function to validate email
+function validate_email($email) {
+    return filter_var($email, FILTER_VALIDATE_EMAIL);
+}
+
+// Function to validate phone number (Tanzanian format)
+function validate_phone($phone) {
+    // Remove any non-digit characters
+    $phone = preg_replace('/[^0-9+]/', '', $phone);
+    
+    // Check for Tanzanian phone number format (+255XXXXXXXXX or 0XXXXXXXXX)
+    if (preg_match('/^(\\+255|0)[0-9]{9}$/', $phone)) {
+        return $phone;
+    }
+    return false;
+}
+
+// Function to send email
+function send_email($to, $subject, $message, $headers) {
+    return mail($to, $subject, $message, $headers);
+}
+
+// Function to log messages to file (for debugging)
+function log_message($message, $type = 'INFO') {
+    $log_file = 'contact_logs/' . date('Y-m-d') . '.log';
+    $log_message = '[' . date('Y-m-d H:i:s') . '] [' . $type . '] ' . $message . PHP_EOL;
+    
+    // Create logs directory if it doesn't exist
+    if (!is_dir('contact_logs')) {
+        mkdir('contact_logs', 0755, true);
+    }
+    
+    file_put_contents($log_file, $log_message, FILE_APPEND);
+}
+
+// Main processing starts here
+header('Content-Type: application/json');
+
+try {
+    // Check if request method is POST
+    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+        throw new Exception('Invalid request method. Only POST requests are allowed.');
+    }
+
+    // Check honeypot field (anti-spam)
+    if (!empty($_POST[$config['honeypot_field']])) {
+        // Honeypot field was filled - likely a bot
+        log_message('Bot detected via honeypot field', 'BOT');
+        echo json_encode([
+            'success' => true, // Pretend success to bot
+            'message' => $config['success_message']
+        ]);
+        exit;
+    }
+
+    // Validate required fields
+    $errors = [];
+    $data = [];
+
+    foreach ($config['required_fields'] as $field) {
+        if (empty($_POST[$field])) {
+            $errors[] = ucfirst($field) . ' is required.';
+        } else {
+            $data[$field] = sanitize_input($_POST[$field]);
+        }
+    }
+
+    // Validate email format
+    if (!empty($data['email']) && !validate_email($data['email'])) {
+        $errors[] = 'Please enter a valid email address.';
+    }
+
+    // Validate phone if provided
+    if (!empty($_POST['phone'])) {
+        $phone = sanitize_input($_POST['phone']);
+        if ($valid_phone = validate_phone($phone)) {
+            $data['phone'] = $valid_phone;
+        } else {
+            $errors[] = 'Please enter a valid Tanzanian phone number (e.g., +255XXXXXXXXX or 0XXXXXXXXX).';
+        }
+    }
+
+    // Validate message length
+    if (!empty($data['message']) && strlen($data['message']) > $config['max_message_length']) {
+        $errors[] = 'Message is too long. Maximum ' . $config['max_message_length'] . ' characters allowed.';
+    }
+
+    // Check for errors
+    if (!empty($errors)) {
+        throw new Exception(implode(' ', $errors));
+    }
+
+    // Get client IP and other info
+    $client_ip = $_SERVER['REMOTE_ADDR'] ?? 'Unknown';
+    $user_agent = $_SERVER['HTTP_USER_AGENT'] ?? 'Unknown';
+    $timestamp = date('Y-m-d H:i:s');
+    $referrer = $_SERVER['HTTP_REFERER'] ?? 'Direct';
+
+    // Prepare email content
+    $subject = $config['subject_prefix'] . $data['subject'];
+    
+    $email_message = "New Contact Form Submission from Kingu Electrical Website\n";
+    $email_message .= "=====================================================\n\n";
+    $email_message .= "Name: " . $data['name'] . "\n";
+    $email_message .= "Email: " . $data['email'] . "\n";
+    
+    if (!empty($data['phone'])) {
+        $email_message .= "Phone: " . $data['phone'] . "\n";
+    }
+    
+    $email_message .= "Subject: " . $data['subject'] . "\n\n";
+    $email_message .= "Message:\n" . $data['message'] . "\n\n";
+    $email_message .= "=====================================================\n";
+    $email_message .= "Technical Details:\n";
+    $email_message .= "Submission Time: " . $timestamp . " (EAT)\n";
+    $email_message .= "IP Address: " . $client_ip . "\n";
+    $email_message .= "User Agent: " . substr($user_agent, 0, 100) . "\n";
+    $email_message .= "Referrer: " . $referrer . "\n";
+
+    // Prepare HTML email for better formatting
+    $html_message = "
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <style>
+            body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+            .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+            .header { background: #1a5632; color: white; padding: 20px; text-align: center; }
+            .content { background: #f9f9f9; padding: 20px; border: 1px solid #ddd; }
+            .field { margin-bottom: 15px; }
+            .field-label { font-weight: bold; color: #1a5632; }
+            .field-value { margin-top: 5px; }
+            .message-box { background: white; padding: 15px; border: 1px solid #eee; border-radius: 5px; }
+            .footer { margin-top: 20px; padding-top: 20px; border-top: 1px solid #ddd; font-size: 12px; color: #666; }
+            .highlight { background: #e8f5e9; padding: 10px; border-radius: 5px; }
+        </style>
+    </head>
+    <body>
+        <div class='container'>
+            <div class='header'>
+                <h2>New Contact Form Submission</h2>
+                <p>Kingu Electrical Company Limited Website</p>
+            </div>
+            
+            <div class='content'>
+                <div class='highlight'>
+                    <p><strong>📞 Immediate Response Required</strong></p>
+                    <p>Please respond to this inquiry within 24 hours.</p>
+                </div>
+                
+                <div class='field'>
+                    <div class='field-label'>👤 Customer Information</div>
+                    <div class='field-value'>
+                        <strong>Name:</strong> " . htmlspecialchars($data['name']) . "<br>
+                        <strong>Email:</strong> " . htmlspecialchars($data['email']) . "<br>";
+    
+    if (!empty($data['phone'])) {
+        $html_message .= "<strong>Phone:</strong> " . htmlspecialchars($data['phone']) . "<br>";
+    }
+    
+    $html_message .= "
+                    </div>
+                </div>
+                
+                <div class='field'>
+                    <div class='field-label'>📋 Subject</div>
+                    <div class='field-value'>" . htmlspecialchars($data['subject']) . "</div>
+                </div>
+                
+                <div class='field'>
+                    <div class='field-label'>💬 Message</div>
+                    <div class='field-value'>
+                        <div class='message-box'>" . nl2br(htmlspecialchars($data['message'])) . "</div>
+                    </div>
+                </div>
+                
+                <div class='footer'>
+                    <p><strong>Technical Details:</strong></p>
+                    <p>
+                        Submission Time: " . $timestamp . " (EAT)<br>
+                        IP Address: " . $client_ip . "<br>
+                        Referrer: " . $referrer . "
+                    </p>
+                    <p><em>This email was automatically generated from the Kingu Electrical website contact form.</em></p>
+                </div>
+            </div>
+        </div>
+    </body>
+    </html>";
+
+    // Prepare email headers
+    $headers = "From: " . $config['site_name'] . " <" . $config['site_email'] . ">\r\n";
+    $headers .= "Reply-To: " . $data['email'] . "\r\n";
+    $headers .= "Return-Path: " . $config['site_email'] . "\r\n";
+    $headers .= "MIME-Version: 1.0\r\n";
+    $headers .= "Content-Type: text/html; charset=UTF-8\r\n";
+    $headers .= "X-Mailer: PHP/" . phpversion() . "\r\n";
+    $headers .= "X-Priority: 1 (Highest)\r\n";
+    $headers .= "X-MSMail-Priority: High\r\n";
+    $headers .= "Importance: High\r\n";
+
+    // Send email to all recipients
+    $email_sent = false;
+    foreach ($config['recipient_emails'] as $recipient) {
+        if (send_email($recipient, $subject, $html_message, $headers)) {
+            $email_sent = true;
+            log_message("Email sent successfully to: " . $recipient, 'SUCCESS');
+        } else {
+            log_message("Failed to send email to: " . $recipient, 'ERROR');
+        }
+    }
+
+    // Also send a plain text copy to admin for backup
+    $plain_headers = "From: " . $config['site_name'] . " <" . $config['site_email'] . ">\r\n";
+    $plain_headers .= "Content-Type: text/plain; charset=UTF-8\r\n";
+    send_email($config['admin_email'], $subject . ' [Plain Text]', $email_message, $plain_headers);
+
+    // Auto-reply to customer
+    $customer_subject = "Thank you for contacting Kingu Electrical Company Limited";
+    $customer_message = "
+Dear " . $data['name'] . ",
+
+Thank you for contacting Kingu Electrical Company Limited!
+
+We have received your message regarding:
+\"" . $data['subject'] . "\"
+
+Our team will review your inquiry and get back to you within 24 hours during our business hours (Monday-Friday, 8:00 AM - 6:00 PM EAT).
+
+For urgent matters, you can reach us directly at:
+📞 +255 677 014 740
+📞 +255 763 957 908
+📞 +255 682 843 552
+
+You can also chat with us on WhatsApp: https://wa.me/255677014740
+
+Best regards,
+
+Kingu Electrical Team
+Quality Electrical Services with Professional Experience
+Arusha & Dar-es-salaam, Tanzania
+https://www.kinguelectrical.co.tz
+
+--- This is an automated response. Please do not reply to this email. ---
+";
+
+    $customer_headers = "From: " . $config['site_name'] . " <" . $config['site_email'] . ">\r\n";
+    $customer_headers .= "Reply-To: " . $config['admin_email'] . "\r\n";
+    $customer_headers .= "Content-Type: text/plain; charset=UTF-8\r\n";
+    
+    send_email($data['email'], $customer_subject, $customer_message, $customer_headers);
+
+    // Save to database (optional - uncomment if you have database setup)
+    /*
+    try {
+        $pdo = new PDO('mysql:host=localhost;dbname=your_database', 'username', 'password');
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        
+        $stmt = $pdo->prepare("INSERT INTO contact_submissions 
+            (name, email, phone, subject, message, ip_address, user_agent, referrer, created_at) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW())");
+        
+        $stmt->execute([
+            $data['name'],
+            $data['email'],
+            $data['phone'] ?? null,
+            $data['subject'],
+            $data['message'],
+            $client_ip,
+            $user_agent,
+            $referrer
+        ]);
+        
+        log_message("Submission saved to database. ID: " . $pdo->lastInsertId(), 'SUCCESS');
+    } catch (PDOException $e) {
+        log_message("Database error: " . $e->getMessage(), 'ERROR');
+    }
+    */
+
+    // Log successful submission
+    log_message("Form submitted successfully by: " . $data['name'] . " (" . $data['email'] . ")", 'SUCCESS');
+
+    // Return success response
+    echo json_encode([
+        'success' => $email_sent,
+        'message' => $config['success_message'],
+        'data' => [
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'timestamp' => $timestamp
+        ]
+    ]);
+
+} catch (Exception $e) {
+    // Log error
+    log_message("Error: " . $e->getMessage(), 'ERROR');
+    
+    // Return error response
+    http_response_code(400);
+    echo json_encode([
+        'success' => false,
+        'message' => $e->getMessage(),
+        'error' => $e->getMessage()
+    ]);
+}
+?>
