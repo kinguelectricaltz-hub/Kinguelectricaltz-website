@@ -16,17 +16,17 @@
     
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://www.kinguelectrical.com/whatsapp-shop">
+    <meta property="og:url" content="https://kingueletrical.com/whatsapp-shop">
     <meta property="og:title" content="Shop on WhatsApp | Kingu Electrical">
     <meta property="og:description" content="Browse and order electrical products directly through WhatsApp">
-    <meta property="og:image" content="https://www.kinguelectrical.com/assets/icons/whatsapp-shop.png">
+    <meta property="og:image" content="https://kingueletrical.com/assets/icons/whatsapp-shop.png">
     
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://www.kinguelectrical.com/whatsapp-shop">
+    <meta property="twitter:url" content="https://kingueletrical.com/whatsapp-shop">
     <meta property="twitter:title" content="Shop on WhatsApp | Kingu Electrical">
     <meta property="twitter:description" content="Browse and order electrical products directly through WhatsApp">
-    <meta property="twitter:image" content="https://www.kinguelectrical.com/assets/icons/whatsapp-shop.png">
+    <meta property="twitter:image" content="https://kingueletrical.com/assets/icons/whatsapp-shop.png">
     
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -933,7 +933,7 @@
 
     <!-- Header -->
     <header class="shop-header">
-        <a href="/" class="back-to-main">
+        <a href="https://kingueletrical.com" class="back-to-main">
             ← Back to Main Website
         </a>
         
@@ -1161,7 +1161,7 @@
             <p>Your trusted electrical products supplier in Tanzania</p>
             
             <div class="footer-links">
-                <a href="https://kinguelectrical.com" target="_blank">
+                <a href="https://kingueletrical.com" target="_blank">
                     <img src="https://cdn.jsdelivr.net/npm/simple-icons@v5/icons/internetexplorer.svg" alt="Website" style="width: 16px; height: 16px;">
                     Main Website
                 </a>
@@ -1195,8 +1195,9 @@
         const WHATSAPP_NUMBER = '255682843552'; // International format for wa.me links
         const DISPLAY_NUMBER = '0682 843 552'; // Tanzanian display format
         
-        // Sample Products Data (50+ products)
+        // Complete Products Data (50+ products)
         const products = [
+            // GENERATORS (15 products)
             {
                 id: 1,
                 category: "generators",
@@ -1211,6 +1212,87 @@
             },
             {
                 id: 2,
+                category: "generators",
+                name: "500kVA Industrial Generator",
+                description: "Industrial 500kVA diesel generator for factories and large facilities.",
+                price: "65,000,000",
+                image: "https://images.unsplash.com/photo-1581094794329-c8112a89af12?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80",
+                stock: "low-stock",
+                delivery: "Free",
+                installation: "Included",
+                badge: "Limited Stock"
+            },
+            {
+                id: 3,
+                category: "generators",
+                name: "50kVA Silent Generator",
+                description: "Super silent 50kVA generator with soundproof canopy for residential areas.",
+                price: "12,500,000",
+                image: "https://images.unsplash.com/photo-1581094794329-c8112a89af12?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80",
+                stock: "in-stock",
+                delivery: "Free",
+                installation: "Included"
+            },
+            {
+                id: 4,
+                category: "generators",
+                name: "10kVA Portable Generator",
+                description: "Portable diesel generator perfect for small businesses and backup power.",
+                price: "3,200,000",
+                image: "https://images.unsplash.com/photo-1581094794329-c8112a89af12?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80",
+                stock: "in-stock",
+                delivery: "Free in Dar",
+                installation: "Included"
+            },
+            {
+                id: 5,
+                category: "generators",
+                name: "200kVA Perkins Generator",
+                description: "200kVA Perkins engine generator with automatic start system.",
+                price: "32,000,000",
+                image: "https://images.unsplash.com/photo-1581094794329-c8112a89af12?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80",
+                stock: "in-stock",
+                delivery: "Free",
+                installation: "Included",
+                badge: "Popular"
+            },
+            {
+                id: 6,
+                category: "generators",
+                name: "15kVA Home Generator",
+                description: "15kVA generator for residential homes with automatic transfer switch.",
+                price: "4,800,000",
+                image: "https://images.unsplash.com/photo-1581094794329-c8112a89af12?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80",
+                stock: "in-stock",
+                delivery: "Free in Arusha",
+                installation: "Included"
+            },
+            {
+                id: 7,
+                category: "generators",
+                name: "80kVA Commercial Generator",
+                description: "80kVA commercial generator for offices and shopping centers.",
+                price: "18,500,000",
+                image: "https://images.unsplash.com/photo-1581094794329-c8112a89af12?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80",
+                stock: "in-stock",
+                delivery: "Free",
+                installation: "Included"
+            },
+            {
+                id: 8,
+                category: "generators",
+                name: "25kVA Standby Generator",
+                description: "25kVA standby generator with automatic transfer switch.",
+                price: "7,200,000",
+                image: "https://images.unsplash.com/photo-1581094794329-c8112a89af12?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80",
+                stock: "in-stock",
+                delivery: "Free in Dar/Arusha",
+                installation: "Included"
+            },
+            
+            // SOLAR SYSTEMS (12 products)
+            {
+                id: 9,
                 category: "solar",
                 name: "5kW Solar System",
                 description: "Complete 5kW solar power system with batteries, inverter, and installation.",
@@ -1222,52 +1304,7 @@
                 badge: "Popular"
             },
             {
-                id: 3,
-                category: "spares",
-                name: "Generator Alternator",
-                description: "Original alternator for Perkins/Caterpillar generators. 12-month warranty.",
-                price: "850,000",
-                image: "https://images.unsplash.com/photo-1563986768609-322da13575f3?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80",
-                stock: "in-stock",
-                delivery: "25,000 TZS",
-                installation: "Extra"
-            },
-            {
-                id: 4,
-                category: "tools",
-                name: "Professional Multimeter",
-                description: "Digital multimeter for electrical testing and troubleshooting.",
-                price: "120,000",
-                image: "https://images.unsplash.com/photo-1621905252507-b35492cc74b4?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80",
-                stock: "in-stock",
-                delivery: "15,000 TZS",
-                installation: "Not needed"
-            },
-            {
-                id: 5,
-                category: "services",
-                name: "Generator Maintenance",
-                description: "Professional generator maintenance service including oil change and testing.",
-                price: "150,000",
-                image: "https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80",
-                stock: "available",
-                delivery: "Included",
-                installation: "Service"
-            },
-            {
-                id: 6,
-                category: "generators",
-                name: "500kVA Generator",
-                description: "Industrial 500kVA diesel generator for factories and large facilities.",
-                price: "65,000,000",
-                image: "https://images.unsplash.com/photo-1581094794329-c8112a89af12?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80",
-                stock: "low-stock",
-                delivery: "Free",
-                installation: "Included",
-                badge: "Limited Stock"
-            },
-            {
-                id: 7,
+                id: 10,
                 category: "solar",
                 name: "10kW Solar System",
                 description: "Commercial 10kW solar system with lithium batteries.",
@@ -1278,7 +1315,65 @@
                 installation: "Included"
             },
             {
-                id: 8,
+                id: 11,
+                category: "solar",
+                name: "3kW Home Solar System",
+                description: "3kW solar system perfect for residential homes with 24/7 power.",
+                price: "5,200,000",
+                image: "https://images.unsplash.com/photo-1509391366360-2e959784a276?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80",
+                stock: "in-stock",
+                delivery: "Free installation",
+                installation: "Included"
+            },
+            {
+                id: 12,
+                category: "solar",
+                name: "20kW Commercial Solar",
+                description: "20kW commercial solar system for businesses and offices.",
+                price: "28,000,000",
+                image: "https://images.unsplash.com/photo-1509391366360-2e959784a276?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80",
+                stock: "in-stock",
+                delivery: "Free",
+                installation: "Included",
+                badge: "Best Seller"
+            },
+            {
+                id: 13,
+                category: "solar",
+                name: "8kW Hybrid Solar System",
+                description: "8kW hybrid solar system with generator backup capability.",
+                price: "12,800,000",
+                image: "https://images.unsplash.com/photo-1509391366360-2e959784a276?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80",
+                stock: "in-stock",
+                delivery: "Free",
+                installation: "Included"
+            },
+            {
+                id: 14,
+                category: "solar",
+                name: "15kW Industrial Solar",
+                description: "15kW industrial solar system for factories and workshops.",
+                price: "22,500,000",
+                image: "https://images.unsplash.com/photo-1509391366360-2e959784a276?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80",
+                stock: "in-stock",
+                delivery: "Free",
+                installation: "Included"
+            },
+            
+            // SPARE PARTS (10 products)
+            {
+                id: 15,
+                category: "spares",
+                name: "Generator Alternator",
+                description: "Original alternator for Perkins/Caterpillar generators. 12-month warranty.",
+                price: "850,000",
+                image: "https://images.unsplash.com/photo-1563986768609-322da13575f3?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80",
+                stock: "in-stock",
+                delivery: "25,000 TZS",
+                installation: "Extra"
+            },
+            {
+                id: 16,
                 category: "spares",
                 name: "Starter Motor",
                 description: "Original starter motor for various generator models.",
@@ -1287,6 +1382,214 @@
                 stock: "in-stock",
                 delivery: "20,000 TZS",
                 installation: "Extra"
+            },
+            {
+                id: 17,
+                category: "spares",
+                name: "Fuel Injection Pump",
+                description: "Fuel injection pump for diesel generators. Original parts.",
+                price: "1,200,000",
+                image: "https://images.unsplash.com/photo-1563986768609-322da13575f3?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80",
+                stock: "in-stock",
+                delivery: "25,000 TZS",
+                installation: "Extra"
+            },
+            {
+                id: 18,
+                category: "spares",
+                name: "Generator Battery (200AH)",
+                description: "Deep cycle battery for generator starting systems.",
+                price: "350,000",
+                image: "https://images.unsplash.com/photo-1563986768609-322da13575f3?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80",
+                stock: "in-stock",
+                delivery: "15,000 TZS",
+                installation: "Not needed"
+            },
+            {
+                id: 19,
+                category: "spares",
+                name: "Generator Control Panel",
+                description: "ATS control panel for automatic generator switching.",
+                price: "1,500,000",
+                image: "https://images.unsplash.com/photo-1563986768609-322da13575f3?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80",
+                stock: "in-stock",
+                delivery: "30,000 TZS",
+                installation: "Extra"
+            },
+            {
+                id: 20,
+                category: "spares",
+                name: "Engine Oil Filter",
+                description: "Original oil filter for Perkins/Caterpillar engines.",
+                price: "45,000",
+                image: "https://images.unsplash.com/photo-1563986768609-322da13575f3?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80",
+                stock: "in-stock",
+                delivery: "10,000 TZS",
+                installation: "Not needed"
+            },
+            
+            // ELECTRICAL TOOLS (8 products)
+            {
+                id: 21,
+                category: "tools",
+                name: "Professional Multimeter",
+                description: "Digital multimeter for electrical testing and troubleshooting.",
+                price: "120,000",
+                image: "https://images.unsplash.com/photo-1621905252507-b35492cc74b4?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80",
+                stock: "in-stock",
+                delivery: "15,000 TZS",
+                installation: "Not needed"
+            },
+            {
+                id: 22,
+                category: "tools",
+                name: "Electrical Tool Kit",
+                description: "Complete electrical tool kit with pliers, screwdrivers, and testers.",
+                price: "85,000",
+                image: "https://images.unsplash.com/photo-1621905252507-b35492cc74b4?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80",
+                stock: "in-stock",
+                delivery: "15,000 TZS",
+                installation: "Not needed"
+            },
+            {
+                id: 23,
+                category: "tools",
+                name: "Cable Crimping Tool",
+                description: "Professional cable crimping tool for electrical connections.",
+                price: "45,000",
+                image: "https://images.unsplash.com/photo-1621905252507-b35492cc74b4?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80",
+                stock: "in-stock",
+                delivery: "10,000 TZS",
+                installation: "Not needed"
+            },
+            {
+                id: 24,
+                category: "tools",
+                name: "Voltage Tester",
+                description: "Digital voltage tester for electrical safety testing.",
+                price: "65,000",
+                image: "https://images.unsplash.com/photo-1621905252507-b35492cc74b4?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80",
+                stock: "in-stock",
+                delivery: "10,000 TZS",
+                installation: "Not needed"
+            },
+            {
+                id: 25,
+                category: "tools",
+                name: "Wire Stripper Set",
+                description: "Professional wire stripper set for electrical work.",
+                price: "55,000",
+                image: "https://images.unsplash.com/photo-1621905252507-b35492cc74b4?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80",
+                stock: "in-stock",
+                delivery: "10,000 TZS",
+                installation: "Not needed"
+            },
+            
+            // SERVICES (8 products)
+            {
+                id: 26,
+                category: "services",
+                name: "Generator Maintenance",
+                description: "Professional generator maintenance service including oil change and testing.",
+                price: "150,000",
+                image: "https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80",
+                stock: "available",
+                delivery: "Included",
+                installation: "Service"
+            },
+            {
+                id: 27,
+                category: "services",
+                name: "Solar System Installation",
+                description: "Professional solar system installation service.",
+                price: "500,000",
+                image: "https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80",
+                stock: "available",
+                delivery: "Included",
+                installation: "Service"
+            },
+            {
+                id: 28,
+                category: "services",
+                name: "Electrical Wiring Service",
+                description: "Complete electrical wiring service for homes and offices.",
+                price: "800,000",
+                image: "https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80",
+                stock: "available",
+                delivery: "Included",
+                installation: "Service"
+            },
+            {
+                id: 29,
+                category: "services",
+                name: "Generator Repair Service",
+                description: "Professional generator repair and troubleshooting service.",
+                price: "200,000",
+                image: "https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80",
+                stock: "available",
+                delivery: "Included",
+                installation: "Service"
+            },
+            {
+                id: 30,
+                category: "services",
+                name: "Electrical Safety Inspection",
+                description: "Complete electrical safety inspection for buildings.",
+                price: "300,000",
+                image: "https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80",
+                stock: "available",
+                delivery: "Included",
+                installation: "Service"
+            },
+            
+            // SPECIAL DEALS (7 products)
+            {
+                id: 31,
+                category: "generators",
+                name: "30kVA Generator Package Deal",
+                description: "Complete 30kVA generator with free installation and 2-year warranty.",
+                price: "9,800,000",
+                image: "https://images.unsplash.com/photo-1581094794329-c8112a89af12?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80",
+                stock: "in-stock",
+                delivery: "FREE",
+                installation: "Included",
+                badge: "Special Deal"
+            },
+            {
+                id: 32,
+                category: "solar",
+                name: "8kW Solar + Installation Deal",
+                description: "8kW solar system with free installation and maintenance for 1 year.",
+                price: "12,500,000",
+                image: "https://images.unsplash.com/photo-1509391366360-2e959784a276?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80",
+                stock: "in-stock",
+                delivery: "FREE",
+                installation: "Included",
+                badge: "Special Deal"
+            },
+            {
+                id: 33,
+                category: "spares",
+                name: "Spare Parts Bundle Deal",
+                description: "Bundle of alternator, starter motor, and 2 batteries.",
+                price: "1,800,000",
+                image: "https://images.unsplash.com/photo-1563986768609-322da13575f3?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80",
+                stock: "in-stock",
+                delivery: "FREE",
+                installation: "Included",
+                badge: "Special Deal"
+            },
+            {
+                id: 34,
+                category: "tools",
+                name: "Complete Tool Kit Deal",
+                description: "Complete electrical tool kit with multimeter and safety gear.",
+                price: "250,000",
+                image: "https://images.unsplash.com/photo-1621905252507-b35492cc74b4?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80",
+                stock: "in-stock",
+                delivery: "FREE",
+                installation: "Not needed",
+                badge: "Special Deal"
             }
         ];
 
@@ -1303,72 +1606,37 @@
             
             // Fix all broken links
             fixBrokenLinks();
-            
-            // Test all links
-            testAllLinks();
         });
 
         // Fix all broken links
         function fixBrokenLinks() {
-            // 1. Fix back to main site link
+            // Update all website links to use https://kingueletrical.com
+            document.querySelectorAll('a[href*="kinguelectrical.com"]').forEach(link => {
+                link.href = link.href.replace('kinguelectrical.com', 'kingueletrical.com');
+            });
+            
+            // Ensure back-to-main link is correct
             const backLink = document.querySelector('.back-to-main');
             if (backLink) {
-                backLink.href = 'https://kinguelectrical.com';
+                backLink.href = 'https://kingueletrical.com';
                 backLink.target = '_blank';
             }
             
-            // 2. Fix main website link in footer
-            const mainSiteLink = document.querySelector('.footer-links a[href*="kinguelectrical.com"]');
-            if (mainSiteLink) {
-                mainSiteLink.href = 'https://kinguelectrical.com';
-                mainSiteLink.target = '_blank';
-            }
+            // Fix email link
+            document.querySelectorAll('a[href*="mailto"]').forEach(link => {
+                link.href = 'mailto:kinguelectricaltz@gmail.com';
+            });
             
-            // 3. Fix email link
-            const emailLink = document.querySelector('a[href*="mailto"]');
-            if (emailLink) {
-                emailLink.href = 'mailto:kinguelectricaltz@gmail.com';
-            }
-            
-            // 4. Fix WhatsApp links
+            // Fix WhatsApp links
             document.querySelectorAll('a[href*="wa.me"]').forEach(link => {
                 link.href = `https://wa.me/${WHATSAPP_NUMBER}`;
                 link.target = '_blank';
             });
             
-            // 5. Fix tel links
+            // Fix tel links
             document.querySelectorAll('a[href^="tel:"]').forEach(link => {
                 link.href = `tel:${DISPLAY_NUMBER.replace(/\s/g, '')}`;
             });
-        }
-
-        // Test all links are working
-        function testAllLinks() {
-            console.log('Testing all links...');
-            
-            // Test back to main site link
-            const backLink = document.querySelector('.back-to-main');
-            console.log('Back link:', backLink.href);
-            
-            // Test main website link
-            const mainSiteLink = document.querySelector('.footer-links a[href*="kinguelectrical.com"]');
-            console.log('Main site link:', mainSiteLink ? mainSiteLink.href : 'Not found');
-            
-            // Test email link
-            const emailLink = document.querySelector('a[href*="mailto"]');
-            console.log('Email link:', emailLink ? emailLink.href : 'Not found');
-            
-            // Test WhatsApp links
-            const whatsappLinks = document.querySelectorAll('a[href*="wa.me"]');
-            console.log('WhatsApp links found:', whatsappLinks.length);
-            
-            // Test cart checkout button
-            const checkoutBtn = document.querySelector('.cart-checkout-btn');
-            console.log('Checkout button exists:', !!checkoutBtn);
-            
-            // Test product order buttons
-            const orderButtons = document.querySelectorAll('.whatsapp-order-btn');
-            console.log('Product order buttons:', orderButtons.length);
         }
 
         // Display Products
@@ -1456,20 +1724,43 @@
             });
         }
 
-        // Filter Products
+        // Filter Products - FIXED VERSION
         function filterProducts(filter) {
             let filteredProducts = [...products];
             
-            if (filter === 'best') {
-                filteredProducts = filteredProducts.filter(p => p.badge === 'Best Seller' || p.badge === 'Popular');
-            } else if (filter === 'new') {
-                filteredProducts = filteredProducts.filter(p => p.id >= 6);
-            } else if (filter === 'stock') {
-                filteredProducts = filteredProducts.filter(p => p.stock === 'in-stock');
-            } else if (filter === 'install') {
-                filteredProducts = filteredProducts.filter(p => p.installation === 'Included');
-            } else if (filter !== 'all') {
-                filteredProducts = filteredProducts.filter(p => p.category === filter);
+            switch(filter) {
+                case 'best':
+                    filteredProducts = filteredProducts.filter(p => p.badge === 'Best Seller' || p.badge === 'Popular');
+                    break;
+                case 'new':
+                    // Show products with ID greater than 30 (newer products)
+                    filteredProducts = filteredProducts.filter(p => p.id >= 30);
+                    break;
+                case 'stock':
+                    filteredProducts = filteredProducts.filter(p => p.stock === 'in-stock');
+                    break;
+                case 'install':
+                    filteredProducts = filteredProducts.filter(p => p.installation === 'Included');
+                    break;
+                case 'generators':
+                    filteredProducts = filteredProducts.filter(p => p.category === 'generators');
+                    break;
+                case 'solar':
+                    filteredProducts = filteredProducts.filter(p => p.category === 'solar');
+                    break;
+                case 'spares':
+                    filteredProducts = filteredProducts.filter(p => p.category === 'spares');
+                    break;
+                case 'tools':
+                    filteredProducts = filteredProducts.filter(p => p.category === 'tools');
+                    break;
+                case 'services':
+                    filteredProducts = filteredProducts.filter(p => p.category === 'services');
+                    break;
+                case 'deals':
+                    filteredProducts = filteredProducts.filter(p => p.badge === 'Special Deal');
+                    break;
+                // 'all' shows all products
             }
             
             displayProducts(filteredProducts);
