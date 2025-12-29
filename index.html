@@ -9,17 +9,17 @@
     
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://www.kinguelectrical.com/">
+    <meta property="og:url" content="https://kingueletrical.com/">
     <meta property="og:title" content="Kingu Electrical Co. Ltd | Electrical Engineering Experts">
     <meta property="og:description" content="Quality Electrical Services with a Professional Experience">
-    <meta property="og:image" content="https://www.kinguelectrical.com/assets/icons/company-logo.png">
+    <meta property="og:image" content="https://kingueletrical.com/assets/icons/company-logo.png">
     
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://www.kinguelectrical.com/">
+    <meta property="twitter:url" content="https://kingueletrical.com/">
     <meta property="twitter:title" content="Kingu Electrical Co. Ltd | Electrical Engineering Experts">
     <meta property="twitter:description" content="Quality Electrical Services with a Professional Experience">
-    <meta property="twitter:image" content="https://www.kinguelectrical.com/assets/icons/company-logo.png">
+    <meta property="twitter:image" content="https://kingueletrical.com/assets/icons/company-logo.png">
     
     <!-- PWA -->
     <link rel="manifest" href="manifest.json">
@@ -37,29 +37,6 @@
     <!-- CSS -->
     <link rel="stylesheet" href="styles.css">
     
-    <!-- Google Analytics (replace with your ID) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-XXXXXXXXXX');
-    </script>
-    
-    <!-- Facebook Pixel (replace with your ID) -->
-    <script>
-        !function(f,b,e,v,n,t,s){
-            if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-            n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-            if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-            n.queue=[];t=b.createElement(e);t.async=!0;
-            t.src=v;s=b.getElementsByTagName(e)[0];
-            s.parentNode.insertBefore(t,s)}(window, document,'script',
-            'https://connect.facebook.net/en_US/fbevents.js');
-            fbq('init', 'FB_PIXEL_ID');
-            fbq('track', 'PageView');
-    </script>
-    
     <!-- Schema.org Structured Data -->
     <script type="application/ld+json">
     {
@@ -67,10 +44,10 @@
         "@graph": [
             {
                 "@type": "ElectricalContractor",
-                "@id": "https://www.kinguelectrical.com/#organization",
+                "@id": "https://kingueletrical.com/#organization",
                 "name": "Kingu Electrical Company Limited",
-                "url": "https://www.kinguelectrical.com",
-                "logo": "https://www.kinguelectrical.com/assets/icons/company-logo.svg",
+                "url": "https://kingueletrical.com",
+                "logo": "https://kingueletrical.com/assets/icons/company-logo.svg",
                 "description": "Leading Tanzanian electrical engineering company providing generator services, PLC automation, HPU conversion, ATS systems, and industrial electrical installations with professional experience.",
                 "foundingDate": "2022-07-30",
                 "foundingLocation": {
@@ -668,7 +645,7 @@
             <!-- WhatsApp Shop Section -->
             <div class="whatsapp-shop-section fade-in">
                 <h3>🛒 Browse Our Complete Product Catalog</h3>
-                <p>We have 50+ electrical products available for immediate order via WhatsApp</p>
+                <p>We have 100+ electrical products available for immediate order via WhatsApp</p>
                 <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin: 1.5rem 0;">
                     <a href="/whatsapp-shop.html#generators" class="btn" style="background: #25D366;">
                         View All Generators
@@ -677,7 +654,7 @@
                         View Solar Systems
                     </a>
                     <a href="/whatsapp-shop.html#spares" class="btn" style="background: #1a5632;">
-                        View Spare Parts
+                        View 100+ Spare Parts
                     </a>
                 </div>
                 <p style="color: #666; font-size: 0.9rem; margin-top: 1rem;">
@@ -1033,7 +1010,7 @@
                 <p>Registered under Companies Act, 2002 | TIN: 157-024-493 | Specialist Electrical Contractor | EWURA License: ELA-2022-008</p>
                 <p style="margin-top: 10px; font-size: 0.9rem; color: #999;">
                     <a href="/whatsapp-shop.html" style="color: #25D366; text-decoration: none;">🛒 WhatsApp Shop</a> | 
-                    <a href="/shop" style="color: #25D366; text-decoration: none;">Browse Products</a> | 
+                    <a href="https://kingueletrical.com/whatsapp-shop.html" style="color: #25D366; text-decoration: none;">Browse Products</a> | 
                     <a href="https://wa.me/255682843552" style="color: #25D366; text-decoration: none;">Order via WhatsApp</a>
                 </p>
             </div>
@@ -1104,7 +1081,6 @@
             if (outcome === 'accepted') {
                 console.log('User accepted the install prompt');
                 installContainer.style.display = 'none';
-                gtag('event', 'pwa_installed');
             }
             
             deferredPrompt = null;
@@ -1128,7 +1104,6 @@
         window.addEventListener('appinstalled', () => {
             console.log('PWA was installed');
             installContainer.style.display = 'none';
-            gtag('event', 'pwa_installed');
         });
         
         // Show update notification
@@ -1166,16 +1141,6 @@
         // Initialize
         updateOnlineStatus();
         document.getElementById('year').textContent = new Date().getFullYear();
-        
-        // WhatsApp Shop Analytics
-        document.querySelectorAll('a[href*="whatsapp-shop"]').forEach(link => {
-            link.addEventListener('click', () => {
-                gtag('event', 'whatsapp_shop_click', {
-                    'event_category': 'engagement',
-                    'event_label': 'WhatsApp Shop Navigation'
-                });
-            });
-        });
     </script>
 </body>
 </html>
