@@ -1,0 +1,1095 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop on WhatsApp | Kingu Electrical Products & Services</title>
+    <meta name="description" content="Order electrical products, spare parts, and services directly through WhatsApp. Fast, secure, and convenient shopping from Kingu Electrical Tanzania.">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.kinguelectrical.com/shop-whatsapp">
+    <meta property="og:title" content="Shop on WhatsApp | Kingu Electrical">
+    <meta property="og:description" content="Browse and order electrical products directly through WhatsApp">
+    <meta property="og:image" content="https://www.kinguelectrical.com/assets/icons/whatsapp-shop.png">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://www.kinguelectrical.com/shop-whatsapp">
+    <meta property="twitter:title" content="Shop on WhatsApp | Kingu Electrical">
+    <meta property="twitter:description" content="Browse and order electrical products directly through WhatsApp">
+    <meta property="twitter:image" content="https://www.kinguelectrical.com/assets/icons/whatsapp-shop.png">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-green: #25D366;
+            --whatsapp-dark: #075E54;
+            --whatsapp-light: #128C7E;
+            --whatsapp-chat: #ECE5DD;
+            --text-dark: #333333;
+            --text-light: #666666;
+            --white: #FFFFFF;
+            --gray-bg: #F5F5F5;
+            --border-color: #E0E0E0;
+            --success: #34A853;
+            --warning: #FBBC05;
+            --danger: #EA4335;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--gray-bg);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header */
+        .shop-header {
+            background: linear-gradient(135deg, var(--whatsapp-dark), var(--whatsapp-light));
+            color: var(--white);
+            padding: 2rem 0;
+            text-align: center;
+        }
+        
+        .shop-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .shop-header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .whatsapp-badge {
+            display: inline-flex;
+            align-items: center;
+            background: var(--primary-green);
+            color: var(--white);
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            margin-top: 1rem;
+            font-weight: 600;
+        }
+        
+        .whatsapp-badge img {
+            width: 24px;
+            height: 24px;
+            margin-right: 10px;
+        }
+        
+        /* Navigation */
+        .shop-nav {
+            background: var(--white);
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .shop-nav ul {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            list-style: none;
+            gap: 1rem;
+        }
+        
+        .shop-nav a {
+            color: var(--text-dark);
+            text-decoration: none;
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        
+        .shop-nav a:hover,
+        .shop-nav a.active {
+            background: var(--primary-green);
+            color: var(--white);
+        }
+        
+        /* Filter Section */
+        .filters {
+            background: var(--white);
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border-radius: 10px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+        }
+        
+        .filter-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .filter-btn {
+            padding: 0.5rem 1.5rem;
+            border: 2px solid var(--border-color);
+            background: var(--white);
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: var(--primary-green);
+            color: var(--white);
+            border-color: var(--primary-green);
+        }
+        
+        .search-box {
+            flex-grow: 1;
+            max-width: 300px;
+        }
+        
+        .search-box input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 2px solid var(--border-color);
+            border-radius: 50px;
+            font-family: inherit;
+            font-size: 1rem;
+        }
+        
+        /* Product Grid */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .product-card {
+            background: var(--white);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+        
+        .product-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        
+        .product-info {
+            padding: 1.5rem;
+        }
+        
+        .product-category {
+            color: var(--whatsapp-light);
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .product-title {
+            font-size: 1.25rem;
+            margin: 0.5rem 0;
+            color: var(--text-dark);
+        }
+        
+        .product-description {
+            color: var(--text-light);
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+        
+        .product-price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--whatsapp-dark);
+            margin-bottom: 1rem;
+        }
+        
+        .product-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.9rem;
+            color: var(--text-light);
+            margin-top: 1rem;
+        }
+        
+        .stock-status {
+            padding: 0.25rem 0.75rem;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .in-stock {
+            background: rgba(52, 168, 83, 0.1);
+            color: var(--success);
+        }
+        
+        .low-stock {
+            background: rgba(251, 188, 5, 0.1);
+            color: var(--warning);
+        }
+        
+        /* WhatsApp Order Button */
+        .whatsapp-order-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            padding: 1rem;
+            background: var(--primary-green);
+            color: var(--white);
+            border: none;
+            border-radius: 0 0 15px 15px;
+            font-family: inherit;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            text-decoration: none;
+        }
+        
+        .whatsapp-order-btn:hover {
+            background: var(--whatsapp-light);
+        }
+        
+        .whatsapp-order-btn img {
+            width: 24px;
+            height: 24px;
+            margin-right: 10px;
+        }
+        
+        /* Cart Sidebar */
+        .cart-sidebar {
+            position: fixed;
+            top: 0;
+            right: -400px;
+            width: 380px;
+            height: 100vh;
+            background: var(--white);
+            box-shadow: -5px 0 25px rgba(0,0,0,0.1);
+            padding: 2rem;
+            overflow-y: auto;
+            transition: right 0.3s ease;
+            z-index: 1000;
+        }
+        
+        .cart-sidebar.open {
+            right: 0;
+        }
+        
+        .cart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        
+        .close-cart {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-light);
+        }
+        
+        .cart-items {
+            margin-bottom: 2rem;
+        }
+        
+        .cart-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .cart-item-img {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-right: 1rem;
+        }
+        
+        .cart-item-info {
+            flex-grow: 1;
+        }
+        
+        .cart-item-title {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+        
+        .cart-item-price {
+            color: var(--whatsapp-dark);
+            font-weight: 600;
+        }
+        
+        .cart-quantity {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+        
+        .quantity-btn {
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            border: 1px solid var(--border-color);
+            background: var(--white);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .cart-total {
+            background: var(--gray-bg);
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
+        }
+        
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+        
+        .total-amount {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--whatsapp-dark);
+        }
+        
+        .cart-checkout-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            padding: 1rem;
+            background: var(--whatsapp-dark);
+            color: var(--white);
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        
+        .cart-checkout-btn:hover {
+            background: var(--whatsapp-light);
+        }
+        
+        /* Features Section */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 4rem 0;
+        }
+        
+        .feature-card {
+            text-align: center;
+            padding: 2rem;
+            background: var(--white);
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            margin-bottom: 1rem;
+        }
+        
+        /* How It Works */
+        .how-it-works {
+            background: var(--white);
+            padding: 4rem 0;
+            margin: 4rem 0;
+        }
+        
+        .steps {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .step {
+            flex: 1;
+            min-width: 200px;
+            text-align: center;
+        }
+        
+        .step-number {
+            width: 50px;
+            height: 50px;
+            background: var(--primary-green);
+            color: var(--white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin: 0 auto 1rem;
+        }
+        
+        /* Quick Order */
+        .quick-order {
+            background: linear-gradient(135deg, var(--whatsapp-dark), var(--whatsapp-light));
+            color: var(--white);
+            padding: 3rem;
+            border-radius: 20px;
+            text-align: center;
+            margin: 4rem 0;
+        }
+        
+        .quick-order-form {
+            max-width: 500px;
+            margin: 2rem auto 0;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 1rem;
+            border: none;
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 1rem;
+        }
+        
+        /* Footer */
+        .shop-footer {
+            background: var(--text-dark);
+            color: var(--white);
+            padding: 3rem 0;
+            text-align: center;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .footer-links a {
+            color: var(--white);
+            text-decoration: none;
+            opacity: 0.8;
+            transition: opacity 0.3s ease;
+        }
+        
+        .footer-links a:hover {
+            opacity: 1;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .products-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+            
+            .cart-sidebar {
+                width: 100%;
+                right: -100%;
+            }
+            
+            .steps {
+                flex-direction: column;
+            }
+            
+            .shop-nav ul {
+                justify-content: flex-start;
+                overflow-x: auto;
+                padding-bottom: 10px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .shop-header h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="shop-header">
+        <div class="container">
+            <h1>🛒 Shop Electrical Products on WhatsApp</h1>
+            <p>Browse, select, and order electrical products & services directly through WhatsApp. Fast delivery across Tanzania!</p>
+            <div class="whatsapp-badge">
+                <img src="https://cdn.jsdelivr.net/npm/simple-icons@v5/icons/whatsapp.svg" alt="WhatsApp">
+                <span>Live Chat Support: +255 677 014 740</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="shop-nav">
+        <div class="container">
+            <ul>
+                <li><a href="#generators" class="active">Generators</a></li>
+                <li><a href="#solar">Solar Systems</a></li>
+                <li><a href="#spares">Spare Parts</a></li>
+                <li><a href="#tools">Electrical Tools</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#new">New Arrivals</a></li>
+                <li><a href="#deals">Special Deals</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Filters -->
+        <section class="filters">
+            <div class="filter-group">
+                <button class="filter-btn active">All Products</button>
+                <button class="filter-btn">Best Sellers</button>
+                <button class="filter-btn">Under 1M TZS</button>
+                <button class="filter-btn">Available Now</button>
+                <button class="filter-btn">With Installation</button>
+                <div class="search-box">
+                    <input type="text" placeholder="🔍 Search products..." id="searchInput">
+                </div>
+            </div>
+        </section>
+
+        <!-- Products Grid -->
+        <section class="products-grid" id="productsContainer">
+            <!-- Products will be dynamically loaded here -->
+        </section>
+
+        <!-- Features -->
+        <section class="features">
+            <div class="feature-card">
+                <img src="https://cdn-icons-png.flaticon.com/512/3069/3069105.png" alt="Secure Payment" class="feature-icon">
+                <h3>Secure Ordering</h3>
+                <p>Order directly via WhatsApp with payment on delivery or bank transfer options</p>
+            </div>
+            <div class="feature-card">
+                <img src="https://cdn-icons-png.flaticon.com/512/3095/3095113.png" alt="Fast Delivery" class="feature-icon">
+                <h3>Fast Delivery</h3>
+                <p>Same-day delivery in Dar-es-salaam & Arusha, nationwide shipping available</p>
+            </div>
+            <div class="feature-card">
+                <img src="https://cdn-icons-png.flaticon.com/512/1055/1055666.png" alt="Expert Support" class="feature-icon">
+                <h3>Expert Support</h3>
+                <p>Get technical advice from certified electrical engineers via WhatsApp</p>
+            </div>
+            <div class="feature-card">
+                <img src="https://cdn-icons-png.flaticon.com/512/869/869869.png" alt="Warranty" class="feature-icon">
+                <h3>Full Warranty</h3>
+                <p>All products come with manufacturer warranty and installation support</p>
+            </div>
+        </section>
+
+        <!-- How It Works -->
+        <section class="how-it-works">
+            <div class="container">
+                <h2 style="text-align: center; margin-bottom: 1rem;">How to Order via WhatsApp</h2>
+                <p style="text-align: center; color: var(--text-light); max-width: 600px; margin: 0 auto;">Simple 4-step process to get your electrical products delivered</p>
+                
+                <div class="steps">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <h3>Browse Products</h3>
+                        <p>Select items from our WhatsApp catalog or this page</p>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <h3>Send Order</h3>
+                        <p>Message us on WhatsApp with product codes/names</p>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <h3>Confirm Order</h3>
+                        <p>We'll confirm availability, price, and delivery details</p>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">4</div>
+                        <h3>Get Delivery</h3>
+                        <p>Receive your order with professional installation if needed</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quick Order Form -->
+        <section class="quick-order">
+            <h2>Quick Order Form</h2>
+            <p>Fill this form and we'll contact you immediately on WhatsApp</p>
+            
+            <form class="quick-order-form" id="quickOrderForm">
+                <div class="form-group">
+                    <input type="text" placeholder="Your Name" required>
+                </div>
+                <div class="form-group">
+                    <input type="tel" placeholder="Phone Number (WhatsApp)" required>
+                </div>
+                <div class="form-group">
+                    <select required>
+                        <option value="">Select Product Category</option>
+                        <option>Diesel Generators</option>
+                        <option>Solar Systems</option>
+                        <option>Generator Spares</option>
+                        <option>Electrical Tools</option>
+                        <option>Installation Services</option>
+                        <option>Maintenance Services</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <textarea placeholder="Specific products or requirements..." rows="3"></textarea>
+                </div>
+                <button type="submit" class="cart-checkout-btn">
+                    <img src="https://cdn.jsdelivr.net/npm/simple-icons@v5/icons/whatsapp.svg" alt="WhatsApp" style="width: 20px; height: 20px; margin-right: 10px;">
+                    Send Order via WhatsApp
+                </button>
+            </form>
+        </section>
+    </div>
+
+    <!-- Cart Sidebar -->
+    <div class="cart-sidebar" id="cartSidebar">
+        <div class="cart-header">
+            <h2>🛒 Your Cart</h2>
+            <button class="close-cart" onclick="closeCart()">×</button>
+        </div>
+        
+        <div class="cart-items" id="cartItems">
+            <!-- Cart items will be added here -->
+        </div>
+        
+        <div class="cart-total">
+            <div class="total-row">
+                <span>Subtotal:</span>
+                <span id="cartSubtotal">0 TZS</span>
+            </div>
+            <div class="total-row">
+                <span>Delivery:</span>
+                <span id="cartDelivery">0 TZS</span>
+            </div>
+            <div class="total-row">
+                <span>Installation:</span>
+                <span id="cartInstallation">0 TZS</span>
+            </div>
+            <div class="total-row total-amount">
+                <span>Total:</span>
+                <span id="cartTotal">0 TZS</span>
+            </div>
+        </div>
+        
+        <button class="cart-checkout-btn" onclick="checkoutCart()">
+            <img src="https://cdn.jsdelivr.net/npm/simple-icons@v5/icons/whatsapp.svg" alt="WhatsApp" style="width: 20px; height: 20px; margin-right: 10px;">
+            Checkout on WhatsApp
+        </button>
+    </div>
+
+    <!-- Footer -->
+    <footer class="shop-footer">
+        <div class="container">
+            <h3>Kingu Electrical WhatsApp Shop</h3>
+            <p>Your trusted electrical products supplier in Tanzania</p>
+            
+            <div class="footer-links">
+                <a href="https://www.kinguelectrical.com">Main Website</a>
+                <a href="tel:+255677014740">Call: +255 677 014 740</a>
+                <a href="mailto:Kinguelectricaltz@gmail.com">Email Us</a>
+                <a href="https://wa.me/255677014740">WhatsApp Direct</a>
+            </div>
+            
+            <p style="margin-top: 2rem; opacity: 0.7;">
+                &copy; 2024 Kingu Electrical Company Limited. All prices in Tanzanian Shillings (TZS).<br>
+                Delivery available across Tanzania. Installation services included with selected products.
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // Sample Products Data
+        const products = [
+            {
+                id: 1,
+                category: "generators",
+                name: "100kVA Diesel Generator",
+                description: "Complete 100kVA diesel generator set with ATS control panel. Perfect for commercial use.",
+                price: "25,500,000",
+                image: "https://images.unsplash.com/photo-1581094794329-c8112a89af12?ixlib=rb-4.0.3&w=400&h=300&fit=crop&q=80",
+                stock: "in-stock",
+                delivery: "Free",
+                installation: "Included"
+            },
+            {
+                id: 2,
+                category: "solar",
+                name: "5kW Solar System",
+                description: "Complete 5kW solar power system with batteries, inverter, and installation.",
+                price: "8,500,000",
+                image: "https://images.unsplash.com/photo-1509391366360-2e959784a276?ixlib=rb-4.0.3&w=400&h=300&fit=crop&q=80",
+                stock: "in-stock",
+                delivery: "Free in Dar/Arusha",
+                installation: "Included"
+            },
+            {
+                id: 3,
+                category: "spares",
+                name: "Generator Alternator",
+                description: "Original alternator for Perkins/Caterpillar generators. 12-month warranty.",
+                price: "850,000",
+                image: "https://images.unsplash.com/photo-1563986768609-322da13575f3?ixlib=rb-4.0.3&w=400&h=300&fit=crop&q=80",
+                stock: "in-stock",
+                delivery: "25,000 TZS",
+                installation: "Extra"
+            },
+            {
+                id: 4,
+                category: "tools",
+                name: "Professional Multimeter",
+                description: "Digital multimeter for electrical testing and troubleshooting.",
+                price: "120,000",
+                image: "https://images.unsplash.com/photo-1581094794329-c8112a89af12?ixlib=rb-4.0.3&w=400&h=300&fit=crop&q=80",
+                stock: "in-stock",
+                delivery: "15,000 TZS",
+                installation: "Not needed"
+            },
+            {
+                id: 5,
+                category: "services",
+                name: "Generator Maintenance",
+                description: "Professional generator maintenance service including oil change and testing.",
+                price: "150,000",
+                image: "https://images.unsplash.com/photo-1621905252507-b35492cc74b4?ixlib=rb-4.0.3&w=400&h=300&fit=crop&q=80",
+                stock: "available",
+                delivery: "Included",
+                installation: "Service"
+            },
+            {
+                id: 6,
+                category: "generators",
+                name: "500kVA Generator",
+                description: "Industrial 500kVA diesel generator for factories and large facilities.",
+                price: "65,000,000",
+                image: "https://images.unsplash.com/photo-1563986768609-322da13575f3?ixlib=rb-4.0.3&w=400&h=300&fit=crop&q=80",
+                stock: "low-stock",
+                delivery: "Free",
+                installation: "Included"
+            }
+        ];
+
+        // Shopping Cart
+        let cart = [];
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            displayProducts(products);
+            setupFilters();
+            setupSearch();
+            updateCartCount();
+        });
+
+        // Display Products
+        function displayProducts(productsToShow) {
+            const container = document.getElementById('productsContainer');
+            container.innerHTML = '';
+
+            productsToShow.forEach(product => {
+                const productCard = `
+                    <div class="product-card" data-category="${product.category}">
+                        <img src="${product.image}" alt="${product.name}" class="product-img">
+                        <div class="product-info">
+                            <div class="product-category">${product.category.toUpperCase()}</div>
+                            <h3 class="product-title">${product.name}</h3>
+                            <p class="product-description">${product.description}</p>
+                            <div class="product-price">${product.price} TZS</div>
+                            <div class="product-meta">
+                                <div class="stock-status ${product.stock}">
+                                    ${product.stock === 'in-stock' ? 'In Stock' : 
+                                      product.stock === 'low-stock' ? 'Low Stock' : 'Available'}
+                                </div>
+                                <div>Delivery: ${product.delivery}</div>
+                            </div>
+                        </div>
+                        <button class="whatsapp-order-btn" onclick="addToCart(${product.id})">
+                            <img src="https://cdn.jsdelivr.net/npm/simple-icons@v5/icons/whatsapp.svg" alt="WhatsApp">
+                            Order on WhatsApp
+                        </button>
+                    </div>
+                `;
+                container.innerHTML += productCard;
+            });
+        }
+
+        // Setup Filters
+        function setupFilters() {
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    // Remove active class from all buttons
+                    filterBtns.forEach(b => b.classList.remove('active'));
+                    // Add active class to clicked button
+                    this.classList.add('active');
+                    
+                    const filter = this.textContent.toLowerCase();
+                    filterProducts(filter);
+                });
+            });
+        }
+
+        // Filter Products
+        function filterProducts(filter) {
+            let filteredProducts = [...products];
+            
+            if (filter === 'best sellers') {
+                filteredProducts = filteredProducts.filter(p => p.id <= 3);
+            } else if (filter === 'under 1m tzs') {
+                filteredProducts = filteredProducts.filter(p => 
+                    parseFloat(p.price.replace(/,/g, '')) < 1000000
+                );
+            } else if (filter === 'available now') {
+                filteredProducts = filteredProducts.filter(p => p.stock === 'in-stock');
+            } else if (filter === 'with installation') {
+                filteredProducts = filteredProducts.filter(p => p.installation === 'Included');
+            }
+            
+            displayProducts(filteredProducts);
+        }
+
+        // Setup Search
+        function setupSearch() {
+            const searchInput = document.getElementById('searchInput');
+            searchInput.addEventListener('input', function() {
+                const searchTerm = this.value.toLowerCase();
+                const filteredProducts = products.filter(product => 
+                    product.name.toLowerCase().includes(searchTerm) ||
+                    product.description.toLowerCase().includes(searchTerm) ||
+                    product.category.toLowerCase().includes(searchTerm)
+                );
+                displayProducts(filteredProducts);
+            });
+        }
+
+        // Add to Cart
+        function addToCart(productId) {
+            const product = products.find(p => p.id === productId);
+            const existingItem = cart.find(item => item.id === productId);
+            
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({
+                    ...product,
+                    quantity: 1
+                });
+            }
+            
+            updateCart();
+            openCart();
+        }
+
+        // Update Cart
+        function updateCart() {
+            const cartItems = document.getElementById('cartItems');
+            cartItems.innerHTML = '';
+            
+            let subtotal = 0;
+            
+            cart.forEach(item => {
+                const price = parseFloat(item.price.replace(/,/g, ''));
+                const itemTotal = price * item.quantity;
+                subtotal += itemTotal;
+                
+                const cartItem = `
+                    <div class="cart-item">
+                        <img src="${item.image}" alt="${item.name}" class="cart-item-img">
+                        <div class="cart-item-info">
+                            <div class="cart-item-title">${item.name}</div>
+                            <div class="cart-item-price">${item.price} TZS</div>
+                            <div class="cart-quantity">
+                                <button class="quantity-btn" onclick="updateQuantity(${item.id}, -1)">-</button>
+                                <span>${item.quantity}</span>
+                                <button class="quantity-btn" onclick="updateQuantity(${item.id}, 1)">+</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                cartItems.innerHTML += cartItem;
+            });
+            
+            // Update totals
+            const delivery = subtotal > 1000000 ? 0 : 25000;
+            const installation = cart.some(item => item.installation === 'Included') ? 0 : 50000;
+            const total = subtotal + delivery + installation;
+            
+            document.getElementById('cartSubtotal').textContent = formatCurrency(subtotal);
+            document.getElementById('cartDelivery').textContent = formatCurrency(delivery);
+            document.getElementById('cartInstallation').textContent = formatCurrency(installation);
+            document.getElementById('cartTotal').textContent = formatCurrency(total);
+            
+            updateCartCount();
+        }
+
+        // Update Quantity
+        function updateQuantity(productId, change) {
+            const item = cart.find(item => item.id === productId);
+            if (item) {
+                item.quantity += change;
+                if (item.quantity <= 0) {
+                    cart = cart.filter(item => item.id !== productId);
+                }
+                updateCart();
+            }
+        }
+
+        // Format Currency
+        function formatCurrency(amount) {
+            return amount.toLocaleString('en-TZ') + ' TZS';
+        }
+
+        // Update Cart Count
+        function updateCartCount() {
+            const cartCount = cart.reduce((total, item) => total + item.quantity, 0);
+            const badge = document.querySelector('.whatsapp-badge');
+            if (cartCount > 0) {
+                badge.innerHTML = `
+                    <img src="https://cdn.jsdelivr.net/npm/simple-icons@v5/icons/whatsapp.svg" alt="WhatsApp">
+                    <span>${cartCount} items in cart • Chat to order</span>
+                `;
+            }
+        }
+
+        // Open Cart
+        function openCart() {
+            document.getElementById('cartSidebar').classList.add('open');
+        }
+
+        // Close Cart
+        function closeCart() {
+            document.getElementById('cartSidebar').classList.remove('open');
+        }
+
+        // Checkout Cart
+        function checkoutCart() {
+            if (cart.length === 0) {
+                alert('Your cart is empty!');
+                return;
+            }
+            
+            let message = "Hello! I'd like to order the following from Kingu Electrical:\n\n";
+            
+            cart.forEach((item, index) => {
+                const price = parseFloat(item.price.replace(/,/g, ''));
+                message += `${index + 1}. ${item.name} - ${item.quantity} × ${item.price} TZS\n`;
+            });
+            
+            const subtotal = cart.reduce((total, item) => 
+                total + (parseFloat(item.price.replace(/,/g, '')) * item.quantity), 0);
+            
+            message += `\nTotal: ${formatCurrency(subtotal)}\n`;
+            message += "\nPlease contact me to confirm availability and delivery details.";
+            
+            const phone = "255677014740";
+            const encodedMessage = encodeURIComponent(message);
+            const whatsappUrl = `https://wa.me/${phone}?text=${encodedMessage}`;
+            
+            window.open(whatsappUrl, '_blank');
+            
+            // Clear cart after checkout
+            cart = [];
+            updateCart();
+            closeCart();
+        }
+
+        // Quick Order Form Submission
+        document.getElementById('quickOrderForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const name = formData.get('name') || this.querySelector('input[type="text"]').value;
+            const phone = formData.get('phone') || this.querySelector('input[type="tel"]').value;
+            const category = this.querySelector('select').value;
+            const requirements = this.querySelector('textarea').value;
+            
+            let message = `Hello! I'm interested in ordering electrical products.\n\n`;
+            message += `Name: ${name}\n`;
+            message += `Phone: ${phone}\n`;
+            message += `Category: ${category}\n`;
+            message += `Requirements: ${requirements}\n\n`;
+            message += `Please contact me with available options and prices.`;
+            
+            const encodedMessage = encodeURIComponent(message);
+            const whatsappUrl = `https://wa.me/255677014740?text=${encodedMessage}`;
+            
+            window.open(whatsappUrl, '_blank');
+            this.reset();
+        });
+
+        // Navigation Smooth Scroll
+        document.querySelectorAll('.shop-nav a').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                
+                if (targetId.startsWith('#')) {
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        targetElement.scrollIntoView({ behavior: 'smooth' });
+                    } else {
+                        filterProducts(targetId.substring(1));
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
