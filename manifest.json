@@ -1,100 +1,212 @@
 {
-  "name": "Kingu Electrical Company Ltd",
-  "short_name": "Kingu Electrical",
-  "description": "Leading electrical engineering company in Tanzania providing generator services, PLC programming, HPU conversion, and industrial electrical installations.",
-  "start_url": "/",
-  "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#1a5632",
-  "orientation": "portrait-primary",
-  "icons": [
-    {
-      "src": "assets/icons/icon-72x72.png",
-      "sizes": "72x72",
-      "type": "image/png",
-      "purpose": "any maskable"
+    "name": "Kingu Electrical Company Ltd",
+    "short_name": "Kingu Electrical",
+    "description": "Leading electrical engineering company in Tanzania providing generator services, PLC programming, HPU conversion, industrial electrical installations, and direct shopping via WhatsApp.",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#1a5632",
+    "orientation": "portrait-primary",
+    "categories": ["business", "education", "utilities", "shopping"],
+    "lang": "en-TZ",
+    "dir": "ltr",
+    "scope": "/",
+    "id": "/",
+    
+    "icons": [
+        {
+            "src": "/assets/icons/icon-72x72.png",
+            "sizes": "72x72",
+            "type": "image/png",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "/assets/icons/icon-96x96.png",
+            "sizes": "96x96",
+            "type": "image/png",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "/assets/icons/icon-128x128.png",
+            "sizes": "128x128",
+            "type": "image/png",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "/assets/icons/icon-144x144.png",
+            "sizes": "144x144",
+            "type": "image/png",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "/assets/icons/icon-152x152.png",
+            "sizes": "152x152",
+            "type": "image/png",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "/assets/icons/icon-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "/assets/icons/icon-384x384.png",
+            "sizes": "384x384",
+            "type": "image/png",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "/assets/icons/icon-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any maskable"
+        }
+    ],
+    
+    "screenshots": [
+        {
+            "src": "/assets/screenshots/mobile-screenshot.png",
+            "sizes": "360x640",
+            "type": "image/png",
+            "form_factor": "narrow",
+            "label": "Mobile View"
+        },
+        {
+            "src": "/assets/screenshots/desktop-screenshot.png",
+            "sizes": "1280x720",
+            "type": "image/png",
+            "form_factor": "wide",
+            "label": "Desktop View"
+        },
+        {
+            "src": "/assets/screenshots/whatsapp-shop-mobile.png",
+            "sizes": "750x1334",
+            "type": "image/png",
+            "form_factor": "narrow",
+            "label": "WhatsApp Shop Mobile"
+        },
+        {
+            "src": "/assets/screenshots/whatsapp-shop-desktop.png",
+            "sizes": "1920x1080",
+            "type": "image/png",
+            "form_factor": "wide",
+            "label": "WhatsApp Shop Desktop"
+        }
+    ],
+    
+    "shortcuts": [
+        {
+            "name": "Contact Us",
+            "short_name": "Contact",
+            "description": "Get in touch with our electrical experts",
+            "url": "/#contact",
+            "icons": [{
+                "src": "/assets/icons/contact-icon.png",
+                "sizes": "96x96"
+            }]
+        },
+        {
+            "name": "Emergency Service",
+            "short_name": "Emergency",
+            "description": "24/7 Emergency electrical service",
+            "url": "/#contact?emergency=true",
+            "icons": [{
+                "src": "/assets/icons/emergency-icon.png",
+                "sizes": "96x96"
+            }]
+        },
+        {
+            "name": "Our Services",
+            "short_name": "Services",
+            "description": "View all our electrical services",
+            "url": "/#services",
+            "icons": [{
+                "src": "/assets/icons/services-icon.png",
+                "sizes": "96x96"
+            }]
+        },
+        {
+            "name": "Browse Generators",
+            "short_name": "Generators",
+            "description": "View diesel and petrol generators",
+            "url": "/whatsapp-shop.html#generators",
+            "icons": [{
+                "src": "/assets/icons/generator-icon.png",
+                "sizes": "96x96"
+            }]
+        },
+        {
+            "name": "Solar Systems",
+            "short_name": "Solar",
+            "description": "Browse solar power systems",
+            "url": "/whatsapp-shop.html#solar",
+            "icons": [{
+                "src": "/assets/icons/solar-icon.png",
+                "sizes": "96x96"
+            }]
+        },
+        {
+            "name": "Order via WhatsApp",
+            "short_name": "Order Now",
+            "description": "Chat directly on WhatsApp",
+            "url": "https://wa.me/255682843552",
+            "icons": [{
+                "src": "/assets/icons/whatsapp-icon.png",
+                "sizes": "96x96"
+            }]
+        }
+    ],
+    
+    "related_applications": [
+        {
+            "platform": "play",
+            "url": "https://play.google.com/store/apps/details?id=com.whatsapp",
+            "id": "com.whatsapp",
+            "name": "WhatsApp"
+        }
+    ],
+    
+    "prefer_related_applications": true,
+    
+    "protocol_handlers": [
+        {
+            "protocol": "web+kingushop",
+            "url": "/whatsapp-shop.html?product=%s"
+        },
+        {
+            "protocol": "web+kingu",
+            "url": "/?service=%s"
+        }
+    ],
+    
+    "share_target": {
+        "action": "/whatsapp-shop.html",
+        "method": "GET",
+        "enctype": "application/x-www-form-urlencoded",
+        "params": {
+            "title": "name",
+            "text": "description",
+            "url": "link"
+        }
     },
-    {
-      "src": "assets/icons/icon-96x96.png",
-      "sizes": "96x96",
-      "type": "image/png",
-      "purpose": "any maskable"
+    
+    "handle_links": "preferred",
+    
+    "edge_side_panel": {
+        "preferred_width": 360
     },
-    {
-      "src": "assets/icons/icon-128x128.png",
-      "sizes": "128x128",
-      "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "assets/icons/icon-144x144.png",
-      "sizes": "144x144",
-      "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "assets/icons/icon-152x152.png",
-      "sizes": "152x152",
-      "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "assets/icons/icon-192x192.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "assets/icons/icon-384x384.png",
-      "sizes": "384x384",
-      "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "assets/icons/icon-512x512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any maskable"
+    
+    "permissions": [
+        "notifications",
+        "storage",
+        "background-sync",
+        "periodic-background-sync"
+    ],
+    
+    "serviceworker": {
+        "src": "/service-worker.js",
+        "scope": "/",
+        "update_via_cache": "none"
     }
-  ],
-  "categories": ["business", "education", "utilities"],
-  "lang": "en",
-  "dir": "ltr",
-  "prefer_related_applications": false,
-  "related_applications": [],
-  "scope": "/",
-  "screenshots": [
-    {
-      "src": "assets/screenshots/mobile-screenshot.png",
-      "sizes": "360x640",
-      "type": "image/png",
-      "form_factor": "narrow"
-    },
-    {
-      "src": "assets/screenshots/desktop-screenshot.png",
-      "sizes": "1280x720",
-      "type": "image/png",
-      "form_factor": "wide"
-    }
-  ],
-  "shortcuts": [
-    {
-      "name": "Contact Us",
-      "short_name": "Contact",
-      "description": "Get in touch with our electrical experts",
-      "url": "/#contact"
-    },
-    {
-      "name": "Emergency Service",
-      "short_name": "Emergency",
-      "description": "24/7 Emergency electrical service",
-      "url": "/#contact?emergency=true"
-    },
-    {
-      "name": "Our Services",
-      "short_name": "Services",
-      "description": "View all our electrical services",
-      "url": "/#services"
-    }
-  ]
 }
