@@ -1,9 +1,10 @@
 <?php
 /*
  * Kingu Electrical Company Limited - Contact Form Handler
- * Version: 1.0
+ * Version: 2.0
  * Author: Kingu Electrical Team
  * Date: <?php echo date('Y-m-d'); ?>
+ * Updated: Support for Kingu Electrical Shop integration
  */
 
 // Enable error reporting for debugging (disable in production)
@@ -22,18 +23,19 @@ $config = [
         'Kinguelectricaltz@gmail.com',
         // Add additional recipient emails here if needed
     ],
-    'subject_prefix' => '[Kingu Electrical Website] ',
+    'subject_prefix' => '[Kingu Electrical] ',
     'success_message' => 'Thank you for contacting Kingu Electrical! We will get back to you within 24 hours.',
     'error_message' => 'Sorry, there was an error sending your message. Please try again later or contact us directly.',
     'required_fields' => ['name', 'email', 'subject', 'message'],
     'honeypot_field' => 'website', // Anti-spam hidden field
     'max_message_length' => 2000,
-    'enable_sms_notification' => true,
+    'enable_sms_notification' => false, // Set to true if you have SMS gateway
     'sms_phone_numbers' => [
         '+255677014740',
         '+255763957908',
-        // Add additional SMS numbers here
-    ]
+    ],
+    'website_url' => 'https://kingueletrical.com',
+    'shop_url' => 'https://kingueletrical.com/Kinguelectrical-shop.html'
 ];
 
 // Function to sanitize input data
@@ -79,8 +81,25 @@ function log_message($message, $type = 'INFO') {
     file_put_contents($log_file, $log_message, FILE_APPEND);
 }
 
+// Function to detect if submission is from Kingu Electrical Shop
+function is_from_kingu_shop($subject, $message) {
+    $shop_keywords = ['order', 'product', 'generator', 'solar', 'spare', 'part', 'shop', 'catalog', 'buy', 'purchase', 'price'];
+    $subject_lower = strtolower($subject);
+    $message_lower = strtolower($message);
+    
+    foreach ($shop_keywords as $keyword) {
+        if (strpos($subject_lower, $keyword) !== false || strpos($message_lower, $keyword) !== false) {
+            return true;
+        }
+    }
+    return false;
+}
+
 // Main processing starts here
 header('Content-Type: application/json');
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Methods: POST');
+header('Access-Control-Allow-Headers: Content-Type');
 
 try {
     // Check if request method is POST
@@ -91,7 +110,7 @@ try {
     // Check honeypot field (anti-spam)
     if (!empty($_POST[$config['honeypot_field']])) {
         // Honeypot field was filled - likely a bot
-        log_message('Bot detected via honeypot field', 'BOT');
+        log_message('Bot detected via honeypot field: ' . $_POST[$config['honeypot_field']], 'BOT');
         echo json_encode([
             'success' => true, // Pretend success to bot
             'message' => $config['success_message']
@@ -141,11 +160,15 @@ try {
     $user_agent = $_SERVER['HTTP_USER_AGENT'] ?? 'Unknown';
     $timestamp = date('Y-m-d H:i:s');
     $referrer = $_SERVER['HTTP_REFERER'] ?? 'Direct';
+    
+    // Detect if from Kingu Electrical Shop
+    $is_shop_inquiry = is_from_kingu_shop($data['subject'], $data['message']);
+    $inquiry_type = $is_shop_inquiry ? 'Shop Inquiry' : 'General Inquiry';
 
     // Prepare email content
-    $subject = $config['subject_prefix'] . $data['subject'];
+    $subject = $config['subject_prefix'] . $inquiry_type . ': ' . $data['subject'];
     
-    $email_message = "New Contact Form Submission from Kingu Electrical Website\n";
+    $email_message = "New " . $inquiry_type . " from Kingu Electrical Website\n";
     $email_message .= "=====================================================\n\n";
     $email_message .= "Name: " . $data['name'] . "\n";
     $email_message .= "Email: " . $data['email'] . "\n";
@@ -162,77 +185,118 @@ try {
     $email_message .= "IP Address: " . $client_ip . "\n";
     $email_message .= "User Agent: " . substr($user_agent, 0, 100) . "\n";
     $email_message .= "Referrer: " . $referrer . "\n";
+    $email_message .= "Inquiry Type: " . $inquiry_type . "\n";
 
     // Prepare HTML email for better formatting
-    $html_message = "
+    $shop_badge = $is_shop_inquiry ? '<span style="background: #FF6B35; color: white; padding: 5px 10px; border-radius: 3px; font-size: 12px;">SHOP INQUIRY</span>' : '';
+    
+    $html_message = '
     <!DOCTYPE html>
     <html>
     <head>
+        <meta charset="UTF-8">
         <style>
-            body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
-            .container { max-width: 600px; margin: 0 auto; padding: 20px; }
-            .header { background: #1a5632; color: white; padding: 20px; text-align: center; }
-            .content { background: #f9f9f9; padding: 20px; border: 1px solid #ddd; }
-            .field { margin-bottom: 15px; }
-            .field-label { font-weight: bold; color: #1a5632; }
-            .field-value { margin-top: 5px; }
-            .message-box { background: white; padding: 15px; border: 1px solid #eee; border-radius: 5px; }
-            .footer { margin-top: 20px; padding-top: 20px; border-top: 1px solid #ddd; font-size: 12px; color: #666; }
-            .highlight { background: #e8f5e9; padding: 10px; border-radius: 5px; }
+            body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; background: #f5f5f5; margin: 0; padding: 20px; }
+            .container { max-width: 600px; margin: 0 auto; background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 0 20px rgba(0,0,0,0.1); }
+            .header { background: #1a5632; color: white; padding: 30px 20px; text-align: center; }
+            .header h1 { margin: 0; font-size: 24px; }
+            .header p { margin: 10px 0 0; opacity: 0.9; }
+            .content { padding: 30px; }
+            .alert { background: #e8f5e9; padding: 15px; border-radius: 5px; margin-bottom: 20px; border-left: 4px solid #2e8b57; }
+            .info-box { background: #f8f9fa; padding: 20px; border-radius: 5px; margin-bottom: 20px; border: 1px solid #dee2e6; }
+            .field-group { margin-bottom: 20px; }
+            .field-label { font-weight: bold; color: #1a5632; margin-bottom: 5px; display: block; }
+            .field-value { padding: 10px; background: white; border: 1px solid #dee2e6; border-radius: 5px; }
+            .message-box { background: white; padding: 15px; border: 1px solid #dee2e6; border-radius: 5px; white-space: pre-wrap; }
+            .footer { margin-top: 30px; padding-top: 20px; border-top: 1px solid #dee2e6; font-size: 12px; color: #666; }
+            .button { display: inline-block; background: #1a5632; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; margin: 5px; }
+            .button-whatsapp { background: #25D366; }
+            .button-phone { background: #34A853; }
+            .button-shop { background: #FF6B35; }
+            .badge { display: inline-block; background: #1a5632; color: white; padding: 5px 10px; border-radius: 3px; font-size: 12px; margin-left: 10px; }
+            .shop-badge { background: #FF6B35; }
         </style>
     </head>
     <body>
-        <div class='container'>
-            <div class='header'>
-                <h2>New Contact Form Submission</h2>
+        <div class="container">
+            <div class="header">
+                <h1>New ' . $inquiry_type . '</h1>
                 <p>Kingu Electrical Company Limited Website</p>
+                ' . $shop_badge . '
             </div>
             
-            <div class='content'>
-                <div class='highlight'>
-                    <p><strong>📞 Immediate Response Required</strong></p>
+            <div class="content">
+                <div class="alert">
+                    <strong>📞 Immediate Response Required</strong>
                     <p>Please respond to this inquiry within 24 hours.</p>
-                </div>
-                
-                <div class='field'>
-                    <div class='field-label'>👤 Customer Information</div>
-                    <div class='field-value'>
-                        <strong>Name:</strong> " . htmlspecialchars($data['name']) . "<br>
-                        <strong>Email:</strong> " . htmlspecialchars($data['email']) . "<br>";
+                </div>';
     
-    if (!empty($data['phone'])) {
-        $html_message .= "<strong>Phone:</strong> " . htmlspecialchars($data['phone']) . "<br>";
+    if ($is_shop_inquiry) {
+        $html_message .= '
+                <div class="alert" style="background: #fff3cd; border-left-color: #ffc107;">
+                    <strong>🛒 Kingu Electrical Shop Inquiry</strong>
+                    <p>This appears to be a product/service inquiry. Please check our <a href="' . $config['shop_url'] . '">online shop</a> for product details.</p>
+                </div>';
     }
     
-    $html_message .= "
+    $html_message .= '
+                <div class="info-box">
+                    <div class="field-group">
+                        <span class="field-label">👤 Customer Information</span>
+                        <div class="field-value">
+                            <strong>Name:</strong> ' . htmlspecialchars($data['name']) . '<br>
+                            <strong>Email:</strong> ' . htmlspecialchars($data['email']) . '<br>';
+    
+    if (!empty($data['phone'])) {
+        $html_message .= '<strong>Phone:</strong> ' . htmlspecialchars($data['phone']) . '<br>';
+    }
+    
+    $html_message .= '
+                        </div>
+                    </div>
+                    
+                    <div class="field-group">
+                        <span class="field-label">📋 Subject</span>
+                        <div class="field-value">' . htmlspecialchars($data['subject']) . '</div>
+                    </div>
+                    
+                    <div class="field-group">
+                        <span class="field-label">💬 Message</span>
+                        <div class="field-value">
+                            <div class="message-box">' . nl2br(htmlspecialchars($data['message'])) . '</div>
+                        </div>
                     </div>
                 </div>
                 
-                <div class='field'>
-                    <div class='field-label'>📋 Subject</div>
-                    <div class='field-value'>" . htmlspecialchars($data['subject']) . "</div>
+                <div style="text-align: center; margin: 20px 0;">
+                    <a href="tel:+255677014740" class="button button-phone">📞 Call Customer</a>
+                    <a href="https://wa.me/255677014740?text=Regarding inquiry from ' . urlencode($data['name']) . '" class="button button-whatsapp" target="_blank">💬 WhatsApp</a>';
+    
+    if ($is_shop_inquiry) {
+        $html_message .= '<a href="' . $config['shop_url'] . '" class="button button-shop" target="_blank">🛒 Open Shop</a>';
+    }
+    
+    $html_message .= '
                 </div>
                 
-                <div class='field'>
-                    <div class='field-label'>💬 Message</div>
-                    <div class='field-value'>
-                        <div class='message-box'>" . nl2br(htmlspecialchars($data['message'])) . "</div>
-                    </div>
-                </div>
-                
-                <div class='footer'>
+                <div class="footer">
                     <p><strong>Technical Details:</strong></p>
                     <p>
-                        Submission Time: " . $timestamp . " (EAT)<br>
-                        IP Address: " . $client_ip . "<br>
-                        Referrer: " . $referrer . "
+                        Submission Time: ' . $timestamp . ' (EAT)<br>
+                        IP Address: ' . $client_ip . '<br>
+                        Referrer: ' . $referrer . '<br>
+                        Inquiry Type: ' . $inquiry_type . '
                     </p>
                     <p><em>This email was automatically generated from the Kingu Electrical website contact form.</em></p>
+                    <p>
+                        <a href="' . $config['website_url'] . '">Website</a> | 
+                        <a href="' . $config['shop_url'] . '">Kingu Electrical Shop</a>
+                    </p>
                 </div>
             </div>
         </div>
     </body>
-    </html>";
+    </html>';
 
     // Prepare email headers
     $headers = "From: " . $config['site_name'] . " <" . $config['site_email'] . ">\r\n";
@@ -250,45 +314,42 @@ try {
     foreach ($config['recipient_emails'] as $recipient) {
         if (send_email($recipient, $subject, $html_message, $headers)) {
             $email_sent = true;
-            log_message("Email sent successfully to: " . $recipient, 'SUCCESS');
+            log_message("Email sent successfully to: " . $recipient . " [Type: " . $inquiry_type . "]", 'SUCCESS');
         } else {
             log_message("Failed to send email to: " . $recipient, 'ERROR');
         }
     }
 
-    // Also send a plain text copy to admin for backup
-    $plain_headers = "From: " . $config['site_name'] . " <" . $config['site_email'] . ">\r\n";
-    $plain_headers .= "Content-Type: text/plain; charset=UTF-8\r\n";
-    send_email($config['admin_email'], $subject . ' [Plain Text]', $email_message, $plain_headers);
-
     // Auto-reply to customer
     $customer_subject = "Thank you for contacting Kingu Electrical Company Limited";
-    $customer_message = "
-Dear " . $data['name'] . ",
-
-Thank you for contacting Kingu Electrical Company Limited!
-
-We have received your message regarding:
-\"" . $data['subject'] . "\"
-
-Our team will review your inquiry and get back to you within 24 hours during our business hours (Monday-Friday, 8:00 AM - 6:00 PM EAT).
-
-For urgent matters, you can reach us directly at:
-📞 +255 677 014 740
-📞 +255 763 957 908
-📞 +255 682 843 552
-
-You can also chat with us on WhatsApp: https://wa.me/255677014740
-
-Best regards,
-
-Kingu Electrical Team
-Quality Electrical Services with Professional Experience
-Arusha & Dar-es-salaam, Tanzania
-https://www.kinguelectrical.co.tz
-
---- This is an automated response. Please do not reply to this email. ---
-";
+    
+    $customer_message = "Dear " . $data['name'] . ",\n\n";
+    $customer_message .= "Thank you for contacting Kingu Electrical Company Limited!\n\n";
+    $customer_message .= "We have received your message regarding:\n\"" . $data['subject'] . "\"\n\n";
+    
+    if ($is_shop_inquiry) {
+        $customer_message .= "📦 **Product/Service Inquiry Detected**\n";
+        $customer_message .= "We've identified this as a product/service inquiry. Our sales team will provide you with detailed information about:\n";
+        $customer_message .= "- Product specifications and pricing\n";
+        $customer_message .= "- Availability and delivery options\n";
+        $customer_message .= "- Installation services\n";
+        $customer_message .= "- Warranty information\n\n";
+        $customer_message .= "Browse our complete catalog: " . $config['shop_url'] . "\n\n";
+    }
+    
+    $customer_message .= "Our team will review your inquiry and get back to you within 24 hours during our business hours (Monday-Friday, 8:00 AM - 6:00 PM EAT).\n\n";
+    $customer_message .= "**For immediate assistance:**\n";
+    $customer_message .= "📞 Call: +255 677 014 740\n";
+    $customer_message .= "📞 Call: +255 763 957 908\n";
+    $customer_message .= "📞 Call: +255 682 843 552\n";
+    $customer_message .= "💬 WhatsApp: https://wa.me/255677014740\n\n";
+    $customer_message .= "Best regards,\n\n";
+    $customer_message .= "**Kingu Electrical Team**\n";
+    $customer_message .= "Quality Electrical Services with Professional Experience\n";
+    $customer_message .= "Arusha & Dar-es-salaam, Tanzania\n";
+    $customer_message .= $config['website_url'] . "\n";
+    $customer_message .= "Shop: " . $config['shop_url'] . "\n\n";
+    $customer_message .= "--- This is an automated response. Please do not reply to this email. ---";
 
     $customer_headers = "From: " . $config['site_name'] . " <" . $config['site_email'] . ">\r\n";
     $customer_headers .= "Reply-To: " . $config['admin_email'] . "\r\n";
@@ -296,35 +357,8 @@ https://www.kinguelectrical.co.tz
     
     send_email($data['email'], $customer_subject, $customer_message, $customer_headers);
 
-    // Save to database (optional - uncomment if you have database setup)
-    /*
-    try {
-        $pdo = new PDO('mysql:host=localhost;dbname=your_database', 'username', 'password');
-        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        
-        $stmt = $pdo->prepare("INSERT INTO contact_submissions 
-            (name, email, phone, subject, message, ip_address, user_agent, referrer, created_at) 
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW())");
-        
-        $stmt->execute([
-            $data['name'],
-            $data['email'],
-            $data['phone'] ?? null,
-            $data['subject'],
-            $data['message'],
-            $client_ip,
-            $user_agent,
-            $referrer
-        ]);
-        
-        log_message("Submission saved to database. ID: " . $pdo->lastInsertId(), 'SUCCESS');
-    } catch (PDOException $e) {
-        log_message("Database error: " . $e->getMessage(), 'ERROR');
-    }
-    */
-
     // Log successful submission
-    log_message("Form submitted successfully by: " . $data['name'] . " (" . $data['email'] . ")", 'SUCCESS');
+    log_message("Form submitted successfully by: " . $data['name'] . " (" . $data['email'] . ") [Type: " . $inquiry_type . "]", 'SUCCESS');
 
     // Return success response
     echo json_encode([
@@ -333,20 +367,33 @@ https://www.kinguelectrical.co.tz
         'data' => [
             'name' => $data['name'],
             'email' => $data['email'],
-            'timestamp' => $timestamp
-        ]
+            'timestamp' => $timestamp,
+            'inquiry_type' => $inquiry_type,
+            'shop_inquiry' => $is_shop_inquiry,
+            'shop_url' => $is_shop_inquiry ? $config['shop_url'] : null
+        ],
+        'next_steps' => $is_shop_inquiry ? [
+            'view_shop' => $config['shop_url'],
+            'call_support' => '+255677014740',
+            'whatsapp_support' => 'https://wa.me/255677014740'
+        ] : null
     ]);
 
 } catch (Exception $e) {
     // Log error
-    log_message("Error: " . $e->getMessage(), 'ERROR');
+    log_message("Error: " . $e->getMessage() . " [IP: " . ($_SERVER['REMOTE_ADDR'] ?? 'Unknown') . "]", 'ERROR');
     
     // Return error response
     http_response_code(400);
     echo json_encode([
         'success' => false,
         'message' => $e->getMessage(),
-        'error' => $e->getMessage()
+        'error' => $e->getMessage(),
+        'support_contact' => [
+            'phone' => '+255677014740',
+            'email' => $config['admin_email'],
+            'whatsapp' => 'https://wa.me/255677014740'
+        ]
     ]);
 }
 ?>
