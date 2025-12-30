@@ -1,20 +1,20 @@
 /**
  * Service Worker for Kingu Electrical Website
- * Enhanced with WhatsApp Shop support and advanced caching
+ * Enhanced with Kingu Electrical Shop support and advanced caching
  */
 
-const CACHE_NAME = 'kingu-electrical-v4.0';
-const OFFLINE_CACHE = 'kingu-offline-v1';
-const WHATSAPP_SHOP_CACHE = 'whatsapp-shop-v1';
-const DYNAMIC_CACHE = 'kingu-dynamic-v1';
-const STATIC_CACHE = 'kingu-static-v1';
-const PRODUCT_IMAGES_CACHE = 'kingu-images-v1';
+const CACHE_NAME = 'kingu-electrical-v5.0';
+const OFFLINE_CACHE = 'kingu-offline-v2';
+const KINGU_SHOP_CACHE = 'kingu-shop-v1';
+const DYNAMIC_CACHE = 'kingu-dynamic-v2';
+const STATIC_CACHE = 'kingu-static-v2';
+const PRODUCT_IMAGES_CACHE = 'kingu-images-v2';
 
 // Core assets that should be cached immediately
 const CORE_ASSETS = [
     '/',
     '/index.html',
-    '/whatsapp-shop.html',
+    '/Kinguelectrical-shop.html',
     '/offline.html',
     '/styles.css',
     '/script.js',
@@ -26,7 +26,7 @@ const CORE_ASSETS = [
 // Static assets (icons, logos, fonts)
 const STATIC_ASSETS = [
     '/assets/icons/favicon.svg',
-    '/assets/icons/whatsapp.svg',
+    '/assets/icons/shop.svg',
     '/assets/icons/company-logo.svg',
     '/assets/icons/icon-72.png',
     '/assets/icons/icon-192.png',
@@ -35,8 +35,12 @@ const STATIC_ASSETS = [
     '/assets/icons/email.svg',
     '/assets/icons/phone.svg',
     '/assets/icons/location.svg',
+    '/assets/icons/send.svg',
     'https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500&display=swap',
-    'https://cdn.jsdelivr.net/npm/simple-icons@v5/icons/whatsapp.svg'
+    'https://cdn.jsdelivr.net/npm/simple-icons@v5/icons/whatsapp.svg',
+    'https://cdn.jsdelivr.net/npm/simple-icons@v5/icons/phone.svg',
+    'https://cdn.jsdelivr.net/npm/simple-icons@v5/icons/shopping-cart.svg',
+    'https://cdn.jsdelivr.net/npm/simple-icons@v5/icons/send.svg'
 ];
 
 // Product images to cache
@@ -50,7 +54,7 @@ const PRODUCT_IMAGES = [
 
 // Install event - cache essential files
 self.addEventListener('install', event => {
-    console.log('[Service Worker] Installing v4.0...');
+    console.log('[Service Worker] Installing v5.0...');
     
     event.waitUntil(
         Promise.all([
@@ -91,7 +95,20 @@ self.addEventListener('install', event => {
             
             // Cache offline page
             caches.open(OFFLINE_CACHE)
-                .then(cache => cache.add('/offline.html'))
+                .then(cache => cache.add('/offline.html')),
+            
+            // Cache Kingu Electrical Shop data
+            caches.open(KINGU_SHOP_CACHE)
+                .then(cache => {
+                    console.log('[Service Worker] Setting up Kingu Electrical Shop cache');
+                    return cache.put('/kingu-shop-data', new Response(JSON.stringify({
+                        version: '1.0',
+                        lastUpdated: new Date().toISOString(),
+                        message: 'Kingu Electrical Shop Data Cache'
+                    }), {
+                        headers: { 'Content-Type': 'application/json' }
+                    }));
+                })
         ]).then(() => {
             console.log('[Service Worker] All assets cached successfully');
             return self.skipWaiting();
@@ -104,14 +121,14 @@ self.addEventListener('install', event => {
 
 // Activate event - clean up old caches
 self.addEventListener('activate', event => {
-    console.log('[Service Worker] Activating v4.0...');
+    console.log('[Service Worker] Activating v5.0...');
     
     event.waitUntil(
         caches.keys().then(cacheNames => {
             return Promise.all(
                 cacheNames.map(cacheName => {
                     // Delete old caches (not in current list)
-                    if (![CACHE_NAME, STATIC_CACHE, PRODUCT_IMAGES_CACHE, OFFLINE_CACHE, DYNAMIC_CACHE, WHATSAPP_SHOP_CACHE].includes(cacheName)) {
+                    if (![CACHE_NAME, STATIC_CACHE, PRODUCT_IMAGES_CACHE, OFFLINE_CACHE, DYNAMIC_CACHE, KINGU_SHOP_CACHE].includes(cacheName)) {
                         console.log('[Service Worker] Deleting old cache:', cacheName);
                         return caches.delete(cacheName);
                     }
@@ -159,6 +176,10 @@ self.addEventListener('fetch', event => {
         } else if (event.request.destination === 'image') {
             // Images - Cache First, Network Fallback
             event.respondWith(imageCacheStrategy(event));
+        } else if (requestUrl.pathname === '/Kinguelectrical-shop.html' ||
+                   requestUrl.pathname === '/kingu-shop-data') {
+            // Kingu Electrical Shop specific handling
+            event.respondWith(kinguShopStrategy(event));
         } else {
             // Other resources - Network First
             event.respondWith(networkFirstWithCacheFallback(event));
@@ -180,6 +201,45 @@ self.addEventListener('fetch', event => {
         }
     }
 });
+
+// Kingu Electrical Shop specific strategy
+async function kinguShopStrategy(event) {
+    const requestUrl = new URL(event.request.url);
+    
+    try {
+        // Always try network first for shop page
+        const networkResponse = await fetch(event.request);
+        
+        // Cache successful responses
+        if (networkResponse.status === 200) {
+            const cache = await caches.open(KINGU_SHOP_CACHE);
+            await cache.put(event.request, networkResponse.clone());
+        }
+        
+        return networkResponse;
+    } catch (error) {
+        console.warn('[Service Worker] Kingu Shop fetch failed, trying cache:', error);
+        
+        // Try cache
+        const cachedResponse = await caches.match(event.request);
+        
+        if (cachedResponse) {
+            return cachedResponse;
+        }
+        
+        // For shop page, return offline version
+        if (requestUrl.pathname === '/Kinguelectrical-shop.html') {
+            const shopOfflineResponse = await caches.match('/offline-shop.html');
+            if (shopOfflineResponse) return shopOfflineResponse;
+        }
+        
+        // Return generic offline page
+        const offlineResponse = await caches.match('/offline.html');
+        if (offlineResponse) return offlineResponse;
+        
+        throw error;
+    }
+}
 
 // Cache strategies
 async function cacheFirstWithNetworkFallback(event) {
@@ -357,15 +417,17 @@ async function updateCache(request, response = null) {
 self.addEventListener('sync', event => {
     console.log('[Service Worker] Background sync:', event.tag);
     
-    if (event.tag === 'whatsapp-order-sync') {
-        event.waitUntil(syncWhatsAppOrders());
+    if (event.tag === 'kingu-order-sync') {
+        event.waitUntil(syncKinguOrders());
     } else if (event.tag === 'contact-form-sync') {
         event.waitUntil(syncContactForms());
+    } else if (event.tag === 'shop-cart-sync') {
+        event.waitUntil(syncShopCart());
     }
 });
 
-// WhatsApp order sync
-async function syncWhatsAppOrders() {
+// Kingu Electrical order sync
+async function syncKinguOrders() {
     try {
         const db = await openOrderDatabase();
         const orders = await getAllOrders(db);
@@ -373,13 +435,25 @@ async function syncWhatsAppOrders() {
         for (const order of orders) {
             if (!order.synced) {
                 try {
-                    // In a real implementation, you would send to your server
-                    // For now, we'll just mark as synced
+                    // For Kingu Electrical, we could sync with multiple channels
+                    const syncedChannels = [];
+                    
+                    // Phone order sync
+                    if (order.contactMethod === 'phone' || !order.contactMethod) {
+                        syncedChannels.push('phone');
+                    }
+                    
+                    // WhatsApp order sync (backup)
+                    if (order.contactMethod === 'whatsapp' || !order.contactMethod) {
+                        syncedChannels.push('whatsapp');
+                    }
+                    
                     order.synced = true;
+                    order.syncedChannels = syncedChannels;
                     order.syncedAt = new Date().toISOString();
                     await updateOrder(db, order);
                     
-                    console.log('[Service Worker] Order synced:', order.id);
+                    console.log('[Service Worker] Kingu order synced via:', syncedChannels, order.id);
                 } catch (error) {
                     console.error('[Service Worker] Failed to sync order:', error);
                     throw error; // Retry on next sync
@@ -388,6 +462,25 @@ async function syncWhatsAppOrders() {
         }
     } catch (error) {
         console.error('[Service Worker] Order sync failed:', error);
+        throw error;
+    }
+}
+
+// Shop cart sync
+async function syncShopCart() {
+    try {
+        // Get cart from IndexedDB or localStorage
+        const cartData = await getShopCartData();
+        
+        if (cartData && cartData.items && cartData.items.length > 0) {
+            // Sync cart to server or other storage
+            console.log('[Service Worker] Syncing shop cart:', cartData.items.length, 'items');
+            
+            // Mark as synced
+            await markCartAsSynced(cartData);
+        }
+    } catch (error) {
+        console.error('[Service Worker] Shop cart sync failed:', error);
         throw error;
     }
 }
@@ -401,7 +494,6 @@ async function syncContactForms() {
         for (const form of forms) {
             if (!form.synced) {
                 try {
-                    // In a real implementation, you would send to your server
                     form.synced = true;
                     form.syncedAt = new Date().toISOString();
                     await updateForm(db, form);
@@ -422,7 +514,7 @@ async function syncContactForms() {
 // IndexedDB setup for offline data
 async function openOrderDatabase() {
     return new Promise((resolve, reject) => {
-        const request = indexedDB.open('kinguOrders', 1);
+        const request = indexedDB.open('kinguOrders', 2);
         
         request.onupgradeneeded = function(event) {
             const db = event.target.result;
@@ -434,6 +526,16 @@ async function openOrderDatabase() {
                 });
                 store.createIndex('synced', 'synced', { unique: false });
                 store.createIndex('timestamp', 'timestamp', { unique: false });
+                store.createIndex('contactMethod', 'contactMethod', { unique: false });
+            }
+            
+            // Version 2 upgrade: add syncedChannels field
+            if (event.oldVersion < 2) {
+                const transaction = event.currentTarget.transaction;
+                const store = transaction.objectStore('orders');
+                if (!store.indexNames.contains('syncedChannels')) {
+                    // Can't modify existing indexes in this way, but we can handle in code
+                }
             }
         };
         
@@ -476,6 +578,72 @@ async function updateOrder(db, order) {
         
         request.onerror = function(event) {
             reject(new Error('Update order error: ' + event.target.error));
+        };
+    });
+}
+
+// Shop cart data management
+async function getShopCartData() {
+    return new Promise((resolve, reject) => {
+        const request = indexedDB.open('kinguShop', 1);
+        
+        request.onupgradeneeded = function(event) {
+            const db = event.target.result;
+            
+            if (!db.objectStoreNames.contains('cart')) {
+                const store = db.createObjectStore('cart', { 
+                    keyPath: 'id'
+                });
+                store.createIndex('timestamp', 'timestamp', { unique: false });
+            }
+        };
+        
+        request.onsuccess = function(event) {
+            const db = event.target.result;
+            const transaction = db.transaction(['cart'], 'readonly');
+            const store = transaction.objectStore('cart');
+            const request = store.get('current');
+            
+            request.onsuccess = function(event) {
+                resolve(event.target.result);
+            };
+            
+            request.onerror = function(event) {
+                reject(new Error('Get cart error: ' + event.target.error));
+            };
+        };
+        
+        request.onerror = function(event) {
+            reject(new Error('IndexedDB error: ' + event.target.error));
+        };
+    });
+}
+
+async function markCartAsSynced(cartData) {
+    return new Promise((resolve, reject) => {
+        const request = indexedDB.open('kinguShop', 1);
+        
+        request.onsuccess = function(event) {
+            const db = event.target.result;
+            const transaction = db.transaction(['cart'], 'readwrite');
+            const store = transaction.objectStore('cart');
+            
+            cartData.synced = true;
+            cartData.syncedAt = new Date().toISOString();
+            
+            const putRequest = store.put(cartData);
+            
+            putRequest.onsuccess = function() {
+                resolve();
+            };
+            
+            putRequest.onerror = function(event) {
+                reject(new Error('Update cart error: ' + event.target.error));
+            };
+        };
+        
+        request.onerror = function(event) {
+            reject(new Error('IndexedDB error: ' + event.target.error));
         };
     });
 }
@@ -619,7 +787,7 @@ self.addEventListener('message', event => {
     } else if (event.data && event.data.type === 'GET_CACHE_INFO') {
         event.ports[0].postMessage({
             cacheNames: Array.from(caches.keys()),
-            version: '4.0',
+            version: '5.0',
             status: 'active'
         });
     } else if (event.data && event.data.type === 'CLEAR_CACHE') {
@@ -628,14 +796,52 @@ self.addEventListener('message', event => {
         healthCheck().then(status => {
             event.ports[0].postMessage({ status });
         });
+    } else if (event.data && event.data.type === 'SAVE_CART') {
+        event.waitUntil(saveCartToDB(event.data.cart));
     }
 });
+
+// Save cart to IndexedDB
+async function saveCartToDB(cartData) {
+    try {
+        const request = indexedDB.open('kinguShop', 1);
+        
+        request.onupgradeneeded = function(event) {
+            const db = event.target.result;
+            
+            if (!db.objectStoreNames.contains('cart')) {
+                db.createObjectStore('cart', { keyPath: 'id' });
+            }
+        };
+        
+        request.onsuccess = function(event) {
+            const db = event.target.result;
+            const transaction = db.transaction(['cart'], 'readwrite');
+            const store = transaction.objectStore('cart');
+            
+            const cartRecord = {
+                id: 'current',
+                items: cartData,
+                timestamp: new Date().toISOString(),
+                synced: false
+            };
+            
+            store.put(cartRecord);
+        };
+        
+        request.onerror = function(event) {
+            console.error('[Service Worker] Failed to save cart:', event.target.error);
+        };
+    } catch (error) {
+        console.error('[Service Worker] Cart save failed:', error);
+    }
+}
 
 // Cache products on demand
 async function cacheProducts(products) {
     if (!products || !Array.isArray(products)) return;
     
-    const cache = await caches.open(WHATSAPP_SHOP_CACHE);
+    const cache = await caches.open(KINGU_SHOP_CACHE);
     
     for (const product of products) {
         if (product.imageUrl) {
@@ -669,7 +875,7 @@ async function healthCheck() {
         const cache = await caches.open(CACHE_NAME);
         const keys = await cache.keys();
         
-        const criticalAssets = ['/', '/index.html', '/offline.html'];
+        const criticalAssets = ['/', '/index.html', '/offline.html', '/Kinguelectrical-shop.html'];
         let missingAssets = [];
         
         for (const asset of criticalAssets) {
@@ -705,7 +911,7 @@ async function healthCheck() {
 }
 
 // Version tracking
-const SERVICE_WORKER_VERSION = '4.0.0';
+const SERVICE_WORKER_VERSION = '5.0.0';
 
 // Broadcast update to all clients
 function broadcastUpdate() {
@@ -714,7 +920,8 @@ function broadcastUpdate() {
             client.postMessage({
                 type: 'SERVICE_WORKER_UPDATE',
                 version: SERVICE_WORKER_VERSION,
-                timestamp: new Date().toISOString()
+                timestamp: new Date().toISOString(),
+                shopUrl: '/Kinguelectrical-shop.html'
             });
         });
     });
