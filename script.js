@@ -3,9 +3,11 @@
  * All interactive functionality
  */
 
-// WhatsApp number configuration
+// Contact numbers configuration
+const PHONE_NUMBER = '255677014740';
 const WHATSAPP_NUMBER = '255682843552';
-const DISPLAY_NUMBER = '0682 843 552';
+const DISPLAY_PHONE = '+255 677 014 740';
+const DISPLAY_WHATSAPP = '0682 843 552';
 
 // Complete Products Data
 const products = [
@@ -277,9 +279,9 @@ function createProductCard(product) {
                     <div>Delivery: ${product.delivery}</div>
                 </div>
             </div>
-            <button class="whatsapp-order-btn" onclick="addToCart(${product.id})">
-                <img src="https://cdn.jsdelivr.net/npm/simple-icons@v5/icons/whatsapp.svg" alt="WhatsApp">
-                Order on WhatsApp
+            <button class="kingu-order-btn" onclick="addToCart(${product.id})">
+                <img src="https://cdn.jsdelivr.net/npm/simple-icons@v5/icons/shopping-cart.svg" alt="Cart">
+                Add to Cart
             </button>
         </div>
     `;
@@ -530,11 +532,11 @@ function updateCartCount() {
         countElement.textContent = cartCount;
     }
     
-    const badge = document.querySelector('.whatsapp-badge');
+    const badge = document.querySelector('.kingu-badge');
     if (badge && cartCount > 0) {
         badge.innerHTML = `
-            <img src="https://cdn.jsdelivr.net/npm/simple-icons@v5/icons/whatsapp.svg" alt="WhatsApp">
-            <span>${cartCount} items in cart • Chat to order (${DISPLAY_NUMBER})</span>
+            <img src="https://cdn.jsdelivr.net/npm/simple-icons@v5/icons/phone.svg" alt="Call">
+            <span>${cartCount} items in cart • Call to order (${DISPLAY_PHONE})</span>
         `;
     }
 }
@@ -583,6 +585,128 @@ function closeCart() {
     }
 }
 
+// Show Order Confirmation
+function showOrderConfirmation(message) {
+    const modal = document.createElement('div');
+    modal.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0,0,0,0.7);
+        z-index: 9999;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+    `;
+    
+    modal.innerHTML = `
+        <div style="
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            max-width: 500px;
+            width: 100%;
+            max-height: 80vh;
+            overflow-y: auto;
+        ">
+            <h3 style="margin-bottom: 1rem; color: var(--primary-green);">Order Confirmation</h3>
+            <p style="margin-bottom: 1.5rem;">How would you like to place your order?</p>
+            
+            <div style="display: flex; flex-direction: column; gap: 1rem;">
+                <button onclick="placeOrderViaPhone()" style="
+                    background: var(--primary-green);
+                    color: white;
+                    border: none;
+                    padding: 1rem;
+                    border-radius: 10px;
+                    font-size: 1.1rem;
+                    cursor: pointer;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 10px;
+                ">
+                    <img src="https://cdn.jsdelivr.net/npm/simple-icons@v5/icons/phone.svg" alt="Phone" style="width: 20px; height: 20px;">
+                    Call: ${DISPLAY_PHONE}
+                </button>
+                
+                <button onclick="placeOrderViaWhatsApp('${encodeURIComponent(message)}')" style="
+                    background: #25D366;
+                    color: white;
+                    border: none;
+                    padding: 1rem;
+                    border-radius: 10px;
+                    font-size: 1.1rem;
+                    cursor: pointer;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 10px;
+                ">
+                    <img src="https://cdn.jsdelivr.net/npm/simple-icons@v5/icons/whatsapp.svg" alt="WhatsApp" style="width: 20px; height: 20px;">
+                    WhatsApp: ${DISPLAY_WHATSAPP}
+                </button>
+                
+                <button onclick="closeModal()" style="
+                    background: transparent;
+                    color: var(--text-light);
+                    border: 2px solid var(--border-color);
+                    padding: 1rem;
+                    border-radius: 10px;
+                    font-size: 1.1rem;
+                    cursor: pointer;
+                ">
+                    Cancel
+                </button>
+            </div>
+        </div>
+    `;
+    
+    document.body.appendChild(modal);
+    
+    // Function to close modal
+    window.closeModal = function() {
+        if (modal.parentNode) {
+            document.body.removeChild(modal);
+        }
+    };
+    
+    // Function to place order via phone
+    window.placeOrderViaPhone = function() {
+        const phoneNumber = PHONE_NUMBER;
+        window.location.href = `tel:${phoneNumber}`;
+        closeModal();
+        
+        // Clear cart after order
+        cart = [];
+        saveCartToStorage();
+        updateCart();
+        updateCartCount();
+        closeCart();
+        
+        showNotification('Calling Kingu Electrical!');
+    };
+    
+    // Function to place order via WhatsApp
+    window.placeOrderViaWhatsApp = function(encodedMessage) {
+        const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodedMessage}`;
+        window.open(whatsappUrl, '_blank');
+        closeModal();
+        
+        // Clear cart after order
+        cart = [];
+        saveCartToStorage();
+        updateCart();
+        updateCartCount();
+        closeCart();
+        
+        showNotification('Order sent to WhatsApp!');
+    };
+}
+
 // Checkout Cart
 function checkoutCart() {
     if (cart.length === 0) {
@@ -614,8 +738,8 @@ function checkoutCart() {
     message += `Total: ${formatCurrency(total)}\n\n`;
     message += `Please contact me to confirm availability and arrange delivery.`;
     
-    const encodedMessage = encodeURIComponent(message);
-    const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodedMessage}`;
+    // Show order confirmation modal
+    showOrderConfirmation(message);
     
     // Save order for offline sync
     saveOrderForSync({
@@ -623,17 +747,6 @@ function checkoutCart() {
         total: total,
         timestamp: new Date().toISOString()
     });
-    
-    window.open(whatsappUrl, '_blank');
-    
-    // Clear cart after checkout
-    cart = [];
-    saveCartToStorage();
-    updateCart();
-    updateCartCount();
-    closeCart();
-    
-    showNotification('Order sent to WhatsApp! We\'ll contact you shortly.');
 }
 
 // ===== PWA & OFFLINE FUNCTIONALITY =====
@@ -883,12 +996,11 @@ function handleQuickOrderFormSubmit(e) {
     message += `Requirements: ${requirements}\n\n`;
     message += `Please contact me with available options and prices.`;
     
-    const encodedMessage = encodeURIComponent(message);
-    const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodedMessage}`;
+    // Show order confirmation modal
+    showOrderConfirmation(encodeURIComponent(message));
     
-    window.open(whatsappUrl, '_blank');
+    // Reset form
     e.target.reset();
-    showNotification('Quick order sent! We\'ll contact you on WhatsApp.');
 }
 
 // ===== BOOKING FORM =====
@@ -956,8 +1068,8 @@ function handleBookingFormSubmit(e) {
         `;
         submitBtn.style.background = '#2e8b57';
         
-        // Create WhatsApp message
-        const whatsappMessage = `Hi! I booked a site inspection:\nName: ${name}\nPhone: ${phone}\nService: ${service}\nDate: ${date}\nTime: ${time}`;
+        // Create order confirmation message
+        const orderMessage = `Hi! I booked a site inspection:\nName: ${name}\nPhone: ${phone}\nService: ${service}\nDate: ${date}\nTime: ${time}`;
         
         // Reset form after 3 seconds
         setTimeout(() => {
@@ -967,12 +1079,11 @@ function handleBookingFormSubmit(e) {
             submitBtn.style.opacity = '1';
             submitBtn.disabled = false;
             
-            // Show success notification with WhatsApp option
-            showNotificationWithAction(
-                '✅ Inspection Scheduled! We\'ll call you to confirm.',
-                'Send details via WhatsApp',
-                `https://wa.me/255677014740?text=${encodeURIComponent(whatsappMessage)}`
-            );
+            // Show success notification
+            showNotification('✅ Inspection Scheduled! We\'ll call you to confirm.', 'success');
+            
+            // Optional: show order confirmation modal
+            // showOrderConfirmation(encodeURIComponent(orderMessage));
         }, 3000);
     }, 1500);
 }
@@ -1074,7 +1185,7 @@ function initNotifications() {
             background: #f39c12;
         }
         
-        .notification-info {
+        .notification.info {
             background: #3498db;
         }
         
@@ -1178,7 +1289,7 @@ function fixBrokenLinks() {
     });
     
     document.querySelectorAll('a[href^="tel:"]').forEach(link => {
-        link.href = `tel:${DISPLAY_NUMBER.replace(/\s/g, '')}`;
+        link.href = `tel:${PHONE_NUMBER}`;
     });
 }
 
@@ -1295,7 +1406,7 @@ window.addEventListener('beforeinstallprompt', (e) => {
         font-family: 'Poppins', sans-serif;
         font-weight: 600;
         cursor: pointer;
-        box-shadow: 0 4px 12px rgba(37, 211, 102, 0.4);
+        box-shadow: 0 4px 12px rgba(26, 86, 50, 0.4);
         z-index: 1000;
         transition: all 0.3s ease;
     `;
