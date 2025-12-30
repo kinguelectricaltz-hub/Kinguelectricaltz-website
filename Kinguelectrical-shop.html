@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shop on WhatsApp | Kingu Electrical Products & Services</title>
-    <meta name="description" content="Order electrical products, spare parts, and services directly through WhatsApp. Fast, secure, and convenient shopping from Kingu Electrical Tanzania.">
+    <title>Kingu Electrical Shop | Electrical Products & Services Tanzania</title>
+    <meta name="description" content="Order electrical products, spare parts, and services directly from Kingu Electrical Tanzania. Fast, secure, and convenient shopping.">
     
     <!-- PWA Configuration -->
     <link rel="manifest" href="/shop-manifest.json">
-    <meta name="theme-color" content="#25D366">
+    <meta name="theme-color" content="#1a5632">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Kingu Shop">
@@ -16,17 +16,17 @@
     
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://kingueletrical.com/whatsapp-shop.html">
-    <meta property="og:title" content="Shop on WhatsApp | Kingu Electrical">
-    <meta property="og:description" content="Browse and order electrical products directly through WhatsApp">
-    <meta property="og:image" content="https://kingueletrical.com/assets/icons/whatsapp-shop.png">
+    <meta property="og:url" content="https://kingueletrical.com/Kinguelectrical-shop.html">
+    <meta property="og:title" content="Kingu Electrical Shop | Electrical Products">
+    <meta property="og:description" content="Browse and order electrical products directly from Kingu Electrical">
+    <meta property="og:image" content="https://kingueletrical.com/assets/icons/kingu-shop.png">
     
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://kingueletrical.com/whatsapp-shop.html">
-    <meta property="twitter:title" content="Shop on WhatsApp | Kingu Electrical">
-    <meta property="twitter:description" content="Browse and order electrical products directly through WhatsApp">
-    <meta property="twitter:image" content="https://kingueletrical.com/assets/icons/whatsapp-shop.png">
+    <meta property="twitter:url" content="https://kingueletrical.com/Kinguelectrical-shop.html">
+    <meta property="twitter:title" content="Kingu Electrical Shop | Electrical Products">
+    <meta property="twitter:description" content="Browse and order electrical products directly from Kingu Electrical">
+    <meta property="twitter:image" content="https://kingueletrical.com/assets/icons/kingu-shop.png">
     
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -35,10 +35,10 @@
     
     <style>
         :root {
-            --primary-green: #25D366;
-            --whatsapp-dark: #075E54;
-            --whatsapp-light: #128C7E;
-            --whatsapp-chat: #ECE5DD;
+            --primary-green: #1a5632;
+            --kingu-dark: #0d3d21;
+            --kingu-light: #1a5632;
+            --kingu-accent: #FF6B35;
             --text-dark: #333333;
             --text-light: #666666;
             --white: #FFFFFF;
@@ -47,7 +47,7 @@
             --success: #34A853;
             --warning: #FBBC05;
             --danger: #EA4335;
-            --accent: #FF6B35;
+            --accent: #0d6efd;
         }
         
         * {
@@ -71,7 +71,7 @@
         
         /* Header */
         .shop-header {
-            background: linear-gradient(135deg, var(--whatsapp-dark), var(--whatsapp-light));
+            background: linear-gradient(135deg, var(--kingu-dark), var(--primary-green));
             color: var(--white);
             padding: 2rem 0;
             text-align: center;
@@ -105,11 +105,11 @@
             z-index: 1;
         }
         
-        .whatsapp-badge {
+        .kingu-badge {
             display: inline-flex;
             align-items: center;
-            background: var(--primary-green);
-            color: var(--white);
+            background: var(--white);
+            color: var(--primary-green);
             padding: 0.75rem 2rem;
             border-radius: 50px;
             margin-top: 1rem;
@@ -118,14 +118,17 @@
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             position: relative;
             z-index: 1;
+            border: 2px solid var(--primary-green);
         }
         
-        .whatsapp-badge:hover {
+        .kingu-badge:hover {
             transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(37, 211, 102, 0.3);
+            box-shadow: 0 10px 20px rgba(26, 86, 50, 0.3);
+            background: var(--primary-green);
+            color: var(--white);
         }
         
-        .whatsapp-badge img {
+        .kingu-badge img {
             width: 24px;
             height: 24px;
             margin-right: 10px;
@@ -233,7 +236,7 @@
         }
         
         .category-info h2 {
-            color: var(--whatsapp-dark);
+            color: var(--kingu-dark);
             margin-bottom: 0.5rem;
         }
         
@@ -271,7 +274,7 @@
         .stat-number {
             font-size: 1.8rem;
             font-weight: 700;
-            color: var(--whatsapp-dark);
+            color: var(--primary-green);
             margin-bottom: 0.25rem;
         }
         
@@ -360,18 +363,20 @@
             box-shadow: 0 5px 15px rgba(0,0,0,0.08);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             position: relative;
+            border: 1px solid var(--border-color);
         }
         
         .product-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            border-color: var(--primary-green);
         }
         
         .product-badge {
             position: absolute;
             top: 15px;
             left: 15px;
-            background: var(--accent);
+            background: var(--kingu-accent);
             color: var(--white);
             padding: 0.25rem 0.75rem;
             border-radius: 4px;
@@ -402,7 +407,7 @@
         }
         
         .product-category {
-            color: var(--whatsapp-light);
+            color: var(--primary-green);
             font-size: 0.9rem;
             font-weight: 600;
             text-transform: uppercase;
@@ -427,7 +432,7 @@
         .product-price {
             font-size: 1.5rem;
             font-weight: 700;
-            color: var(--whatsapp-dark);
+            color: var(--primary-green);
             margin-bottom: 1rem;
         }
         
@@ -459,8 +464,8 @@
             color: var(--warning);
         }
         
-        /* WhatsApp Order Button */
-        .whatsapp-order-btn {
+        /* Order Button */
+        .kingu-order-btn {
             display: flex;
             align-items: center;
             justify-content: center;
@@ -479,8 +484,8 @@
             gap: 10px;
         }
         
-        .whatsapp-order-btn:hover {
-            background: var(--whatsapp-light);
+        .kingu-order-btn:hover {
+            background: var(--kingu-dark);
         }
         
         /* Cart Sidebar */
@@ -557,7 +562,7 @@
         }
         
         .cart-item-price {
-            color: var(--whatsapp-dark);
+            color: var(--primary-green);
             font-weight: 600;
         }
         
@@ -603,7 +608,7 @@
         .total-amount {
             font-size: 1.5rem;
             font-weight: 700;
-            color: var(--whatsapp-dark);
+            color: var(--primary-green);
             border-top: 2px solid var(--border-color);
             padding-top: 0.75rem;
             margin-top: 0.5rem;
@@ -615,7 +620,7 @@
             justify-content: center;
             width: 100%;
             padding: 1rem;
-            background: var(--whatsapp-dark);
+            background: var(--primary-green);
             color: var(--white);
             border: none;
             border-radius: 10px;
@@ -627,7 +632,7 @@
         }
         
         .cart-checkout-btn:hover {
-            background: var(--whatsapp-light);
+            background: var(--kingu-dark);
         }
         
         /* Cart Icon */
@@ -644,21 +649,21 @@
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            box-shadow: 0 5px 20px rgba(37, 211, 102, 0.4);
+            box-shadow: 0 5px 20px rgba(26, 86, 50, 0.4);
             z-index: 100;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
         
         .cart-icon:hover {
             transform: scale(1.1);
-            box-shadow: 0 8px 25px rgba(37, 211, 102, 0.5);
+            box-shadow: 0 8px 25px rgba(26, 86, 50, 0.5);
         }
         
         .cart-count {
             position: absolute;
             top: -5px;
             right: -5px;
-            background: var(--accent);
+            background: var(--kingu-accent);
             color: var(--white);
             width: 25px;
             height: 25px;
@@ -685,17 +690,19 @@
             border-radius: 15px;
             box-shadow: 0 5px 15px rgba(0,0,0,0.08);
             transition: transform 0.3s ease;
+            border: 1px solid var(--border-color);
         }
         
         .feature-card:hover {
             transform: translateY(-5px);
+            border-color: var(--primary-green);
         }
         
         .feature-icon {
             width: 60px;
             height: 60px;
             margin-bottom: 1rem;
-            filter: drop-shadow(0 5px 10px rgba(37, 211, 102, 0.2));
+            filter: drop-shadow(0 5px 10px rgba(26, 86, 50, 0.2));
         }
         
         /* How It Works */
@@ -705,6 +712,7 @@
             margin: 4rem 0;
             border-radius: 15px;
             box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            border: 1px solid var(--border-color);
         }
         
         .steps {
@@ -719,6 +727,7 @@
             padding: 2rem;
             border-radius: 15px;
             background: var(--gray-bg);
+            border: 1px solid var(--border-color);
         }
         
         .step-number {
@@ -733,12 +742,12 @@
             font-size: 1.8rem;
             font-weight: 700;
             margin: 0 auto 1rem;
-            box-shadow: 0 5px 15px rgba(37, 211, 102, 0.3);
+            box-shadow: 0 5px 15px rgba(26, 86, 50, 0.3);
         }
         
         /* Quick Order */
         .quick-order {
-            background: linear-gradient(135deg, var(--whatsapp-dark), var(--whatsapp-light));
+            background: linear-gradient(135deg, var(--kingu-dark), var(--primary-green));
             color: var(--white);
             padding: 3rem;
             border-radius: 20px;
@@ -746,6 +755,7 @@
             margin: 4rem 0;
             position: relative;
             overflow: hidden;
+            border: 1px solid var(--border-color);
         }
         
         .quick-order::before {
@@ -793,7 +803,7 @@
         
         /* Footer */
         .shop-footer {
-            background: var(--text-dark);
+            background: var(--primary-green);
             color: var(--white);
             padding: 3rem 0;
             text-align: center;
@@ -828,11 +838,11 @@
         /* WhatsApp Float Button */
         .whatsapp-float {
             position: fixed;
-            bottom: 30px;
+            bottom: 100px;
             right: 30px;
             width: 60px;
             height: 60px;
-            background: var(--primary-green);
+            background: #25D366;
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -861,6 +871,7 @@
             border-radius: 15px;
             box-shadow: 0 5px 15px rgba(0,0,0,0.08);
             display: none;
+            border: 1px solid var(--border-color);
         }
         
         .empty-state-icon {
@@ -934,14 +945,14 @@
             }
             
             .whatsapp-float {
-                bottom: 80px;
+                bottom: 150px;
                 right: 20px;
                 width: 55px;
                 height: 55px;
             }
             
             .cart-icon {
-                bottom: 140px;
+                bottom: 90px;
                 right: 20px;
                 width: 50px;
                 height: 50px;
@@ -1006,11 +1017,11 @@
         </a>
         
         <div class="container">
-            <h1>🛒 Shop Electrical Products on WhatsApp</h1>
-            <p>Browse, select, and order electrical products & services directly through WhatsApp. Fast delivery across Tanzania!</p>
-            <a href="https://wa.me/255682843552" target="_blank" class="whatsapp-badge" id="whatsappButton">
-                <img src="https://cdn.jsdelivr.net/npm/simple-icons@v5/icons/whatsapp.svg" alt="WhatsApp">
-                Chat on WhatsApp: 0682 843 552
+            <h1>🛒 Kingu Electrical Shop</h1>
+            <p>Browse, select, and order electrical products & services directly. Fast delivery across Tanzania!</p>
+            <a href="tel:+255677014740" class="kingu-badge" id="kinguButton">
+                <img src="https://cdn.jsdelivr.net/npm/simple-icons@v5/icons/phone.svg" alt="Call">
+                Call to Order: +255 677 014 740
             </a>
         </div>
     </header>
@@ -1054,7 +1065,7 @@
                 </div>
                 <div class="stat-item">
                     <div class="stat-number">24/7</div>
-                    <div class="stat-label">WhatsApp Support</div>
+                    <div class="stat-label">Customer Support</div>
                 </div>
                 <div class="stat-item">
                     <div class="stat-number">Free</div>
@@ -1180,7 +1191,7 @@
             <div class="feature-card">
                 <img src="https://cdn-icons-png.flaticon.com/512/3069/3069105.png" alt="Secure Payment" class="feature-icon">
                 <h3>Secure Ordering</h3>
-                <p>Order via WhatsApp with payment on delivery or bank transfer</p>
+                <p>Order with payment on delivery or bank transfer options</p>
             </div>
             <div class="feature-card">
                 <img src="https://cdn-icons-png.flaticon.com/512/3095/3095113.png" alt="Fast Delivery" class="feature-icon">
@@ -1202,19 +1213,19 @@
         <!-- How It Works -->
         <section class="how-it-works">
             <div class="container">
-                <h2 style="text-align: center; margin-bottom: 1rem;">How to Order via WhatsApp</h2>
+                <h2 style="text-align: center; margin-bottom: 1rem;">How to Order from Kingu Electrical</h2>
                 <p style="text-align: center; color: var(--text-light); max-width: 600px; margin: 0 auto;">Simple 4-step process to get your electrical products delivered</p>
                 
                 <div class="steps">
                     <div class="step">
                         <div class="step-number">1</div>
                         <h3>Browse Products</h3>
-                        <p>Select items from our WhatsApp catalog</p>
+                        <p>Select items from our electrical products catalog</p>
                     </div>
                     <div class="step">
                         <div class="step-number">2</div>
-                        <h3>Send Order</h3>
-                        <p>Message us on WhatsApp with product codes</p>
+                        <h3>Contact Us</h3>
+                        <p>Call, WhatsApp, or fill the order form with product codes</p>
                     </div>
                     <div class="step">
                         <div class="step-number">3</div>
@@ -1234,14 +1245,14 @@
         <section class="quick-order">
             <div class="quick-order-content">
                 <h2>Quick Order Form</h2>
-                <p>Fill this form and we'll contact you immediately on WhatsApp</p>
+                <p>Fill this form and we'll contact you immediately</p>
                 
                 <form class="quick-order-form" id="quickOrderForm">
                     <div class="form-group">
                         <input type="text" placeholder="Your Name" required id="orderName">
                     </div>
                     <div class="form-group">
-                        <input type="tel" placeholder="Phone Number (WhatsApp)" required id="orderPhone">
+                        <input type="tel" placeholder="Phone Number" required id="orderPhone">
                     </div>
                     <div class="form-group">
                         <select required id="orderCategory">
@@ -1259,8 +1270,8 @@
                         <textarea placeholder="Specific products or requirements..." rows="3" id="orderRequirements"></textarea>
                     </div>
                     <button type="submit" class="cart-checkout-btn">
-                        <img src="https://cdn.jsdelivr.net/npm/simple-icons@v5/icons/whatsapp.svg" alt="WhatsApp" style="width: 20px; height: 20px; margin-right: 10px;">
-                        Send Order via WhatsApp
+                        <img src="https://cdn.jsdelivr.net/npm/simple-icons@v5/icons/send.svg" alt="Send" style="width: 20px; height: 20px; margin-right: 10px;">
+                        Send Order Request
                     </button>
                 </form>
             </div>
@@ -1298,8 +1309,8 @@
         </div>
         
         <button class="cart-checkout-btn" onclick="checkoutCart()">
-            <img src="https://cdn.jsdelivr.net/npm/simple-icons@v5/icons/whatsapp.svg" alt="WhatsApp" style="width: 20px; height: 20px; margin-right: 10px;">
-            Checkout on WhatsApp (0682 843 552)
+            <img src="https://cdn.jsdelivr.net/npm/simple-icons@v5/icons/phone.svg" alt="Call" style="width: 20px; height: 20px; margin-right: 10px;">
+            Checkout by Phone (0677 014 740)
         </button>
     </div>
 
@@ -1317,7 +1328,7 @@
     <!-- Footer -->
     <footer class="shop-footer">
         <div class="container">
-            <h3>Kingu Electrical WhatsApp Shop</h3>
+            <h3>Kingu Electrical Shop</h3>
             <p>Your trusted electrical products supplier in Tanzania</p>
             
             <div class="footer-links">
@@ -1325,9 +1336,9 @@
                     <img src="https://cdn.jsdelivr.net/npm/simple-icons@v5/icons/internetexplorer.svg" alt="Website" style="width: 16px; height: 16px;">
                     Main Website
                 </a>
-                <a href="tel:0682843552">
+                <a href="tel:+255677014740">
                     <img src="https://cdn.jsdelivr.net/npm/simple-icons@v5/icons/phone.svg" alt="Phone" style="width: 16px; height: 16px;">
-                    Call: 0682 843 552
+                    Call: +255 677 014 740
                 </a>
                 <a href="mailto:kinguelectricaltz@gmail.com">
                     <img src="https://cdn.jsdelivr.net/npm/simple-icons@v5/icons/gmail.svg" alt="Email" style="width: 16px; height: 16px;">
@@ -1335,7 +1346,7 @@
                 </a>
                 <a href="https://wa.me/255682843552" target="_blank">
                     <img src="https://cdn.jsdelivr.net/npm/simple-icons@v5/icons/whatsapp.svg" alt="WhatsApp" style="width: 16px; height: 16px;">
-                    WhatsApp Direct
+                    WhatsApp
                 </a>
             </div>
             
@@ -1344,16 +1355,18 @@
                 Delivery available across Tanzania. Installation services included with selected products.
             </p>
             <p style="margin-top: 1rem; font-size: 0.9rem; opacity: 0.5;">
-                WhatsApp: 0682 843 552 | Email: kinguelectricaltz@gmail.com<br>
+                Phone: +255 677 014 740 | Email: kinguelectricaltz@gmail.com<br>
                 TIN: 157-024-493 | EWURA License: ELA-2022-008
             </p>
         </div>
     </footer>
 
     <script>
-        // WhatsApp number configuration
-        const WHATSAPP_NUMBER = '255682843552'; // International format for wa.me links
-        const DISPLAY_NUMBER = '0682 843 552'; // Tanzanian display format
+        // Contact numbers configuration
+        const PHONE_NUMBER = '255677014740';
+        const WHATSAPP_NUMBER = '255682843552';
+        const DISPLAY_PHONE = '+255 677 014 740';
+        const DISPLAY_WHATSAPP = '0682 843 552';
         
         // Complete Products Data (150+ products)
         const products = [
@@ -1520,7 +1533,7 @@
                 installation: "Included"
             },
             
-            // SPARE PARTS (50+ products - shortened for brevity, add all 100 from previous)
+            // SPARE PARTS (50+ products - shortened for brevity)
             {
                 id: 15,
                 category: "spares",
@@ -1727,7 +1740,7 @@
             
             // Fix tel links
             document.querySelectorAll('a[href^="tel:"]').forEach(link => {
-                link.href = `tel:${DISPLAY_NUMBER.replace(/\s/g, '')}`;
+                link.href = `tel:${PHONE_NUMBER}`;
             });
         }
 
@@ -1846,9 +1859,9 @@
                                     <div>Delivery: ${product.delivery}</div>
                                 </div>
                             </div>
-                            <button class="whatsapp-order-btn" onclick="addToCart(${product.id})">
-                                <img src="https://cdn.jsdelivr.net/npm/simple-icons@v5/icons/whatsapp.svg" alt="WhatsApp">
-                                Order on WhatsApp
+                            <button class="kingu-order-btn" onclick="addToCart(${product.id})">
+                                <img src="https://cdn.jsdelivr.net/npm/simple-icons@v5/icons/shopping-cart.svg" alt="Cart">
+                                Add to Cart
                             </button>
                         </div>
                     `;
@@ -1965,9 +1978,9 @@
                                         <div>Delivery: ${product.delivery}</div>
                                     </div>
                                 </div>
-                                <button class="whatsapp-order-btn" onclick="addToCart(${product.id})">
-                                    <img src="https://cdn.jsdelivr.net/npm/simple-icons@v5/icons/whatsapp.svg" alt="WhatsApp">
-                                    Order on WhatsApp
+                                <button class="kingu-order-btn" onclick="addToCart(${product.id})">
+                                    <img src="https://cdn.jsdelivr.net/npm/simple-icons@v5/icons/shopping-cart.svg" alt="Cart">
+                                    Add to Cart
                                 </button>
                             </div>
                         `;
@@ -2021,9 +2034,6 @@
             currentFilter = 'all';
             displayCategoryProducts('all');
         }
-
-        // The rest of your existing functions (addToCart, updateCart, checkoutCart, etc.)
-        // ... [Keep all your existing shopping cart functions here]
 
         // Add to Cart
         function addToCart(productId) {
@@ -2121,11 +2131,11 @@
             }
             
             // Update badge
-            const badge = document.querySelector('.whatsapp-badge');
+            const badge = document.querySelector('.kingu-badge');
             if (badge && cartCount > 0) {
                 badge.innerHTML = `
-                    <img src="https://cdn.jsdelivr.net/npm/simple-icons@v5/icons/whatsapp.svg" alt="WhatsApp">
-                    <span>${cartCount} items in cart • Chat to order (${DISPLAY_NUMBER})</span>
+                    <img src="https://cdn.jsdelivr.net/npm/simple-icons@v5/icons/phone.svg" alt="Call">
+                    <span>${cartCount} items in cart • Call to order (${DISPLAY_PHONE})</span>
                 `;
             }
         }
@@ -2197,19 +2207,130 @@
             message += `Total: ${formatCurrency(total)}\n\n`;
             message += `Please contact me to confirm availability and arrange delivery.`;
             
-            const encodedMessage = encodeURIComponent(message);
-            const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodedMessage}`;
+            // Create order confirmation modal
+            showOrderConfirmation(message);
+        }
+
+        // Show Order Confirmation
+        function showOrderConfirmation(message) {
+            const modal = document.createElement('div');
+            modal.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(0,0,0,0.7);
+                z-index: 9999;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                padding: 20px;
+            `;
             
-            window.open(whatsappUrl, '_blank');
+            modal.innerHTML = `
+                <div style="
+                    background: white;
+                    padding: 2rem;
+                    border-radius: 15px;
+                    max-width: 500px;
+                    width: 100%;
+                    max-height: 80vh;
+                    overflow-y: auto;
+                ">
+                    <h3 style="margin-bottom: 1rem; color: var(--primary-green);">Order Confirmation</h3>
+                    <p style="margin-bottom: 1.5rem;">How would you like to place your order?</p>
+                    
+                    <div style="display: flex; flex-direction: column; gap: 1rem;">
+                        <button onclick="placeOrderViaPhone()" style="
+                            background: var(--primary-green);
+                            color: white;
+                            border: none;
+                            padding: 1rem;
+                            border-radius: 10px;
+                            font-size: 1.1rem;
+                            cursor: pointer;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            gap: 10px;
+                        ">
+                            <img src="https://cdn.jsdelivr.net/npm/simple-icons@v5/icons/phone.svg" alt="Phone" style="width: 20px; height: 20px;">
+                            Call: +255 677 014 740
+                        </button>
+                        
+                        <button onclick="placeOrderViaWhatsApp('${encodeURIComponent(message)}')" style="
+                            background: #25D366;
+                            color: white;
+                            border: none;
+                            padding: 1rem;
+                            border-radius: 10px;
+                            font-size: 1.1rem;
+                            cursor: pointer;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            gap: 10px;
+                        ">
+                            <img src="https://cdn.jsdelivr.net/npm/simple-icons@v5/icons/whatsapp.svg" alt="WhatsApp" style="width: 20px; height: 20px;">
+                            WhatsApp: 0682 843 552
+                        </button>
+                        
+                        <button onclick="closeModal()" style="
+                            background: transparent;
+                            color: var(--text-light);
+                            border: 2px solid var(--border-color);
+                            padding: 1rem;
+                            border-radius: 10px;
+                            font-size: 1.1rem;
+                            cursor: pointer;
+                        ">
+                            Cancel
+                        </button>
+                    </div>
+                </div>
+            `;
             
-            // Clear cart after checkout
-            cart = [];
-            saveCartToStorage();
-            updateCart();
-            updateCartCount();
-            closeCart();
+            document.body.appendChild(modal);
             
-            showNotification('Order sent to WhatsApp! We\'ll contact you shortly.');
+            // Function to close modal
+            window.closeModal = function() {
+                if (modal.parentNode) {
+                    document.body.removeChild(modal);
+                }
+            };
+            
+            // Function to place order via phone
+            window.placeOrderViaPhone = function() {
+                const phoneNumber = PHONE_NUMBER;
+                window.location.href = `tel:${phoneNumber}`;
+                closeModal();
+                
+                // Clear cart after order
+                cart = [];
+                saveCartToStorage();
+                updateCart();
+                updateCartCount();
+                closeCart();
+                
+                showNotification('Calling Kingu Electrical!');
+            };
+            
+            // Function to place order via WhatsApp
+            window.placeOrderViaWhatsApp = function(encodedMessage) {
+                const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodedMessage}`;
+                window.open(whatsappUrl, '_blank');
+                closeModal();
+                
+                // Clear cart after order
+                cart = [];
+                saveCartToStorage();
+                updateCart();
+                updateCartCount();
+                closeCart();
+                
+                showNotification('Order sent to WhatsApp!');
+            };
         }
 
         // Quick Order Form Submission
@@ -2230,14 +2351,11 @@
             message += `Requirements: ${requirements}\n\n`;
             message += `Please contact me with available options and prices.`;
             
-            const encodedMessage = encodeURIComponent(message);
-            const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodedMessage}`;
-            
-            window.open(whatsappUrl, '_blank');
+            // Show order confirmation modal
+            showOrderConfirmation(encodeURIComponent(message));
             
             // Reset form
             this.reset();
-            showNotification('Quick order sent! We\'ll contact you on WhatsApp.');
         });
 
         // Show Notification
@@ -2248,7 +2366,7 @@
                 position: fixed;
                 top: 20px;
                 right: 20px;
-                background: ${type === 'error' ? '#EA4335' : '#25D366'};
+                background: ${type === 'error' ? '#EA4335' : '#1a5632'};
                 color: white;
                 padding: 1rem 1.5rem;
                 border-radius: 10px;
