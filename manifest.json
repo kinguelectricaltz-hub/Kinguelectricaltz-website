@@ -1,7 +1,7 @@
 {
     "name": "Kingu Electrical Company Ltd",
     "short_name": "Kingu Electrical",
-    "description": "Leading electrical engineering company in Tanzania providing generator services, PLC programming, HPU conversion, industrial electrical installations, and direct shopping via WhatsApp.",
+    "description": "Leading electrical engineering company in Tanzania providing generator services, PLC programming, HPU conversion, industrial electrical installations, and direct shopping via Kingu Electrical Shop.",
     "start_url": "/",
     "display": "standalone",
     "background_color": "#ffffff",
@@ -80,18 +80,18 @@
             "label": "Desktop View"
         },
         {
-            "src": "/assets/screenshots/whatsapp-shop-mobile.png",
+            "src": "/assets/screenshots/kingu-shop-mobile.png",
             "sizes": "750x1334",
             "type": "image/png",
             "form_factor": "narrow",
-            "label": "WhatsApp Shop Mobile"
+            "label": "Kingu Electrical Shop Mobile"
         },
         {
-            "src": "/assets/screenshots/whatsapp-shop-desktop.png",
+            "src": "/assets/screenshots/kingu-shop-desktop.png",
             "sizes": "1920x1080",
             "type": "image/png",
             "form_factor": "wide",
-            "label": "WhatsApp Shop Desktop"
+            "label": "Kingu Electrical Shop Desktop"
         }
     ],
     
@@ -130,7 +130,7 @@
             "name": "Browse Generators",
             "short_name": "Generators",
             "description": "View diesel and petrol generators",
-            "url": "/whatsapp-shop.html#generators",
+            "url": "/Kinguelectrical-shop.html#generators",
             "icons": [{
                 "src": "/assets/icons/generator-icon.png",
                 "sizes": "96x96"
@@ -140,16 +140,36 @@
             "name": "Solar Systems",
             "short_name": "Solar",
             "description": "Browse solar power systems",
-            "url": "/whatsapp-shop.html#solar",
+            "url": "/Kinguelectrical-shop.html#solar",
             "icons": [{
                 "src": "/assets/icons/solar-icon.png",
                 "sizes": "96x96"
             }]
         },
         {
-            "name": "Order via WhatsApp",
-            "short_name": "Order Now",
-            "description": "Chat directly on WhatsApp",
+            "name": "Kingu Electrical Shop",
+            "short_name": "Shop",
+            "description": "Browse electrical products and services",
+            "url": "/Kinguelectrical-shop.html",
+            "icons": [{
+                "src": "/assets/icons/shop-icon.png",
+                "sizes": "96x96"
+            }]
+        },
+        {
+            "name": "Order via Phone",
+            "short_name": "Call Now",
+            "description": "Call to place your order",
+            "url": "tel:+255677014740",
+            "icons": [{
+                "src": "/assets/icons/phone-icon.png",
+                "sizes": "96x96"
+            }]
+        },
+        {
+            "name": "WhatsApp Support",
+            "short_name": "WhatsApp",
+            "description": "Chat with us on WhatsApp",
             "url": "https://wa.me/255682843552",
             "icons": [{
                 "src": "/assets/icons/whatsapp-icon.png",
@@ -172,7 +192,7 @@
     "protocol_handlers": [
         {
             "protocol": "web+kingushop",
-            "url": "/whatsapp-shop.html?product=%s"
+            "url": "/Kinguelectrical-shop.html?product=%s"
         },
         {
             "protocol": "web+kingu",
@@ -181,7 +201,7 @@
     ],
     
     "share_target": {
-        "action": "/whatsapp-shop.html",
+        "action": "/Kinguelectrical-shop.html",
         "method": "GET",
         "enctype": "application/x-www-form-urlencoded",
         "params": {
