@@ -786,6 +786,25 @@ function showCategory(category) {
     }
 }
 
+// Create Products Grid
+function createProductsGrid() {
+    const container = document.createElement('div');
+    container.className = 'products-grid';
+    
+    // Find appropriate parent
+    const parent = document.querySelector('.products-section') || 
+                  document.querySelector('.products-container') ||
+                  document.querySelector('#products');
+    
+    if (parent) {
+        parent.appendChild(container);
+    } else {
+        document.querySelector('main')?.appendChild(container);
+    }
+    
+    return container;
+}
+
 // Display Products
 function displayProducts(category) {
     let products = PRODUCTS;
@@ -1046,6 +1065,11 @@ function setupSorting() {
 
 // Add to Cart
 function addToCart(product, quantity = 1) {
+    if (!product || !product.id) {
+        console.error('Invalid product:', product);
+        return;
+    }
+    
     const existingItem = cart.items.find(item => item.id === product.id);
     
     if (existingItem) {
@@ -1070,11 +1094,15 @@ function addToCart(product, quantity = 1) {
     trackEvent('ecommerce', 'add_to_cart', product.id.toString());
     
     // Update cart badge with animation
-    animateCartBadge();
+    setTimeout(() => animateCartBadge(), 100);
 }
 
 // Calculate Cart Totals
 function calculateCartTotals() {
+    if (!cart.items || !Array.isArray(cart.items)) {
+        cart.items = [];
+    }
+    
     cart.subtotal = cart.items.reduce((total, item) => {
         return total + (item.price * item.quantity);
     }, 0);
@@ -1272,7 +1300,9 @@ function showProductModal(product) {
     const addToCartBtn = content.querySelector('.modal-add-to-cart');
     if (addToCartBtn) {
         addToCartBtn.addEventListener('click', () => {
-            addToCart(product);
+            const quantityInput = content.querySelector('.quantity-input');
+            const quantity = quantityInput ? parseInt(quantityInput.value) || 1 : 1;
+            addToCart(product, quantity);
             closeProductModal();
         });
     }
@@ -1519,7 +1549,7 @@ function setupInstallPrompt() {
         prompt.className = 'install-prompt';
         prompt.innerHTML = `
             <div class="install-content">
-                <img src="/assets/icons/icon-192.png" alt="Kingu Electrical" width="64" height="64">
+                <img src="/assets/icons/optimized/icon-192x192.png" alt="Kingu Electrical" width="64" height="64">
                 <div>
                     <h4>Install Kingu Electrical App</h4>
                     <p>Get faster access and work offline</p>
@@ -1670,6 +1700,22 @@ async function requestNotificationPermission() {
         showNotification('Notifications enabled!', 'success');
         trackEvent('notifications', 'enabled');
     }
+}
+
+// URL base64 to Uint8Array conversion for push notifications
+function urlBase64ToUint8Array(base64String) {
+    const padding = '='.repeat((4 - base64String.length % 4) % 4);
+    const base64 = (base64String + padding)
+        .replace(/\-/g, '+')
+        .replace(/_/g, '/');
+    
+    const rawData = window.atob(base64);
+    const outputArray = new Uint8Array(rawData.length);
+    
+    for (let i = 0; i < rawData.length; ++i) {
+        outputArray[i] = rawData.charCodeAt(i);
+    }
+    return outputArray;
 }
 
 // ===== UI ENHANCEMENTS =====
@@ -1971,6 +2017,17 @@ async function simulateAPIRequest(data) {
     });
 }
 
+// Show Order Confirmation
+function showOrderConfirmation(message) {
+    showNotification('Order request sent! We will contact you shortly.', 'success');
+    
+    // Share via WhatsApp
+    const url = `https://wa.me/${CONFIG.WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+    window.open(url, '_blank');
+    
+    trackEvent('order', 'quick_request');
+}
+
 function showUpdateNotification() {
     const notification = showNotification(
         'A new version is available. Refresh to update?',
@@ -2114,6 +2171,73 @@ function resetFilters() {
     trackEvent('filters', 'reset');
 }
 
+// Safe Execute with Error Boundary
+function safeExecute(fn, fallback = null) {
+    return function(...args) {
+        try {
+            return fn.apply(this, args);
+        } catch (error) {
+            console.error(`Error in ${fn.name}:`, error);
+            return fallback;
+        }
+    };
+}
+
+// Backup Cart to Cloud
+function backupCartToCloud() {
+    if (!APP_STATE.isOnline) return;
+    
+    const cartData = {
+        items: cart.items,
+        timestamp: new Date().toISOString()
+    };
+    
+    // Store in localStorage as backup
+    localStorage.setItem('cartBackup', JSON.stringify(cartData));
+}
+
+// Optimize Image URL
+function optimizeImageUrl(url, width = 300) {
+    // Use your optimization service or logic here
+    return url.replace(/\.(jpg|jpeg|png)$/, `.webp`);
+}
+
+// Get Delivery Estimate
+async function getDeliveryEstimate() {
+    if (!APP_STATE.userLocation && 'geolocation' in navigator) {
+        try {
+            const position = await new Promise((resolve, reject) => {
+                navigator.geolocation.getCurrentPosition(resolve, reject);
+            });
+            
+            APP_STATE.userLocation = {
+                lat: position.coords.latitude,
+                lng: position.coords.longitude
+            };
+            
+            // Calculate delivery estimate based on location
+            return '2-3 business days'; // Placeholder
+        } catch (error) {
+            console.error('Geolocation error:', error);
+            return '2-3 business days';
+        }
+    }
+    return 'Delivery estimate unavailable';
+}
+
+// Measure Performance
+function measurePerformance(metric, value) {
+    if (typeof window.performance !== 'undefined') {
+        performance.measure(metric, {
+            start: performance.now() - value,
+            end: performance.now()
+        });
+    }
+    
+    // Send to analytics
+    trackEvent('performance', metric, value.toString());
+}
+
 // Export to global scope
 window.APP_STATE = APP_STATE;
 window.PRODUCTS = PRODUCTS;
@@ -2126,6 +2250,13 @@ window.resetFilters = resetFilters;
 window.formatCurrency = formatCurrency;
 window.showNotification = showNotification;
 window.copyToClipboard = copyToClipboard;
+window.showOrderConfirmation = showOrderConfirmation;
+window.getDeliveryEstimate = getDeliveryEstimate;
+
+// Apply safe execution to critical functions
+window.addToCart = safeExecute(addToCart);
+window.removeFromCart = safeExecute(removeFromCart);
+window.updateCartQuantity = safeExecute(updateCartQuantity);
 
 // Initialize on window load
 window.addEventListener('load', () => {
@@ -2142,4 +2273,16 @@ window.addEventListener('load', () => {
     
     // Save initial state
     saveAppState();
+    
+    // Backup cart
+    backupCartToCloud();
+});
+
+// Listen for page visibility changes
+document.addEventListener('visibilitychange', () => {
+    if (!document.hidden) {
+        // Page became visible again
+        checkForUpdates();
+        backupCartToCloud();
+    }
 });
