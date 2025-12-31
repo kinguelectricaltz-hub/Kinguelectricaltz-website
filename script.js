@@ -1,413 +1,1015 @@
 /**
- * Kingu Electrical Company Website - Enhanced JavaScript
- * All interactive functionality with PWA, e-commerce, and performance optimizations
- * Version: 5.2.0
+ * Kingu Electrical Company Website - JavaScript
+ * All interactive functionality
  */
 
-// Configuration Constants
-const CONFIG = {
-    PHONE_NUMBER: '255677014740',
-    WHATSAPP_NUMBER: '255682843552',
-    DISPLAY_PHONE: '+255 677 014 740',
-    DISPLAY_WHATSAPP: '+255 682 843 552',
-    EMAIL: 'kinguelectricaltz@gmail.com',
-    WEBSITE: 'https://kingueletrical.com',
-    COMPANY_NAME: 'Kingu Electrical Company Ltd',
-    CURRENCY: 'TZS',
-    FREE_DELIVERY_THRESHOLD: 1000000,
-    BASE_DELIVERY_FEE: 25000,
-    INSTALLATION_FEE: 50000,
-    API_BASE_URL: 'https://api.kingueletrical.com/v1'
-};
+// Contact numbers configuration
+const PHONE_NUMBER = '255677014740';
+const WHATSAPP_NUMBER = '255682843552';
+const DISPLAY_PHONE = '+255 677 014 740';
+const DISPLAY_WHATSAPP = '0682 843 552';
 
-// Complete Products Data with enhanced details
-const PRODUCTS = [
+// Complete Products Data
+const products = [
+    // GENERATORS
     {
         id: 1,
         category: "generators",
         name: "100kVA Diesel Generator",
-        description: "Complete 100kVA diesel generator set with ATS control panel. Perfect for commercial use. Made with Perkins engine.",
-        price: 25500000,
-        originalPrice: 27000000,
-        image: "/assets/images/products/generator-100kva.webp",
-        images: [
-            "/assets/images/products/generator-100kva-1.webp",
-            "/assets/images/products/generator-100kva-2.webp"
-        ],
-        stock: 5,
-        delivery: "Free in Dar-es-salaam & Arusha",
-        installation: "Professional installation included",
-        warranty: "12 months",
-        brand: "Perkins",
-        specifications: {
-            power: "100kVA",
-            fuel: "Diesel",
-            phase: "Three Phase",
-            voltage: "415V",
-            frequency: "50Hz",
-            engine: "Perkins 1006TG2"
-        },
-        badge: "Best Seller",
-        rating: 4.8,
-        reviews: 24,
-        tags: ["commercial", "perkins", "ats-included", "warranty"]
+        description: "Complete 100kVA diesel generator set with ATS control panel. Perfect for commercial use.",
+        price: "25,500,000",
+        image: "https://images.unsplash.com/photo-1581094794329-c8112a89af12?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80",
+        stock: "in-stock",
+        delivery: "Free",
+        installation: "Included",
+        badge: "Best Seller"
     },
     {
         id: 2,
         category: "generators",
         name: "500kVA Industrial Generator",
-        description: "Industrial 500kVA diesel generator for factories and large facilities with advanced control panel.",
-        price: 65000000,
-        originalPrice: 68000000,
-        image: "/assets/images/products/generator-500kva.webp",
-        stock: 2,
-        delivery: "Free nationwide",
-        installation: "Professional installation included",
-        warranty: "24 months",
-        brand: "Caterpillar",
-        specifications: {
-            power: "500kVA",
-            fuel: "Diesel",
-            phase: "Three Phase",
-            voltage: "415V",
-            frequency: "50Hz"
-        },
-        badge: "Limited Stock",
-        rating: 4.9,
-        reviews: 18,
-        tags: ["industrial", "caterpillar", "high-power"]
+        description: "Industrial 500kVA diesel generator for factories and large facilities.",
+        price: "65,000,000",
+        image: "https://images.unsplash.com/photo-1581094794329-c8112a89af12?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80",
+        stock: "low-stock",
+        delivery: "Free",
+        installation: "Included",
+        badge: "Limited Stock"
     },
+    {
+        id: 3,
+        category: "generators",
+        name: "50kVA Silent Generator",
+        description: "Super silent 50kVA generator with soundproof canopy for residential areas.",
+        price: "12,500,000",
+        image: "https://images.unsplash.com/photo-1581094794329-c8112a89af12?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80",
+        stock: "in-stock",
+        delivery: "Free",
+        installation: "Included"
+    },
+    // SOLAR SYSTEMS
     {
         id: 9,
         category: "solar",
-        name: "5kW Solar System with Lithium Batteries",
-        description: "Complete 5kW solar power system with lithium batteries, hybrid inverter, and professional installation.",
-        price: 8500000,
-        originalPrice: 9200000,
-        image: "/assets/images/products/solar-5kw.webp",
-        stock: 8,
-        delivery: "Free installation in Dar/Arusha",
-        installation: "Complete installation included",
-        warranty: "5 years on panels, 2 years on batteries",
-        brand: "Canadian Solar",
-        specifications: {
-            panels: "12 x 415W",
-            battery: "10kWh Lithium",
-            inverter: "5kW Hybrid",
-            backup: "24 hours"
-        },
-        badge: "Popular",
-        rating: 4.7,
-        reviews: 32,
-        tags: ["residential", "lithium", "backup"]
+        name: "5kW Solar System",
+        description: "Complete 5kW solar power system with batteries, inverter, and installation.",
+        price: "8,500,000",
+        image: "https://images.unsplash.com/photo-1509391366360-2e959784a276?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80",
+        stock: "in-stock",
+        delivery: "Free in Dar/Arusha",
+        installation: "Included",
+        badge: "Popular"
     },
+    {
+        id: 10,
+        category: "solar",
+        name: "10kW Solar System",
+        description: "Commercial 10kW solar system with lithium batteries.",
+        price: "15,000,000",
+        image: "https://images.unsplash.com/photo-1509391366360-2e959784a276?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80",
+        stock: "in-stock",
+        delivery: "Free",
+        installation: "Included"
+    },
+    // SPARE PARTS
     {
         id: 15,
         category: "spares",
-        name: "Generator Alternator - Perkins/Caterpillar",
-        description: "Original alternator for Perkins/Caterpillar generators. 12-month warranty. Genuine part.",
-        price: 850000,
-        originalPrice: 950000,
-        image: "/assets/images/products/alternator.webp",
-        stock: 15,
-        delivery: "25,000 TZS (Free for orders above 1M)",
-        installation: "Professional installation available",
-        warranty: "12 months",
-        brand: "Perkins",
-        specifications: {
-            type: "Brushless Alternator",
-            output: "24V DC",
-            compatibility: "Perkins 1000 series, Caterpillar C4.4"
-        },
-        rating: 4.6,
-        reviews: 45,
-        tags: ["genuine", "perkins", "caterpillar"]
+        name: "Generator Alternator",
+        description: "Original alternator for Perkins/Caterpillar generators. 12-month warranty.",
+        price: "850,000",
+        image: "https://images.unsplash.com/photo-1563986768609-322da13575f3?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80",
+        stock: "in-stock",
+        delivery: "25,000 TZS",
+        installation: "Extra"
     },
+    // ELECTRICAL TOOLS
     {
         id: 101,
         category: "tools",
         name: "Megger MIT515 5kV Insulation Tester",
-        description: "Professional 5kV insulation resistance tester with 5 ranges up to 2000GΩ. CAT IV 600V.",
-        price: 1850000,
-        originalPrice: 2100000,
-        image: "/assets/images/products/megger-mit515.webp",
-        stock: 4,
+        description: "Professional 5kV insulation resistance tester with 5 ranges up to 2000GΩ.",
+        price: "1,850,000",
+        image: "https://images.unsplash.com/photo-1621905252507-b35492cc74b4?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80",
+        stock: "in-stock",
         delivery: "25,000 TZS",
         installation: "Not needed",
-        warranty: "3 years",
-        brand: "Megger",
-        specifications: {
-            voltage: "50V to 5kV",
-            resistance: "1kΩ to 2000GΩ",
-            safety: "CAT IV 600V",
-            features: "PI, DAR, DD, ramp test"
-        },
-        badge: "Professional",
-        rating: 4.9,
-        reviews: 28,
-        tags: ["test-equipment", "professional", "safety"]
+        badge: "Professional"
     },
+    // SERVICES
     {
         id: 131,
         category: "services",
-        name: "Generator Maintenance Service",
-        description: "Professional generator maintenance including oil change, filter replacement, and load testing.",
-        price: 150000,
-        image: "/assets/images/services/maintenance.webp",
+        name: "Generator Maintenance",
+        description: "Professional generator maintenance service including oil change and testing.",
+        price: "150,000",
+        image: "https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80",
         stock: "available",
-        delivery: "Service at your location",
-        installation: "Professional service",
-        duration: "2-4 hours",
-        includes: [
-            "Oil and filter change",
-            "Fuel system check",
-            "Battery testing",
-            "Load bank testing",
-            "Full inspection report"
-        ],
-        rating: 4.8,
-        reviews: 67,
-        tags: ["maintenance", "service", "preventive"]
+        delivery: "Included",
+        installation: "Service"
     },
+    // SPECIAL DEALS
     {
         id: 141,
         category: "deals",
-        name: "Professional Tester Combo: Megger MIT515 + Fluke 117",
-        description: "Special combo deal: Insulation tester and true RMS multimeter for complete electrical testing.",
-        price: 2450000,
-        originalPrice: 2950000,
-        image: "/assets/images/products/tester-combo.webp",
-        stock: 3,
-        delivery: "FREE delivery",
+        name: "Combo Deal: Megger MIT515 + Fluke 117",
+        description: "Professional insulation tester and multimeter combo at special price.",
+        price: "2,450,000",
+        image: "https://images.unsplash.com/photo-1621905252507-b35492cc74b4?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80",
+        stock: "in-stock",
+        delivery: "FREE",
         installation: "Not needed",
-        warranty: "3 years combined",
-        badge: "Special Deal",
-        savings: "Save 500,000 TZS",
-        rating: 5.0,
-        reviews: 12,
-        tags: ["combo", "special-deal", "save"]
+        badge: "Special Deal"
     }
 ];
 
-// Shopping Cart with enhanced features
-let cart = {
-    items: [],
-    total: 0,
-    subtotal: 0,
-    delivery: 0,
-    installation: 0,
-    lastUpdated: null
-};
+// Shopping Cart
+let cart = JSON.parse(localStorage.getItem('kinguCart')) || [];
+let currentCategory = 'all';
+let currentFilter = 'all';
 
-// Application State
-const APP_STATE = {
-    currentCategory: 'all',
-    currentFilter: 'all',
-    searchQuery: '',
-    sortBy: 'default',
-    userLocation: null,
-    isOnline: navigator.onLine,
-    isPWAInstalled: window.matchMedia('(display-mode: standalone)').matches,
-    darkMode: false,
-    currency: 'TZS'
-};
-
-// Initialize everything when DOM is loaded
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('🚀 Kingu Electrical App Initializing...');
+    // Initialize all components
+    initMobileNavigation();
+    initFormSubmissions();
+    initScrollAnimations();
+    initBookingForm();
+    initCurrentYear();
+    initNotifications();
+    initVideoPlayer();
     
-    // Load saved state
-    loadAppState();
+    // Initialize e-commerce features
+    setupCategoryNavigation();
+    displayCategoryProducts(currentCategory);
+    setupFilters();
+    setupSearch();
+    updateCartCount();
+    loadCartFromStorage();
     
-    // Initialize core functionality
-    initCoreFeatures();
+    // Fix all broken links
+    fixBrokenLinks();
     
-    // Initialize e-commerce
-    initEcommerce();
+    // Set initial active category
+    showCategory('all');
     
-    // Initialize PWA features
-    initPWAFeatures();
+    // Register service worker for PWA
+    registerServiceWorker();
     
-    // Initialize UI enhancements
-    initUIEnhancements();
+    // Setup offline detection
+    setupOfflineDetection();
     
-    // Initialize analytics
-    initAnalytics();
+    // Initialize lazy loading
+    initLazyLoading();
     
-    // Check for updates
-    checkForUpdates();
+    // Add active state to current section in navigation
+    window.addEventListener('scroll', updateActiveNavLink);
     
-    console.log('✅ Kingu Electrical App Initialized');
+    // Load products from API if online
+    if (navigator.onLine) {
+        loadProductsFromAPI();
+    }
+    
+    // Setup keyboard shortcuts
+    document.addEventListener('keydown', handleKeyboardShortcuts);
 });
 
-// ===== CORE FUNCTIONALITY =====
+// ===== E-COMMERCE FUNCTIONALITY =====
 
-function initCoreFeatures() {
-    initMobileNavigation();
-    initSmoothScrolling();
-    initFormHandling();
-    initScrollAnimations();
-    initNotifications();
-    initCurrentYear();
-    initAccessibility();
-    initPerformanceMonitoring();
+// Setup Category Navigation
+function setupCategoryNavigation() {
+    const categoryLinks = document.querySelectorAll('.category-nav a');
+    
+    categoryLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            const category = this.dataset.category;
+            
+            if (category) {
+                categoryLinks.forEach(l => l.classList.remove('active'));
+                this.classList.add('active');
+                showCategory(category);
+                window.location.hash = category;
+                resetFiltersToCategory();
+            }
+        });
+    });
+    
+    if (window.location.hash) {
+        const hash = window.location.hash.substring(1);
+        const matchingLink = document.querySelector(`.category-nav a[data-category="${hash}"]`);
+        if (matchingLink) {
+            matchingLink.click();
+        }
+    }
 }
 
-// Mobile Navigation with enhanced accessibility
+// Show Category
+function showCategory(category) {
+    currentCategory = category;
+    
+    document.querySelectorAll('.category-section').forEach(section => {
+        section.classList.remove('active');
+    });
+    
+    const targetSection = document.getElementById(category);
+    if (targetSection) {
+        targetSection.classList.add('active');
+        displayCategoryProducts(category);
+        targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+}
+
+// Display Products for Category
+function displayCategoryProducts(category) {
+    let filteredProducts = [...products];
+    
+    if (category !== 'all') {
+        filteredProducts = filteredProducts.filter(p => p.category === category);
+    }
+    
+    filteredProducts = applyAdditionalFilters(filteredProducts);
+    
+    const targetSection = document.getElementById(category);
+    if (targetSection) {
+        let productsContainer = targetSection.querySelector('.products-grid');
+        if (!productsContainer) {
+            productsContainer = document.createElement('div');
+            productsContainer.className = 'products-grid';
+            targetSection.appendChild(productsContainer);
+        }
+        
+        productsContainer.innerHTML = '';
+        
+        if (filteredProducts.length === 0) {
+            productsContainer.innerHTML = `
+                <div style="grid-column: 1 / -1; text-align: center; padding: 3rem;">
+                    <div style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.5;">📦</div>
+                    <h3>No products found in this category</h3>
+                    <p>Try adjusting your search or filter criteria</p>
+                </div>
+            `;
+            return;
+        }
+        
+        filteredProducts.forEach(product => {
+            const productCard = createProductCard(product);
+            productsContainer.innerHTML += productCard;
+        });
+    }
+}
+
+// Create Product Card HTML
+function createProductCard(product) {
+    return `
+        <div class="product-card" data-category="${product.category}">
+            ${product.badge ? `<div class="product-badge">${product.badge}</div>` : ''}
+            <div class="product-img-container">
+                <img src="${product.image}" alt="${product.name}" class="product-img" loading="lazy">
+            </div>
+            <div class="product-info">
+                <div class="product-category">${product.category.toUpperCase()}</div>
+                <h3 class="product-title">${product.name}</h3>
+                <p class="product-description">${product.description}</p>
+                <div class="product-price">${product.price} TZS</div>
+                <div class="product-meta">
+                    <div class="stock-status ${product.stock}">
+                        ${product.stock === 'in-stock' ? 'In Stock' : 
+                          product.stock === 'low-stock' ? 'Low Stock' : 'Available'}
+                    </div>
+                    <div>Delivery: ${product.delivery}</div>
+                </div>
+            </div>
+            <button class="kingu-order-btn" onclick="addToCart(${product.id})">
+                <img src="https://cdn.jsdelivr.net/npm/simple-icons@v5/icons/shopping-cart.svg" alt="Cart">
+                Add to Cart
+            </button>
+        </div>
+    `;
+}
+
+// Apply Additional Filters
+function applyAdditionalFilters(productsList) {
+    let filteredProducts = [...productsList];
+    
+    switch(currentFilter) {
+        case 'best':
+            filteredProducts = filteredProducts.filter(p => p.badge === 'Best Seller' || p.badge === 'Popular');
+            break;
+        case 'new':
+            filteredProducts = filteredProducts.filter(p => p.id >= 130);
+            break;
+        case 'stock':
+            filteredProducts = filteredProducts.filter(p => p.stock === 'in-stock');
+            break;
+        case 'install':
+            filteredProducts = filteredProducts.filter(p => p.installation === 'Included');
+            break;
+    }
+    
+    return filteredProducts;
+}
+
+// Setup Filters
+function setupFilters() {
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    
+    filterBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            filterBtns.forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+            currentFilter = this.dataset.filter;
+            displayCategoryProducts(currentCategory);
+        });
+    });
+}
+
+// Setup Search
+function setupSearch() {
+    const searchInput = document.getElementById('searchInput');
+    if (!searchInput) return;
+    
+    searchInput.addEventListener('input', debounce(function() {
+        const searchTerm = this.value.toLowerCase().trim();
+        
+        if (searchTerm === '') {
+            displayCategoryProducts(currentCategory);
+            return;
+        }
+        
+        let filteredProducts = products;
+        if (currentCategory !== 'all') {
+            filteredProducts = filteredProducts.filter(p => p.category === currentCategory);
+        }
+        
+        filteredProducts = filteredProducts.filter(product => 
+            product.name.toLowerCase().includes(searchTerm) ||
+            product.description.toLowerCase().includes(searchTerm) ||
+            product.category.toLowerCase().includes(searchTerm)
+        );
+        
+        const targetSection = document.getElementById(currentCategory);
+        if (targetSection) {
+            let productsContainer = targetSection.querySelector('.products-grid');
+            if (!productsContainer) {
+                productsContainer = document.createElement('div');
+                productsContainer.className = 'products-grid';
+                targetSection.appendChild(productsContainer);
+            }
+            
+            productsContainer.innerHTML = '';
+            
+            if (filteredProducts.length === 0) {
+                productsContainer.innerHTML = `
+                    <div style="grid-column: 1 / -1; text-align: center; padding: 3rem;">
+                        <div style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.5;">🔍</div>
+                        <h3>No products found</h3>
+                        <p>Try adjusting your search or filter criteria</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            filteredProducts.forEach(product => {
+                const productCard = createProductCard(product);
+                productsContainer.innerHTML += productCard;
+            });
+        }
+    }, 300));
+}
+
+// Debounce function for search
+function debounce(func, wait) {
+    let timeout;
+    return function executedFunction(...args) {
+        const later = () => {
+            clearTimeout(timeout);
+            func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+    };
+}
+
+// Reset Filters to Category
+function resetFiltersToCategory() {
+    currentFilter = 'all';
+    
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.classList.remove('active');
+        if (btn.dataset.filter === 'all') {
+            btn.classList.add('active');
+        }
+    });
+    
+    const searchInput = document.getElementById('searchInput');
+    if (searchInput) {
+        searchInput.value = '';
+    }
+}
+
+// Reset All Filters
+function resetFilters() {
+    const allCategoryLink = document.querySelector('.category-nav a[data-category="all"]');
+    if (allCategoryLink) {
+        allCategoryLink.click();
+    }
+    
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.classList.remove('active');
+        if (btn.dataset.filter === 'all') {
+            btn.classList.add('active');
+        }
+    });
+    
+    const searchInput = document.getElementById('searchInput');
+    if (searchInput) {
+        searchInput.value = '';
+    }
+    
+    currentFilter = 'all';
+    displayCategoryProducts('all');
+}
+
+// Add to Cart
+function addToCart(productId) {
+    showLoader();
+    
+    setTimeout(() => {
+        const product = products.find(p => p.id === productId);
+        const existingItem = cart.find(item => item.id === productId);
+        
+        if (existingItem) {
+            existingItem.quantity += 1;
+        } else {
+            cart.push({
+                ...product,
+                quantity: 1
+            });
+        }
+        
+        saveCartToStorage();
+        updateCart();
+        updateCartCount();
+        showNotification(`Added ${product.name} to cart!`);
+        hideLoader();
+        
+        // Send to service worker for background sync
+        if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
+            navigator.serviceWorker.controller.postMessage({
+                type: 'CART_UPDATED',
+                cart: cart
+            });
+        }
+    }, 300);
+}
+
+// Update Cart
+function updateCart() {
+    const cartItems = document.getElementById('cartItems');
+    if (!cartItems) return;
+    
+    cartItems.innerHTML = '';
+    
+    let subtotal = 0;
+    
+    cart.forEach(item => {
+        const price = parseFloat(item.price.replace(/,/g, ''));
+        const itemTotal = price * item.quantity;
+        subtotal += itemTotal;
+        
+        const cartItem = `
+            <div class="cart-item">
+                <img src="${item.image}" alt="${item.name}" class="cart-item-img">
+                <div class="cart-item-info">
+                    <div class="cart-item-title">${item.name}</div>
+                    <div class="cart-item-price">${formatCurrency(itemTotal)}</div>
+                    <div class="cart-quantity">
+                        <button class="quantity-btn" onclick="updateQuantity(${item.id}, -1)">-</button>
+                        <span>${item.quantity}</span>
+                        <button class="quantity-btn" onclick="updateQuantity(${item.id}, 1)">+</button>
+                    </div>
+                </div>
+            </div>
+        `;
+        cartItems.innerHTML += cartItem;
+    });
+    
+    const delivery = subtotal > 1000000 ? 0 : 25000;
+    const installation = cart.some(item => item.installation === 'Included') ? 0 : 
+                        cart.some(item => item.installation === 'Extra') ? 50000 : 0;
+    const total = subtotal + delivery + installation;
+    
+    document.getElementById('cartSubtotal').textContent = formatCurrency(subtotal);
+    document.getElementById('cartDelivery').textContent = formatCurrency(delivery);
+    document.getElementById('cartInstallation').textContent = formatCurrency(installation);
+    document.getElementById('cartTotal').textContent = formatCurrency(total);
+}
+
+// Update Quantity
+function updateQuantity(productId, change) {
+    const item = cart.find(item => item.id === productId);
+    if (item) {
+        item.quantity += change;
+        if (item.quantity <= 0) {
+            cart = cart.filter(item => item.id !== productId);
+        }
+        saveCartToStorage();
+        updateCart();
+        updateCartCount();
+    }
+}
+
+// Format Currency
+function formatCurrency(amount) {
+    return amount.toLocaleString('en-TZ') + ' TZS';
+}
+
+// Update Cart Count
+function updateCartCount() {
+    const cartCount = cart.reduce((total, item) => total + item.quantity, 0);
+    const countElement = document.getElementById('cartCount');
+    if (countElement) {
+        countElement.textContent = cartCount;
+    }
+    
+    const badge = document.querySelector('.kingu-badge');
+    if (badge && cartCount > 0) {
+        badge.innerHTML = `
+            <img src="https://cdn.jsdelivr.net/npm/simple-icons@v5/icons/phone.svg" alt="Call">
+            <span>${cartCount} items in cart • Call to order (${DISPLAY_PHONE})</span>
+        `;
+    }
+}
+
+// Load Cart from Storage
+function loadCartFromStorage() {
+    const savedCart = localStorage.getItem('kinguCart');
+    if (savedCart) {
+        try {
+            cart = JSON.parse(savedCart);
+            updateCart();
+            updateCartCount();
+        } catch (e) {
+            console.error('Error loading cart from storage:', e);
+            cart = [];
+        }
+    }
+}
+
+// Save Cart to Storage
+function saveCartToStorage() {
+    localStorage.setItem('kinguCart', JSON.stringify(cart));
+    
+    // Also save for background sync
+    if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
+        navigator.serviceWorker.controller.postMessage({
+            type: 'SAVE_CART',
+            cart: cart
+        });
+    }
+}
+
+// Open Cart
+function openCart() {
+    const cartSidebar = document.getElementById('cartSidebar');
+    if (cartSidebar) {
+        cartSidebar.classList.add('open');
+    }
+}
+
+// Close Cart
+function closeCart() {
+    const cartSidebar = document.getElementById('cartSidebar');
+    if (cartSidebar) {
+        cartSidebar.classList.remove('open');
+    }
+}
+
+// Show Order Confirmation
+function showOrderConfirmation(message) {
+    const modal = document.createElement('div');
+    modal.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0,0,0,0.7);
+        z-index: 9999;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+    `;
+    
+    modal.innerHTML = `
+        <div style="
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            max-width: 500px;
+            width: 100%;
+            max-height: 80vh;
+            overflow-y: auto;
+        ">
+            <h3 style="margin-bottom: 1rem; color: var(--primary-green);">Order Confirmation</h3>
+            <p style="margin-bottom: 1.5rem;">How would you like to place your order?</p>
+            
+            <div style="display: flex; flex-direction: column; gap: 1rem;">
+                <button onclick="placeOrderViaPhone()" style="
+                    background: var(--primary-green);
+                    color: white;
+                    border: none;
+                    padding: 1rem;
+                    border-radius: 10px;
+                    font-size: 1.1rem;
+                    cursor: pointer;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 10px;
+                ">
+                    <img src="https://cdn.jsdelivr.net/npm/simple-icons@v5/icons/phone.svg" alt="Phone" style="width: 20px; height: 20px;">
+                    Call: ${DISPLAY_PHONE}
+                </button>
+                
+                <button onclick="placeOrderViaWhatsApp('${encodeURIComponent(message)}')" style="
+                    background: #25D366;
+                    color: white;
+                    border: none;
+                    padding: 1rem;
+                    border-radius: 10px;
+                    font-size: 1.1rem;
+                    cursor: pointer;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 10px;
+                ">
+                    <img src="https://cdn.jsdelivr.net/npm/simple-icons@v5/icons/whatsapp.svg" alt="WhatsApp" style="width: 20px; height: 20px;">
+                    WhatsApp: ${DISPLAY_WHATSAPP}
+                </button>
+                
+                <button onclick="closeModal()" style="
+                    background: transparent;
+                    color: var(--text-light);
+                    border: 2px solid var(--border-color);
+                    padding: 1rem;
+                    border-radius: 10px;
+                    font-size: 1.1rem;
+                    cursor: pointer;
+                ">
+                    Cancel
+                </button>
+            </div>
+        </div>
+    `;
+    
+    document.body.appendChild(modal);
+    
+    // Function to close modal
+    window.closeModal = function() {
+        if (modal.parentNode) {
+            document.body.removeChild(modal);
+        }
+    };
+    
+    // Function to place order via phone
+    window.placeOrderViaPhone = function() {
+        const phoneNumber = PHONE_NUMBER;
+        window.location.href = `tel:${phoneNumber}`;
+        closeModal();
+        
+        // Clear cart after order
+        cart = [];
+        saveCartToStorage();
+        updateCart();
+        updateCartCount();
+        closeCart();
+        
+        showNotification('Calling Kingu Electrical!');
+    };
+    
+    // Function to place order via WhatsApp
+    window.placeOrderViaWhatsApp = function(encodedMessage) {
+        const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodedMessage}`;
+        window.open(whatsappUrl, '_blank');
+        closeModal();
+        
+        // Clear cart after order
+        cart = [];
+        saveCartToStorage();
+        updateCart();
+        updateCartCount();
+        closeCart();
+        
+        showNotification('Order sent to WhatsApp!');
+    };
+}
+
+// Checkout Cart
+function checkoutCart() {
+    if (cart.length === 0) {
+        showNotification('Your cart is empty! Add some products first.', 'error');
+        return;
+    }
+    
+    let message = `Hello Kingu Electrical! I'd like to order the following products:\n\n`;
+    
+    cart.forEach((item, index) => {
+        const price = parseFloat(item.price.replace(/,/g, ''));
+        message += `${index + 1}. ${item.name}\n`;
+        message += `   Quantity: ${item.quantity}\n`;
+        message += `   Price per unit: ${item.price} TZS\n`;
+        message += `   Subtotal: ${formatCurrency(price * item.quantity)}\n\n`;
+    });
+    
+    const subtotal = cart.reduce((total, item) => 
+        total + (parseFloat(item.price.replace(/,/g, '')) * item.quantity), 0);
+    const delivery = subtotal > 1000000 ? 0 : 25000;
+    const installation = cart.some(item => item.installation === 'Included') ? 0 : 
+                        cart.some(item => item.installation === 'Extra') ? 50000 : 0;
+    const total = subtotal + delivery + installation;
+    
+    message += `Order Summary:\n`;
+    message += `Subtotal: ${formatCurrency(subtotal)}\n`;
+    if (delivery > 0) message += `Delivery: ${formatCurrency(delivery)}\n`;
+    if (installation > 0) message += `Installation: ${formatCurrency(installation)}\n`;
+    message += `Total: ${formatCurrency(total)}\n\n`;
+    message += `Please contact me to confirm availability and arrange delivery.`;
+    
+    // Show order confirmation modal
+    showOrderConfirmation(message);
+    
+    // Save order for offline sync
+    saveOrderForSync({
+        cart: cart,
+        total: total,
+        timestamp: new Date().toISOString()
+    });
+}
+
+// ===== PWA & OFFLINE FUNCTIONALITY =====
+
+// Register Service Worker
+function registerServiceWorker() {
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/service-worker.js')
+            .then(registration => {
+                console.log('Service Worker registered:', registration);
+                
+                // Check for updates
+                registration.addEventListener('updatefound', () => {
+                    const newWorker = registration.installing;
+                    console.log('Service Worker update found!');
+                    
+                    newWorker.addEventListener('statechange', () => {
+                        if (newWorker.state === 'installed') {
+                            if (navigator.serviceWorker.controller) {
+                                showNotification('New version available! Refresh to update.', 'info');
+                            }
+                        }
+                    });
+                });
+            })
+            .catch(error => {
+                console.error('Service Worker registration failed:', error);
+            });
+        
+        // Handle messages from service worker
+        navigator.serviceWorker.addEventListener('message', event => {
+            if (event.data.type === 'CART_UPDATED') {
+                updateCartCount();
+            }
+        });
+    }
+}
+
+// Setup Offline Detection
+function setupOfflineDetection() {
+    function updateOnlineStatus() {
+        const status = document.getElementById('onlineStatus');
+        if (status) {
+            if (navigator.onLine) {
+                status.textContent = '🟢 Online';
+                status.style.color = 'var(--success)';
+                showNotification('Back online!', 'success');
+            } else {
+                status.textContent = '🔴 Offline - Order will sync when online';
+                status.style.color = 'var(--danger)';
+                showNotification('You are offline. Orders will sync when you reconnect.', 'warning');
+            }
+        }
+    }
+
+    window.addEventListener('online', updateOnlineStatus);
+    window.addEventListener('offline', updateOnlineStatus);
+    updateOnlineStatus();
+}
+
+// Load Products from API
+async function loadProductsFromAPI() {
+    try {
+        showLoader();
+        const response = await fetch('/api/products');
+        
+        if (!response.ok) throw new Error('Network response was not ok');
+        
+        const apiProducts = await response.json();
+        
+        // Merge with local products
+        if (apiProducts && apiProducts.length > 0) {
+            // Update products array with API data
+            // In a real app, you would properly merge and update
+            console.log('Loaded products from API:', apiProducts.length);
+            
+            // Update UI if needed
+            if (currentCategory !== 'all') {
+                displayCategoryProducts(currentCategory);
+            }
+        }
+    } catch (error) {
+        console.log('Using cached products:', error.message);
+    } finally {
+        hideLoader();
+    }
+}
+
+// Save Order for Offline Sync
+function saveOrderForSync(order) {
+    if ('serviceWorker' in navigator && 'SyncManager' in window) {
+        navigator.serviceWorker.ready.then(registration => {
+            // Save order to IndexedDB
+            saveOrderToIndexedDB(order).then(() => {
+                // Register for sync
+                return registration.sync.register('sync-orders');
+            }).then(() => {
+                console.log('Order saved for sync');
+            }).catch(err => {
+                console.error('Failed to save order for sync:', err);
+            });
+        });
+    }
+}
+
+// Save Order to IndexedDB
+function saveOrderToIndexedDB(order) {
+    return new Promise((resolve, reject) => {
+        const request = indexedDB.open('KinguOrders', 1);
+        
+        request.onupgradeneeded = function(event) {
+            const db = event.target.result;
+            if (!db.objectStoreNames.contains('orders')) {
+                db.createObjectStore('orders', { keyPath: 'id', autoIncrement: true });
+            }
+        };
+        
+        request.onsuccess = function(event) {
+            const db = event.target.result;
+            const transaction = db.transaction(['orders'], 'readwrite');
+            const store = transaction.objectStore('orders');
+            const addRequest = store.add(order);
+            
+            addRequest.onsuccess = function() {
+                resolve();
+            };
+            
+            addRequest.onerror = function() {
+                reject(addRequest.error);
+            };
+        };
+        
+        request.onerror = function() {
+            reject(request.error);
+        };
+    });
+}
+
+// ===== MOBILE NAVIGATION =====
 function initMobileNavigation() {
     const hamburger = document.getElementById('hamburger');
     const navMenu = document.getElementById('nav-menu');
     
     if (!hamburger || !navMenu) return;
     
-    // Toggle menu
-    hamburger.addEventListener('click', (e) => {
-        const isExpanded = hamburger.getAttribute('aria-expanded') === 'true';
+    hamburger.addEventListener('click', () => {
         navMenu.classList.toggle('active');
-        hamburger.setAttribute('aria-expanded', !isExpanded);
-        hamburger.innerHTML = isExpanded ? '☰' : '✕';
-        
-        // Trap focus when menu is open
-        if (!isExpanded) {
-            trapFocus(navMenu);
-        }
+        hamburger.innerHTML = navMenu.classList.contains('active') ? '✕' : '☰';
+        hamburger.setAttribute('aria-expanded', navMenu.classList.contains('active'));
     });
-    
-    // Close menu on escape
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && navMenu.classList.contains('active')) {
-            navMenu.classList.remove('active');
-            hamburger.setAttribute('aria-expanded', 'false');
-            hamburger.innerHTML = '☰';
-            hamburger.focus();
-        }
-    });
-    
-    // Close menu when clicking outside
-    document.addEventListener('click', (e) => {
-        if (!hamburger.contains(e.target) && !navMenu.contains(e.target) && navMenu.classList.contains('active')) {
-            navMenu.classList.remove('active');
-            hamburger.setAttribute('aria-expanded', 'false');
-            hamburger.innerHTML = '☰';
-        }
-    });
-}
 
-// Smooth Scrolling with offset
-function initSmoothScrolling() {
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function(e) {
-            const href = this.getAttribute('href');
-            if (href === '#' || href === '#!') return;
-            
-            e.preventDefault();
-            
-            const target = document.querySelector(href);
-            if (!target) return;
-            
-            const headerHeight = document.querySelector('nav')?.offsetHeight || 80;
-            const targetPosition = target.offsetTop - headerHeight;
-            
-            window.scrollTo({
-                top: targetPosition,
-                behavior: 'smooth'
-            });
-            
-            // Update URL without scroll jump
-            history.pushState(null, null, href);
-            
-            // Update active nav link
-            updateActiveNavLink();
+    // Close mobile menu when clicking a link
+    document.querySelectorAll('.nav-menu a').forEach(link => {
+        link.addEventListener('click', () => {
+            navMenu.classList.remove('active');
+            hamburger.innerHTML = '☰';
+            hamburger.setAttribute('aria-expanded', 'false');
         });
     });
+
+    // Close menu when clicking outside
+    document.addEventListener('click', (event) => {
+        if (!hamburger.contains(event.target) && !navMenu.contains(event.target)) {
+            navMenu.classList.remove('active');
+            hamburger.innerHTML = '☰';
+            hamburger.setAttribute('aria-expanded', 'false');
+        }
+    });
 }
 
-// Form Handling with validation
-function initFormHandling() {
+// ===== FORM HANDLING =====
+function initFormSubmissions() {
     // Contact Form
     const contactForm = document.getElementById('contact-form');
     if (contactForm) {
-        contactForm.addEventListener('submit', handleContactForm);
-        initFormValidation(contactForm);
+        contactForm.addEventListener('submit', handleContactFormSubmit);
     }
-    
-    // Booking Form
-    const bookingForm = document.getElementById('booking-form');
-    if (bookingForm) {
-        initBookingForm(bookingForm);
-        bookingForm.addEventListener('submit', handleBookingForm);
-    }
-    
-    // Newsletter Form
-    const newsletterForm = document.getElementById('newsletter-form');
-    if (newsletterForm) {
-        newsletterForm.addEventListener('submit', handleNewsletterForm);
-    }
-    
+
     // Quick Order Form
     const quickOrderForm = document.getElementById('quickOrderForm');
     if (quickOrderForm) {
-        quickOrderForm.addEventListener('submit', handleQuickOrderForm);
+        quickOrderForm.addEventListener('submit', handleQuickOrderFormSubmit);
     }
+
+    // Smooth scrolling for anchor links
+    initSmoothScrolling();
 }
 
-// Form Validation
-function initFormValidation(form) {
-    const inputs = form.querySelectorAll('input[required], select[required], textarea[required]');
+function handleContactFormSubmit(e) {
+    e.preventDefault();
     
-    inputs.forEach(input => {
-        input.addEventListener('blur', validateField);
-        input.addEventListener('input', clearFieldError);
-    });
+    const form = e.target;
+    const submitBtn = form.querySelector('button[type="submit"]');
+    const originalContent = submitBtn.innerHTML;
     
-    function validateField(e) {
-        const field = e.target;
-        const errorSpan = field.parentElement.querySelector('.field-error') || createErrorSpan(field);
+    // Show loading state
+    submitBtn.innerHTML = `
+        <svg class="loading-spinner" width="20" height="20" viewBox="0 0 50 50" style="margin-right: 10px;">
+            <circle cx="25" cy="25" r="20" fill="none" stroke="white" stroke-width="4" stroke-linecap="round">
+                <animateTransform attributeName="transform" type="rotate" from="0 25 25" to="360 25 25" dur="1s" repeatCount="indefinite"/>
+            </circle>
+        </svg>
+        Sending...
+    `;
+    submitBtn.disabled = true;
+    submitBtn.style.opacity = '0.8';
+    
+    // Simulate API call (replace with actual Formspree submission)
+    setTimeout(() => {
+        // Success message
+        submitBtn.innerHTML = `
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" style="margin-right: 10px;">
+                <path d="M20 6L9 17L4 12" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Message Sent!
+        `;
+        submitBtn.style.background = '#2e8b57';
         
-        if (!field.checkValidity()) {
-            errorSpan.textContent = getValidationMessage(field);
-            field.classList.add('invalid');
-            return false;
-        } else {
-            errorSpan.textContent = '';
-            field.classList.remove('invalid');
-            field.classList.add('valid');
-            return true;
-        }
-    }
-    
-    function clearFieldError(e) {
-        const field = e.target;
-        const errorSpan = field.parentElement.querySelector('.field-error');
-        if (errorSpan) errorSpan.textContent = '';
-        field.classList.remove('invalid');
-    }
-    
-    function createErrorSpan(field) {
-        const span = document.createElement('span');
-        span.className = 'field-error';
-        span.style.cssText = 'color: var(--danger); font-size: 0.85rem; margin-top: 0.25rem; display: block;';
-        field.parentElement.appendChild(span);
-        return span;
-    }
-    
-    function getValidationMessage(field) {
-        if (field.validity.valueMissing) return 'This field is required';
-        if (field.validity.typeMismatch) {
-            if (field.type === 'email') return 'Please enter a valid email address';
-            if (field.type === 'tel') return 'Please enter a valid phone number';
-        }
-        if (field.validity.patternMismatch) return 'Please check the format';
-        if (field.validity.tooShort) return `Minimum length is ${field.minLength} characters`;
-        return 'Please check this field';
-    }
+        // Reset form after 3 seconds
+        setTimeout(() => {
+            form.reset();
+            submitBtn.innerHTML = originalContent;
+            submitBtn.style.background = '';
+            submitBtn.style.opacity = '1';
+            submitBtn.disabled = false;
+            
+            // Show success notification
+            showNotification('✅ Thank you! We will contact you within 24 hours.', 'success');
+        }, 3000);
+    }, 1500);
 }
 
-// Booking Form Initialization
-function initBookingForm(form) {
-    const dateInput = form.querySelector('input[type="date"]');
-    const timeInput = form.querySelector('input[type="time"]');
+function handleQuickOrderFormSubmit(e) {
+    e.preventDefault();
     
+    const name = document.getElementById('orderName').value;
+    const phone = document.getElementById('orderPhone').value;
+    const category = document.getElementById('orderCategory').value;
+    const requirements = document.getElementById('orderRequirements').value;
+    
+    let message = `Hello Kingu Electrical!\n\n`;
+    message += `I'm interested in ordering electrical products.\n\n`;
+    message += `Customer Details:\n`;
+    message += `Name: ${name}\n`;
+    message += `Phone: ${phone}\n`;
+    message += `Product Category: ${category}\n`;
+    message += `Requirements: ${requirements}\n\n`;
+    message += `Please contact me with available options and prices.`;
+    
+    // Show order confirmation modal
+    showOrderConfirmation(encodeURIComponent(message));
+    
+    // Reset form
+    e.target.reset();
+}
+
+// ===== BOOKING FORM =====
+function initBookingForm() {
+    const bookingForm = document.getElementById('booking-form');
+    if (!bookingForm) return;
+    
+    // Set minimum date to today
+    const dateInput = bookingForm.querySelector('input[type="date"]');
     if (dateInput) {
         const today = new Date().toISOString().split('T')[0];
         dateInput.min = today;
@@ -418,1871 +1020,415 @@ function initBookingForm(form) {
         dateInput.value = tomorrow.toISOString().split('T')[0];
     }
     
+    // Set default time to 9:00 AM
+    const timeInput = bookingForm.querySelector('input[type="time"]');
     if (timeInput) {
-        // Set default to 9:00 AM
         timeInput.value = '09:00';
-        timeInput.min = '08:00';
-        timeInput.max = '17:00';
     }
+    
+    bookingForm.addEventListener('submit', handleBookingFormSubmit);
 }
 
-// Form Submission Handlers
-async function handleContactForm(e) {
+function handleBookingFormSubmit(e) {
     e.preventDefault();
     
     const form = e.target;
-    const formData = new FormData(form);
     const submitBtn = form.querySelector('button[type="submit"]');
-    const originalText = submitBtn.innerHTML;
+    const originalContent = submitBtn.innerHTML;
     
     // Show loading state
     submitBtn.innerHTML = `
-        <span class="loading-spinner"></span>
-        Sending Message...
+        <svg class="loading-spinner" width="20" height="20" viewBox="0 0 50 50" style="margin-right: 10px;">
+            <circle cx="25" cy="25" r="20" fill="none" stroke="white" stroke-width="4" stroke-linecap="round">
+                <animateTransform attributeName="transform" type="rotate" from="0 25 25" to="360 25 25" dur="1s" repeatCount="indefinite"/>
+            </circle>
+        </svg>
+        Scheduling...
     `;
     submitBtn.disabled = true;
+    submitBtn.style.opacity = '0.8';
     
-    try {
-        // Simulate API call - replace with actual Formspree
-        await simulateAPIRequest(formData);
+    // Get form data
+    const formData = new FormData(form);
+    const name = formData.get('name') || 'Customer';
+    const phone = formData.get('phone') || '';
+    const email = formData.get('email') || '';
+    const service = form.querySelector('select').value;
+    const date = formData.get('date') || '';
+    const time = formData.get('time') || '';
+    
+    // Simulate API call
+    setTimeout(() => {
+        // Success message
+        submitBtn.innerHTML = `
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" style="margin-right: 10px;">
+                <path d="M20 6L9 17L4 12" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Scheduled!
+        `;
+        submitBtn.style.background = '#2e8b57';
         
-        // Success
-        submitBtn.innerHTML = '✓ Message Sent!';
-        submitBtn.style.background = 'var(--success)';
+        // Create order confirmation message
+        const orderMessage = `Hi! I booked a site inspection:\nName: ${name}\nPhone: ${phone}\nService: ${service}\nDate: ${date}\nTime: ${time}`;
         
-        showNotification('Thank you! We will contact you within 24 hours.', 'success');
-        
-        // Reset form after delay
+        // Reset form after 3 seconds
         setTimeout(() => {
             form.reset();
-            submitBtn.innerHTML = originalText;
+            submitBtn.innerHTML = originalContent;
             submitBtn.style.background = '';
+            submitBtn.style.opacity = '1';
             submitBtn.disabled = false;
+            
+            // Show success notification
+            showNotification('✅ Inspection Scheduled! We\'ll call you to confirm.', 'success');
+            
+            // Optional: show order confirmation modal
+            // showOrderConfirmation(encodeURIComponent(orderMessage));
         }, 3000);
-        
-        // Track conversion
-        trackEvent('form', 'submit', 'contact');
-        
-    } catch (error) {
-        // Error
-        submitBtn.innerHTML = '✗ Failed to Send';
-        submitBtn.style.background = 'var(--danger)';
-        
-        showNotification('Failed to send message. Please try again or call us directly.', 'error');
-        
-        setTimeout(() => {
-            submitBtn.innerHTML = originalText;
-            submitBtn.style.background = '';
-            submitBtn.disabled = false;
-        }, 3000);
-    }
+    }, 1500);
 }
 
-async function handleBookingForm(e) {
-    e.preventDefault();
-    
-    const form = e.target;
-    const formData = new FormData(form);
-    const data = Object.fromEntries(formData);
-    
-    // Create WhatsApp message
-    const message = `📅 New Site Inspection Request:
-    
-Name: ${data.name}
-Phone: ${data.phone}
-Email: ${data.email || 'Not provided'}
-Service: ${data.service}
-Date: ${data.date}
-Time: ${data.time}
-Location: ${data.location || 'To be confirmed'}
-    
-Additional Details:
-${data.details || 'None provided'}`;
-    
-    // Show confirmation modal
-    showBookingConfirmation(message, data);
-}
-
-function handleNewsletterForm(e) {
-    e.preventDefault();
-    
-    const form = e.target;
-    const email = form.querySelector('input[type="email"]').value;
-    
-    // Save to localStorage
-    const subscribers = JSON.parse(localStorage.getItem('newsletterSubscribers') || '[]');
-    if (!subscribers.includes(email)) {
-        subscribers.push(email);
-        localStorage.setItem('newsletterSubscribers', JSON.stringify(subscribers));
-    }
-    
-    // Show success
-    showNotification('Thank you for subscribing to our newsletter!', 'success');
-    form.reset();
-    
-    trackEvent('newsletter', 'subscribe', email);
-}
-
-function handleQuickOrderForm(e) {
-    e.preventDefault();
-    
-    const form = e.target;
-    const data = {
-        name: form.querySelector('#orderName').value,
-        phone: form.querySelector('#orderPhone').value,
-        category: form.querySelector('#orderCategory').value,
-        requirements: form.querySelector('#orderRequirements').value
-    };
-    
-    const message = `🛒 Quick Order Request:
-    
-Customer: ${data.name}
-Phone: ${data.phone}
-Interested in: ${data.category}
-Requirements: ${data.requirements}
-    
-Please contact with available options and pricing.`;
-    
-    showOrderConfirmation(message);
-    form.reset();
-}
-
-// Scroll Animations
+// ===== SCROLL ANIMATIONS =====
 function initScrollAnimations() {
-    const observerOptions = {
-        root: null,
-        rootMargin: '0px',
-        threshold: 0.1
-    };
+    const fadeElements = document.querySelectorAll('.fade-in');
     
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('animate-in');
-                observer.unobserve(entry.target);
+    // Initialize fade elements
+    fadeElements.forEach(element => {
+        element.style.opacity = '0';
+        element.style.transform = 'translateY(30px)';
+        element.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+    });
+    
+    const fadeInOnScroll = () => {
+        fadeElements.forEach((element, index) => {
+            const elementTop = element.getBoundingClientRect().top;
+            const elementVisible = 150;
+            
+            if (elementTop < window.innerHeight - elementVisible) {
+                element.style.animationDelay = `${index * 0.1}s`;
+                element.style.opacity = '1';
+                element.style.transform = 'translateY(0)';
             }
         });
-    }, observerOptions);
+    };
     
-    // Observe elements
-    document.querySelectorAll('.fade-in, .slide-in, .stagger-item').forEach(el => {
-        observer.observe(el);
+    // Check on load and scroll
+    window.addEventListener('load', fadeInOnScroll);
+    window.addEventListener('scroll', fadeInOnScroll);
+    
+    // Initial check
+    fadeInOnScroll();
+}
+
+// ===== SMOOTH SCROLLING =====
+function initSmoothScrolling() {
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            const targetId = this.getAttribute('href');
+            if (targetId === '#') return;
+            
+            const targetElement = document.querySelector(targetId);
+            if (targetElement) {
+                const headerHeight = document.querySelector('nav').offsetHeight;
+                const targetPosition = targetElement.offsetTop - headerHeight;
+                
+                window.scrollTo({
+                    top: targetPosition,
+                    behavior: 'smooth'
+                });
+                
+                // Update URL without jumping
+                history.pushState(null, null, targetId);
+            }
+        });
     });
 }
 
-// Notifications System
+// ===== CURRENT YEAR =====
+function initCurrentYear() {
+    const yearSpan = document.getElementById('year');
+    if (yearSpan) {
+        yearSpan.textContent = new Date().getFullYear();
+    }
+}
+
+// ===== NOTIFICATIONS =====
 function initNotifications() {
-    // Add notification container
-    if (!document.getElementById('notification-container')) {
-        const container = document.createElement('div');
-        container.id = 'notification-container';
-        container.style.cssText = `
+    // Add CSS for notifications
+    const style = document.createElement('style');
+    style.textContent = `
+        .notification {
             position: fixed;
             top: 100px;
-            right: 20px;
-            z-index: 9999;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
+            right: 30px;
+            padding: 20px 25px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            z-index: 1000;
+            animation: slideIn 0.5s ease;
             max-width: 400px;
-        `;
-        document.body.appendChild(container);
-    }
+            color: white;
+            font-family: 'Roboto', sans-serif;
+        }
+        
+        .notification.success {
+            background: #2e8b57;
+        }
+        
+        .notification.error {
+            background: #e74c3c;
+        }
+        
+        .notification.warning {
+            background: #f39c12;
+        }
+        
+        .notification.info {
+            background: #3498db;
+        }
+        
+        .notification a {
+            color: white;
+            text-decoration: underline;
+            display: inline-block;
+            margin-top: 10px;
+            font-weight: 600;
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        @keyframes slideOut {
+            from { transform: translateX(0); opacity: 1; }
+            to { transform: translateX(100%); opacity: 0; }
+        }
+        
+        .loading-spinner circle {
+            animation: rotate 1s linear infinite;
+        }
+        
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+    `;
+    document.head.appendChild(style);
 }
 
-function showNotification(message, type = 'info', duration = 5000) {
-    const container = document.getElementById('notification-container');
+function showNotification(message, type = 'success') {
     const notification = document.createElement('div');
-    const id = 'notification-' + Date.now();
+    notification.className = `notification ${type}`;
+    notification.innerHTML = message;
     
-    notification.id = id;
-    notification.className = `notification notification-${type}`;
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+        notification.style.animation = 'slideOut 0.5s ease';
+        setTimeout(() => notification.remove(), 500);
+    }, 4000);
+}
+
+function showNotificationWithAction(message, actionText, actionUrl) {
+    const notification = document.createElement('div');
+    notification.className = 'notification success';
     notification.innerHTML = `
-        <div class="notification-content">${message}</div>
-        <button class="notification-close" aria-label="Close notification">×</button>
+        <strong>${message}</strong><br>
+        <a href="${actionUrl}" target="_blank">${actionText}</a>
     `;
     
-    container.appendChild(notification);
+    document.body.appendChild(notification);
     
-    // Close button
-    notification.querySelector('.notification-close').addEventListener('click', () => {
-        removeNotification(id);
-    });
-    
-    // Auto-remove
-    if (duration > 0) {
-        setTimeout(() => removeNotification(id), duration);
-    }
-    
-    return id;
+    setTimeout(() => {
+        notification.style.animation = 'slideOut 0.5s ease';
+        setTimeout(() => notification.remove(), 500);
+    }, 7000);
 }
 
-function removeNotification(id) {
-    const notification = document.getElementById(id);
-    if (notification) {
-        notification.classList.add('notification-exit');
-        setTimeout(() => notification.remove(), 300);
-    }
-}
-
-// Current Year in Footer
-function initCurrentYear() {
-    const yearElements = document.querySelectorAll('.current-year');
-    const currentYear = new Date().getFullYear();
-    
-    yearElements.forEach(el => {
-        el.textContent = currentYear;
-    });
-}
-
-// Accessibility Features
-function initAccessibility() {
-    // Skip to main content link
-    const skipLink = document.createElement('a');
-    skipLink.href = '#main-content';
-    skipLink.className = 'skip-link';
-    skipLink.textContent = 'Skip to main content';
-    document.body.insertBefore(skipLink, document.body.firstChild);
-    
-    // Add focus styles
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Tab') {
-            document.body.classList.add('keyboard-navigation');
-        }
-    });
-    
-    document.addEventListener('mousedown', () => {
-        document.body.classList.remove('keyboard-navigation');
-    });
-    
-    // Improve focus management
-    document.addEventListener('focusin', (e) => {
-        if (e.target.matches('button, a, input, select, textarea, [tabindex]')) {
-            e.target.classList.add('focus-visible');
-        }
-    });
-    
-    document.addEventListener('focusout', (e) => {
-        e.target.classList.remove('focus-visible');
-    });
-}
-
-// Performance Monitoring
-function initPerformanceMonitoring() {
-    // Log performance metrics
-    if ('performance' in window) {
-        window.addEventListener('load', () => {
-            const timing = performance.timing;
-            const loadTime = timing.loadEventEnd - timing.navigationStart;
-            console.log(`Page load time: ${loadTime}ms`);
-            
-            // Report to analytics if slow
-            if (loadTime > 3000) {
-                trackEvent('performance', 'slow_load', loadTime.toString());
-            }
-        });
-    }
-    
-    // Monitor memory usage
-    if ('memory' in performance) {
-        setInterval(() => {
-            const usedJSHeapSize = performance.memory.usedJSHeapSize;
-            const totalJSHeapSize = performance.memory.totalJSHeapSize;
-            const heapLimit = performance.memory.jsHeapSizeLimit;
-            
-            if (usedJSHeapSize > heapLimit * 0.8) {
-                console.warn('High memory usage detected');
-            }
-        }, 30000);
-    }
-}
-
-// ===== E-COMMERCE FUNCTIONALITY =====
-
-function initEcommerce() {
-    loadCartFromStorage();
-    setupCategoryNavigation();
-    setupProductFilters();
-    setupSearch();
-    setupSorting();
-    updateCartUI();
-    initProductModal();
-    initWishlist();
-}
-
-// Load Cart from Storage
-function loadCartFromStorage() {
-    const savedCart = localStorage.getItem('kinguCart');
-    if (savedCart) {
-        try {
-            const parsed = JSON.parse(savedCart);
-            cart = {
-                ...cart,
-                items: parsed.items || [],
-                lastUpdated: parsed.lastUpdated || new Date().toISOString()
-            };
-            calculateCartTotals();
-        } catch (error) {
-            console.error('Error loading cart:', error);
-            cart.items = [];
-        }
-    }
-}
-
-// Setup Category Navigation
-function setupCategoryNavigation() {
-    const categoryLinks = document.querySelectorAll('[data-category]');
-    
-    categoryLinks.forEach(link => {
-        link.addEventListener('click', (e) => {
-            e.preventDefault();
-            const category = link.dataset.category;
-            
-            // Update active state
-            categoryLinks.forEach(l => l.classList.remove('active'));
-            link.classList.add('active');
-            
-            // Update state
-            APP_STATE.currentCategory = category;
-            
-            // Show category
-            showCategory(category);
-            
-            // Update URL
-            history.pushState(null, null, `#${category}`);
-            
-            // Track event
-            trackEvent('ecommerce', 'category_select', category);
-        });
-    });
-    
-    // Handle initial hash
-    if (window.location.hash) {
-        const hash = window.location.hash.substring(1);
-        const link = document.querySelector(`[data-category="${hash}"]`);
-        if (link) link.click();
-    }
-}
-
-// Show Category
-function showCategory(category) {
-    APP_STATE.currentCategory = category;
-    
-    // Hide all sections
-    document.querySelectorAll('.category-section').forEach(section => {
-        section.classList.remove('active');
-    });
-    
-    // Show target section
-    const targetSection = document.getElementById(category);
-    if (targetSection) {
-        targetSection.classList.add('active');
-        
-        // Load and display products
-        displayProducts(category);
-        
-        // Scroll to section
-        targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-}
-
-// Create Products Grid
-function createProductsGrid() {
-    const container = document.createElement('div');
-    container.className = 'products-grid';
-    
-    // Find appropriate parent
-    const parent = document.querySelector('.products-section') || 
-                  document.querySelector('.products-container') ||
-                  document.querySelector('#products');
-    
-    if (parent) {
-        parent.appendChild(container);
-    } else {
-        document.querySelector('main')?.appendChild(container);
-    }
-    
-    return container;
-}
-
-// Display Products
-function displayProducts(category) {
-    let products = PRODUCTS;
-    
-    // Filter by category
-    if (category !== 'all') {
-        products = products.filter(p => p.category === category);
-    }
-    
-    // Apply search filter
-    if (APP_STATE.searchQuery) {
-        const query = APP_STATE.searchQuery.toLowerCase();
-        products = products.filter(p => 
-            p.name.toLowerCase().includes(query) ||
-            p.description.toLowerCase().includes(query) ||
-            (p.tags && p.tags.some(tag => tag.toLowerCase().includes(query)))
-        );
-    }
-    
-    // Apply other filters
-    products = applyFilters(products);
-    
-    // Sort products
-    products = sortProducts(products);
-    
-    // Update UI
-    updateProductsGrid(products);
-}
-
-// Apply Filters
-function applyFilters(products) {
-    let filtered = [...products];
-    
-    switch (APP_STATE.currentFilter) {
-        case 'best':
-            filtered = filtered.filter(p => p.badge === 'Best Seller' || p.badge === 'Popular');
-            break;
-        case 'new':
-            filtered = filtered.filter(p => p.id >= 130);
-            break;
-        case 'stock':
-            filtered = filtered.filter(p => p.stock > 0);
-            break;
-        case 'install':
-            filtered = filtered.filter(p => p.installation && p.installation.includes('included'));
-            break;
-        case 'sale':
-            filtered = filtered.filter(p => p.originalPrice && p.price < p.originalPrice);
-            break;
-    }
-    
-    return filtered;
-}
-
-// Sort Products
-function sortProducts(products) {
-    const sorted = [...products];
-    
-    switch (APP_STATE.sortBy) {
-        case 'price-low':
-            sorted.sort((a, b) => a.price - b.price);
-            break;
-        case 'price-high':
-            sorted.sort((a, b) => b.price - a.price);
-            break;
-        case 'name':
-            sorted.sort((a, b) => a.name.localeCompare(b.name));
-            break;
-        case 'rating':
-            sorted.sort((a, b) => (b.rating || 0) - (a.rating || 0));
-            break;
-        case 'newest':
-            sorted.sort((a, b) => b.id - a.id);
-            break;
-    }
-    
-    return sorted;
-}
-
-// Update Products Grid
-function updateProductsGrid(products) {
-    const container = document.querySelector('.products-grid') || createProductsGrid();
-    
-    if (products.length === 0) {
-        container.innerHTML = `
-            <div class="no-products">
-                <div class="no-products-icon">🔍</div>
-                <h3>No products found</h3>
-                <p>Try adjusting your search or filter criteria</p>
-                <button onclick="resetFilters()" class="btn">Reset Filters</button>
-            </div>
-        `;
-        return;
-    }
-    
-    container.innerHTML = products.map(product => createProductCard(product)).join('');
-    
-    // Add event listeners to new product cards
-    container.querySelectorAll('.product-card').forEach(card => {
-        const productId = parseInt(card.dataset.productId);
-        const product = PRODUCTS.find(p => p.id === productId);
-        
-        // Add to cart button
-        const addToCartBtn = card.querySelector('.add-to-cart');
-        if (addToCartBtn) {
-            addToCartBtn.addEventListener('click', () => addToCart(product));
-        }
-        
-        // Quick view button
-        const quickViewBtn = card.querySelector('.quick-view');
-        if (quickViewBtn) {
-            quickViewBtn.addEventListener('click', () => showProductModal(product));
-        }
-        
-        // Wishlist button
-        const wishlistBtn = card.querySelector('.wishlist-btn');
-        if (wishlistBtn) {
-            wishlistBtn.addEventListener('click', () => toggleWishlist(product));
-        }
-    });
-}
-
-// Create Product Card
-function createProductCard(product) {
-    const discount = product.originalPrice && product.price < product.originalPrice
-        ? Math.round((1 - product.price / product.originalPrice) * 100)
-        : 0;
-    
-    return `
-        <div class="product-card" data-product-id="${product.id}">
-            <div class="product-card-header">
-                ${product.badge ? `<span class="product-badge">${product.badge}</span>` : ''}
-                ${discount > 0 ? `<span class="discount-badge">-${discount}%</span>` : ''}
-                <button class="wishlist-btn" aria-label="Add to wishlist">♥</button>
-            </div>
-            
-            <div class="product-image-container">
-                <img src="${product.image}" 
-                     alt="${product.name}" 
-                     class="product-image"
-                     loading="lazy"
-                     width="300"
-                     height="200">
-                <button class="quick-view" aria-label="Quick view">👁️ Quick View</button>
-            </div>
-            
-            <div class="product-info">
-                <div class="product-category">${product.category.toUpperCase()}</div>
-                <h3 class="product-title">${product.name}</h3>
-                <p class="product-description">${product.description}</p>
-                
-                ${product.specifications ? `
-                <div class="product-specs">
-                    ${Object.entries(product.specifications)
-                        .slice(0, 2)
-                        .map(([key, value]) => `
-                            <div class="spec-item">
-                                <span class="spec-key">${key}:</span>
-                                <span class="spec-value">${value}</span>
-                            </div>
-                        `).join('')}
-                </div>
-                ` : ''}
-                
-                <div class="product-price-section">
-                    <div class="price">
-                        <span class="current-price">${formatCurrency(product.price)}</span>
-                        ${product.originalPrice && product.price < product.originalPrice
-                            ? `<span class="original-price">${formatCurrency(product.originalPrice)}</span>`
-                            : ''}
-                    </div>
-                    
-                    <div class="product-meta">
-                        <span class="stock-status ${product.stock > 0 ? 'in-stock' : 'out-of-stock'}">
-                            ${product.stock > 0 ? `${product.stock} in stock` : 'Out of stock'}
-                        </span>
-                        ${product.rating ? `
-                            <div class="product-rating">
-                                ⭐ ${product.rating} (${product.reviews || 0})
-                            </div>
-                        ` : ''}
-                    </div>
-                </div>
-                
-                <button class="add-to-cart" ${product.stock <= 0 ? 'disabled' : ''}>
-                    <span class="cart-icon">🛒</span>
-                    Add to Cart
-                </button>
-            </div>
-        </div>
-    `;
-}
-
-// Setup Product Filters
-function setupProductFilters() {
-    const filterButtons = document.querySelectorAll('[data-filter]');
-    
-    filterButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            // Update active state
-            filterButtons.forEach(btn => btn.classList.remove('active'));
-            button.classList.add('active');
-            
-            // Update state
-            APP_STATE.currentFilter = button.dataset.filter;
-            
-            // Update products
-            displayProducts(APP_STATE.currentCategory);
-            
-            // Track event
-            trackEvent('ecommerce', 'filter', APP_STATE.currentFilter);
-        });
-    });
-}
-
-// Setup Search
-function setupSearch() {
-    const searchInput = document.getElementById('searchInput');
-    if (!searchInput) return;
-    
-    // Debounced search
-    let debounceTimer;
-    searchInput.addEventListener('input', (e) => {
-        clearTimeout(debounceTimer);
-        debounceTimer = setTimeout(() => {
-            APP_STATE.searchQuery = e.target.value.trim();
-            displayProducts(APP_STATE.currentCategory);
-            
-            // Track search
-            if (APP_STATE.searchQuery) {
-                trackEvent('search', 'query', APP_STATE.searchQuery);
-            }
-        }, 300);
-    });
-    
-    // Clear search
-    const clearSearch = document.getElementById('clearSearch');
-    if (clearSearch) {
-        clearSearch.addEventListener('click', () => {
-            searchInput.value = '';
-            APP_STATE.searchQuery = '';
-            displayProducts(APP_STATE.currentCategory);
-        });
-    }
-}
-
-// Setup Sorting
-function setupSorting() {
-    const sortSelect = document.getElementById('sortSelect');
-    if (!sortSelect) return;
-    
-    sortSelect.addEventListener('change', (e) => {
-        APP_STATE.sortBy = e.target.value;
-        displayProducts(APP_STATE.currentCategory);
-        trackEvent('ecommerce', 'sort', APP_STATE.sortBy);
-    });
-}
-
-// Add to Cart
-function addToCart(product, quantity = 1) {
-    if (!product || !product.id) {
-        console.error('Invalid product:', product);
-        return;
-    }
-    
-    const existingItem = cart.items.find(item => item.id === product.id);
-    
-    if (existingItem) {
-        existingItem.quantity += quantity;
-    } else {
-        cart.items.push({
-            ...product,
-            quantity: quantity,
-            addedAt: new Date().toISOString()
-        });
-    }
-    
-    // Update cart
-    calculateCartTotals();
-    saveCartToStorage();
-    updateCartUI();
-    
-    // Show feedback
-    showNotification(`Added ${product.name} to cart!`, 'success');
-    
-    // Track event
-    trackEvent('ecommerce', 'add_to_cart', product.id.toString());
-    
-    // Update cart badge with animation
-    setTimeout(() => animateCartBadge(), 100);
-}
-
-// Calculate Cart Totals
-function calculateCartTotals() {
-    if (!cart.items || !Array.isArray(cart.items)) {
-        cart.items = [];
-    }
-    
-    cart.subtotal = cart.items.reduce((total, item) => {
-        return total + (item.price * item.quantity);
-    }, 0);
-    
-    // Delivery fee
-    cart.delivery = cart.subtotal >= CONFIG.FREE_DELIVERY_THRESHOLD 
-        ? 0 
-        : CONFIG.BASE_DELIVERY_FEE;
-    
-    // Installation fee (if any item needs installation)
-    cart.installation = cart.items.some(item => 
-        item.installation && item.installation.includes('Extra')
-    ) ? CONFIG.INSTALLATION_FEE : 0;
-    
-    cart.total = cart.subtotal + cart.delivery + cart.installation;
-    cart.lastUpdated = new Date().toISOString();
-}
-
-// Save Cart to Storage
-function saveCartToStorage() {
-    localStorage.setItem('kinguCart', JSON.stringify(cart));
-    
-    // Sync with service worker if available
-    if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
-        navigator.serviceWorker.controller.postMessage({
-            type: 'SYNC_CART',
-            cart: cart
-        });
-    }
-}
-
-// Update Cart UI
-function updateCartUI() {
-    // Update cart count
-    const cartCount = cart.items.reduce((total, item) => total + item.quantity, 0);
-    document.querySelectorAll('.cart-count').forEach(el => {
-        el.textContent = cartCount;
-        el.style.display = cartCount > 0 ? 'flex' : 'none';
-    });
-    
-    // Update cart sidebar if open
-    const cartSidebar = document.getElementById('cartSidebar');
-    if (cartSidebar && cartSidebar.classList.contains('open')) {
-        renderCartItems();
-    }
-    
-    // Update cart badge
-    const cartBadge = document.querySelector('.cart-badge');
-    if (cartBadge) {
-        if (cartCount > 0) {
-            cartBadge.innerHTML = `
-                🛒 ${cartCount} items • ${formatCurrency(cart.total)}
-                <br>
-                <small>Call ${CONFIG.DISPLAY_PHONE} to order</small>
+// ===== VIDEO PLAYER =====
+function initVideoPlayer() {
+    const videoPlaceholder = document.querySelector('.video-placeholder');
+    if (videoPlaceholder) {
+        videoPlaceholder.addEventListener('click', () => {
+            // Replace with actual video embed
+            const videoUrl = 'https://www.youtube.com/embed/YOUR_VIDEO_ID';
+            videoPlaceholder.innerHTML = `
+                <iframe width="100%" height="450" src="${videoUrl}" 
+                    frameborder="0" allow="accelerometer; autoplay; clipboard-write; 
+                    encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+                </iframe>
             `;
-        }
-    }
-}
-
-// Render Cart Items
-function renderCartItems() {
-    const container = document.getElementById('cartItems');
-    if (!container) return;
-    
-    if (cart.items.length === 0) {
-        container.innerHTML = `
-            <div class="empty-cart">
-                <div class="empty-cart-icon">🛒</div>
-                <h3>Your cart is empty</h3>
-                <p>Add some products to get started</p>
-                <button onclick="showCategory('all')" class="btn">Browse Products</button>
-            </div>
-        `;
-        return;
-    }
-    
-    container.innerHTML = cart.items.map(item => `
-        <div class="cart-item" data-item-id="${item.id}">
-            <img src="${item.image}" 
-                 alt="${item.name}" 
-                 class="cart-item-image"
-                 loading="lazy"
-                 width="80"
-                 height="80">
-            
-            <div class="cart-item-details">
-                <div class="cart-item-header">
-                    <h4 class="cart-item-title">${item.name}</h4>
-                    <button class="remove-item" onclick="removeFromCart(${item.id})" 
-                            aria-label="Remove item">×</button>
-                </div>
-                
-                <div class="cart-item-price">${formatCurrency(item.price)} each</div>
-                
-                <div class="cart-item-controls">
-                    <div class="quantity-controls">
-                        <button class="quantity-btn" onclick="updateCartQuantity(${item.id}, -1)" 
-                                aria-label="Decrease quantity">−</button>
-                        <span class="quantity">${item.quantity}</span>
-                        <button class="quantity-btn" onclick="updateCartQuantity(${item.id}, 1)" 
-                                aria-label="Increase quantity">+</button>
-                    </div>
-                    
-                    <div class="cart-item-total">
-                        ${formatCurrency(item.price * item.quantity)}
-                    </div>
-                </div>
-            </div>
-        </div>
-    `).join('');
-    
-    // Update totals display
-    document.getElementById('cartSubtotal').textContent = formatCurrency(cart.subtotal);
-    document.getElementById('cartDelivery').textContent = formatCurrency(cart.delivery);
-    document.getElementById('cartInstallation').textContent = formatCurrency(cart.installation);
-    document.getElementById('cartTotal').textContent = formatCurrency(cart.total);
-}
-
-// Remove from Cart
-function removeFromCart(productId) {
-    cart.items = cart.items.filter(item => item.id !== productId);
-    calculateCartTotals();
-    saveCartToStorage();
-    updateCartUI();
-    
-    showNotification('Item removed from cart', 'info');
-    trackEvent('ecommerce', 'remove_from_cart', productId.toString());
-}
-
-// Update Cart Quantity
-function updateCartQuantity(productId, change) {
-    const item = cart.items.find(item => item.id === productId);
-    if (item) {
-        item.quantity += change;
-        if (item.quantity <= 0) {
-            removeFromCart(productId);
-        } else {
-            calculateCartTotals();
-            saveCartToStorage();
-            updateCartUI();
-        }
-    }
-}
-
-// Animate Cart Badge
-function animateCartBadge() {
-    const badge = document.querySelector('.cart-count');
-    if (badge) {
-        badge.classList.add('pulse');
-        setTimeout(() => badge.classList.remove('pulse'), 300);
-    }
-}
-
-// Product Modal
-function initProductModal() {
-    // Create modal container
-    if (!document.getElementById('productModal')) {
-        const modal = document.createElement('div');
-        modal.id = 'productModal';
-        modal.className = 'modal';
-        modal.innerHTML = `
-            <div class="modal-content">
-                <button class="modal-close" aria-label="Close modal">×</button>
-                <div class="modal-body" id="productModalContent"></div>
-            </div>
-        `;
-        document.body.appendChild(modal);
-        
-        // Close modal on click outside or escape
-        modal.addEventListener('click', (e) => {
-            if (e.target === modal || e.target.classList.contains('modal-close')) {
-                closeProductModal();
-            }
-        });
-        
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && modal.classList.contains('open')) {
-                closeProductModal();
-            }
         });
     }
 }
 
-function showProductModal(product) {
-    const modal = document.getElementById('productModal');
-    const content = document.getElementById('productModalContent');
+// ===== ADDITIONAL ENHANCEMENTS =====
+
+// Fix all broken links
+function fixBrokenLinks() {
+    document.querySelectorAll('a[href*="kinguelectrical.com"]').forEach(link => {
+        link.href = link.href.replace('kinguelectrical.com', 'kingueletrical.com');
+    });
     
-    if (!modal || !content) return;
-    
-    content.innerHTML = createProductModalContent(product);
-    modal.classList.add('open');
-    document.body.style.overflow = 'hidden';
-    
-    // Add event listeners
-    const addToCartBtn = content.querySelector('.modal-add-to-cart');
-    if (addToCartBtn) {
-        addToCartBtn.addEventListener('click', () => {
-            const quantityInput = content.querySelector('.quantity-input');
-            const quantity = quantityInput ? parseInt(quantityInput.value) || 1 : 1;
-            addToCart(product, quantity);
-            closeProductModal();
-        });
+    const backLink = document.querySelector('.back-to-main');
+    if (backLink) {
+        backLink.href = 'https://kingueletrical.com';
+        backLink.target = '_blank';
     }
     
-    // Track view
-    trackEvent('ecommerce', 'product_view', product.id.toString());
-}
-
-function createProductModalContent(product) {
-    return `
-        <div class="product-modal">
-            <div class="product-modal-images">
-                <img src="${product.image}" 
-                     alt="${product.name}" 
-                     class="main-image"
-                     loading="lazy">
-                ${product.images && product.images.length > 0 ? `
-                <div class="thumbnail-gallery">
-                    ${product.images.map(img => `
-                        <img src="${img}" 
-                             alt="${product.name}" 
-                             class="thumbnail"
-                             onclick="this.closest('.product-modal').querySelector('.main-image').src = this.src">
-                    `).join('')}
-                </div>
-                ` : ''}
-            </div>
-            
-            <div class="product-modal-details">
-                <h2>${product.name}</h2>
-                <div class="product-price">
-                    <span class="current-price">${formatCurrency(product.price)}</span>
-                    ${product.originalPrice && product.price < product.originalPrice
-                        ? `<span class="original-price">${formatCurrency(product.originalPrice)}</span>`
-                        : ''}
-                </div>
-                
-                <div class="product-rating-section">
-                    ${product.rating ? `
-                    <div class="rating">
-                        ⭐ ${product.rating}/5 (${product.reviews || 0} reviews)
-                    </div>
-                    ` : ''}
-                    <div class="stock-status ${product.stock > 0 ? 'in-stock' : 'out-of-stock'}">
-                        ${product.stock > 0 ? `${product.stock} units available` : 'Out of stock'}
-                    </div>
-                </div>
-                
-                <div class="product-description">
-                    <h3>Description</h3>
-                    <p>${product.description}</p>
-                </div>
-                
-                ${product.specifications ? `
-                <div class="product-specifications">
-                    <h3>Specifications</h3>
-                    <div class="specs-grid">
-                        ${Object.entries(product.specifications).map(([key, value]) => `
-                            <div class="spec-item">
-                                <strong>${key}:</strong>
-                                <span>${value}</span>
-                            </div>
-                        `).join('')}
-                    </div>
-                </div>
-                ` : ''}
-                
-                ${product.includes ? `
-                <div class="product-includes">
-                    <h3>Service Includes</h3>
-                    <ul>
-                        ${product.includes.map(item => `<li>${item}</li>`).join('')}
-                    </ul>
-                </div>
-                ` : ''}
-                
-                <div class="product-actions">
-                    <div class="quantity-selector">
-                        <button class="qty-btn" onclick="this.nextElementSibling.stepDown()">−</button>
-                        <input type="number" 
-                               min="1" 
-                               max="${product.stock}" 
-                               value="1" 
-                               class="quantity-input">
-                        <button class="qty-btn" onclick="this.previousElementSibling.stepUp()">+</button>
-                    </div>
-                    
-                    <button class="modal-add-to-cart" ${product.stock <= 0 ? 'disabled' : ''}>
-                        🛒 Add to Cart
-                    </button>
-                </div>
-                
-                <div class="product-meta">
-                    <div class="meta-item">
-                        <span class="meta-label">Delivery:</span>
-                        <span class="meta-value">${product.delivery}</span>
-                    </div>
-                    <div class="meta-item">
-                        <span class="meta-label">Installation:</span>
-                        <span class="meta-value">${product.installation}</span>
-                    </div>
-                    <div class="meta-item">
-                        <span class="meta-label">Warranty:</span>
-                        <span class="meta-value">${product.warranty || 'N/A'}</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    `;
-}
-
-function closeProductModal() {
-    const modal = document.getElementById('productModal');
-    if (modal) {
-        modal.classList.remove('open');
-        document.body.style.overflow = '';
-    }
-}
-
-// Wishlist
-function initWishlist() {
-    // Load wishlist from storage
-    let wishlist = JSON.parse(localStorage.getItem('kinguWishlist') || '[]');
+    document.querySelectorAll('a[href*="mailto"]').forEach(link => {
+        link.href = 'mailto:kinguelectricaltz@gmail.com';
+    });
     
-    // Update wishlist count
-    updateWishlistCount(wishlist.length);
+    document.querySelectorAll('a[href*="wa.me"]').forEach(link => {
+        link.href = `https://wa.me/${WHATSAPP_NUMBER}`;
+        link.target = '_blank';
+    });
     
-    // Expose toggle function
-    window.toggleWishlist = function(product) {
-        const index = wishlist.findIndex(item => item.id === product.id);
-        
-        if (index === -1) {
-            wishlist.push(product);
-            showNotification(`Added ${product.name} to wishlist`, 'success');
-        } else {
-            wishlist.splice(index, 1);
-            showNotification(`Removed ${product.name} from wishlist`, 'info');
-        }
-        
-        // Save to storage
-        localStorage.setItem('kinguWishlist', JSON.stringify(wishlist));
-        
-        // Update UI
-        updateWishlistCount(wishlist.length);
-        
-        // Track event
-        trackEvent('ecommerce', 'wishlist_toggle', product.id.toString());
-    };
-}
-
-function updateWishlistCount(count) {
-    const wishlistElements = document.querySelectorAll('.wishlist-count');
-    wishlistElements.forEach(el => {
-        el.textContent = count;
-        el.style.display = count > 0 ? 'inline' : 'none';
+    document.querySelectorAll('a[href^="tel:"]').forEach(link => {
+        link.href = `tel:${PHONE_NUMBER}`;
     });
 }
 
-// ===== PWA FUNCTIONALITY =====
-
-function initPWAFeatures() {
-    registerServiceWorker();
-    setupInstallPrompt();
-    setupOfflineDetection();
-    initBackgroundSync();
-    initPushNotifications();
-}
-
-// Register Service Worker
-function registerServiceWorker() {
-    if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('/service-worker.js', {
-            scope: '/',
-            updateViaCache: 'none'
-        })
-        .then(registration => {
-            console.log('Service Worker registered:', registration);
-            
-            // Check for updates
-            registration.addEventListener('updatefound', () => {
-                const newWorker = registration.installing;
-                console.log('New Service Worker found:', newWorker);
-                
-                newWorker.addEventListener('statechange', () => {
-                    if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                        showUpdateNotification();
-                    }
-                });
-            });
-            
-            // Handle messages
-            navigator.serviceWorker.addEventListener('message', handleServiceWorkerMessage);
-        })
-        .catch(error => {
-            console.error('Service Worker registration failed:', error);
-        });
-    }
-}
-
-// Handle Service Worker Messages
-function handleServiceWorkerMessage(event) {
-    const { type, data } = event.data;
-    
-    switch (type) {
-        case 'UPDATE_AVAILABLE':
-            showUpdateNotification();
-            break;
-        case 'SYNC_COMPLETE':
-            if (data && data.type === 'orders') {
-                showNotification('Orders synced successfully!', 'success');
-            }
-            break;
-        case 'BACKGROUND_FETCH':
-            console.log('Background fetch completed:', data);
-            break;
-    }
-}
-
-// Setup Install Prompt
-function setupInstallPrompt() {
-    let deferredPrompt;
-    
-    window.addEventListener('beforeinstallprompt', (e) => {
-        e.preventDefault();
-        deferredPrompt = e;
-        
-        // Show install button after delay
-        setTimeout(() => {
-            if (deferredPrompt && !APP_STATE.isPWAInstalled) {
-                showInstallPrompt();
-            }
-        }, 10000);
-    });
-    
-    window.addEventListener('appinstalled', () => {
-        console.log('PWA installed successfully');
-        APP_STATE.isPWAInstalled = true;
-        showNotification('Kingu Electrical app installed successfully!', 'success');
-        trackEvent('pwa', 'installed');
-    });
-    
-    function showInstallPrompt() {
-        const prompt = document.createElement('div');
-        prompt.className = 'install-prompt';
-        prompt.innerHTML = `
-            <div class="install-content">
-                <img src="/assets/icons/optimized/icon-192x192.png" alt="Kingu Electrical" width="64" height="64">
-                <div>
-                    <h4>Install Kingu Electrical App</h4>
-                    <p>Get faster access and work offline</p>
-                </div>
-                <button class="install-btn">Install</button>
-                <button class="install-close">×</button>
-            </div>
-        `;
-        
-        document.body.appendChild(prompt);
-        
-        // Install button
-        prompt.querySelector('.install-btn').addEventListener('click', async () => {
-            if (!deferredPrompt) return;
-            
-            deferredPrompt.prompt();
-            const { outcome } = await deferredPrompt.userChoice;
-            
-            trackEvent('pwa', 'install_prompt', outcome);
-            
-            if (outcome === 'accepted') {
-                prompt.remove();
-                deferredPrompt = null;
-            }
-        });
-        
-        // Close button
-        prompt.querySelector('.install-close').addEventListener('click', () => {
-            prompt.remove();
-            localStorage.setItem('pwaPromptDismissed', Date.now().toString());
-        });
-        
-        // Auto-dismiss after 30 seconds
-        setTimeout(() => {
-            if (prompt.parentNode) {
-                prompt.remove();
-                localStorage.setItem('pwaPromptDismissed', Date.now().toString());
-            }
-        }, 30000);
-    }
-}
-
-// Setup Offline Detection
-function setupOfflineDetection() {
-    function updateOnlineStatus() {
-        APP_STATE.isOnline = navigator.onLine;
-        
-        const statusIndicator = document.getElementById('onlineStatus');
-        if (statusIndicator) {
-            if (APP_STATE.isOnline) {
-                statusIndicator.textContent = '🟢 Online';
-                statusIndicator.className = 'online';
-            } else {
-                statusIndicator.textContent = '🔴 Offline - Working locally';
-                statusIndicator.className = 'offline';
-                showNotification('You are offline. Changes will sync when you reconnect.', 'info', 7000);
-            }
-        }
-    }
-    
-    window.addEventListener('online', updateOnlineStatus);
-    window.addEventListener('offline', updateOnlineStatus);
-    updateOnlineStatus();
-}
-
-// Background Sync
-function initBackgroundSync() {
-    if ('serviceWorker' in navigator && 'SyncManager' in window) {
-        navigator.serviceWorker.ready.then(registration => {
-            // Register for periodic sync (if supported)
-            if ('periodicSync' in registration) {
-                registration.periodicSync.register('update-products', {
-                    minInterval: 24 * 60 * 60 * 1000 // 24 hours
-                }).then(() => {
-                    console.log('Periodic sync registered');
-                });
-            }
-            
-            // Sync orders when online
-            window.addEventListener('online', () => {
-                syncPendingOrders();
-            });
-        });
-    }
-}
-
-async function syncPendingOrders() {
-    const pendingOrders = JSON.parse(localStorage.getItem('pendingOrders') || '[]');
-    
-    if (pendingOrders.length === 0) return;
-    
-    showNotification('Syncing pending orders...', 'info');
-    
-    for (const order of pendingOrders) {
-        try {
-            // Simulate API call
-            await simulateAPIRequest(order);
-            
-            // Remove from pending
-            pendingOrders.splice(pendingOrders.indexOf(order), 1);
-            localStorage.setItem('pendingOrders', JSON.stringify(pendingOrders));
-            
-        } catch (error) {
-            console.error('Failed to sync order:', error);
-        }
-    }
-    
-    if (pendingOrders.length === 0) {
-        showNotification('All orders synced successfully!', 'success');
-    }
-}
-
-// Push Notifications
-function initPushNotifications() {
-    if ('Notification' in window && 'serviceWorker' in navigator) {
-        // Request permission on user action
-        const notifyBtn = document.getElementById('enableNotifications');
-        if (notifyBtn) {
-            notifyBtn.addEventListener('click', requestNotificationPermission);
-        }
-        
-        // Check current permission
-        if (Notification.permission === 'granted') {
-            console.log('Notifications already granted');
-        }
-    }
-}
-
-async function requestNotificationPermission() {
-    const permission = await Notification.requestPermission();
-    
-    if (permission === 'granted') {
-        console.log('Notification permission granted');
-        
-        // Subscribe to push notifications
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.ready.then(registration => {
-                registration.pushManager.subscribe({
-                    userVisibleOnly: true,
-                    applicationServerKey: urlBase64ToUint8Array('YOUR_VAPID_PUBLIC_KEY')
-                }).then(subscription => {
-                    console.log('Push subscription:', subscription);
-                    // Send subscription to server
-                });
-            });
-        }
-        
-        showNotification('Notifications enabled!', 'success');
-        trackEvent('notifications', 'enabled');
-    }
-}
-
-// URL base64 to Uint8Array conversion for push notifications
-function urlBase64ToUint8Array(base64String) {
-    const padding = '='.repeat((4 - base64String.length % 4) % 4);
-    const base64 = (base64String + padding)
-        .replace(/\-/g, '+')
-        .replace(/_/g, '/');
-    
-    const rawData = window.atob(base64);
-    const outputArray = new Uint8Array(rawData.length);
-    
-    for (let i = 0; i < rawData.length; ++i) {
-        outputArray[i] = rawData.charCodeAt(i);
-    }
-    return outputArray;
-}
-
-// ===== UI ENHANCEMENTS =====
-
-function initUIEnhancements() {
-    initThemeToggle();
-    initImageLazyLoading();
-    initTooltips();
-    initCopyButtons();
-    initShareButtons();
-    initProgressBars();
-    initCounters();
-}
-
-// Theme Toggle
-function initThemeToggle() {
-    const themeToggle = document.getElementById('themeToggle');
-    if (!themeToggle) return;
-    
-    // Check saved theme
-    const savedTheme = localStorage.getItem('theme') || 'light';
-    setTheme(savedTheme);
-    
-    themeToggle.addEventListener('click', () => {
-        const newTheme = APP_STATE.darkMode ? 'light' : 'dark';
-        setTheme(newTheme);
-        localStorage.setItem('theme', newTheme);
-    });
-}
-
-function setTheme(theme) {
-    APP_STATE.darkMode = theme === 'dark';
-    document.documentElement.setAttribute('data-theme', theme);
-    
-    const themeToggle = document.getElementById('themeToggle');
-    if (themeToggle) {
-        themeToggle.innerHTML = theme === 'dark' ? '☀️' : '🌙';
-    }
-}
-
-// Image Lazy Loading
-function initImageLazyLoading() {
-    if ('IntersectionObserver' in window) {
-        const imageObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const img = entry.target;
-                    img.src = img.dataset.src || img.src;
-                    img.classList.add('loaded');
-                    imageObserver.unobserve(img);
-                }
-            });
-        });
-        
-        document.querySelectorAll('img[data-src]').forEach(img => {
-            imageObserver.observe(img);
-        });
-    }
-}
-
-// Tooltips
-function initTooltips() {
-    const tooltipElements = document.querySelectorAll('[data-tooltip]');
-    
-    tooltipElements.forEach(element => {
-        element.addEventListener('mouseenter', showTooltip);
-        element.addEventListener('mouseleave', hideTooltip);
-        element.addEventListener('focus', showTooltip);
-        element.addEventListener('blur', hideTooltip);
-    });
-}
-
-function showTooltip(e) {
-    const element = e.target;
-    const tooltipText = element.dataset.tooltip;
-    
-    if (!tooltipText) return;
-    
-    const tooltip = document.createElement('div');
-    tooltip.className = 'tooltip';
-    tooltip.textContent = tooltipText;
-    tooltip.id = 'current-tooltip';
-    
-    const rect = element.getBoundingClientRect();
-    tooltip.style.top = (rect.top - 40) + 'px';
-    tooltip.style.left = (rect.left + rect.width / 2) + 'px';
-    
-    document.body.appendChild(tooltip);
-}
-
-function hideTooltip() {
-    const tooltip = document.getElementById('current-tooltip');
-    if (tooltip) tooltip.remove();
-}
-
-// Copy Buttons
-function initCopyButtons() {
-    document.querySelectorAll('[data-copy]').forEach(button => {
-        button.addEventListener('click', (e) => {
-            const text = e.target.dataset.copy;
-            copyToClipboard(text);
-        });
-    });
-}
-
-async function copyToClipboard(text) {
-    try {
-        await navigator.clipboard.writeText(text);
-        showNotification('Copied to clipboard!', 'success');
-    } catch (error) {
-        console.error('Failed to copy:', error);
-        showNotification('Failed to copy to clipboard', 'error');
-    }
-}
-
-// Share Buttons
-function initShareButtons() {
-    if ('share' in navigator) {
-        document.querySelectorAll('[data-share]').forEach(button => {
-            button.style.display = 'inline-block';
-            button.addEventListener('click', () => {
-                const shareData = {
-                    title: button.dataset.shareTitle || CONFIG.COMPANY_NAME,
-                    text: button.dataset.shareText || 'Check out Kingu Electrical services',
-                    url: button.dataset.shareUrl || CONFIG.WEBSITE
-                };
-                
-                navigator.share(shareData).catch(console.error);
-            });
-        });
-    }
-}
-
-// Progress Bars
-function initProgressBars() {
-    const progressBars = document.querySelectorAll('.progress-bar');
-    
-    progressBars.forEach(bar => {
-        const value = bar.dataset.value || '0';
-        bar.style.width = value + '%';
-        bar.setAttribute('aria-valuenow', value);
-    });
-}
-
-// Counters (for stats)
-function initCounters() {
-    const counters = document.querySelectorAll('.counter');
-    
-    counters.forEach(counter => {
-        const target = parseInt(counter.dataset.target || '0');
-        const duration = parseInt(counter.dataset.duration || '2000');
-        const increment = target / (duration / 16); // 60fps
-        
-        let current = 0;
-        const updateCounter = () => {
-            current += increment;
-            if (current < target) {
-                counter.textContent = Math.floor(current).toLocaleString();
-                requestAnimationFrame(updateCounter);
-            } else {
-                counter.textContent = target.toLocaleString();
-            }
-        };
-        
-        // Start when in viewport
-        const observer = new IntersectionObserver((entries) => {
-            if (entries[0].isIntersecting) {
-                updateCounter();
-                observer.unobserve(counter);
-            }
-        });
-        
-        observer.observe(counter);
-    });
-}
-
-// ===== ANALYTICS =====
-
-function initAnalytics() {
-    // Page view tracking
-    trackPageView();
-    
-    // Performance tracking
-    if ('PerformanceObserver' in window) {
-        // Largest Contentful Paint
-        const lcpObserver = new PerformanceObserver((entryList) => {
-            const entries = entryList.getEntries();
-            const lastEntry = entries[entries.length - 1];
-            trackEvent('performance', 'lcp', Math.round(lastEntry.startTime).toString());
-        });
-        lcpObserver.observe({ type: 'largest-contentful-paint', buffered: true });
-        
-        // First Input Delay
-        const fidObserver = new PerformanceObserver((entryList) => {
-            const entries = entryList.getEntries();
-            entries.forEach(entry => {
-                trackEvent('performance', 'fid', Math.round(entry.processingStart - entry.startTime).toString());
-            });
-        });
-        fidObserver.observe({ type: 'first-input', buffered: true });
-    }
-}
-
-function trackPageView() {
-    const pageData = {
-        url: window.location.href,
-        title: document.title,
-        timestamp: new Date().toISOString(),
-        referrer: document.referrer || 'direct'
-    };
-    
-    // Save to localStorage for offline tracking
-    const pageViews = JSON.parse(localStorage.getItem('pageViews') || '[]');
-    pageViews.push(pageData);
-    localStorage.setItem('pageViews', JSON.stringify(pageViews.slice(-100))); // Keep last 100
-    
-    // Send to analytics (simulated)
-    if (APP_STATE.isOnline) {
-        setTimeout(() => {
-            // Simulate analytics call
-            console.log('Page view tracked:', pageData);
-        }, 100);
-    }
-}
-
-function trackEvent(category, action, label, value) {
-    const eventData = {
-        category,
-        action,
-        label,
-        value,
-        timestamp: new Date().toISOString()
-    };
-    
-    // Save to localStorage for offline tracking
-    const events = JSON.parse(localStorage.getItem('trackedEvents') || '[]');
-    events.push(eventData);
-    localStorage.setItem('trackedEvents', JSON.stringify(events.slice(-200))); // Keep last 200
-    
-    // Send to analytics (simulated)
-    if (APP_STATE.isOnline) {
-        setTimeout(() => {
-            // Simulate analytics call
-            console.log('Event tracked:', eventData);
-        }, 100);
-    }
-}
-
-// ===== UTILITY FUNCTIONS =====
-
-function formatCurrency(amount) {
-    return new Intl.NumberFormat('en-TZ', {
-        style: 'currency',
-        currency: APP_STATE.currency,
-        minimumFractionDigits: 0,
-        maximumFractionDigits: 0
-    }).format(amount);
-}
-
-function trapFocus(element) {
-    const focusableElements = element.querySelectorAll(
-        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
-    );
-    
-    if (focusableElements.length === 0) return;
-    
-    const firstElement = focusableElements[0];
-    const lastElement = focusableElements[focusableElements.length - 1];
-    
-    element.addEventListener('keydown', (e) => {
-        if (e.key !== 'Tab') return;
-        
-        if (e.shiftKey) {
-            if (document.activeElement === firstElement) {
-                lastElement.focus();
-                e.preventDefault();
-            }
-        } else {
-            if (document.activeElement === lastElement) {
-                firstElement.focus();
-                e.preventDefault();
-            }
-        }
-    });
-    
-    firstElement.focus();
-}
-
-async function simulateAPIRequest(data) {
-    // Simulate network delay
-    return new Promise((resolve, reject) => {
-        setTimeout(() => {
-            if (Math.random() < 0.95) { // 95% success rate
-                resolve({ success: true, data });
-            } else {
-                reject(new Error('Simulated network error'));
-            }
-        }, 1000);
-    });
-}
-
-// Show Order Confirmation
-function showOrderConfirmation(message) {
-    showNotification('Order request sent! We will contact you shortly.', 'success');
-    
-    // Share via WhatsApp
-    const url = `https://wa.me/${CONFIG.WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
-    window.open(url, '_blank');
-    
-    trackEvent('order', 'quick_request');
-}
-
-function showUpdateNotification() {
-    const notification = showNotification(
-        'A new version is available. Refresh to update?',
-        'info',
-        10000
-    );
-    
-    // Add refresh button
-    const notificationEl = document.getElementById(notification);
-    if (notificationEl) {
-        const refreshBtn = document.createElement('button');
-        refreshBtn.textContent = 'Refresh';
-        refreshBtn.className = 'btn btn-sm';
-        refreshBtn.style.marginLeft = '10px';
-        refreshBtn.addEventListener('click', () => {
-            window.location.reload();
-        });
-        
-        notificationEl.querySelector('.notification-content').appendChild(refreshBtn);
-    }
-}
-
-function showBookingConfirmation(message, data) {
-    // Create booking confirmation modal
-    const modal = document.createElement('div');
-    modal.className = 'confirmation-modal';
-    modal.innerHTML = `
-        <div class="confirmation-content">
-            <h3>📅 Site Inspection Scheduled!</h3>
-            <p>We will call you at <strong>${data.phone}</strong> to confirm the details.</p>
-            
-            <div class="booking-details">
-                <p><strong>Date:</strong> ${data.date}</p>
-                <p><strong>Time:</strong> ${data.time}</p>
-                <p><strong>Service:</strong> ${data.service}</p>
-            </div>
-            
-            <p>Need to make changes? Call us at ${CONFIG.DISPLAY_PHONE}</p>
-            
-            <div class="confirmation-actions">
-                <button class="btn btn-primary" onclick="shareBooking('${encodeURIComponent(message)}')">
-                    Share via WhatsApp
-                </button>
-                <button class="btn btn-secondary" onclick="this.closest('.confirmation-modal').remove()">
-                    Close
-                </button>
-            </div>
-        </div>
-    `;
-    
-    document.body.appendChild(modal);
-    
-    // Track booking
-    trackEvent('booking', 'scheduled', data.service);
-}
-
-function shareBooking(message) {
-    const url = `https://wa.me/${CONFIG.WHATSAPP_NUMBER}?text=${message}`;
-    window.open(url, '_blank');
-}
-
-// Load App State
-function loadAppState() {
-    const savedState = localStorage.getItem('kinguAppState');
-    if (savedState) {
-        try {
-            Object.assign(APP_STATE, JSON.parse(savedState));
-        } catch (error) {
-            console.error('Error loading app state:', error);
-        }
-    }
-}
-
-// Save App State
-function saveAppState() {
-    localStorage.setItem('kinguAppState', JSON.stringify(APP_STATE));
-}
-
-// Check for Updates
-function checkForUpdates() {
-    if (!APP_STATE.isOnline) return;
-    
-    // Check for content updates
-    fetch('/version.json')
-        .then(response => response.json())
-        .then(data => {
-            const currentVersion = '5.2.0';
-            if (data.version !== currentVersion) {
-                showUpdateNotification();
-            }
-        })
-        .catch(() => {
-            // Silently fail
-        });
-}
-
-// Update Active Nav Link on Scroll
+// Add active state to current section in navigation
 function updateActiveNavLink() {
     const sections = document.querySelectorAll('section[id]');
     const navLinks = document.querySelectorAll('.nav-menu a[href^="#"]');
     
     let current = '';
     sections.forEach(section => {
-        const sectionTop = section.offsetTop - 100;
-        if (window.scrollY >= sectionTop) {
+        const sectionTop = section.offsetTop;
+        const sectionHeight = section.clientHeight;
+        if (scrollY >= sectionTop - 150) {
             current = section.getAttribute('id');
         }
     });
     
     navLinks.forEach(link => {
-        const href = link.getAttribute('href');
-        link.classList.toggle('active', href === `#${current}`);
-    });
-}
-
-// Reset All Filters
-function resetFilters() {
-    APP_STATE.currentCategory = 'all';
-    APP_STATE.currentFilter = 'all';
-    APP_STATE.searchQuery = '';
-    APP_STATE.sortBy = 'default';
-    
-    // Reset UI
-    document.querySelectorAll('[data-category]').forEach(link => {
-        link.classList.toggle('active', link.dataset.category === 'all');
-    });
-    
-    document.querySelectorAll('[data-filter]').forEach(btn => {
-        btn.classList.toggle('active', btn.dataset.filter === 'all');
-    });
-    
-    const searchInput = document.getElementById('searchInput');
-    if (searchInput) searchInput.value = '';
-    
-    const sortSelect = document.getElementById('sortSelect');
-    if (sortSelect) sortSelect.value = 'default';
-    
-    // Show all products
-    displayProducts('all');
-    
-    trackEvent('filters', 'reset');
-}
-
-// Safe Execute with Error Boundary
-function safeExecute(fn, fallback = null) {
-    return function(...args) {
-        try {
-            return fn.apply(this, args);
-        } catch (error) {
-            console.error(`Error in ${fn.name}:`, error);
-            return fallback;
+        link.classList.remove('active');
+        if (link.getAttribute('href') === `#${current}`) {
+            link.classList.add('active');
         }
-    };
+    });
 }
 
-// Backup Cart to Cloud
-function backupCartToCloud() {
-    if (!APP_STATE.isOnline) return;
+// Add intersection observer for lazy loading images
+function initLazyLoading() {
+    const lazyImages = document.querySelectorAll('img[data-src]');
     
-    const cartData = {
-        items: cart.items,
-        timestamp: new Date().toISOString()
-    };
-    
-    // Store in localStorage as backup
-    localStorage.setItem('cartBackup', JSON.stringify(cartData));
-}
-
-// Optimize Image URL
-function optimizeImageUrl(url, width = 300) {
-    // Use your optimization service or logic here
-    return url.replace(/\.(jpg|jpeg|png)$/, `.webp`);
-}
-
-// Get Delivery Estimate
-async function getDeliveryEstimate() {
-    if (!APP_STATE.userLocation && 'geolocation' in navigator) {
-        try {
-            const position = await new Promise((resolve, reject) => {
-                navigator.geolocation.getCurrentPosition(resolve, reject);
+    if ('IntersectionObserver' in window) {
+        const imageObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const img = entry.target;
+                    img.src = img.dataset.src;
+                    img.classList.add('loaded');
+                    imageObserver.unobserve(img);
+                }
             });
-            
-            APP_STATE.userLocation = {
-                lat: position.coords.latitude,
-                lng: position.coords.longitude
-            };
-            
-            // Calculate delivery estimate based on location
-            return '2-3 business days'; // Placeholder
-        } catch (error) {
-            console.error('Geolocation error:', error);
-            return '2-3 business days';
-        }
-    }
-    return 'Delivery estimate unavailable';
-}
-
-// Measure Performance
-function measurePerformance(metric, value) {
-    if (typeof window.performance !== 'undefined') {
-        performance.measure(metric, {
-            start: performance.now() - value,
-            end: performance.now()
+        });
+        
+        lazyImages.forEach(img => imageObserver.observe(img));
+    } else {
+        // Fallback for older browsers
+        lazyImages.forEach(img => {
+            img.src = img.dataset.src;
         });
     }
-    
-    // Send to analytics
-    trackEvent('performance', metric, value.toString());
 }
 
-// Export to global scope
-window.APP_STATE = APP_STATE;
-window.PRODUCTS = PRODUCTS;
-window.CONFIG = CONFIG;
-window.addToCart = addToCart;
-window.removeFromCart = removeFromCart;
-window.updateCartQuantity = updateCartQuantity;
-window.showCategory = showCategory;
-window.resetFilters = resetFilters;
-window.formatCurrency = formatCurrency;
-window.showNotification = showNotification;
-window.copyToClipboard = copyToClipboard;
-window.showOrderConfirmation = showOrderConfirmation;
-window.getDeliveryEstimate = getDeliveryEstimate;
+// Show Loader
+function showLoader() {
+    const loader = document.getElementById('loader');
+    if (loader) {
+        loader.classList.add('show');
+    }
+}
 
-// Apply safe execution to critical functions
-window.addToCart = safeExecute(addToCart);
-window.removeFromCart = safeExecute(removeFromCart);
-window.updateCartQuantity = safeExecute(updateCartQuantity);
+// Hide Loader
+function hideLoader() {
+    const loader = document.getElementById('loader');
+    if (loader) {
+        loader.classList.remove('show');
+    }
+}
 
-// Initialize on window load
-window.addEventListener('load', () => {
-    console.log('🎉 Kingu Electrical App Loaded Successfully');
+// Keyboard shortcuts
+function handleKeyboardShortcuts(event) {
+    // ESC to close cart
+    if (event.key === 'Escape') {
+        closeCart();
+    }
     
-    // Add loaded class to body
-    document.body.classList.add('loaded');
+    // Ctrl/Cmd + K to search
+    if ((event.ctrlKey || event.metaKey) && event.key === 'k') {
+        event.preventDefault();
+        const searchInput = document.getElementById('searchInput');
+        if (searchInput) {
+            searchInput.focus();
+        }
+    }
+}
+
+// Close cart when clicking outside
+document.addEventListener('click', function(event) {
+    const cartSidebar = document.getElementById('cartSidebar');
+    const cartIcon = document.querySelector('.cart-icon');
     
-    // Trigger initial animations
-    initScrollAnimations();
-    
-    // Update cart UI
-    updateCartUI();
-    
-    // Save initial state
-    saveAppState();
-    
-    // Backup cart
-    backupCartToCloud();
+    if (cartSidebar && cartSidebar.classList.contains('open') &&
+        !cartSidebar.contains(event.target) && 
+        !cartIcon.contains(event.target)) {
+        closeCart();
+    }
 });
 
-// Listen for page visibility changes
-document.addEventListener('visibilitychange', () => {
-    if (!document.hidden) {
-        // Page became visible again
-        checkForUpdates();
-        backupCartToCloud();
-    }
+// Install PWA prompt
+let deferredPrompt;
+window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    
+    // Show install button
+    const installButton = document.createElement('button');
+    installButton.innerHTML = '📱 Install App';
+    installButton.style.cssText = `
+        position: fixed;
+        bottom: 100px;
+        right: 30px;
+        background: var(--primary-green);
+        color: white;
+        border: none;
+        padding: 12px 24px;
+        border-radius: 25px;
+        font-family: 'Poppins', sans-serif;
+        font-weight: 600;
+        cursor: pointer;
+        box-shadow: 0 4px 12px rgba(26, 86, 50, 0.4);
+        z-index: 1000;
+        transition: all 0.3s ease;
+    `;
+    
+    installButton.addEventListener('click', () => {
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then((choiceResult) => {
+            if (choiceResult.outcome === 'accepted') {
+                console.log('User accepted the install prompt');
+            }
+            deferredPrompt = null;
+            installButton.remove();
+        });
+    });
+    
+    document.body.appendChild(installButton);
+    
+    // Auto-hide after 10 seconds
+    setTimeout(() => {
+        if (installButton.parentNode) {
+            installButton.style.opacity = '0';
+            setTimeout(() => installButton.remove(), 300);
+        }
+    }, 10000);
 });
