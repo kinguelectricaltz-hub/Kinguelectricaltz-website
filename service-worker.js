@@ -1,42 +1,58 @@
 // Enhanced Service Worker for Kingu Electrical PWA
-// Version: 5.2.0
-// Cache Name: kingu-electrical-v5.2.0
+// Version: 5.3.0
+// Cache Name: kingu-electrical-v5.3.0
 
-const CACHE_NAME = 'kingu-electrical-v5.2.0';
+const CACHE_VERSION = '5.3.0';
+const CACHE_NAME = `kingu-electrical-${CACHE_VERSION}`;
 const OFFLINE_PAGE = '/offline.html';
-const CACHE_ASSETS = [
+
+// Core assets to cache on install
+const CORE_ASSETS = [
     '/',
     '/index.html',
     '/Kinguelectrical-shop.html',
+    
+    // Main assets
     '/styles.css',
     '/script.js',
-    
-    // Core assets
     '/manifest.json',
-    '/assets/icons/icon-72x72.png',
-    '/assets/icons/icon-96x96.png',
-    '/assets/icons/icon-128x128.png',
-    '/assets/icons/icon-144x144.png',
-    '/assets/icons/icon-192x192.png',
-    '/assets/icons/icon-384x384.png',
-    '/assets/icons/icon-512x512.png',
+    
+    // Optimized icons
+    '/assets/icons/optimized/icon-72x72.png',
+    '/assets/icons/optimized/icon-96x96.png',
+    '/assets/icons/optimized/icon-128x128.png',
+    '/assets/icons/optimized/icon-144x144.png',
+    '/assets/icons/optimized/icon-192x192.png',
+    '/assets/icons/optimized/icon-512x512.png',
+    '/assets/icons/optimized/icon-192x192.webp',
+    '/assets/icons/optimized/icon-512x512.webp',
     '/assets/icons/favicon.svg',
     
-    // Fonts
-    'https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500&display=swap',
+    // Critical product images
+    '/images/optimized/generator-medium.jpg',
+    '/images/optimized/solar-medium.jpg',
+    '/images/optimized/spare-medium.jpg',
     
-    // Fallback images
-    '/assets/images/offline/offline-generator.jpg',
-    '/assets/images/offline/offline-solar.jpg',
-    '/assets/images/offline/offline-tools.jpg'
+    // Fonts (cache these if you're self-hosting)
+    // '/fonts/poppins-regular.woff2',
+    // '/fonts/roboto-regular.woff2',
+    
+    // Fallback images for offline
+    '/assets/images/offline/offline-generator.webp',
+    '/assets/images/offline/offline-solar.webp',
+    '/assets/images/offline/offline-tools.webp'
 ];
 
-// Dynamic caches
-const API_CACHE_NAME = 'kingu-api-v1';
-const IMAGES_CACHE_NAME = 'kingu-images-v1';
-const PAGES_CACHE_NAME = 'kingu-pages-v1';
+// Dynamic cache names for different resource types
+const CACHE_TYPES = {
+    API: 'kingu-api-v1',
+    IMAGES: 'kingu-images-v1',
+    PAGES: 'kingu-pages-v1',
+    STATIC: 'kingu-static-v1',
+    FONTS: 'kingu-fonts-v1'
+};
 
-// API endpoints to cache
+// API endpoints to cache (example endpoints)
 const API_ENDPOINTS = [
     '/api/products',
     '/api/services',
@@ -44,350 +60,202 @@ const API_ENDPOINTS = [
     '/api/contact'
 ];
 
-// Install Event - Cache core assets
-self.addEventListener('install', event => {
-    console.log('🔧 Service Worker: Installing...');
-    
-    event.waitUntil(
-        caches.open(CACHE_NAME)
-            .then(cache => {
-                console.log('📦 Caching core assets');
-                return cache.addAll(CACHE_ASSETS);
-            })
-            .then(() => {
-                console.log('✅ Core assets cached');
-                return self.skipWaiting();
-            })
-            .catch(error => {
-                console.error('❌ Cache installation failed:', error);
-            })
-    );
-});
+// Image patterns to cache
+const IMAGE_PATTERNS = [
+    /\.(jpg|jpeg|png|webp|gif|svg)$/i,
+    /optimized\//i
+];
 
-// Activate Event - Clean up old caches
-self.addEventListener('activate', event => {
-    console.log('🔄 Service Worker: Activating...');
+// ===== INSTALL EVENT =====
+self.addEventListener('install', event => {
+    console.log('🔧 Service Worker: Installing v' + CACHE_VERSION);
     
+    // Skip waiting to activate immediately
     event.waitUntil(
         Promise.all([
-            // Clean up old caches
-            caches.keys().then(cacheNames => {
-                return Promise.all(
-                    cacheNames.map(cacheName => {
-                        if (cacheName !== CACHE_NAME && 
-                            cacheName !== API_CACHE_NAME &&
-                            cacheName !== IMAGES_CACHE_NAME &&
-                            cacheName !== PAGES_CACHE_NAME) {
-                            console.log('🗑️ Deleting old cache:', cacheName);
-                            return caches.delete(cacheName);
-                        }
-                    })
-                );
-            }),
-            
-            // Claim clients immediately
-            self.clients.claim(),
+            // Cache core assets
+            cacheCoreAssets(),
             
             // Initialize IndexedDB
-            initializeIndexedDB()
-        ]).then(() => {
-            console.log('✅ Service Worker activated and ready');
+            initializeIndexedDB(),
             
-            // Send update notification to all clients
-            sendUpdateNotification();
+            // Skip waiting
+            self.skipWaiting()
+        ])
+        .then(() => {
+            console.log('✅ Service Worker installed successfully');
+            
+            // Send installation notification
+            sendMessageToClients({
+                type: 'SW_INSTALLED',
+                data: { version: CACHE_VERSION }
+            });
+        })
+        .catch(error => {
+            console.error('❌ Installation failed:', error);
         })
     );
 });
 
-// Fetch Event - Network with cache fallback
+// ===== ACTIVATE EVENT =====
+self.addEventListener('activate', event => {
+    console.log('🔄 Service Worker: Activating v' + CACHE_VERSION);
+    
+    event.waitUntil(
+        Promise.all([
+            // Clean up old caches
+            cleanupOldCaches(),
+            
+            // Claim clients immediately
+            self.clients.claim(),
+            
+            // Preload critical data
+            preloadCriticalData(),
+            
+            // Setup periodic sync
+            setupPeriodicSync()
+        ])
+        .then(() => {
+            console.log('✅ Service Worker activated');
+            
+            // Send activation notification
+            sendMessageToClients({
+                type: 'SW_ACTIVATED',
+                data: { version: CACHE_VERSION }
+            });
+            
+            // Check for content updates
+            checkForUpdates();
+        })
+        .catch(error => {
+            console.error('❌ Activation failed:', error);
+        })
+    );
+});
+
+// ===== FETCH EVENT =====
 self.addEventListener('fetch', event => {
     const url = new URL(event.request.url);
+    const request = event.request;
     
-    // Skip cross-origin requests
-    if (!url.origin.startsWith(self.location.origin)) {
+    // Skip non-GET requests
+    if (request.method !== 'GET') {
+        return;
+    }
+    
+    // Skip browser extensions
+    if (url.protocol === 'chrome-extension:') {
+        return;
+    }
+    
+    // Skip analytics and tracking
+    if (url.hostname.includes('google-analytics') || 
+        url.hostname.includes('googletagmanager')) {
         return;
     }
     
     // Handle different types of requests
-    if (url.pathname.startsWith('/api/')) {
-        // API requests - Cache then network
-        event.respondWith(handleApiRequest(event.request));
-    } else if (url.pathname.match(/\.(jpg|jpeg|png|gif|webp|svg)$/)) {
-        // Image requests - Cache first, network fallback
-        event.respondWith(handleImageRequest(event.request));
-    } else if (url.pathname.endsWith('.html') || url.pathname === '/') {
-        // HTML pages - Network first, cache fallback
-        event.respondWith(handlePageRequest(event.request));
-    } else if (url.pathname.match(/\.(css|js|json)$/)) {
-        // Static assets - Cache first, update in background
-        event.respondWith(handleStaticAssetRequest(event.request));
-    } else {
-        // Default - Network first, cache fallback
-        event.respondWith(
-            fetch(event.request)
-                .catch(() => caches.match(event.request))
-                .catch(() => caches.match(OFFLINE_PAGE))
-        );
-    }
-});
-
-// Handle API Requests
-async function handleApiRequest(request) {
-    const cache = await caches.open(API_CACHE_NAME);
-    
-    try {
-        // Try network first
-        const response = await fetch(request);
-        
-        if (response.ok) {
-            // Cache the response
-            const responseClone = response.clone();
-            cache.put(request, responseClone);
-            
-            // Store in IndexedDB for offline access
-            if (request.url.includes('/api/products') || 
-                request.url.includes('/api/services')) {
-                storeApiDataInIndexedDB(request.url, await response.json());
+    event.respondWith(
+        (async () => {
+            try {
+                // Return from cache first for certain resources
+                if (shouldCacheFirst(request)) {
+                    return await cacheFirstWithUpdate(request);
+                }
+                
+                // Network first for dynamic content
+                if (shouldNetworkFirst(request)) {
+                    return await networkFirstWithCacheFallback(request);
+                }
+                
+                // Stale while revalidate for API calls
+                if (shouldStaleWhileRevalidate(request)) {
+                    return await staleWhileRevalidate(request);
+                }
+                
+                // Default: Cache with network fallback
+                return await cacheWithNetworkFallback(request);
+                
+            } catch (error) {
+                console.error('Fetch error:', error);
+                return await getOfflineResponse(request);
             }
-            
-            return response;
-        }
-        
-        throw new Error('API request failed');
-        
-    } catch (error) {
-        // Try to serve from cache
-        const cachedResponse = await cache.match(request);
-        if (cachedResponse) {
-            console.log('📡 Serving API from cache:', request.url);
-            return cachedResponse;
-        }
-        
-        // Try IndexedDB
-        const data = await getApiDataFromIndexedDB(request.url);
-        if (data) {
-            return new Response(JSON.stringify(data), {
-                headers: { 'Content-Type': 'application/json' }
-            });
-        }
-        
-        // Return offline response
-        return new Response(JSON.stringify({ 
-            offline: true, 
-            message: 'You are offline. Data will sync when you reconnect.',
-            timestamp: new Date().toISOString()
-        }), {
-            headers: { 'Content-Type': 'application/json' }
-        });
-    }
-}
+        })()
+    );
+});
 
-// Handle Image Requests
-async function handleImageRequest(request) {
-    const cache = await caches.open(IMAGES_CACHE_NAME);
-    
-    // Try cache first
-    const cachedResponse = await cache.match(request);
-    if (cachedResponse) {
-        return cachedResponse;
-    }
-    
-    try {
-        // Try network
-        const response = await fetch(request);
-        
-        if (response.ok) {
-            // Cache the response
-            const responseClone = response.clone();
-            cache.put(request, responseClone);
-            
-            // Update cache size
-            updateImageCacheSize();
-            
-            return response;
-        }
-        
-        throw new Error('Image fetch failed');
-        
-    } catch (error) {
-        // Return fallback image based on category
-        const fallbackImage = getFallbackImageForRequest(request.url);
-        const fallbackResponse = await caches.match(fallbackImage);
-        
-        if (fallbackResponse) {
-            return fallbackResponse;
-        }
-        
-        // Return placeholder image
-        return new Response(
-            `<svg width="400" height="300" xmlns="http://www.w3.org/2000/svg">
-                <rect width="100%" height="100%" fill="#f0f0f0"/>
-                <text x="50%" y="50%" text-anchor="middle" dy=".3em" 
-                      font-family="Arial" font-size="16" fill="#666">
-                    Image not available offline
-                </text>
-            </svg>`,
-            { headers: { 'Content-Type': 'image/svg+xml' } }
-        );
-    }
-}
-
-// Handle Page Requests
-async function handlePageRequest(request) {
-    const cache = await caches.open(PAGES_CACHE_NAME);
-    
-    try {
-        // Try network first
-        const response = await fetch(request);
-        
-        if (response.ok) {
-            // Cache the response
-            const responseClone = response.clone();
-            cache.put(request, responseClone);
-            
-            return response;
-        }
-        
-        throw new Error('Page fetch failed');
-        
-    } catch (error) {
-        // Try to serve from cache
-        const cachedResponse = await cache.match(request);
-        if (cachedResponse) {
-            return cachedResponse;
-        }
-        
-        // Return offline page
-        const offlineResponse = await caches.match(OFFLINE_PAGE);
-        if (offlineResponse) {
-            return offlineResponse;
-        }
-        
-        // Create basic offline page
-        return new Response(
-            `<!DOCTYPE html>
-            <html>
-            <head>
-                <title>Kingu Electrical - Offline</title>
-                <style>
-                    body { font-family: Arial, sans-serif; text-align: center; padding: 50px; }
-                    h1 { color: #1a5632; }
-                </style>
-            </head>
-            <body>
-                <h1>📶 You are offline</h1>
-                <p>Some features of Kingu Electrical are not available.</p>
-                <p>You can still:</p>
-                <ul style="text-align: left; display: inline-block;">
-                    <li>Browse cached products</li>
-                    <li>View saved information</li>
-                    <li>Access contact details</li>
-                </ul>
-                <br>
-                <p>Phone: +255 682 843 552</p>
-                <p>Email: kinguelectricaltz@gmail.com</p>
-            </body>
-            </html>`,
-            { headers: { 'Content-Type': 'text/html' } }
-        );
-    }
-}
-
-// Handle Static Asset Requests
-async function handleStaticAssetRequest(request) {
-    const cache = await caches.open(CACHE_NAME);
-    
-    // Try cache first
-    const cachedResponse = await cache.match(request);
-    if (cachedResponse) {
-        // Update cache in background
-        updateCacheInBackground(request);
-        return cachedResponse;
-    }
-    
-    try {
-        // Try network
-        const response = await fetch(request);
-        
-        if (response.ok) {
-            // Cache the response
-            const responseClone = response.clone();
-            cache.put(request, responseClone);
-            
-            return response;
-        }
-        
-        throw new Error('Asset fetch failed');
-        
-    } catch (error) {
-        // Return generic error response
-        if (request.url.endsWith('.css')) {
-            return new Response('/* Offline - Styles not available */', {
-                headers: { 'Content-Type': 'text/css' }
-            });
-        }
-        
-        if (request.url.endsWith('.js')) {
-            return new Response('// Offline - Script not available', {
-                headers: { 'Content-Type': 'application/javascript' }
-            });
-        }
-        
-        throw error;
-    }
-}
-
-// Background Sync
+// ===== SYNC EVENT =====
 self.addEventListener('sync', event => {
-    console.log('🔄 Background sync:', event.tag);
+    console.log('🔄 Sync event:', event.tag);
     
-    if (event.tag === 'sync-orders') {
-        event.waitUntil(syncPendingOrders());
-    } else if (event.tag === 'sync-products') {
-        event.waitUntil(syncProducts());
-    } else if (event.tag === 'sync-cart') {
-        event.waitUntil(syncCart());
+    switch (event.tag) {
+        case 'sync-orders':
+            event.waitUntil(syncPendingOrders());
+            break;
+            
+        case 'sync-cart':
+            event.waitUntil(syncCartData());
+            break;
+            
+        case 'sync-products':
+            event.waitUntil(syncProducts());
+            break;
+            
+        case 'sync-forms':
+            event.waitUntil(syncPendingForms());
+            break;
+            
+        default:
+            console.log('Unknown sync tag:', event.tag);
     }
 });
 
-// Periodic Background Sync
-self.addEventListener('periodicsync', event => {
-    console.log('📅 Periodic sync:', event.tag);
-    
-    if (event.tag === 'update-content') {
-        event.waitUntil(updateContent());
-    }
-});
-
-// Push Notifications
+// ===== PUSH NOTIFICATIONS =====
 self.addEventListener('push', event => {
     console.log('📨 Push notification received');
     
-    const options = {
-        body: event.data ? event.data.text() : 'New update from Kingu Electrical',
-        icon: '/assets/icons/icon-192x192.png',
+    let notificationData = {
+        title: 'Kingu Electrical',
+        body: 'New update available',
+        icon: '/assets/icons/optimized/icon-192x192.png',
         badge: '/assets/icons/badge-72x72.png',
-        vibrate: [100, 50, 100],
         data: {
-            dateOfArrival: Date.now(),
-            primaryKey: 1
-        },
-        actions: [
-            {
-                action: 'explore',
-                title: 'Explore',
-                icon: '/assets/icons/explore.png'
-            },
-            {
-                action: 'close',
-                title: 'Close',
-                icon: '/assets/icons/close.png'
-            }
-        ]
+            url: '/'
+        }
     };
     
+    // Parse push data if available
+    if (event.data) {
+        try {
+            const data = event.data.json();
+            notificationData = { ...notificationData, ...data };
+        } catch (error) {
+            notificationData.body = event.data.text() || notificationData.body;
+        }
+    }
+    
     event.waitUntil(
-        self.registration.showNotification('Kingu Electrical', options)
+        self.registration.showNotification(notificationData.title, {
+            body: notificationData.body,
+            icon: notificationData.icon,
+            badge: notificationData.badge,
+            data: notificationData.data,
+            vibrate: [200, 100, 200],
+            tag: 'kingu-update',
+            renotify: true,
+            actions: [
+                {
+                    action: 'open',
+                    title: 'Open App',
+                    icon: '/assets/icons/open.png'
+                },
+                {
+                    action: 'dismiss',
+                    title: 'Dismiss',
+                    icon: '/assets/icons/close.png'
+                }
+            ]
+        })
     );
 });
 
@@ -396,36 +264,48 @@ self.addEventListener('notificationclick', event => {
     
     event.notification.close();
     
-    if (event.action === 'close') {
+    if (event.action === 'dismiss') {
         return;
     }
     
-    // Open the app
+    const urlToOpen = event.notification.data?.url || '/';
+    
     event.waitUntil(
         clients.matchAll({
             type: 'window',
             includeUncontrolled: true
-        }).then(clientList => {
-            // Check if there's already a window open
-            for (const client of clientList) {
-                if (client.url === '/' && 'focus' in client) {
-                    return client.focus();
+        }).then(windowClients => {
+            // Check if there's already a window/tab open
+            for (const client of windowClients) {
+                if (client.url.includes(self.location.origin) && 'focus' in client) {
+                    return client.focus().then(() => {
+                        // Navigate to the notification URL
+                        if (client.url !== urlToOpen) {
+                            return client.navigate(urlToOpen);
+                        }
+                    });
                 }
             }
             
-            // If not, open a new window
+            // If no window is open, open a new one
             if (clients.openWindow) {
-                return clients.openWindow('/');
+                return clients.openWindow(urlToOpen);
             }
         })
     );
 });
 
-// Background Fetch (for large downloads)
+// ===== BACKGROUND FETCH =====
 if ('backgroundFetch' in self.registration) {
     self.addEventListener('backgroundfetchsuccess', event => {
         console.log('✅ Background fetch succeeded:', event.registration.id);
+        
         event.updateUI({ title: 'Download complete!' });
+        
+        // Process fetched data
+        event.waitUntil(
+            processBackgroundFetch(event.registration)
+        );
     });
     
     self.addEventListener('backgroundfetchfail', event => {
@@ -434,23 +314,23 @@ if ('backgroundFetch' in self.registration) {
     });
 }
 
-// Message Handling from Client
+// ===== MESSAGE HANDLING =====
 self.addEventListener('message', event => {
     const { type, data } = event.data;
     
     console.log('📨 Message received:', type);
     
     switch (type) {
-        case 'SYNC_CART':
-            syncCartToServer(data);
+        case 'CACHE_PRODUCTS':
+            cacheProducts(data);
+            break;
+            
+        case 'SAVE_CART':
+            saveCartToIndexedDB(data);
             break;
             
         case 'SAVE_ORDER':
-            saveOrderForSync(data);
-            break;
-            
-        case 'UPDATE_PRODUCTS':
-            updateProductsCache();
+            saveOrderToIndexedDB(data);
             break;
             
         case 'GET_CACHED_DATA':
@@ -463,59 +343,110 @@ self.addEventListener('message', event => {
             break;
             
         case 'CLEAR_CACHE':
-            clearSpecificCache(data);
+            clearCache(data);
+            break;
+            
+        case 'UPDATE_AVAILABLE':
+            triggerUpdate();
             break;
             
         case 'PING':
-            event.source.postMessage({ type: 'PONG', data: 'Service Worker is alive' });
+            event.source.postMessage({
+                type: 'PONG',
+                data: {
+                    version: CACHE_VERSION,
+                    timestamp: new Date().toISOString()
+                }
+            });
+            break;
+            
+        case 'DEBUG_INFO':
+            getDebugInfo().then(info => {
+                event.source.postMessage({
+                    type: 'DEBUG_INFO_RESPONSE',
+                    data: info
+                });
+            });
             break;
     }
 });
 
 // ===== HELPER FUNCTIONS =====
 
+// Cache Core Assets
+async function cacheCoreAssets() {
+    const cache = await caches.open(CACHE_NAME);
+    
+    // Add core assets to cache
+    await cache.addAll(CORE_ASSETS);
+    
+    // Cache Google Fonts (if allowed)
+    try {
+        const fontsResponse = await fetch(
+            'https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500&display=swap'
+        );
+        if (fontsResponse.ok) {
+            await cache.put(
+                'https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500&display=swap',
+                fontsResponse.clone()
+            );
+        }
+    } catch (error) {
+        console.warn('Could not cache fonts:', error);
+    }
+}
+
 // Initialize IndexedDB
 async function initializeIndexedDB() {
     return new Promise((resolve, reject) => {
-        const request = indexedDB.open('KinguElectricalDB', 3);
+        const request = indexedDB.open('KinguElectricalDB', 4);
         
         request.onupgradeneeded = function(event) {
             const db = event.target.result;
+            const oldVersion = event.oldVersion;
+            
+            console.log('🗄️ Upgrading IndexedDB from version', oldVersion, 'to', event.newVersion);
             
             // Create object stores
+            if (!db.objectStoreNames.contains('products')) {
+                const store = db.createObjectStore('products', { keyPath: 'id' });
+                store.createIndex('category', 'category', { unique: false });
+                store.createIndex('updated', 'updatedAt', { unique: false });
+                store.createIndex('price', 'price', { unique: false });
+            }
+            
             if (!db.objectStoreNames.contains('orders')) {
-                const ordersStore = db.createObjectStore('orders', { 
+                const store = db.createObjectStore('orders', { 
                     keyPath: 'id',
                     autoIncrement: true 
                 });
-                ordersStore.createIndex('status', 'status', { unique: false });
-                ordersStore.createIndex('timestamp', 'timestamp', { unique: false });
+                store.createIndex('status', 'status', { unique: false });
+                store.createIndex('timestamp', 'createdAt', { unique: false });
             }
             
-            if (!db.objectStoreNames.contains('products')) {
-                const productsStore = db.createObjectStore('products', { 
-                    keyPath: 'id'
-                });
-                productsStore.createIndex('category', 'category', { unique: false });
-                productsStore.createIndex('updated', 'updatedAt', { unique: false });
-            }
-            
-            if (!db.objectStoreNames.contains('cart')) {
+            if (!db.objectStore.contains('cart')) {
                 db.createObjectStore('cart', { keyPath: 'productId' });
             }
             
-            if (!db.objectStoreNames.contains('apiCache')) {
-                const apiStore = db.createObjectStore('apiCache', { keyPath: 'url' });
-                apiStore.createIndex('timestamp', 'timestamp', { unique: false });
+            if (!db.objectStore.contains('forms')) {
+                const store = db.createObjectStore('forms', { keyPath: 'id', autoIncrement: true });
+                store.createIndex('type', 'type', { unique: false });
+                store.createIndex('status', 'status', { unique: false });
             }
             
-            if (!db.objectStoreNames.contains('settings')) {
+            if (!db.objectStore.contains('settings')) {
                 db.createObjectStore('settings', { keyPath: 'key' });
+            }
+            
+            if (!db.objectStore.contains('analytics')) {
+                const store = db.createObjectStore('analytics', { keyPath: 'id', autoIncrement: true });
+                store.createIndex('type', 'type', { unique: false });
+                store.createIndex('timestamp', 'timestamp', { unique: false });
             }
         };
         
         request.onsuccess = function(event) {
-            console.log('🗄️ IndexedDB initialized');
+            console.log('✅ IndexedDB initialized');
             resolve(event.target.result);
         };
         
@@ -526,106 +457,359 @@ async function initializeIndexedDB() {
     });
 }
 
-// Store API data in IndexedDB
-async function storeApiDataInIndexedDB(url, data) {
-    try {
-        const db = await getDatabase();
-        const transaction = db.transaction(['apiCache'], 'readwrite');
-        const store = transaction.objectStore('apiCache');
-        
-        await store.put({
-            url,
-            data,
-            timestamp: new Date().toISOString(),
-            expiresAt: Date.now() + (24 * 60 * 60 * 1000) // 24 hours
-        });
-        
-        console.log('💾 API data stored:', url);
-    } catch (error) {
-        console.error('❌ Failed to store API data:', error);
-    }
+// Cleanup Old Caches
+async function cleanupOldCaches() {
+    const cacheNames = await caches.keys();
+    const currentCaches = Object.values(CACHE_TYPES);
+    currentCaches.push(CACHE_NAME);
+    
+    return Promise.all(
+        cacheNames.map(cacheName => {
+            if (!currentCaches.includes(cacheName)) {
+                console.log('🗑️ Deleting old cache:', cacheName);
+                return caches.delete(cacheName);
+            }
+        })
+    );
 }
 
-// Get API data from IndexedDB
-async function getApiDataFromIndexedDB(url) {
+// Preload Critical Data
+async function preloadCriticalData() {
     try {
-        const db = await getDatabase();
-        const transaction = db.transaction(['apiCache'], 'readonly');
-        const store = transaction.objectStore('apiCache');
+        // Preload product data
+        const productsCache = await caches.open(CACHE_TYPES.API);
+        const productsResponse = await fetch('/api/products?limit=10');
         
-        const request = store.get(url);
-        
-        return new Promise((resolve, reject) => {
-            request.onsuccess = () => {
-                const cached = request.result;
-                
-                if (cached && cached.expiresAt > Date.now()) {
-                    resolve(cached.data);
-                } else if (cached) {
-                    // Expired, remove it
-                    store.delete(url);
-                    resolve(null);
-                } else {
-                    resolve(null);
-                }
-            };
+        if (productsResponse.ok) {
+            await productsCache.put('/api/products', productsResponse.clone());
             
-            request.onerror = () => reject(request.error);
-        });
-    } catch (error) {
-        console.error('❌ Failed to get API data:', error);
-        return null;
-    }
-}
-
-// Get Database Connection
-async function getDatabase() {
-    return new Promise((resolve, reject) => {
-        const request = indexedDB.open('KinguElectricalDB', 3);
+            // Store in IndexedDB for offline access
+            const products = await productsResponse.json();
+            await storeProductsInIndexedDB(products);
+        }
         
-        request.onsuccess = () => resolve(request.result);
-        request.onerror = () => reject(request.error);
-    });
-}
-
-// Get Fallback Image
-function getFallbackImageForRequest(url) {
-    if (url.includes('generator')) {
-        return '/assets/images/offline/offline-generator.jpg';
-    } else if (url.includes('solar')) {
-        return '/assets/images/offline/offline-solar.jpg';
-    } else if (url.includes('tools') || url.includes('megger') || url.includes('fluke')) {
-        return '/assets/images/offline/offline-tools.jpg';
-    } else {
-        return '/assets/icons/icon-512x512.png';
+        // Preload service locations
+        const locationsResponse = await fetch('/api/locations');
+        if (locationsResponse.ok) {
+            await productsCache.put('/api/locations', locationsResponse.clone());
+        }
+        
+    } catch (error) {
+        console.warn('Preload failed (may be offline):', error);
     }
 }
 
-// Update Cache in Background
-function updateCacheInBackground(request) {
-    fetch(request).then(response => {
-        if (response.ok) {
-            caches.open(CACHE_NAME).then(cache => {
-                cache.put(request, response);
+// Setup Periodic Sync
+async function setupPeriodicSync() {
+    if ('periodicSync' in self.registration) {
+        try {
+            const status = await navigator.permissions.query({
+                name: 'periodic-background-sync'
             });
+            
+            if (status.state === 'granted') {
+                await self.registration.periodicSync.register('content-update', {
+                    minInterval: 24 * 60 * 60 * 1000 // 24 hours
+                });
+                console.log('✅ Periodic sync registered');
+            }
+        } catch (error) {
+            console.warn('Periodic sync not supported:', error);
+        }
+    }
+}
+
+// Check for Updates
+async function checkForUpdates() {
+    try {
+        // Check for updated service worker
+        const registration = await self.registration;
+        if (registration.waiting) {
+            sendMessageToClients({
+                type: 'UPDATE_AVAILABLE',
+                data: { version: CACHE_VERSION }
+            });
+        }
+        
+        // Check for content updates
+        const cache = await caches.open(CACHE_NAME);
+        const requests = await cache.keys();
+        
+        for (const request of requests.slice(0, 5)) { // Check first 5
+            const networkResponse = await fetch(request);
+            const cachedResponse = await cache.match(request);
+            
+            if (networkResponse.ok && cachedResponse) {
+                const networkETag = networkResponse.headers.get('ETag');
+                const cachedETag = cachedResponse.headers.get('ETag');
+                
+                if (networkETag && cachedETag && networkETag !== cachedETag) {
+                    console.log('🔄 Content updated:', request.url);
+                    await cache.put(request, networkResponse.clone());
+                }
+            }
+        }
+        
+    } catch (error) {
+        console.warn('Update check failed:', error);
+    }
+}
+
+// Cache First with Update Strategy
+async function cacheFirstWithUpdate(request) {
+    const cache = await getCacheForRequest(request);
+    const cachedResponse = await cache.match(request);
+    
+    // Return cached response immediately
+    if (cachedResponse) {
+        // Update cache in background
+        updateCacheInBackground(request, cache);
+        return cachedResponse;
+    }
+    
+    // If not in cache, fetch from network
+    try {
+        const networkResponse = await fetch(request);
+        if (networkResponse.ok) {
+            await cache.put(request, networkResponse.clone());
+        }
+        return networkResponse;
+    } catch (error) {
+        // Return fallback
+        return getFallbackResponse(request);
+    }
+}
+
+// Network First with Cache Fallback
+async function networkFirstWithCacheFallback(request) {
+    try {
+        const networkResponse = await fetch(request);
+        
+        if (networkResponse.ok) {
+            // Cache the response
+            const cache = await getCacheForRequest(request);
+            await cache.put(request, networkResponse.clone());
+            
+            return networkResponse;
+        }
+        
+        throw new Error('Network request failed');
+        
+    } catch (error) {
+        // Try cache
+        const cache = await getCacheForRequest(request);
+        const cachedResponse = await cache.match(request);
+        
+        if (cachedResponse) {
+            return cachedResponse;
+        }
+        
+        // Return offline response
+        return getOfflineResponse(request);
+    }
+}
+
+// Stale While Revalidate Strategy
+async function staleWhileRevalidate(request) {
+    const cache = await getCacheForRequest(request);
+    const cachedResponse = await cache.match(request);
+    
+    // Update cache in background regardless
+    const fetchPromise = fetch(request).then(async networkResponse => {
+        if (networkResponse.ok) {
+            await cache.put(request, networkResponse.clone());
         }
     }).catch(() => {
         // Silently fail - we have cached version
     });
+    
+    // Return cached response if available
+    if (cachedResponse) {
+        return cachedResponse;
+    }
+    
+    // Wait for network response
+    await fetchPromise;
+    return cache.match(request) || getOfflineResponse(request);
 }
 
-// Update Image Cache Size
-async function updateImageCacheSize() {
-    const cache = await caches.open(IMAGES_CACHE_NAME);
-    const keys = await cache.keys();
+// Cache with Network Fallback
+async function cacheWithNetworkFallback(request) {
+    const cache = await getCacheForRequest(request);
+    const cachedResponse = await cache.match(request);
     
-    // Limit cache to 100 images
-    if (keys.length > 100) {
-        // Delete oldest 20 images
-        const oldestKeys = keys.slice(0, 20);
-        await Promise.all(oldestKeys.map(key => cache.delete(key)));
-        console.log('🧹 Cleared old images from cache');
+    if (cachedResponse) {
+        return cachedResponse;
     }
+    
+    try {
+        const networkResponse = await fetch(request);
+        if (networkResponse.ok) {
+            await cache.put(request, networkResponse.clone());
+        }
+        return networkResponse;
+    } catch (error) {
+        return getOfflineResponse(request);
+    }
+}
+
+// Get Appropriate Cache for Request
+async function getCacheForRequest(request) {
+    const url = request.url;
+    
+    if (url.includes('/api/')) {
+        return caches.open(CACHE_TYPES.API);
+    }
+    
+    if (IMAGE_PATTERNS.some(pattern => pattern.test(url))) {
+        return caches.open(CACHE_TYPES.IMAGES);
+    }
+    
+    if (url.endsWith('.html') || url === '/' || url.includes('/Kinguelectrical-shop')) {
+        return caches.open(CACHE_TYPES.PAGES);
+    }
+    
+    if (url.includes('fonts.googleapis.com') || url.includes('fonts.gstatic.com')) {
+        return caches.open(CACHE_TYPES.FONTS);
+    }
+    
+    return caches.open(CACHE_TYPES.STATIC);
+}
+
+// Update Cache in Background
+async function updateCacheInBackground(request, cache) {
+    fetch(request).then(async networkResponse => {
+        if (networkResponse.ok) {
+            const cachedResponse = await cache.match(request);
+            const networkETag = networkResponse.headers.get('ETag');
+            const cachedETag = cachedResponse?.headers.get('ETag');
+            
+            if (!cachedETag || networkETag !== cachedETag) {
+                await cache.put(request, networkResponse.clone());
+                console.log('🔄 Cache updated in background:', request.url);
+            }
+        }
+    }).catch(() => {
+        // Silently fail
+    });
+}
+
+// Get Offline Response
+async function getOfflineResponse(request) {
+    const url = new URL(request.url);
+    
+    // Return cached offline page for HTML requests
+    if (url.pathname.endsWith('.html') || url.pathname === '/') {
+        const offlinePage = await caches.match(OFFLINE_PAGE);
+        if (offlinePage) {
+            return offlinePage;
+        }
+    }
+    
+    // Return fallback for images
+    if (IMAGE_PATTERNS.some(pattern => pattern.test(url.pathname))) {
+        const fallbackImage = getFallbackImage(url.pathname);
+        const cachedFallback = await caches.match(fallbackImage);
+        if (cachedFallback) {
+            return cachedFallback;
+        }
+    }
+    
+    // Generic offline response
+    return new Response(
+        JSON.stringify({
+            offline: true,
+            message: 'You are offline. Please check your connection.',
+            timestamp: new Date().toISOString()
+        }),
+        {
+            headers: {
+                'Content-Type': 'application/json',
+                'Cache-Control': 'no-store'
+            }
+        }
+    );
+}
+
+// Get Fallback Image
+function getFallbackImage(pathname) {
+    if (pathname.includes('generator')) {
+        return '/assets/images/offline/offline-generator.webp';
+    } else if (pathname.includes('solar')) {
+        return '/assets/images/offline/offline-solar.webp';
+    } else if (pathname.includes('tools') || pathname.includes('test')) {
+        return '/assets/images/offline/offline-tools.webp';
+    } else {
+        return '/assets/icons/optimized/icon-512x512.png';
+    }
+}
+
+// Get Fallback Response
+async function getFallbackResponse(request) {
+    if (request.destination === 'image') {
+        return getOfflineResponse(request);
+    }
+    
+    if (request.destination === 'style') {
+        return new Response('/* Fallback styles */', {
+            headers: { 'Content-Type': 'text/css' }
+        });
+    }
+    
+    if (request.destination === 'script') {
+        return new Response('// Fallback script', {
+            headers: { 'Content-Type': 'application/javascript' }
+        });
+    }
+    
+    return getOfflineResponse(request);
+}
+
+// Request Strategy Selectors
+function shouldCacheFirst(request) {
+    const url = new URL(request.url);
+    
+    // Cache first for:
+    // - Static assets (JS, CSS, images, fonts)
+    // - Optimized images
+    // - Icons
+    return (
+        request.destination === 'style' ||
+        request.destination === 'script' ||
+        request.destination === 'image' ||
+        request.destination === 'font' ||
+        url.pathname.includes('optimized/') ||
+        url.pathname.includes('assets/icons/')
+    );
+}
+
+function shouldNetworkFirst(request) {
+    const url = new URL(request.url);
+    
+    // Network first for:
+    // - HTML pages
+    // - API calls that need fresh data
+    // - Form submissions
+    return (
+        request.destination === 'document' ||
+        url.pathname.includes('/api/orders') ||
+        url.pathname.includes('/api/contact') ||
+        request.method === 'POST'
+    );
+}
+
+function shouldStaleWhileRevalidate(request) {
+    const url = new URL(request.url);
+    
+    // Stale while revalidate for:
+    // - Product listings
+    // - Service data
+    // - Location data
+    return (
+        url.pathname.includes('/api/products') ||
+        url.pathname.includes('/api/services') ||
+        url.pathname.includes('/api/locations')
+    );
 }
 
 // Sync Pending Orders
@@ -634,11 +818,10 @@ async function syncPendingOrders() {
         const db = await getDatabase();
         const transaction = db.transaction(['orders'], 'readonly');
         const store = transaction.objectStore('orders');
+        const index = store.index('status');
         
         const pendingOrders = await new Promise((resolve, reject) => {
-            const index = store.index('status');
             const request = index.getAll('pending');
-            
             request.onsuccess = () => resolve(request.result);
             request.onerror = () => reject(request.error);
         });
@@ -649,10 +832,8 @@ async function syncPendingOrders() {
         
         console.log(`📤 Syncing ${pendingOrders.length} pending orders`);
         
-        // Send to server (simulated)
         for (const order of pendingOrders) {
             try {
-                // Simulate API call
                 const response = await fetch('/api/orders', {
                     method: 'POST',
                     headers: {
@@ -662,7 +843,7 @@ async function syncPendingOrders() {
                 });
                 
                 if (response.ok) {
-                    // Update status in IndexedDB
+                    // Mark as synced
                     const updateTransaction = db.transaction(['orders'], 'readwrite');
                     const updateStore = updateTransaction.objectStore('orders');
                     order.status = 'synced';
@@ -671,8 +852,7 @@ async function syncPendingOrders() {
                     
                     console.log(`✅ Order synced: ${order.id}`);
                     
-                    // Send notification to client
-                    sendNotificationToClients({
+                    sendMessageToClients({
                         type: 'ORDER_SYNCED',
                         data: { orderId: order.id }
                     });
@@ -682,56 +862,19 @@ async function syncPendingOrders() {
             }
         }
         
-        sendNotificationToClients({
+        sendMessageToClients({
             type: 'SYNC_COMPLETE',
             data: { type: 'orders', count: pendingOrders.length }
         });
         
     } catch (error) {
-        console.error('❌ Sync pending orders failed:', error);
+        console.error('❌ Sync failed:', error);
     }
 }
 
-// Sync Products
-async function syncProducts() {
+// Sync Cart Data
+async function syncCartData() {
     try {
-        console.log('🔄 Syncing products');
-        
-        const response = await fetch('/api/products');
-        if (response.ok) {
-            const products = await response.json();
-            
-            // Cache response
-            const cache = await caches.open(API_CACHE_NAME);
-            await cache.put('/api/products', response.clone());
-            
-            // Store in IndexedDB
-            const db = await getDatabase();
-            const transaction = db.transaction(['products'], 'readwrite');
-            const store = transaction.objectStore('products');
-            
-            for (const product of products) {
-                product.updatedAt = new Date().toISOString();
-                await store.put(product);
-            }
-            
-            console.log(`✅ ${products.length} products synced`);
-            
-            // Send notification to update UI
-            sendNotificationToClients({
-                type: 'PRODUCTS_UPDATED',
-                data: { count: products.length }
-            });
-        }
-    } catch (error) {
-        console.error('❌ Products sync failed:', error);
-    }
-}
-
-// Sync Cart
-async function syncCart() {
-    try {
-        // Get cart from IndexedDB
         const db = await getDatabase();
         const transaction = db.transaction(['cart'], 'readonly');
         const store = transaction.objectStore('cart');
@@ -742,9 +885,6 @@ async function syncCart() {
             return;
         }
         
-        console.log(`🔄 Syncing ${cartItems.length} cart items`);
-        
-        // Send to server (simulated)
         const response = await fetch('/api/cart/sync', {
             method: 'POST',
             headers: {
@@ -754,21 +894,134 @@ async function syncCart() {
         });
         
         if (response.ok) {
-            console.log('✅ Cart synced successfully');
-            sendNotificationToClients({
+            console.log('✅ Cart synced');
+            sendMessageToClients({
                 type: 'CART_SYNCED',
                 data: { timestamp: new Date().toISOString() }
             });
         }
+        
     } catch (error) {
         console.error('❌ Cart sync failed:', error);
     }
 }
 
-// Sync Cart to Server
-async function syncCartToServer(cartData) {
+// Sync Products
+async function syncProducts() {
     try {
-        // Store in IndexedDB first
+        const response = await fetch('/api/products?updatedSince=' + getLastSyncTime());
+        
+        if (response.ok) {
+            const products = await response.json();
+            
+            // Update cache
+            const cache = await caches.open(CACHE_TYPES.API);
+            await cache.put('/api/products', response.clone());
+            
+            // Update IndexedDB
+            await storeProductsInIndexedDB(products);
+            
+            console.log(`✅ ${products.length} products synced`);
+            
+            sendMessageToClients({
+                type: 'PRODUCTS_UPDATED',
+                data: { count: products.length }
+            });
+        }
+        
+    } catch (error) {
+        console.error('❌ Products sync failed:', error);
+    }
+}
+
+// Sync Pending Forms
+async function syncPendingForms() {
+    try {
+        const db = await getDatabase();
+        const transaction = db.transaction(['forms'], 'readonly');
+        const store = transaction.objectStore('forms');
+        const index = store.index('status');
+        
+        const pendingForms = await index.getAll('pending');
+        
+        for (const form of pendingForms) {
+            try {
+                const response = await fetch('/api/forms', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(form)
+                });
+                
+                if (response.ok) {
+                    // Update status
+                    const updateTransaction = db.transaction(['forms'], 'readwrite');
+                    const updateStore = updateTransaction.objectStore('forms');
+                    form.status = 'synced';
+                    form.syncedAt = new Date().toISOString();
+                    await updateStore.put(form);
+                }
+            } catch (error) {
+                console.error('Form sync failed:', error);
+            }
+        }
+        
+    } catch (error) {
+        console.error('Forms sync failed:', error);
+    }
+}
+
+// Store Products in IndexedDB
+async function storeProductsInIndexedDB(products) {
+    try {
+        const db = await getDatabase();
+        const transaction = db.transaction(['products'], 'readwrite');
+        const store = transaction.objectStore('products');
+        
+        for (const product of products) {
+            product.updatedAt = new Date().toISOString();
+            await store.put(product);
+        }
+        
+        // Update last sync time
+        const settingsTransaction = db.transaction(['settings'], 'readwrite');
+        const settingsStore = settingsTransaction.objectStore('settings');
+        await settingsStore.put({
+            key: 'lastProductSync',
+            value: new Date().toISOString()
+        });
+        
+    } catch (error) {
+        console.error('Failed to store products:', error);
+    }
+}
+
+// Cache Products from Client
+async function cacheProducts(products) {
+    try {
+        // Store in IndexedDB
+        await storeProductsInIndexedDB(products);
+        
+        // Also cache API response
+        const cache = await caches.open(CACHE_TYPES.API);
+        const response = new Response(JSON.stringify(products), {
+            headers: {
+                'Content-Type': 'application/json',
+                'Cache-Control': 'public, max-age=3600'
+            }
+        });
+        
+        await cache.put('/api/products', response);
+        
+    } catch (error) {
+        console.error('Failed to cache products:', error);
+    }
+}
+
+// Save Cart to IndexedDB
+async function saveCartToIndexedDB(cartData) {
+    try {
         const db = await getDatabase();
         const transaction = db.transaction(['cart'], 'readwrite');
         const store = transaction.objectStore('cart');
@@ -785,23 +1038,16 @@ async function syncCartToServer(cartData) {
             });
         }
         
-        console.log('💾 Cart saved to IndexedDB');
-        
-        // Try to sync if online
-        if (navigator.onLine) {
-            await syncCart();
-        } else {
-            // Register for sync when online
-            self.registration.sync.register('sync-cart');
-        }
+        // Register for sync
+        self.registration.sync.register('sync-cart');
         
     } catch (error) {
-        console.error('❌ Failed to sync cart:', error);
+        console.error('Failed to save cart:', error);
     }
 }
 
-// Save Order for Sync
-async function saveOrderForSync(orderData) {
+// Save Order to IndexedDB
+async function saveOrderToIndexedDB(orderData) {
     try {
         const db = await getDatabase();
         const transaction = db.transaction(['orders'], 'readwrite');
@@ -810,147 +1056,129 @@ async function saveOrderForSync(orderData) {
         const order = {
             ...orderData,
             status: 'pending',
-            timestamp: new Date().toISOString(),
-            id: Date.now() // Temporary ID
+            createdAt: new Date().toISOString(),
+            id: Date.now()
         };
         
         await store.add(order);
         
-        console.log('💾 Order saved for sync');
-        
         // Register for sync
         self.registration.sync.register('sync-orders');
         
-        // Send confirmation to client
-        sendNotificationToClients({
+        sendMessageToClients({
             type: 'ORDER_SAVED',
             data: { orderId: order.id }
         });
         
     } catch (error) {
-        console.error('❌ Failed to save order:', error);
-        sendNotificationToClients({
+        console.error('Failed to save order:', error);
+        
+        sendMessageToClients({
             type: 'ORDER_SAVE_FAILED',
             data: { error: error.message }
         });
     }
 }
 
-// Update Content
-async function updateContent() {
-    console.log('📅 Updating content...');
-    
-    try {
-        // Update cache with fresh content
-        const cache = await caches.open(PAGES_CACHE_NAME);
-        const cachedUrls = await cache.keys();
-        
-        for (const request of cachedUrls) {
-            try {
-                const response = await fetch(request);
-                if (response.ok) {
-                    await cache.put(request, response);
-                }
-            } catch (error) {
-                console.warn(`⚠️ Failed to update: ${request.url}`);
-            }
-        }
-        
-        // Update API cache
-        await syncProducts();
-        
-        console.log('✅ Content update complete');
-        
-        sendNotificationToClients({
-            type: 'CONTENT_UPDATED',
-            data: { timestamp: new Date().toISOString() }
-        });
-        
-    } catch (error) {
-        console.error('❌ Content update failed:', error);
-    }
-}
-
-// Update Products Cache
-async function updateProductsCache() {
-    try {
-        console.log('🔄 Updating products cache');
-        
-        const response = await fetch('/api/products');
-        if (response.ok) {
-            const cache = await caches.open(API_CACHE_NAME);
-            await cache.put('/api/products', response);
-            
-            console.log('✅ Products cache updated');
-            
-            sendNotificationToClients({
-                type: 'CACHE_UPDATED',
-                data: { type: 'products' }
-            });
-        }
-    } catch (error) {
-        console.error('❌ Failed to update products cache:', error);
-    }
-}
-
 // Get Cached Data
-async function getCachedData(request) {
-    const { type, key } = request;
+async function getCachedData(query) {
+    const { type, key } = query;
     
     try {
         switch (type) {
             case 'products':
-                const cache = await caches.open(API_CACHE_NAME);
+                const cache = await caches.open(CACHE_TYPES.API);
                 const response = await cache.match('/api/products');
                 if (response) {
                     return await response.json();
                 }
                 break;
                 
-            case 'order':
+            case 'product':
                 const db = await getDatabase();
-                const transaction = db.transaction(['orders'], 'readonly');
-                const store = transaction.objectStore('orders');
-                const order = await store.get(parseInt(key));
-                return order;
+                const transaction = db.transaction(['products'], 'readonly');
+                const store = transaction.objectStore('products');
+                return await store.get(parseInt(key));
                 
             case 'cart':
                 const cartTransaction = db.transaction(['cart'], 'readonly');
                 const cartStore = cartTransaction.objectStore('cart');
-                const items = await cartStore.getAll();
-                return items;
+                return await cartStore.getAll();
         }
     } catch (error) {
-        console.error('❌ Failed to get cached data:', error);
+        console.error('Failed to get cached data:', error);
     }
     
     return null;
 }
 
-// Clear Specific Cache
-async function clearSpecificCache(cacheName) {
+// Clear Cache
+async function clearCache(cacheName) {
     try {
         if (cacheName === 'all') {
             const cacheNames = await caches.keys();
             await Promise.all(cacheNames.map(name => caches.delete(name)));
+            
+            // Clear IndexedDB
+            const db = await getDatabase();
+            const storeNames = Array.from(db.objectStoreNames);
+            const transaction = db.transaction(storeNames, 'readwrite');
+            
+            await Promise.all(storeNames.map(name => {
+                const store = transaction.objectStore(name);
+                return store.clear();
+            }));
+            
             console.log('🗑️ All caches cleared');
+            
         } else {
             await caches.delete(cacheName);
             console.log(`🗑️ Cache cleared: ${cacheName}`);
         }
         
-        sendNotificationToClients({
+        sendMessageToClients({
             type: 'CACHE_CLEARED',
             data: { cacheName }
         });
         
     } catch (error) {
-        console.error('❌ Failed to clear cache:', error);
+        console.error('Failed to clear cache:', error);
     }
 }
 
-// Send Notification to Clients
-function sendNotificationToClients(message) {
+// Trigger Update
+async function triggerUpdate() {
+    const registration = await self.registration;
+    
+    if (registration.waiting) {
+        registration.waiting.postMessage({ type: 'SKIP_WAITING' });
+        
+        sendMessageToClients({
+            type: 'UPDATE_TRIGGERED',
+            data: { timestamp: new Date().toISOString() }
+        });
+    }
+}
+
+// Get Database Instance
+async function getDatabase() {
+    return new Promise((resolve, reject) => {
+        const request = indexedDB.open('KinguElectricalDB', 4);
+        
+        request.onsuccess = () => resolve(request.result);
+        request.onerror = () => reject(request.error);
+    });
+}
+
+// Get Last Sync Time
+function getLastSyncTime() {
+    const oneDayAgo = new Date();
+    oneDayAgo.setDate(oneDayAgo.getDate() - 1);
+    return oneDayAgo.toISOString();
+}
+
+// Send Message to All Clients
+function sendMessageToClients(message) {
     self.clients.matchAll().then(clients => {
         clients.forEach(client => {
             client.postMessage(message);
@@ -958,178 +1186,178 @@ function sendNotificationToClients(message) {
     });
 }
 
-// Send Update Notification
-function sendUpdateNotification() {
-    sendNotificationToClients({
-        type: 'UPDATE_AVAILABLE',
-        data: { version: '5.2.0', timestamp: new Date().toISOString() }
-    });
-}
-
-// Background Fetch Handler
-async function handleBackgroundFetch(fetchEvent) {
-    const bgFetch = await self.registration.backgroundFetch.fetch(
-        'large-file-download',
-        ['/api/products/large'],
-        {
-            title: 'Downloading product catalog',
-            icons: [{ src: '/assets/icons/download.png', sizes: '72x72', type: 'image/png' }],
-            downloadTotal: 10 * 1024 * 1024 // 10MB
-        }
-    );
-}
-
-// ===== ERROR HANDLING =====
-
-self.addEventListener('error', event => {
-    console.error('Service Worker error:', event.error);
-});
-
-self.addEventListener('unhandledrejection', event => {
-    console.error('Unhandled promise rejection:', event.reason);
-});
-
-// ===== DEBUGGING =====
-
-// Expose debugging methods
-self.addEventListener('message', event => {
-    if (event.data.type === 'DEBUG') {
-        switch (event.data.action) {
-            case 'getCacheInfo':
-                getCacheInfo().then(info => {
-                    event.source.postMessage({
-                        type: 'DEBUG_RESPONSE',
-                        data: info
-                    });
-                });
-                break;
-                
-            case 'clearAllCaches':
-                clearAllCaches().then(() => {
-                    event.source.postMessage({
-                        type: 'DEBUG_RESPONSE',
-                        data: { cleared: true }
-                    });
-                });
-                break;
-                
-            case 'getStorageInfo':
-                getStorageInfo().then(info => {
-                    event.source.postMessage({
-                        type: 'DEBUG_RESPONSE',
-                        data: info
-                    });
-                });
-                break;
-        }
-    }
-});
-
-async function getCacheInfo() {
+// Get Debug Info
+async function getDebugInfo() {
     const cacheNames = await caches.keys();
-    const info = {};
+    const cacheInfo = {};
     
     for (const cacheName of cacheNames) {
         const cache = await caches.open(cacheName);
         const requests = await cache.keys();
-        info[cacheName] = {
+        cacheInfo[cacheName] = {
             size: requests.length,
-            urls: requests.slice(0, 5).map(req => req.url) // First 5 URLs
+            urls: requests.slice(0, 3).map(req => req.url)
         };
     }
     
-    return info;
-}
-
-async function clearAllCaches() {
-    const cacheNames = await caches.keys();
-    await Promise.all(cacheNames.map(name => caches.delete(name)));
-    
-    // Clear IndexedDB
+    // Get IndexedDB info
     const db = await getDatabase();
     const storeNames = Array.from(db.objectStoreNames);
-    const transaction = db.transaction(storeNames, 'readwrite');
-    
-    await Promise.all(storeNames.map(name => {
-        const store = transaction.objectStore(name);
-        return store.clear();
-    }));
-    
-    return { cachesCleared: cacheNames.length, storesCleared: storeNames.length };
-}
-
-async function getStorageInfo() {
-    const db = await getDatabase();
-    const storeNames = Array.from(db.objectStoreNames);
-    const info = {};
+    const dbInfo = {};
     
     for (const storeName of storeNames) {
         const transaction = db.transaction([storeName], 'readonly');
         const store = transaction.objectStore(storeName);
         const count = await store.count();
-        info[storeName] = { count };
+        dbInfo[storeName] = { count };
     }
     
-    return info;
+    return {
+        version: CACHE_VERSION,
+        caches: cacheInfo,
+        indexedDB: dbInfo,
+        timestamp: new Date().toISOString()
+    };
 }
 
-// ===== LIFECYCLE =====
-
-// Self-destruct if corrupted
-self.addEventListener('statechange', event => {
-    if (event.target.state === 'redundant') {
-        console.log('🧹 Service Worker is redundant, cleaning up...');
-        self.registration.unregister().then(() => {
-            console.log('🗑️ Service Worker unregistered');
-        });
+// Process Background Fetch
+async function processBackgroundFetch(registration) {
+    try {
+        const records = await registration.matchAll();
+        const response = await records[0].responseReady;
+        
+        if (response.ok) {
+            const data = await response.json();
+            
+            // Store the data
+            await storeProductsInIndexedDB(data);
+            
+            sendMessageToClients({
+                type: 'BACKGROUND_FETCH_COMPLETE',
+                data: { count: data.length }
+            });
+        }
+    } catch (error) {
+        console.error('Background fetch processing failed:', error);
     }
-});
+}
 
-// Periodic maintenance
+// ===== PERIODIC MAINTENANCE =====
 setInterval(async () => {
     await performMaintenance();
-}, 60 * 60 * 1000); // Every hour
+}, 6 * 60 * 60 * 1000); // Every 6 hours
 
 async function performMaintenance() {
     console.log('🔧 Performing maintenance...');
     
     try {
-        // Clean expired API cache
-        const db = await getDatabase();
-        const transaction = db.transaction(['apiCache'], 'readwrite');
-        const store = transaction.objectStore('apiCache');
+        // Clean expired cache entries
+        await cleanExpiredCacheEntries();
         
-        const allCached = await store.getAll();
-        const now = Date.now();
+        // Clean old IndexedDB data
+        await cleanOldIndexedDBData();
         
-        for (const cached of allCached) {
-            if (cached.expiresAt && cached.expiresAt < now) {
-                await store.delete(cached.url);
-            }
-        }
+        // Optimize image cache
+        await optimizeImageCache();
         
-        // Clean old images from cache
-        await updateImageCacheSize();
-        
-        // Clean old orders (older than 30 days)
-        const ordersTransaction = db.transaction(['orders'], 'readwrite');
-        const ordersStore = ordersTransaction.objectStore('orders');
-        const index = ordersStore.index('timestamp');
-        
-        const thirtyDaysAgo = new Date();
-        thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
-        
-        const range = IDBKeyRange.upperBound(thirtyDaysAgo.toISOString());
-        const oldOrders = await index.getAll(range);
-        
-        for (const order of oldOrders) {
-            await ordersStore.delete(order.id);
-        }
-        
-        console.log('🧹 Maintenance complete');
+        console.log('✅ Maintenance complete');
         
     } catch (error) {
-        console.error('❌ Maintenance failed:', error);
+        console.error('Maintenance failed:', error);
+    }
+}
+
+async function cleanExpiredCacheEntries() {
+    const cacheNames = await caches.keys();
+    
+    for (const cacheName of cacheNames) {
+        const cache = await caches.open(cacheName);
+        const requests = await cache.keys();
+        
+        for (const request of requests) {
+            const response = await cache.match(request);
+            if (response) {
+                const cacheControl = response.headers.get('Cache-Control');
+                const date = response.headers.get('Date');
+                
+                if (cacheControl && date) {
+                    const maxAgeMatch = cacheControl.match(/max-age=(\d+)/);
+                    if (maxAgeMatch) {
+                        const maxAge = parseInt(maxAgeMatch[1]) * 1000;
+                        const responseDate = new Date(date).getTime();
+                        
+                        if (Date.now() - responseDate > maxAge) {
+                            await cache.delete(request);
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+async function cleanOldIndexedDBData() {
+    const db = await getDatabase();
+    
+    // Clean old analytics (older than 30 days)
+    const thirtyDaysAgo = new Date();
+    thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+    
+    const transaction = db.transaction(['analytics'], 'readwrite');
+    const store = transaction.objectStore('analytics');
+    const index = store.index('timestamp');
+    
+    const range = IDBKeyRange.upperBound(thirtyDaysAgo.toISOString());
+    const oldRecords = await index.getAll(range);
+    
+    for (const record of oldRecords) {
+        await store.delete(record.id);
+    }
+}
+
+async function optimizeImageCache() {
+    const cache = await caches.open(CACHE_TYPES.IMAGES);
+    const requests = await cache.keys();
+    
+    if (requests.length > 100) {
+        // Delete oldest 20% of images
+        const toDelete = Math.floor(requests.length * 0.2);
+        const deleteRequests = requests.slice(0, toDelete);
+        
+        await Promise.all(deleteRequests.map(req => cache.delete(req)));
+        
+        console.log(`🗑️ Deleted ${toDelete} old images from cache`);
+    }
+}
+
+// ===== ERROR HANDLING =====
+self.addEventListener('error', event => {
+    console.error('Service Worker error:', event.error);
+    
+    // Log to IndexedDB for debugging
+    logErrorToIndexedDB(event.error);
+});
+
+self.addEventListener('unhandledrejection', event => {
+    console.error('Unhandled promise rejection:', event.reason);
+    logErrorToIndexedDB(event.reason);
+});
+
+async function logErrorToIndexedDB(error) {
+    try {
+        const db = await getDatabase();
+        const transaction = db.transaction(['analytics'], 'readwrite');
+        const store = transaction.objectStore('analytics');
+        
+        await store.add({
+            type: 'error',
+            message: error.message || String(error),
+            stack: error.stack,
+            timestamp: new Date().toISOString(),
+            url: self.location.href
+        });
+    } catch (dbError) {
+        console.error('Failed to log error:', dbError);
     }
 }
 
@@ -1137,9 +1365,9 @@ async function performMaintenance() {
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = {
         CACHE_NAME,
-        handleApiRequest,
-        handleImageRequest,
-        handlePageRequest,
-        syncPendingOrders
+        CACHE_TYPES,
+        cacheFirstWithUpdate,
+        networkFirstWithCacheFallback,
+        staleWhileRevalidate
     };
 }
