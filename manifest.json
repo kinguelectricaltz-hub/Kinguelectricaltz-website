@@ -1,304 +1,246 @@
 {
+    "$schema": "https://json.schemastore.org/web-manifest-combined.json",
     "name": "Kingu Electrical Company Ltd",
     "short_name": "Kingu Electrical",
     "description": "Leading electrical engineering company in Tanzania providing generator services, PLC programming, HPU conversion, industrial electrical installations, and direct shopping via Kingu Electrical Shop.",
-    "start_url": "/",
+    "start_url": "/?source=pwa&utm_source=pwa",
+    "id": "/",
+    "scope": "/",
+    
     "display": "standalone",
-    "background_color": "#ffffff",
+    "display_override": ["window-controls-overlay", "minimal-ui", "standalone"],
+    
+    "background_color": "#1a5632",
     "theme_color": "#1a5632",
-    "orientation": "portrait-primary",
-    "categories": ["business", "education", "utilities", "shopping"],
+    
+    "orientation": "any",
+    
+    "categories": ["business", "utilities", "shopping"],
     "lang": "en-TZ",
     "dir": "ltr",
-    "scope": "/",
-    "id": "/",
     
     "icons": [
         {
-            "src": "/assets/icons/icon-72x72.png",
+            "src": "/assets/icons/optimized/icon-72x72.png",
             "sizes": "72x72",
             "type": "image/png",
-            "purpose": "any maskable"
+            "purpose": "any"
         },
         {
-            "src": "/assets/icons/icon-96x96.png",
+            "src": "/assets/icons/optimized/icon-96x96.png",
             "sizes": "96x96",
             "type": "image/png",
             "purpose": "any maskable"
         },
         {
-            "src": "/assets/icons/icon-128x128.png",
+            "src": "/assets/icons/optimized/icon-128x128.png",
             "sizes": "128x128",
             "type": "image/png",
-            "purpose": "any maskable"
+            "purpose": "any"
         },
         {
-            "src": "/assets/icons/icon-144x144.png",
+            "src": "/assets/icons/optimized/icon-144x144.png",
             "sizes": "144x144",
             "type": "image/png",
-            "purpose": "any maskable"
+            "purpose": "any"
         },
         {
-            "src": "/assets/icons/icon-152x152.png",
+            "src": "/assets/icons/optimized/icon-152x152.png",
             "sizes": "152x152",
             "type": "image/png",
-            "purpose": "any maskable"
+            "purpose": "any"
         },
         {
-            "src": "/assets/icons/icon-192x192.png",
+            "src": "/assets/icons/optimized/icon-192x192.png",
             "sizes": "192x192",
             "type": "image/png",
             "purpose": "any maskable"
         },
         {
-            "src": "/assets/icons/icon-384x384.png",
+            "src": "/assets/icons/optimized/icon-256x256.png",
+            "sizes": "256x256",
+            "type": "image/png",
+            "purpose": "any"
+        },
+        {
+            "src": "/assets/icons/optimized/icon-384x384.png",
             "sizes": "384x384",
             "type": "image/png",
-            "purpose": "any maskable"
+            "purpose": "any"
         },
         {
-            "src": "/assets/icons/icon-512x512.png",
+            "src": "/assets/icons/optimized/icon-512x512.png",
             "sizes": "512x512",
             "type": "image/png",
             "purpose": "any maskable"
         },
         {
-            "src": "/assets/icons/company-logo.svg",
+            "src": "/assets/icons/optimized/icon-192x192.webp",
+            "sizes": "192x192",
+            "type": "image/webp",
+            "purpose": "any"
+        },
+        {
+            "src": "/assets/icons/optimized/icon-512x512.webp",
             "sizes": "512x512",
-            "type": "image/svg+xml",
+            "type": "image/webp",
             "purpose": "any"
         }
     ],
     
     "screenshots": [
         {
-            "src": "/assets/screenshots/mobile-screenshot.png",
+            "src": "/assets/screenshots/mobile-screenshot.webp",
             "sizes": "360x640",
-            "type": "image/png",
+            "type": "image/webp",
             "form_factor": "narrow",
-            "label": "Mobile View",
-            "platform": "wide"
+            "label": "Mobile View - Kingu Electrical Homepage"
         },
         {
-            "src": "/assets/screenshots/desktop-screenshot.png",
+            "src": "/assets/screenshots/desktop-screenshot.webp",
             "sizes": "1280x720",
-            "type": "image/png",
+            "type": "image/webp",
             "form_factor": "wide",
-            "label": "Desktop View",
-            "platform": "web"
-        },
-        {
-            "src": "/assets/screenshots/kingu-shop-mobile.png",
-            "sizes": "750x1334",
-            "type": "image/png",
-            "form_factor": "narrow",
-            "label": "Kingu Electrical Shop Mobile",
-            "platform": "wide"
-        },
-        {
-            "src": "/assets/screenshots/kingu-shop-desktop.png",
-            "sizes": "1920x1080",
-            "type": "image/png",
-            "form_factor": "wide",
-            "label": "Kingu Electrical Shop Desktop",
-            "platform": "web"
+            "label": "Desktop View - Services & Products"
         }
     ],
     
     "shortcuts": [
         {
-            "name": "Contact Us",
-            "short_name": "Contact",
-            "description": "Get in touch with our electrical experts",
-            "url": "/#contact",
-            "icons": [{
-                "src": "/assets/icons/contact-icon.svg",
-                "sizes": "96x96"
-            }]
-        },
-        {
-            "name": "Emergency Service",
-            "short_name": "Emergency",
-            "description": "24/7 Emergency electrical service",
-            "url": "/#contact?emergency=true",
-            "icons": [{
-                "src": "/assets/icons/emergency-icon.svg",
-                "sizes": "96x96"
-            }]
-        },
-        {
-            "name": "Our Services",
-            "short_name": "Services",
-            "description": "View all our electrical services",
-            "url": "/#services",
-            "icons": [{
-                "src": "/assets/icons/services-icon.svg",
-                "sizes": "96x96"
-            }]
-        },
-        {
-            "name": "Browse Generators",
-            "short_name": "Generators",
-            "description": "View diesel and petrol generators",
-            "url": "/Kinguelectrical-shop.html#generators",
-            "icons": [{
-                "src": "/assets/icons/generator-icon.svg",
-                "sizes": "96x96"
-            }]
-        },
-        {
-            "name": "Solar Systems",
-            "short_name": "Solar",
-            "description": "Browse solar power systems",
-            "url": "/Kinguelectrical-shop.html#solar",
-            "icons": [{
-                "src": "/assets/icons/solar-icon.svg",
-                "sizes": "96x96"
-            }]
-        },
-        {
-            "name": "Kingu Electrical Shop",
+            "name": "🛒 Kingu Electrical Shop",
             "short_name": "Shop",
-            "description": "Browse electrical products and services",
-            "url": "/Kinguelectrical-shop.html",
+            "description": "Browse & order electrical products",
+            "url": "/Kinguelectrical-shop.html?source=pwa_shortcut",
             "icons": [{
-                "src": "/assets/icons/shop-icon.svg",
-                "sizes": "96x96"
+                "src": "/assets/icons/optimized/shop-96x96.png",
+                "sizes": "96x96",
+                "type": "image/png"
             }]
         },
         {
-            "name": "Order via Phone",
-            "short_name": "Call Now",
-            "description": "Call to place your order",
-            "url": "tel:+255677014740",
+            "name": "⚡ Emergency Service",
+            "short_name": "Emergency",
+            "description": "24/7 Emergency electrical services",
+            "url": "tel:+255682843552",
             "icons": [{
-                "src": "/assets/icons/phone-icon.svg",
-                "sizes": "96x96"
+                "src": "/assets/icons/optimized/emergency-96x96.png",
+                "sizes": "96x96",
+                "type": "image/png"
             }]
         },
         {
-            "name": "WhatsApp Support",
+            "name": "💬 WhatsApp Support",
             "short_name": "WhatsApp",
-            "description": "Chat with us on WhatsApp",
-            "url": "https://wa.me/255682843552",
+            "description": "Chat with our experts",
+            "url": "https://wa.me/255682843552?text=Hello%20Kingu%20Electrical",
             "icons": [{
-                "src": "/assets/icons/whatsapp-icon.svg",
-                "sizes": "96x96"
+                "src": "/assets/icons/optimized/whatsapp-96x96.png",
+                "sizes": "96x96",
+                "type": "image/png"
+            }]
+        },
+        {
+            "name": "📞 Contact Us",
+            "short_name": "Contact",
+            "description": "Call or email our team",
+            "url": "/#contact?source=pwa_shortcut",
+            "icons": [{
+                "src": "/assets/icons/optimized/phone-96x96.png",
+                "sizes": "96x96",
+                "type": "image/png"
+            }]
+        },
+        {
+            "name": "🔧 Our Services",
+            "short_name": "Services",
+            "description": "View all electrical services",
+            "url": "/#services?source=pwa_shortcut",
+            "icons": [{
+                "src": "/assets/icons/optimized/services-96x96.png",
+                "sizes": "96x96",
+                "type": "image/png"
             }]
         }
     ],
     
+    "share_target": {
+        "action": "/share",
+        "method": "GET",
+        "enctype": "application/x-www-form-urlencoded",
+        "params": {
+            "title": "title",
+            "text": "text",
+            "url": "url"
+        }
+    },
+    
+    "protocol_handlers": [
+        {
+            "protocol": "web+kingu",
+            "url": "/?service=%s"
+        }
+    ],
+    
+    "launch_handler": {
+        "client_mode": "navigate-existing"
+    },
+    
     "related_applications": [
         {
-            "platform": "webapp",
-            "url": "https://kingueletrical.com/manifest.json"
+            "platform": "play",
+            "url": "https://play.google.com/store/apps/details?id=com.kinguelectrical.app",
+            "id": "com.kinguelectrical.app"
+        },
+        {
+            "platform": "itunes",
+            "url": "https://apps.apple.com/app/kinguelectrical/id123456789"
         }
     ],
     
     "prefer_related_applications": false,
     
-    "protocol_handlers": [
-        {
-            "protocol": "web+kingushop",
-            "url": "/Kinguelectrical-shop.html?product=%s"
+    "author": {
+        "name": "Kingu Electrical Company Limited",
+        "website": "https://kingueletrical.com",
+        "email": "Kinguelectricaltz@gmail.com"
+    },
+    
+    "version": "5.2.0",
+    "version_name": "Tanzania Electrical Experts v5.2",
+    
+    "privacy_policy": "https://kingueletrical.com/privacy-policy",
+    "terms_of_service": "https://kingueletrical.com/terms-of-service",
+    
+    "developer": {
+        "name": "Kingu Electrical Tech Team",
+        "url": "https://kingueletrical.com/developer",
+        "address": "Plot No. 485, Block 43, Nzasa, Dar-es-salaam, Tanzania"
+    },
+    
+    "default_locale": "en",
+    "locales": {
+        "en": {
+            "name": "Kingu Electrical Company Ltd",
+            "short_name": "Kingu Electrical",
+            "description": "Leading electrical engineering company in Tanzania"
         },
-        {
-            "protocol": "web+kingu",
-            "url": "/?service=%s"
-        },
-        {
-            "protocol": "tel",
-            "url": "tel:%s"
-        }
-    ],
-    
-    "share_target": {
-        "action": "/Kinguelectrical-shop.html",
-        "method": "GET",
-        "enctype": "application/x-www-form-urlencoded",
-        "params": {
-            "title": "name",
-            "text": "description",
-            "url": "link"
+        "sw": {
+            "name": "Kampu ya Umeme ya Kingu Ltd",
+            "short_name": "Kingu Umeme",
+            "description": "Kampuni kuu ya uhandisi wa umeme nchini Tanzania"
         }
     },
     
-    "handle_links": "preferred",
+    "homepage_url": "https://kingueletrical.com",
     
-    "edge_side_panel": {
-        "preferred_width": 400
-    },
+    "offline_enabled": true,
     
-    "launch_handler": {
-        "client_mode": "auto"
-    },
+    "fullscreen": false,
     
-    "display_override": ["window-controls-overlay", "standalone"],
+    "supports_dark_mode": true,
     
-    "permissions": [
-        "notifications",
-        "storage",
-        "background-sync",
-        "periodic-background-sync",
-        "clipboard-read",
-        "clipboard-write"
-    ],
-    
-    "serviceworker": {
-        "src": "/service-worker.js",
-        "scope": "/",
-        "update_via_cache": "none"
-    },
-    
-    "shortcuts_icons": {
-        "96": "/assets/icons/icon-96x96.png"
-    },
-    
-    "file_handlers": [
-        {
-            "action": "/Kinguelectrical-shop.html",
-            "accept": {
-                "text/*": [".txt", ".text"],
-                "application/pdf": [".pdf"]
-            }
-        }
-    ],
-    
-    "description": "Kingu Electrical - Professional electrical engineering services and products in Tanzania. Generator installation, solar systems, PLC programming, HPU conversion, and electrical equipment supply.",
-    
-    "screenshots_icons": {
-        "form_factors": ["wide", "narrow"],
-        "label": "Kingu Electrical App Screenshots"
-    },
-    
-    "version": "5.0.0",
-    
-    "author": "Kingu Electrical Company Limited",
-    
-    "dir": "ltr",
-    
-    "lang": "en-TZ",
-    
-    "scope": "/",
-    
-    "id": "/",
-    
-    "start_url": "/?source=pwa",
-    
-    "display": "standalone",
-    
-    "background_color": "#1a5632",
-    
-    "theme_color": "#1a5632",
-    
-    "orientation": "portrait-primary",
-    
-    "icons_": [
-        {
-            "src": "/assets/icons/maskable_icon.png",
-            "sizes": "196x196",
-            "type": "image/png",
-            "purpose": "maskable"
-        }
-    ]
+    "user_preferences": {
+        "color_scheme": "auto",
+        "reduced_motion": "auto"
+    }
 }
