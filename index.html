@@ -107,9 +107,8 @@
     }
     </script>
     
-    <!-- Kingu Electrical Shop Styles -->
     <style>
-        /* ===== CRITICAL FIXES ===== */
+        /* ===== GLOBAL STYLES ===== */
         * {
             margin: 0;
             padding: 0;
@@ -129,9 +128,53 @@
             background: #fff;
             width: 100%;
             position: relative;
+            min-height: 100vh;
         }
         
-        /* ===== HEADER FIXES ===== */
+        /* ===== BACKGROUND IMAGE ===== */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://dailynews.co.tz/tanzania-extends-power-transmission-network-by-674-kilometers/');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            opacity: 0.1;
+            z-index: -1;
+        }
+        
+        /* Ensure content is readable over background */
+        .container, 
+        header,
+        nav,
+        section,
+        footer,
+        .promo-banner,
+        .Kingu-shop-cta,
+        .emergency-cta,
+        .cta,
+        .stats-section {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .card,
+        .team-card,
+        .product-card,
+        .testimonial,
+        .project-item,
+        .certificate-item,
+        form {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+        }
+        
+        /* ===== HEADER STYLES ===== */
         header {
             position: relative;
             width: 100%;
@@ -150,6 +193,8 @@
             width: 100%;
             margin: 0 auto;
             padding: 2rem;
+            position: relative;
+            z-index: 2;
         }
         
         .logo-container {
@@ -160,6 +205,7 @@
             max-width: 300px;
             width: 100%;
             height: auto;
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));
         }
         
         h1 {
@@ -168,6 +214,7 @@
             margin-bottom: 1rem;
             font-weight: 700;
             line-height: 1.2;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
         }
         
         .tagline {
@@ -200,11 +247,13 @@
             border: 1px solid rgba(255,255,255,0.2);
             min-width: 250px;
             justify-content: center;
+            backdrop-filter: blur(10px);
         }
         
         .contact-header a:hover {
             background: rgba(255, 255, 255, 0.25);
             transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.2);
         }
         
         /* ===== PROMO BANNER ===== */
@@ -261,7 +310,7 @@
             background: #f8f9fa;
         }
         
-        /* ===== NAVIGATION FIXES ===== */
+        /* ===== NAVIGATION ===== */
         nav {
             background: rgba(13, 59, 31, 0.95);
             position: sticky;
@@ -269,6 +318,7 @@
             z-index: 1000;
             padding: 0;
             border-bottom: 1px solid rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
         }
         
         .nav-container {
@@ -337,7 +387,7 @@
             padding: 0.5rem;
         }
         
-        /* ===== MAIN CONTENT ===== */
+        /* ===== MAIN CONTENT CONTAINERS ===== */
         .container {
             max-width: 1200px;
             width: 100%;
@@ -355,7 +405,7 @@
         }
         
         section:nth-child(even) {
-            background: #f8f9fa;
+            background: rgba(248, 249, 250, 0.8);
         }
         
         h2 {
@@ -387,16 +437,18 @@
             margin-top: 2rem;
         }
         
+        /* ===== CARD STYLES ===== */
         .card {
-            background: white;
+            background: rgba(255, 255, 255, 0.95);
             border-radius: 12px;
             padding: 2.5rem;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
             transition: all 0.3s ease;
             height: 100%;
             display: flex;
             flex-direction: column;
             border: 1px solid rgba(0,0,0,0.05);
+            backdrop-filter: blur(10px);
         }
         
         .card:hover {
@@ -418,9 +470,108 @@
             margin-bottom: 1rem;
         }
         
+        /* ===== TEAM SECTION ===== */
+        .team-section {
+            padding: 4rem 0;
+        }
+        
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .team-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(0,0,0,0.05);
+            backdrop-filter: blur(10px);
+        }
+        
+        .team-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+        
+        .team-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin: 0 auto 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2.5rem;
+            font-weight: bold;
+        }
+        
+        .team-avatar.director {
+            background: linear-gradient(135deg, #FF6B35, #FF8E53);
+        }
+        
+        .team-avatar.technician {
+            background: linear-gradient(135deg, #0d6efd, #0b5ed7);
+        }
+        
+        .team-avatar.engineer {
+            background: linear-gradient(135deg, #6f42c1, #59359a);
+        }
+        
+        .team-avatar.lawyer {
+            background: linear-gradient(135deg, #20c997, #199d76);
+        }
+        
+        .team-name {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #0d3b1f;
+            margin-bottom: 0.5rem;
+        }
+        
+        .team-title {
+            color: #1a5632;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+        
+        .team-experience {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        
+        .team-experience::before {
+            content: '⏳';
+        }
+        
+        .team-skills {
+            margin-top: 1rem;
+        }
+        
+        .skill-tag {
+            display: inline-block;
+            background: rgba(26, 86, 50, 0.1);
+            color: #1a5632;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin: 0.25rem;
+        }
+        
         /* ===== STATS SECTION ===== */
         .stats-section {
-            background: linear-gradient(135deg, #1a5632, #0d3b1f);
+            background: linear-gradient(135deg, rgba(26, 86, 50, 0.95), rgba(13, 59, 31, 0.95));
             color: white;
             padding: 4rem 0;
             text-align: center;
@@ -471,7 +622,7 @@
         
         /* ===== EMERGENCY CTA ===== */
         .emergency-cta {
-            background: linear-gradient(135deg, #dc3545, #c82333);
+            background: linear-gradient(135deg, rgba(220, 53, 69, 0.95), rgba(200, 35, 51, 0.95));
             color: white;
             padding: 3rem 0;
             text-align: center;
@@ -499,11 +650,12 @@
         }
         
         .product-card {
-            background: white;
+            background: rgba(255, 255, 255, 0.95);
             border-radius: 12px;
             overflow: hidden;
             box-shadow: 0 4px 20px rgba(0,0,0,0.1);
             transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
         }
         
         .product-card:hover {
@@ -512,12 +664,13 @@
         
         /* ===== KINGU SHOP SECTION ===== */
         .Kingu-shop-section {
-            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            background: linear-gradient(135deg, rgba(248, 249, 250, 0.9), rgba(233, 236, 239, 0.9));
             border-radius: 15px;
             padding: 2rem;
             margin: 3rem 0;
             text-align: center;
             border: 2px solid #1a5632;
+            backdrop-filter: blur(10px);
         }
         
         /* ===== TESTIMONIALS ===== */
@@ -531,15 +684,16 @@
         
         .testimonial {
             min-width: 300px;
-            background: white;
+            background: rgba(255, 255, 255, 0.95);
             border-radius: 12px;
             padding: 2rem;
             box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
         }
         
         /* ===== RESOURCES SECTION ===== */
         #resources {
-            background: linear-gradient(135deg, #0d3d21, #1a5632);
+            background: linear-gradient(135deg, rgba(13, 61, 33, 0.95), rgba(26, 86, 50, 0.95));
             color: white;
             padding: 3rem 0;
         }
@@ -583,10 +737,11 @@
         }
         
         .project-item {
-            background: white;
+            background: rgba(255, 255, 255, 0.95);
             border-radius: 12px;
             overflow: hidden;
             box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
         }
         
         /* ===== CERTIFICATES ===== */
@@ -600,16 +755,9 @@
             text-align: center;
         }
         
-        .certificate-img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-            border-radius: 8px;
-        }
-        
         /* ===== CTA SECTION ===== */
         .cta {
-            background: linear-gradient(135deg, #1a5632, #0d3b1f);
+            background: linear-gradient(135deg, rgba(26, 86, 50, 0.95), rgba(13, 59, 31, 0.95));
             color: white;
             padding: 4rem 0;
             text-align: center;
@@ -617,12 +765,38 @@
             margin: 4rem 0;
         }
         
-        /* ===== CONTACT FORM ===== */
+        /* ===== BUTTON STYLES ===== */
+        .btn {
+            background: #1a5632;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            text-decoration: none;
+            display: inline-block;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .btn:hover {
+            background: #0d3b1f;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(13, 59, 31, 0.3);
+        }
+        
+        /* ===== FORM STYLES ===== */
         form {
             display: grid;
             gap: 1rem;
             max-width: 800px;
             margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 2rem;
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
         }
         
         input, textarea, select {
@@ -630,6 +804,7 @@
             border: 1px solid #ddd;
             border-radius: 8px;
             font-family: 'Roboto', sans-serif;
+            background: rgba(255, 255, 255, 0.9);
         }
         
         button[type="submit"] {
@@ -641,6 +816,7 @@
             font-size: 1rem;
             cursor: pointer;
             transition: background 0.3s ease;
+            font-family: 'Poppins', sans-serif;
         }
         
         button[type="submit"]:hover {
@@ -649,9 +825,10 @@
         
         /* ===== FOOTER ===== */
         footer {
-            background: linear-gradient(135deg, #0d3b1f, #1a5632);
+            background: linear-gradient(135deg, rgba(13, 59, 31, 0.95), rgba(26, 86, 50, 0.95));
             color: white;
             padding: 4rem 0 2rem;
+            position: relative;
         }
         
         .footer-content {
@@ -665,6 +842,7 @@
             color: white;
             margin-bottom: 1.5rem;
             font-size: 1.3rem;
+            font-family: 'Poppins', sans-serif;
         }
         
         .footer-column a {
@@ -707,6 +885,7 @@
         
         .whatsapp:hover {
             transform: scale(1.1);
+            box-shadow: 0 6px 25px rgba(37, 211, 102, 0.6);
         }
         
         /* ===== PWA INSTALL PROMPT ===== */
@@ -722,6 +901,14 @@
             
             .tagline {
                 font-size: 1.3rem;
+            }
+            
+            .team-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            h2 {
+                font-size: 2.2rem;
             }
         }
         
@@ -771,6 +958,7 @@
                 padding: 2rem 0;
                 transition: left 0.3s ease;
                 z-index: 999;
+                backdrop-filter: blur(20px);
             }
             
             .nav-menu.active {
@@ -801,6 +989,10 @@
                 grid-template-columns: 1fr;
             }
             
+            .team-grid {
+                grid-template-columns: 1fr;
+            }
+            
             .stats-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
@@ -810,6 +1002,14 @@
                 right: 20px;
                 width: 55px;
                 height: 55px;
+            }
+            
+            /* Reduce background opacity on mobile for better readability */
+            .card,
+            .team-card,
+            .product-card,
+            .testimonial {
+                background: rgba(255, 255, 255, 0.98);
             }
         }
         
@@ -833,6 +1033,16 @@
             .contact-header a {
                 font-size: 0.9rem;
                 padding: 0.8rem 1rem;
+            }
+            
+            .team-avatar {
+                width: 100px;
+                height: 100px;
+                font-size: 2rem;
+            }
+            
+            h2 {
+                font-size: 1.8rem;
             }
         }
     </style>
@@ -916,6 +1126,7 @@
             <ul class="nav-menu" id="navMenu">
                 <li><a href="#home">Home</a></li>
                 <li><a href="#about">About Us</a></li>
+                <li><a href="#team">Our Team</a></li>
                 <li><a href="#packages">Packages</a></li>
                 <li><a href="#services">Services</a></li>
                 <li><a href="#products">Products</a></li>
@@ -948,6 +1159,108 @@
                     <div class="stat-number">10+</div>
                     <div class="stat-label">Years Experience</div>
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Section -->
+    <section id="team" class="team-section">
+        <div class="container">
+            <h2>Meet Our Expert Team</h2>
+            <div class="team-grid">
+                <!-- Eng. Kingu Goodluck - Director -->
+                <div class="team-card">
+                    <div class="team-avatar director">
+                        KG
+                    </div>
+                    <div class="team-name">Eng. Kingu Goodluck</div>
+                    <div class="team-title">Director & Professional Electrical Engineer</div>
+                    <div class="team-experience">14+ Years Experience</div>
+                    <p>EWURA Licensed Electrical Engineer with extensive experience in power systems, generator installations, and industrial automation across Tanzania.</p>
+                    <div class="team-skills">
+                        <span class="skill-tag">Power Systems</span>
+                        <span class="skill-tag">Generator Installation</span>
+                        <span class="skill-tag">PLC Programming</span>
+                        <span class="skill-tag">Project Management</span>
+                    </div>
+                </div>
+
+                <!-- Herbert Njau - Electrical Technician -->
+                <div class="team-card">
+                    <div class="team-avatar technician">
+                        HN
+                    </div>
+                    <div class="team-name">Herbert Njau</div>
+                    <div class="team-title">Senior Electrical Technician</div>
+                    <div class="team-experience">8+ Years Experience</div>
+                    <p>Specialized in electrical installations, maintenance, and troubleshooting of industrial electrical systems and generator setups.</p>
+                    <div class="team-skills">
+                        <span class="skill-tag">Electrical Installations</span>
+                        <span class="skill-tag">Maintenance</span>
+                        <span class="skill-tag">Troubleshooting</span>
+                        <span class="skill-tag">Safety Compliance</span>
+                    </div>
+                </div>
+
+                <!-- Rahel Mollel - Telecom Engineer -->
+                <div class="team-card">
+                    <div class="team-avatar engineer">
+                        RM
+                    </div>
+                    <div class="team-name">Rahel Mollel</div>
+                    <div class="team-title">Telecom Engineer & Project Administrator</div>
+                    <div class="team-experience">6+ Years Experience</div>
+                    <p>Expert in telecom infrastructure projects, project coordination, and ensuring seamless communication between technical teams and clients.</p>
+                    <div class="team-skills">
+                        <span class="skill-tag">Telecom Infrastructure</span>
+                        <span class="skill-tag">Project Administration</span>
+                        <span class="skill-tag">Client Coordination</span>
+                        <span class="skill-tag">Documentation</span>
+                    </div>
+                </div>
+
+                <!-- Happyness Likangaga - Lawyer -->
+                <div class="team-card">
+                    <div class="team-avatar lawyer">
+                        HL
+                    </div>
+                    <div class="team-name">Happyness Likangaga</div>
+                    <div class="team-title">Legal Counsel</div>
+                    <div class="team-experience">5+ Years Experience</div>
+                    <p>Handles all legal matters including contracts, compliance, regulatory affairs, and ensuring company operations align with Tanzanian laws.</p>
+                    <div class="team-skills">
+                        <span class="skill-tag">Contract Law</span>
+                        <span class="skill-tag">Compliance</span>
+                        <span class="skill-tag">Regulatory Affairs</span>
+                        <span class="skill-tag">Legal Documentation</span>
+                    </div>
+                </div>
+
+                <!-- Bernard Sabas - Mechanical Technician -->
+                <div class="team-card">
+                    <div class="team-avatar technician">
+                        BS
+                    </div>
+                    <div class="team-name">Bernard Sabas</div>
+                    <div class="team-title">Mechanical Technician</div>
+                    <div class="team-experience">7+ Years Experience</div>
+                    <p>Specialized in mechanical aspects of generators, engine maintenance, and mechanical system installations for power solutions.</p>
+                    <div class="team-skills">
+                        <span class="skill-tag">Generator Mechanics</span>
+                        <span class="skill-tag">Engine Maintenance</span>
+                        <span class="skill-tag">Mechanical Systems</span>
+                        <span class="skill-tag">Preventive Maintenance</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 3rem;">
+                <p style="font-size: 1.1rem; color: #1a5632; font-weight: 500;">
+                    Our team combines <strong>technical expertise</strong> with <strong>professional experience</strong> to deliver exceptional electrical solutions across Tanzania.
+                </p>
+                <a href="#contact" class="btn" style="margin-top: 1.5rem; display: inline-block;">
+                    Contact Our Team
+                </a>
             </div>
         </div>
     </section>
@@ -1099,8 +1412,8 @@
             <h2>Featured Products</h2>
             <div class="product-grid">
                 <div class="product-card">
-                    <div style="height: 200px; background: #f0f0f0; display: flex; align-items: center; justify-content: center;">
-                        <span style="font-size: 3rem;">⚡</span>
+                    <div style="height: 200px; background: linear-gradient(45deg, #1a5632, #0d3b1f); display: flex; align-items: center; justify-content: center; color: white; font-size: 4rem;">
+                        ⚡
                     </div>
                     <div style="padding: 1.5rem;">
                         <h3>Diesel Generators</h3>
@@ -1111,8 +1424,8 @@
                 </div>
                 
                 <div class="product-card">
-                    <div style="height: 200px; background: #f0f0f0; display: flex; align-items: center; justify-content: center;">
-                        <span style="font-size: 3rem;">☀️</span>
+                    <div style="height: 200px; background: linear-gradient(45deg, #FF6B35, #FF8E53); display: flex; align-items: center; justify-content: center; color: white; font-size: 4rem;">
+                        ☀️
                     </div>
                     <div style="padding: 1.5rem;">
                         <h3>Solar Power Systems</h3>
@@ -1123,8 +1436,8 @@
                 </div>
                 
                 <div class="product-card">
-                    <div style="height: 200px; background: #f0f0f0; display: flex; align-items: center; justify-content: center;">
-                        <span style="font-size: 3rem;">🔧</span>
+                    <div style="height: 200px; background: linear-gradient(45deg, #0d6efd, #0b5ed7); display: flex; align-items: center; justify-content: center; color: white; font-size: 4rem;">
+                        🔧
                     </div>
                     <div style="padding: 1.5rem;">
                         <h3>Genuine Spare Parts</h3>
@@ -1165,7 +1478,7 @@
                         <p>"Kingu Electrical installed our backup generator system. Professional, on-time, and excellent after-sales support. Highly recommended!"</p>
                     </div>
                     <div class="client-info">
-                        <div style="width: 50px; height: 50px; background: #ddd; border-radius: 50%;"></div>
+                        <div style="width: 50px; height: 50px; background: #1a5632; border-radius: 50%; color: white; display: flex; align-items: center; justify-content: center; font-weight: bold;">JS</div>
                         <div>
                             <h4>James Shirima</h4>
                             <p>Hotel Manager, Shirma Hotel</p>
@@ -1178,7 +1491,7 @@
                         <p>"Their PLC programming service saved us 30% in energy costs. The team is knowledgeable and responsive."</p>
                     </div>
                     <div class="client-info">
-                        <div style="width: 50px; height: 50px; background: #ddd; border-radius: 50%;"></div>
+                        <div style="width: 50px; height: 50px; background: #FF6B35; border-radius: 50%; color: white; display: flex; align-items: center; justify-content: center; font-weight: bold;">PA</div>
                         <div>
                             <h4>Precious Adolph</h4>
                             <p>Technical Manager, GK Manufacturing Plant</p>
@@ -1191,7 +1504,7 @@
                         <p>"Emergency service at 2 AM! Fixed our generator issue in under 3 hours. Truly reliable service."</p>
                     </div>
                     <div class="client-info">
-                        <div style="width: 50px; height: 50px; background: #ddd; border-radius: 50%;"></div>
+                        <div style="width: 50px; height: 50px; background: #0d6efd; border-radius: 50%; color: white; display: flex; align-items: center; justify-content: center; font-weight: bold;">AE</div>
                         <div>
                             <h4>Adolph Elijah</h4>
                             <p>Camp Administrator, Arusha</p>
@@ -1202,7 +1515,7 @@
         </section>
 
         <!-- Booking Widget -->
-        <div style="background: white; padding: 2rem; border-radius: 12px; margin: 3rem 0;">
+        <div style="background: rgba(255, 255, 255, 0.95); padding: 2rem; border-radius: 12px; margin: 3rem 0; backdrop-filter: blur(10px);">
             <h3 style="text-align: center;">📅 Book a Free Site Inspection</h3>
             <form>
                 <input type="text" placeholder="Your Name" required>
@@ -1221,7 +1534,7 @@
                 <input type="date" required>
                 <input type="time" required>
                 <textarea placeholder="Additional Details (Location, specific requirements)"></textarea>
-                <button type="submit">Schedule Inspection</button>
+                <button type="submit" class="btn">Schedule Inspection</button>
             </form>
         </div>
 
@@ -1230,8 +1543,8 @@
             <h2>Projects & Achievements</h2>
             <div class="project-gallery">
                 <div class="project-item">
-                    <div style="height: 250px; background: #ddd; display: flex; align-items: center; justify-content: center;">
-                        <span style="font-size: 3rem;">🏗️</span>
+                    <div style="height: 250px; background: linear-gradient(45deg, #1a5632, #0d3b1f); display: flex; align-items: center; justify-content: center; color: white; font-size: 3rem;">
+                        🏗️
                     </div>
                     <div style="padding: 1.5rem;">
                         <h3>Telecom HPU Conversion</h3>
@@ -1241,8 +1554,8 @@
                 </div>
 
                 <div class="project-item">
-                    <div style="height: 250px; background: #ddd; display: flex; align-items: center; justify-content: center;">
-                        <span style="font-size: 3rem;">⚡</span>
+                    <div style="height: 250px; background: linear-gradient(45deg, #FF6B35, #FF8E53); display: flex; align-items: center; justify-content: center; color: white; font-size: 3rem;">
+                        ⚡
                     </div>
                     <div style="padding: 1.5rem;">
                         <h3>Industrial Generator Installation</h3>
@@ -1252,8 +1565,8 @@
                 </div>
 
                 <div class="project-item">
-                    <div style="height: 250px; background: #ddd; display: flex; align-items: center; justify-content: center;">
-                        <span style="font-size: 3rem;">💻</span>
+                    <div style="height: 250px; background: linear-gradient(45deg, #0d6efd, #0b5ed7); display: flex; align-items: center; justify-content: center; color: white; font-size: 3rem;">
+                        💻
                     </div>
                     <div style="padding: 1.5rem;">
                         <h3>Data Center Power Distribution</h3>
@@ -1263,8 +1576,8 @@
                 </div>
 
                 <div class="project-item">
-                    <div style="height: 250px; background: #ddd; display: flex; align-items: center; justify-content: center;">
-                        <span style="font-size: 3rem;">👨‍🏫</span>
+                    <div style="height: 250px; background: linear-gradient(45deg, #20c997, #199d76); display: flex; align-items: center; justify-content: center; color: white; font-size: 3rem;">
+                        👨‍🏫
                     </div>
                     <div style="padding: 1.5rem;">
                         <h3>Technical Training Program</h3>
@@ -1276,13 +1589,13 @@
         </section>
 
         <!-- WhatsApp Features -->
-        <div style="background: #25D366; color: white; padding: 2rem; border-radius: 12px; text-align: center; margin: 3rem 0;">
+        <div style="background: linear-gradient(135deg, rgba(37, 211, 102, 0.95), rgba(33, 196, 95, 0.95)); color: white; padding: 2rem; border-radius: 12px; text-align: center; margin: 3rem 0;">
             <h3>📱 Instant Support via WhatsApp</h3>
             <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-top: 1.5rem;">
-                <a href="https://wa.me/255682843552?text=Hi! I need a quote for electrical services" target="_blank" style="background: white; color: #25D366; padding: 1rem 2rem; border-radius: 25px; text-decoration: none;">
+                <a href="https://wa.me/255682843552?text=Hi! I need a quote for electrical services" target="_blank" style="background: white; color: #25D366; padding: 1rem 2rem; border-radius: 25px; text-decoration: none; font-weight: 600;">
                     📋 Get Instant Quote
                 </a>
-                <a href="https://wa.me/255682843552?text=I have an electrical emergency!" target="_blank" style="background: white; color: #25D366; padding: 1rem 2rem; border-radius: 25px; text-decoration: none;">
+                <a href="https://wa.me/255682843552?text=I have an electrical emergency!" target="_blank" style="background: white; color: #25D366; padding: 1rem 2rem; border-radius: 25px; text-decoration: none; font-weight: 600;">
                     🚨 Emergency Help
                 </a>
             </div>
@@ -1294,19 +1607,19 @@
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; align-items: center;">
                 <div>
                     <h3>Primary Service Areas:</h3>
-                    <ul>
-                        <li>Dar-es-salaam (All Districts)</li>
-                        <li>Arusha Region</li>
-                        <li>Dodoma</li>
-                        <li>Mwanza</li>
-                        <li>Mbeya</li>
-                        <li>Zanzibar</li>
+                    <ul style="list-style: none; margin-bottom: 1.5rem;">
+                        <li style="margin-bottom: 0.5rem;">✓ Dar-es-salaam (All Districts)</li>
+                        <li style="margin-bottom: 0.5rem;">✓ Arusha Region</li>
+                        <li style="margin-bottom: 0.5rem;">✓ Dodoma</li>
+                        <li style="margin-bottom: 0.5rem;">✓ Mwanza</li>
+                        <li style="margin-bottom: 0.5rem;">✓ Mbeya</li>
+                        <li style="margin-bottom: 0.5rem;">✓ Zanzibar</li>
                     </ul>
                     <a href="tel:+255682843552" class="btn">Check If We Cover Your Area</a>
                 </div>
                 <div>
-                    <div style="height: 300px; background: #f0f0f0; border-radius: 12px; display: flex; align-items: center; justify-content: center;">
-                        <span style="font-size: 3rem;">🗺️</span>
+                    <div style="height: 300px; background: linear-gradient(45deg, #1a5632, #0d3b1f); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: white; font-size: 4rem;">
+                        🗺️
                     </div>
                 </div>
             </div>
@@ -1358,25 +1671,25 @@
             <h2>Certificates & Compliance</h2>
             <div class="certificate-grid">
                 <div class="certificate-item">
-                    <div style="height: 200px; background: #f0f0f0; border-radius: 8px;"></div>
+                    <div style="height: 200px; background: linear-gradient(45deg, #1a5632, #0d3b1f); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-size: 3rem;">📄</div>
                     <h4>Certificate of Incorporation</h4>
                     <p><strong>BRELA Registration</strong><br>No: 157024493</p>
                 </div>
 
                 <div class="certificate-item">
-                    <div style="height: 200px; background: #f0f0f0; border-radius: 8px;"></div>
+                    <div style="height: 200px; background: linear-gradient(45deg, #FF6B35, #FF8E53); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-size: 3rem;">🏢</div>
                     <h4>TIN Certificate</h4>
                     <p><strong>Tanzania Revenue Authority</strong><br>TIN: 157-024-493</p>
                 </div>
 
                 <div class="certificate-item">
-                    <div style="height: 200px; background: #f0f0f0; border-radius: 8px;"></div>
+                    <div style="height: 200px; background: linear-gradient(45deg, #0d6efd, #0b5ed7); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-size: 3rem;">⚡</div>
                     <h4>EWURA License</h4>
                     <p><strong>Class A Electrical License</strong><br>No: ELA-2022-008</p>
                 </div>
 
                 <div class="certificate-item">
-                    <div style="height: 200px; background: #f0f0f0; border-radius: 8px;"></div>
+                    <div style="height: 200px; background: linear-gradient(45deg, #20c997, #199d76); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-size: 3rem;">👨‍🔧</div>
                     <h4>ERB Registration</h4>
                     <p><strong>Professional Engineer</strong><br>Registered Practitioner</p>
                 </div>
@@ -1427,7 +1740,7 @@
                 <input type="email" placeholder="Your Email Address" required>
                 <input type="tel" placeholder="Your Phone Number">
                 <textarea placeholder="Your Message" required style="height: 150px;"></textarea>
-                <button type="submit">Send Message</button>
+                <button type="submit" class="btn">Send Message</button>
             </form>
         </section>
     </main>
@@ -1445,6 +1758,7 @@
                     <h3>Quick Links</h3>
                     <a href="#home">Home</a>
                     <a href="#about">About Us</a>
+                    <a href="#team">Our Team</a>
                     <a href="#services">Our Services</a>
                     <a href="#products">Products</a>
                     <a href="/Kinguelectrical-shop.html" target="_blank">Kingu Electrical Shop</a>
