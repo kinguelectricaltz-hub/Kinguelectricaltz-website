@@ -4,7 +4,6 @@ document.addEventListener('DOMContentLoaded', function() {
     initPWA();
     initOfflineDetection();
     initBackgroundSync();
-    preloadBackgroundImage();
 });
 
 // PWA Initialization
@@ -24,56 +23,6 @@ function initPWA() {
     checkIfInstalled();
 }
 
-// Preload background image
-function preloadBackgroundImage() {
-    const bgImage = new Image();
-    bgImage.src = '/image/background.png';
-    
-    bgImage.onload = function() {
-        console.log('✅ Background image loaded successfully');
-        document.body.classList.add('bg-loaded');
-        document.body.classList.remove('bg-loading', 'bg-error');
-    };
-    
-    bgImage.onerror = function() {
-        console.error('❌ Failed to load background image');
-        document.body.classList.add('bg-error');
-        document.body.classList.remove('bg-loading', 'bg-loaded');
-        
-        // Try alternative paths
-        const alternativePaths = [
-            './image/background.png',
-            'image/background.png',
-            '/wp-content/uploads/2024/12/background-1.png'
-        ];
-        
-        let currentIndex = 0;
-        
-        function tryNextPath() {
-            if (currentIndex >= alternativePaths.length) return;
-            
-            const testImg = new Image();
-            testImg.src = alternativePaths[currentIndex];
-            
-            testImg.onload = function() {
-                console.log(`✅ Found background at: ${alternativePaths[currentIndex]}`);
-                document.body.style.backgroundImage = `url("${alternativePaths[currentIndex]}")`;
-                document.body.classList.add('bg-loaded');
-                document.body.classList.remove('bg-error');
-            };
-            
-            testImg.onerror = function() {
-                currentIndex++;
-                tryNextPath();
-            };
-        }
-        
-        tryNextPath();
-    };
-    
-    document.body.classList.add('bg-loading');
-}
-
 // Service Worker Registration
 function registerServiceWorker() {
     window.addEventListener('load', async () => {
@@ -84,17 +33,6 @@ function registerServiceWorker() {
             });
             
             console.log('✅ Service Worker registered with scope:', registration.scope);
-            
-            // Cache background image
-            if ('caches' in window) {
-                const cache = await caches.open('bg-image-cache');
-                try {
-                    await cache.add('/image/background.png');
-                    console.log('✅ Background image cached');
-                } catch (error) {
-                    console.warn('⚠️ Could not cache background image:', error);
-                }
-            }
             
             // Update UI status
             updateSWStatus('🟢 App Ready');
@@ -108,6 +46,7 @@ function registerServiceWorker() {
                     console.log('Service Worker state changed to:', newWorker.state);
                     
                     if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                        // New update available
                         showUpdateNotification();
                     }
                 });
@@ -116,7 +55,7 @@ function registerServiceWorker() {
             // Periodic updates check
             setInterval(() => {
                 registration.update();
-            }, 60 * 60 * 1000);
+            }, 60 * 60 * 1000); // Check for updates every hour
             
         } catch (error) {
             console.error('❌ Service Worker registration failed:', error);
@@ -132,10 +71,12 @@ const installBtn = document.getElementById('installBtn');
 const closeInstall = document.getElementById('closeInstall');
 
 function setupInstallPrompt() {
+    // Listen for beforeinstallprompt event
     window.addEventListener('beforeinstallprompt', (e) => {
         e.preventDefault();
         deferredPrompt = e;
         
+        // Show install prompt after 10 seconds
         setTimeout(() => {
             if (deferredPrompt && !isAppInstalled()) {
                 const lastDismissed = localStorage.getItem('pwaPromptDismissed');
@@ -148,6 +89,7 @@ function setupInstallPrompt() {
         }, 10000);
     });
     
+    // Install button click
     installBtn.addEventListener('click', async () => {
         if (!deferredPrompt) return;
         
@@ -181,16 +123,23 @@ function setupInstallPrompt() {
         deferredPrompt = null;
     });
     
+    // Close button
     closeInstall.addEventListener('click', () => {
         installContainer.style.display = 'none';
         localStorage.setItem('pwaPromptDismissed', Date.now());
     });
     
+    // Track successful installation
     window.addEventListener('appinstalled', () => {
         console.log('🎉 PWA was installed successfully');
         deferredPrompt = null;
         installContainer.style.display = 'none';
         updateSWStatus('✅ App Installed');
+        
+        // Send analytics if you have it
+        if (window.gtag) {
+            gtag('event', 'app_installed');
+        }
     });
 }
 
@@ -208,6 +157,7 @@ function initOfflineDetection() {
         showOfflineNotification();
     });
     
+    // Initial check
     if (!navigator.onLine) {
         updateSWStatus('🔴 Offline');
         showOfflineNotification();
@@ -218,8 +168,9 @@ function initOfflineDetection() {
 function initBackgroundSync() {
     if ('serviceWorker' in navigator && 'SyncManager' in window) {
         navigator.serviceWorker.ready.then(registration => {
+            // Register for periodic sync
             registration.periodicSync.register('update-content', {
-                minInterval: 24 * 60 * 60 * 1000
+                minInterval: 24 * 60 * 60 * 1000 // Once per day
             }).catch(err => {
                 console.log('Periodic sync registration failed:', err);
             });
@@ -234,6 +185,7 @@ function updateSWStatus(text) {
         statusElement.textContent = text;
         statusElement.style.display = 'block';
         
+        // Auto-hide after 5 seconds if online
         if (text === '🟢 Online' || text === '✅ App Installed') {
             setTimeout(() => {
                 statusElement.style.display = 'none';
@@ -276,6 +228,7 @@ function showUpdateNotification() {
         notification.remove();
     });
     
+    // Auto-remove after 30 seconds
     setTimeout(() => {
         if (document.body.contains(notification)) {
             notification.remove();
@@ -296,6 +249,7 @@ function showOfflineNotification() {
     if (!document.getElementById('offline-notif')) {
         document.body.appendChild(notification);
         
+        // Auto-remove after 5 seconds
         setTimeout(() => {
             if (document.body.contains(notification)) {
                 notification.remove();
@@ -317,6 +271,7 @@ function showOnlineNotification() {
     if (!document.getElementById('online-notif')) {
         document.body.appendChild(notification);
         
+        // Auto-remove after 3 seconds
         setTimeout(() => {
             if (document.body.contains(notification)) {
                 notification.remove();
