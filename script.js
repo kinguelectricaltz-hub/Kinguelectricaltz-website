@@ -81,6 +81,57 @@ const PRODUCTS = [
         tags: ["industrial", "caterpillar", "high-power"]
     },
     {
+        id: 3,
+        category: "generators",
+        name: "50kVA Silent Generator",
+        description: "Silent canopy 50kVA generator perfect for hospitals, hotels, and residential areas.",
+        price: 18500000,
+        originalPrice: 19500000,
+        image: `${CONFIG.IMAGE_PATH}/generator-50kva.webp`,
+        stock: 3,
+        delivery: "Free in Dar-es-salaam",
+        installation: "Professional installation included",
+        warranty: "12 months",
+        brand: "Cummins",
+        specifications: {
+            power: "50kVA",
+            fuel: "Diesel",
+            phase: "Three Phase",
+            voltage: "415V",
+            frequency: "50Hz",
+            noise: "75 dB"
+        },
+        badge: "Silent",
+        rating: 4.7,
+        reviews: 15,
+        tags: ["silent", "hospital", "hotel"]
+    },
+    {
+        id: 4,
+        category: "generators",
+        name: "10kVA Portable Generator",
+        description: "Portable 10kVA generator for construction sites and backup power.",
+        price: 4500000,
+        originalPrice: 4800000,
+        image: `${CONFIG.IMAGE_PATH}/generator-10kva.webp`,
+        stock: 8,
+        delivery: "25,000 TZS",
+        installation: "Basic installation included",
+        warranty: "6 months",
+        brand: "Yamaha",
+        specifications: {
+            power: "10kVA",
+            fuel: "Petrol",
+            phase: "Single Phase",
+            voltage: "230V",
+            frequency: "50Hz",
+            weight: "85 kg"
+        },
+        rating: 4.5,
+        reviews: 32,
+        tags: ["portable", "construction", "backup"]
+    },
+    {
         id: 9,
         category: "solar",
         name: "5kW Solar System with Lithium Batteries",
@@ -230,6 +281,12 @@ const PERFORMANCE_METRICS = {
     largestContentfulPaint: 0,
     firstContentfulPaint: 0
 };
+
+// Wishlist Data
+let wishlist = JSON.parse(localStorage.getItem('kinguWishlist') || '[]');
+
+// Comparison Data
+let comparisonList = JSON.parse(localStorage.getItem('kinguComparison') || '[]');
 
 // Initialize everything when DOM is loaded
 document.addEventListener('DOMContentLoaded', function() {
@@ -1910,48 +1967,356 @@ function animateCartBadge() {
     }
 }
 
+// Initialize Product Modal
+function initProductModal() {
+    // Create modal container if it doesn't exist
+    if (!document.getElementById('productModal')) {
+        const modal = document.createElement('div');
+        modal.id = 'productModal';
+        modal.className = 'modal';
+        modal.innerHTML = `
+            <div class="modal-content">
+                <button class="modal-close" aria-label="Close modal">×</button>
+                <div class="modal-body" id="productModalBody">
+                    <!-- Product details will be loaded here -->
+                </div>
+            </div>
+        `;
+        document.body.appendChild(modal);
+        
+        // Close modal on X click
+        modal.querySelector('.modal-close').addEventListener('click', () => {
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+        });
+        
+        // Close modal on outside click
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        });
+        
+        // Close on Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && modal.classList.contains('active')) {
+                modal.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        });
+    }
+}
+
+// Show Product Modal
+function showProductModal(productId) {
+    const product = typeof productId === 'number' 
+        ? PRODUCTS.find(p => p.id === productId)
+        : productId;
+    
+    if (!product) return;
+    
+    const modal = document.getElementById('productModal');
+    const modalBody = document.getElementById('productModalBody');
+    
+    if (!modal || !modalBody) return;
+    
+    // Generate product details HTML
+    modalBody.innerHTML = `
+        <div class="product-modal-content">
+            <div class="product-modal-images">
+                <img src="${product.image}" alt="${product.name}" class="main-image">
+                ${product.images ? `
+                    <div class="product-thumbnails">
+                        ${product.images.map(img => `
+                            <img src="${img}" alt="${product.name}" class="thumbnail">
+                        `).join('')}
+                    </div>
+                ` : ''}
+            </div>
+            
+            <div class="product-modal-details">
+                <h2>${product.name}</h2>
+                <div class="product-category">${product.category.toUpperCase()}</div>
+                
+                <div class="product-price">
+                    <span class="current">${formatCurrency(product.price)}</span>
+                    ${product.originalPrice ? `
+                        <span class="original">${formatCurrency(product.originalPrice)}</span>
+                        <span class="discount">Save ${formatCurrency(product.originalPrice - product.price)}</span>
+                    ` : ''}
+                </div>
+                
+                <div class="product-rating">
+                    ⭐ ${product.rating || '4.5'} <small>(${product.reviews || 0} reviews)</small>
+                </div>
+                
+                <p class="product-description">${product.description}</p>
+                
+                ${product.specifications ? `
+                    <div class="product-specifications">
+                        <h4>Specifications</h4>
+                        <div class="specs-grid">
+                            ${Object.entries(product.specifications).map(([key, value]) => `
+                                <div class="spec-item">
+                                    <strong>${key}:</strong> ${value}
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                ` : ''}
+                
+                <div class="product-meta">
+                    <div class="meta-item">
+                        <strong>Delivery:</strong> ${product.delivery || 'Contact for details'}
+                    </div>
+                    <div class="meta-item">
+                        <strong>Installation:</strong> ${product.installation || 'Not included'}
+                    </div>
+                    <div class="meta-item">
+                        <strong>Warranty:</strong> ${product.warranty || 'Contact for details'}
+                    </div>
+                    <div class="meta-item">
+                        <strong>Stock:</strong> 
+                        <span class="${product.stock > 0 ? 'in-stock' : 'out-of-stock'}">
+                            ${product.stock > 0 ? `${product.stock} units available` : 'Out of stock'}
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="product-actions">
+                    <button class="btn btn-primary add-to-cart-modal" 
+                            onclick="addToCart(${product.id}); this.closest('.modal').classList.remove('active');"
+                            ${product.stock <= 0 ? 'disabled' : ''}>
+                        🛒 Add to Cart
+                    </button>
+                    <a href="https://wa.me/${CONFIG.WHATSAPP_NUMBER}?text=I'm interested in: ${encodeURIComponent(product.name)} - ${window.location.href}" 
+                       class="btn btn-whatsapp" 
+                       target="_blank">
+                        💬 WhatsApp Inquiry
+                    </a>
+                    <button class="btn btn-secondary wishlist-btn-modal" 
+                            onclick="toggleWishlist(${product.id})">
+                        ♥ ${wishlist.some(w => w.id === product.id) ? 'Remove from' : 'Add to'} Wishlist
+                    </button>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+    
+    // Add event listeners for thumbnails
+    modalBody.querySelectorAll('.thumbnail').forEach(thumb => {
+        thumb.addEventListener('click', (e) => {
+            const mainImage = modalBody.querySelector('.main-image');
+            mainImage.src = e.target.src;
+        });
+    });
+    
+    // Track modal view
+    trackEvent('ecommerce', 'product_view', product.id.toString());
+}
+
+// Initialize Wishlist
+function initWishlist() {
+    // Load wishlist from localStorage
+    wishlist = JSON.parse(localStorage.getItem('kinguWishlist') || '[]');
+    updateWishlistCount(wishlist.length);
+}
+
+// Toggle Wishlist
+function toggleWishlist(productId) {
+    const product = typeof productId === 'number' 
+        ? PRODUCTS.find(p => p.id === productId)
+        : productId;
+    
+    if (!product) return;
+    
+    const index = wishlist.findIndex(item => item.id === product.id);
+    
+    if (index > -1) {
+        // Remove from wishlist
+        wishlist.splice(index, 1);
+        showNotification(`Removed ${product.name} from wishlist`, 'info');
+        trackEvent('wishlist', 'remove', product.id.toString());
+    } else {
+        // Add to wishlist
+        wishlist.push(product);
+        showNotification(`Added ${product.name} to wishlist`, 'success');
+        trackEvent('wishlist', 'add', product.id.toString());
+    }
+    
+    localStorage.setItem('kinguWishlist', JSON.stringify(wishlist));
+    updateWishlistCount(wishlist.length);
+    
+    // Update button text in modal if open
+    const wishlistBtn = document.querySelector('.wishlist-btn-modal');
+    if (wishlistBtn) {
+        wishlistBtn.textContent = wishlist.some(w => w.id === product.id) 
+            ? '♥ Remove from Wishlist' 
+            : '♥ Add to Wishlist';
+    }
+}
+
+// Update Wishlist Count
+function updateWishlistCount(count) {
+    const wishlistElements = document.querySelectorAll('.wishlist-count');
+    wishlistElements.forEach(el => {
+        el.textContent = count;
+        el.style.display = count > 0 ? 'inline' : 'none';
+    });
+}
+
 // Product Comparison
 function initProductComparison() {
-    let comparisonList = JSON.parse(localStorage.getItem('kinguComparison') || '[]');
-    
-    window.addToComparison = function(product) {
-        if (comparisonList.some(p => p.id === product.id)) {
-            showNotification(`${product.name} is already in comparison`, 'info');
-            return;
-        }
-        
-        if (comparisonList.length >= 4) {
-            showNotification('Maximum 4 products can be compared at once', 'warning');
-            return;
-        }
-        
-        comparisonList.push(product);
-        localStorage.setItem('kinguComparison', JSON.stringify(comparisonList));
-        
-        showNotification(`${product.name} added to comparison`, 'success');
-        updateComparisonCount(comparisonList.length);
-        trackEvent('ecommerce', 'add_to_comparison', product.id.toString());
-    };
-    
-    window.showComparison = function() {
-        if (comparisonList.length < 2) {
-            showNotification('Add at least 2 products to compare', 'info');
-            return;
-        }
-        
-        // Create comparison modal
-        showProductComparisonModal(comparisonList);
-    };
-    
+    comparisonList = JSON.parse(localStorage.getItem('kinguComparison') || '[]');
     updateComparisonCount(comparisonList.length);
 }
 
+// Add to Comparison
+function addToComparison(product) {
+    if (comparisonList.some(p => p.id === product.id)) {
+        showNotification(`${product.name} is already in comparison`, 'info');
+        return;
+    }
+    
+    if (comparisonList.length >= 4) {
+        showNotification('Maximum 4 products can be compared at once', 'warning');
+        return;
+    }
+    
+    comparisonList.push(product);
+    localStorage.setItem('kinguComparison', JSON.stringify(comparisonList));
+    
+    showNotification(`${product.name} added to comparison`, 'success');
+    updateComparisonCount(comparisonList.length);
+    trackEvent('ecommerce', 'add_to_comparison', product.id.toString());
+}
+
+// Show Comparison
+function showComparison() {
+    if (comparisonList.length < 2) {
+        showNotification('Add at least 2 products to compare', 'info');
+        return;
+    }
+    
+    showProductComparisonModal(comparisonList);
+}
+
+// Show Product Comparison Modal
+function showProductComparisonModal(products) {
+    const modal = document.createElement('div');
+    modal.className = 'modal comparison-modal';
+    modal.innerHTML = `
+        <div class="modal-content" style="max-width: 1200px;">
+            <button class="modal-close" aria-label="Close modal">×</button>
+            <div class="modal-header">
+                <h3>Product Comparison</h3>
+                <p>Compare ${products.length} products side by side</p>
+            </div>
+            <div class="modal-body">
+                <div class="comparison-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Feature</th>
+                                ${products.map(p => `<th>${p.name}</th>`).join('')}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Price</td>
+                                ${products.map(p => `<td>${formatCurrency(p.price)}</td>`).join('')}
+                            </tr>
+                            <tr>
+                                <td>Category</td>
+                                ${products.map(p => `<td>${p.category}</td>`).join('')}
+                            </tr>
+                            <tr>
+                                <td>Brand</td>
+                                ${products.map(p => `<td>${p.brand || 'N/A'}</td>`).join('')}
+                            </tr>
+                            <tr>
+                                <td>Rating</td>
+                                ${products.map(p => `<td>⭐ ${p.rating || 'N/A'}</td>`).join('')}
+                            </tr>
+                            <tr>
+                                <td>Stock</td>
+                                ${products.map(p => `<td>${p.stock > 0 ? p.stock + ' units' : 'Out of stock'}</td>`).join('')}
+                            </tr>
+                            <tr>
+                                <td>Warranty</td>
+                                ${products.map(p => `<td>${p.warranty || 'N/A'}</td>`).join('')}
+                            </tr>
+                            ${products[0].specifications ? 
+                                Object.keys(products[0].specifications).map(key => `
+                                    <tr>
+                                        <td>${key}</td>
+                                        ${products.map(p => `<td>${p.specifications?.[key] || 'N/A'}</td>`).join('')}
+                                    </tr>
+                                `).join('') : ''
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <div class="comparison-actions">
+                    <button class="btn btn-primary" onclick="clearComparison()">Clear Comparison</button>
+                    <button class="btn btn-secondary" onclick="addAllToCart()">Add All to Cart</button>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    document.body.appendChild(modal);
+    modal.classList.add('active');
+    
+    // Close button
+    modal.querySelector('.modal-close').addEventListener('click', () => {
+        modal.remove();
+    });
+    
+    // Close on outside click
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            modal.remove();
+        }
+    });
+    
+    // Track comparison view
+    trackEvent('ecommerce', 'comparison_view', products.length.toString());
+}
+
+// Update Comparison Count
 function updateComparisonCount(count) {
     const comparisonElements = document.querySelectorAll('.comparison-count');
     comparisonElements.forEach(el => {
         el.textContent = count;
         el.style.display = count > 0 ? 'inline' : 'none';
     });
+}
+
+// Clear Comparison
+function clearComparison() {
+    comparisonList = [];
+    localStorage.setItem('kinguComparison', JSON.stringify(comparisonList));
+    updateComparisonCount(0);
+    showNotification('Comparison cleared', 'success');
+    
+    // Close modal
+    const modal = document.querySelector('.comparison-modal');
+    if (modal) modal.remove();
+}
+
+// Add All to Cart from Comparison
+function addAllToCart() {
+    comparisonList.forEach(product => {
+        if (product.stock > 0) {
+            addToCart(product);
+        }
+    });
+    showNotification(`Added ${comparisonList.length} products to cart`, 'success');
 }
 
 // Stock Notifications
@@ -1977,34 +2342,40 @@ function initStockNotifications() {
 
 function showStockNotificationForm(product) {
     const form = document.createElement('div');
-    form.className = 'stock-notification-form';
+    form.className = 'modal stock-notification-form';
     form.innerHTML = `
-        <div class="form-header">
-            <h4>Get Notified When Back in Stock</h4>
-            <button class="close-form" aria-label="Close">×</button>
-        </div>
-        <div class="form-body">
-            <p>We'll email you when ${product.name} is back in stock.</p>
-            <div class="form-group">
-                <label for="notifyEmail">Email Address</label>
-                <input type="email" id="notifyEmail" placeholder="your@email.com" required>
+        <div class="modal-content">
+            <button class="modal-close" aria-label="Close modal">×</button>
+            <div class="modal-header">
+                <h3>Get Notified When Back in Stock</h3>
             </div>
-            <div class="form-group">
-                <label for="notifyPhone">Phone Number (Optional)</label>
-                <input type="tel" id="notifyPhone" placeholder="+255 XXX XXX XXX">
+            <div class="modal-body">
+                <p>We'll notify you when <strong>${product.name}</strong> is back in stock.</p>
+                <div class="form-group">
+                    <label for="notifyEmail">Email Address *</label>
+                    <input type="email" id="notifyEmail" placeholder="your@email.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="notifyPhone">Phone Number (Optional)</label>
+                    <input type="tel" id="notifyPhone" placeholder="+255 XXX XXX XXX">
+                </div>
             </div>
-        </div>
-        <div class="form-footer">
-            <button class="btn btn-primary" onclick="subscribeStockNotification(${product.id})">
-                Notify Me
-            </button>
+            <div class="modal-footer">
+                <button class="btn btn-primary" onclick="subscribeStockNotification(${product.id})">
+                    Notify Me
+                </button>
+                <button class="btn btn-secondary" onclick="this.closest('.modal').remove()">
+                    Cancel
+                </button>
+            </div>
         </div>
     `;
     
     document.body.appendChild(form);
+    form.classList.add('active');
     
     // Close button
-    form.querySelector('.close-form').addEventListener('click', () => {
+    form.querySelector('.modal-close').addEventListener('click', () => {
         form.remove();
     });
     
@@ -2040,7 +2411,10 @@ function subscribeStockNotification(productId) {
     localStorage.setItem('kinguStockNotifications', JSON.stringify(notifications));
     
     showNotification('You will be notified when this product is back in stock!', 'success');
-    document.querySelector('.stock-notification-form').remove();
+    
+    // Close modal
+    const modal = document.querySelector('.stock-notification-form');
+    if (modal) modal.remove();
     
     trackEvent('ecommerce', 'stock_notification', product.id.toString());
 }
@@ -2390,7 +2764,6 @@ function urlBase64ToUint8Array(base64String) {
 
 function initUIEnhancements() {
     initThemeToggle();
-    initImageLazyLoading();
     initTooltips();
     initCopyButtons();
     initShareButtons();
@@ -2401,6 +2774,7 @@ function initUIEnhancements() {
     initFeedbackSystem();
     initCookieConsent();
     initWhatsAppWidget();
+    initCartSidebar();
 }
 
 // Theme Toggle
@@ -2445,6 +2819,272 @@ function setTheme(theme) {
     if (metaThemeColor) {
         metaThemeColor.content = theme === 'dark' ? '#0d3b1f' : '#1a5632';
     }
+}
+
+// Initialize Cart Sidebar
+function initCartSidebar() {
+    // Create cart sidebar if it doesn't exist
+    if (!document.getElementById('cartSidebar')) {
+        const sidebar = document.createElement('div');
+        sidebar.id = 'cartSidebar';
+        sidebar.className = 'cart-sidebar';
+        sidebar.innerHTML = `
+            <div class="cart-sidebar-header">
+                <h3>🛒 Your Shopping Cart</h3>
+                <button class="cart-sidebar-close" aria-label="Close cart">×</button>
+            </div>
+            <div class="cart-sidebar-body">
+                <div id="cartItems" class="cart-items">
+                    <!-- Cart items will be loaded here -->
+                </div>
+            </div>
+            <div class="cart-sidebar-footer">
+                <div class="cart-summary">
+                    <div class="summary-row">
+                        <span>Subtotal:</span>
+                        <span id="cartSubtotal">${formatCurrency(0)}</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Delivery:</span>
+                        <span id="cartDelivery">${formatCurrency(0)}</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Installation:</span>
+                        <span id="cartInstallation">${formatCurrency(0)}</span>
+                    </div>
+                    <div class="summary-row total">
+                        <span>Total:</span>
+                        <span id="cartTotal">${formatCurrency(0)}</span>
+                    </div>
+                </div>
+                <div class="cart-actions">
+                    <button class="btn btn-primary" onclick="checkout()">Proceed to Checkout</button>
+                    <button class="btn btn-secondary" onclick="closeCartSidebar()">Continue Shopping</button>
+                    <button class="btn btn-outline" onclick="clearCart()">Clear Cart</button>
+                </div>
+                <div class="cart-note">
+                    <small>💡 Need help? Call us at ${CONFIG.DISPLAY_PHONE}</small>
+                </div>
+            </div>
+        `;
+        document.body.appendChild(sidebar);
+        
+        // Close button
+        sidebar.querySelector('.cart-sidebar-close').addEventListener('click', closeCartSidebar);
+        
+        // Close on outside click
+        sidebar.addEventListener('click', (e) => {
+            if (e.target === sidebar) {
+                closeCartSidebar();
+            }
+        });
+        
+        // Close on Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && sidebar.classList.contains('open')) {
+                closeCartSidebar();
+            }
+        });
+    }
+}
+
+// Show Cart Sidebar
+function showCartSidebar() {
+    const sidebar = document.getElementById('cartSidebar');
+    if (sidebar) {
+        sidebar.classList.add('open');
+        document.body.style.overflow = 'hidden';
+        
+        // Render cart items
+        renderCartItems();
+        
+        // Trap focus
+        setTimeout(() => trapFocus(sidebar), 100);
+    }
+}
+
+// Close Cart Sidebar
+function closeCartSidebar() {
+    const sidebar = document.getElementById('cartSidebar');
+    if (sidebar) {
+        sidebar.classList.remove('open');
+        document.body.style.overflow = '';
+    }
+}
+
+// Clear Cart
+function clearCart() {
+    if (cart.items.length === 0) return;
+    
+    if (confirm('Are you sure you want to clear your cart?')) {
+        cart.items = [];
+        calculateCartTotals();
+        saveCartToStorage();
+        updateCartUI();
+        showNotification('Cart cleared', 'info');
+        trackEvent('ecommerce', 'clear_cart');
+    }
+}
+
+// Checkout Function
+function checkout() {
+    if (cart.items.length === 0) {
+        showNotification('Your cart is empty', 'warning');
+        return;
+    }
+    
+    // Create WhatsApp message for checkout
+    let message = `🛒 ORDER SUMMARY - Kingu Electrical\n\n`;
+    message += `Customer: [Please provide name]\n`;
+    message += `Phone: [Please provide phone]\n\n`;
+    message += `ORDER ITEMS:\n`;
+    
+    cart.items.forEach((item, index) => {
+        message += `${index + 1}. ${item.name}\n`;
+        message += `   Quantity: ${item.quantity}\n`;
+        message += `   Price: ${formatCurrency(item.price)} each\n`;
+        message += `   Total: ${formatCurrency(item.price * item.quantity)}\n\n`;
+    });
+    
+    message += `SUBTOTAL: ${formatCurrency(cart.subtotal)}\n`;
+    message += `DELIVERY: ${cart.delivery === 0 ? 'FREE' : formatCurrency(cart.delivery)}\n`;
+    message += `INSTALLATION: ${cart.installation === 0 ? 'Not required' : formatCurrency(cart.installation)}\n`;
+    message += `TOTAL: ${formatCurrency(cart.total)}\n\n`;
+    message += `Delivery Address: [Please provide address]\n`;
+    message += `Payment Method: [Cash on Delivery/Bank Transfer]\n\n`;
+    message += `Please confirm availability and delivery timeline.`;
+    
+    // Open WhatsApp with order summary
+    const url = `https://wa.me/${CONFIG.WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+    window.open(url, '_blank');
+    
+    trackEvent('ecommerce', 'checkout_start', cart.items.length.toString());
+}
+
+// Tooltips
+function initTooltips() {
+    const elements = document.querySelectorAll('[data-tooltip]');
+    
+    elements.forEach(el => {
+        const tooltipText = el.getAttribute('data-tooltip');
+        const tooltip = document.createElement('div');
+        tooltip.className = 'tooltip';
+        tooltip.textContent = tooltipText;
+        tooltip.setAttribute('role', 'tooltip');
+        
+        el.appendChild(tooltip);
+        
+        el.addEventListener('mouseenter', () => {
+            tooltip.classList.add('visible');
+        });
+        
+        el.addEventListener('mouseleave', () => {
+            tooltip.classList.remove('visible');
+        });
+        
+        el.addEventListener('focus', () => {
+            tooltip.classList.add('visible');
+        });
+        
+        el.addEventListener('blur', () => {
+            tooltip.classList.remove('visible');
+        });
+    });
+}
+
+// Copy Buttons
+function initCopyButtons() {
+    document.querySelectorAll('.copy-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const text = this.getAttribute('data-copy') || 
+                        this.previousElementSibling?.textContent ||
+                        this.parentElement.querySelector('code')?.textContent;
+            
+            if (text) {
+                copyToClipboard(text);
+            }
+        });
+    });
+}
+
+function copyToClipboard(text) {
+    navigator.clipboard.writeText(text).then(() => {
+        showNotification('Copied to clipboard!', 'success', 2000);
+        trackEvent('ui', 'copy', text.substring(0, 50));
+    }).catch(err => {
+        console.error('Failed to copy: ', err);
+        showNotification('Failed to copy', 'error');
+    });
+}
+
+// Share Buttons
+function initShareButtons() {
+    if (navigator.share) {
+        document.querySelectorAll('.share-btn').forEach(btn => {
+            btn.style.display = 'inline-block';
+            
+            btn.addEventListener('click', async () => {
+                try {
+                    await navigator.share({
+                        title: document.title,
+                        text: 'Check out Kingu Electrical Company - Quality generators, solar systems, and electrical services in Tanzania',
+                        url: window.location.href,
+                    });
+                    trackEvent('share', 'web_share', window.location.href);
+                } catch (err) {
+                    console.log('Error sharing:', err);
+                }
+            });
+        });
+    }
+}
+
+// Progress Bars
+function initProgressBars() {
+    const progressBars = document.querySelectorAll('.progress-bar');
+    
+    progressBars.forEach(bar => {
+        const value = bar.getAttribute('data-value') || '0';
+        const fill = bar.querySelector('.progress-fill');
+        if (fill) {
+            setTimeout(() => {
+                fill.style.width = `${value}%`;
+                fill.setAttribute('aria-valuenow', value);
+            }, 100);
+        }
+    });
+}
+
+// Counters
+function initCounters() {
+    const counters = document.querySelectorAll('.counter');
+    
+    counters.forEach(counter => {
+        const target = parseInt(counter.getAttribute('data-target') || '0');
+        const duration = parseInt(counter.getAttribute('data-duration') || '2000');
+        const increment = target / (duration / 16); // 60fps
+        let current = 0;
+        
+        const updateCounter = () => {
+            current += increment;
+            if (current < target) {
+                counter.textContent = Math.floor(current).toLocaleString();
+                requestAnimationFrame(updateCounter);
+            } else {
+                counter.textContent = target.toLocaleString();
+            }
+        };
+        
+        // Start when visible
+        const observer = new IntersectionObserver((entries) => {
+            if (entries[0].isIntersecting) {
+                updateCounter();
+                observer.unobserve(counter);
+            }
+        });
+        
+        observer.observe(counter);
+    });
 }
 
 // Back to Top Button
@@ -2496,40 +3136,44 @@ function initFeedbackSystem() {
 
 function showFeedbackForm() {
     const form = document.createElement('div');
-    form.className = 'feedback-form';
+    form.className = 'modal feedback-form';
     form.innerHTML = `
-        <div class="feedback-header">
-            <h4>Feedback & Suggestions</h4>
-            <button class="close-feedback" aria-label="Close">×</button>
-        </div>
-        <div class="feedback-body">
-            <div class="form-group">
-                <label for="feedbackType">Type of Feedback</label>
-                <select id="feedbackType">
-                    <option value="suggestion">Suggestion</option>
-                    <option value="bug">Bug Report</option>
-                    <option value="compliment">Compliment</option>
-                    <option value="other">Other</option>
-                </select>
+        <div class="modal-content">
+            <button class="modal-close" aria-label="Close modal">×</button>
+            <div class="modal-header">
+                <h3>Feedback & Suggestions</h3>
             </div>
-            <div class="form-group">
-                <label for="feedbackMessage">Your Feedback</label>
-                <textarea id="feedbackMessage" placeholder="Tell us what you think..." rows="4" required></textarea>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="feedbackType">Type of Feedback</label>
+                    <select id="feedbackType">
+                        <option value="suggestion">Suggestion</option>
+                        <option value="bug">Bug Report</option>
+                        <option value="compliment">Compliment</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="feedbackMessage">Your Feedback *</label>
+                    <textarea id="feedbackMessage" placeholder="Tell us what you think..." rows="4" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="feedbackEmail">Email (Optional)</label>
+                    <input type="email" id="feedbackEmail" placeholder="your@email.com">
+                </div>
             </div>
-            <div class="form-group">
-                <label for="feedbackEmail">Email (Optional)</label>
-                <input type="email" id="feedbackEmail" placeholder="your@email.com">
+            <div class="modal-footer">
+                <button class="btn btn-primary" onclick="submitFeedback()">Submit Feedback</button>
+                <button class="btn btn-secondary" onclick="this.closest('.modal').remove()">Cancel</button>
             </div>
-        </div>
-        <div class="feedback-footer">
-            <button class="btn btn-primary" onclick="submitFeedback()">Submit Feedback</button>
         </div>
     `;
     
     document.body.appendChild(form);
+    form.classList.add('active');
     
     // Close button
-    form.querySelector('.close-feedback').addEventListener('click', () => form.remove());
+    form.querySelector('.modal-close').addEventListener('click', () => form.remove());
     
     // Close on outside click
     form.addEventListener('click', (e) => {
@@ -2884,14 +3528,14 @@ function getDeviceInfo() {
 }
 
 function showUpdateNotification(data) {
-    const notification = showNotification(
+    const notificationId = showNotification(
         'A new version is available. Refresh to update?',
         'info',
         15000
     );
     
     // Add refresh button
-    const notificationEl = document.getElementById(notification);
+    const notificationEl = document.getElementById(notificationId);
     if (notificationEl) {
         const refreshBtn = document.createElement('button');
         refreshBtn.textContent = 'Refresh Now';
@@ -2928,29 +3572,33 @@ function showOrderConfirmation(message) {
 
 function showBookingConfirmation(message, data) {
     const modal = document.createElement('div');
-    modal.className = 'confirmation-modal';
+    modal.className = 'modal confirmation-modal';
     modal.innerHTML = `
-        <div class="confirmation-content">
-            <h3>📅 Site Inspection Scheduled!</h3>
-            <p>We will call you at <strong>${data.phone}</strong> to confirm the details.</p>
-            
-            <div class="booking-details">
-                <p><strong>Date:</strong> ${formatDate(data.date)}</p>
-                <p><strong>Time:</strong> ${data.time}</p>
-                <p><strong>Service:</strong> ${data.service}</p>
-                ${data.location ? `<p><strong>Location:</strong> ${data.location}</p>` : ''}
+        <div class="modal-content">
+            <button class="modal-close" aria-label="Close modal">×</button>
+            <div class="modal-header">
+                <h3>📅 Site Inspection Scheduled!</h3>
             </div>
-            
-            <p>Need to make changes? Call us at ${CONFIG.DISPLAY_PHONE}</p>
-            
-            <div class="confirmation-actions">
+            <div class="modal-body">
+                <p>We will call you at <strong>${data.phone}</strong> to confirm the details.</p>
+                
+                <div class="booking-details">
+                    <p><strong>Date:</strong> ${formatDate(data.date)}</p>
+                    <p><strong>Time:</strong> ${data.time}</p>
+                    <p><strong>Service:</strong> ${data.service}</p>
+                    ${data.location ? `<p><strong>Location:</strong> ${data.location}</p>` : ''}
+                </div>
+                
+                <p>Need to make changes? Call us at ${CONFIG.DISPLAY_PHONE}</p>
+            </div>
+            <div class="modal-footer">
                 <button class="btn btn-primary" onclick="shareBooking('${encodeURIComponent(message)}')">
                     <span class="whatsapp-icon">💬</span> Share via WhatsApp
                 </button>
                 <button class="btn btn-secondary" onclick="addToCalendar(${JSON.stringify(data).replace(/"/g, '&quot;')})">
                     📅 Add to Calendar
                 </button>
-                <button class="btn btn-outline" onclick="this.closest('.confirmation-modal').remove()">
+                <button class="btn btn-outline" onclick="this.closest('.modal').remove()">
                     Close
                 </button>
             </div>
@@ -2958,6 +3606,15 @@ function showBookingConfirmation(message, data) {
     `;
     
     document.body.appendChild(modal);
+    modal.classList.add('active');
+    
+    // Close button
+    modal.querySelector('.modal-close').addEventListener('click', () => modal.remove());
+    
+    // Close on outside click
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) modal.remove();
+    });
     
     // Track booking
     trackEvent('booking', 'scheduled', data.service);
@@ -3133,30 +3790,6 @@ function resetFilters() {
     trackEvent('filters', 'reset');
 }
 
-// Show Cart Sidebar
-function showCartSidebar() {
-    const sidebar = document.getElementById('cartSidebar');
-    if (sidebar) {
-        sidebar.classList.add('open');
-        document.body.style.overflow = 'hidden';
-        
-        // Render cart items
-        renderCartItems();
-        
-        // Trap focus
-        setTimeout(() => trapFocus(sidebar), 100);
-    }
-}
-
-// Close Cart Sidebar
-function closeCartSidebar() {
-    const sidebar = document.getElementById('cartSidebar');
-    if (sidebar) {
-        sidebar.classList.remove('open');
-        document.body.style.overflow = '';
-    }
-}
-
 // Safe Execute with Error Boundary
 function safeExecute(fn, fallback = null) {
     return function(...args) {
@@ -3254,6 +3887,12 @@ window.showOrderConfirmation = safeExecute(showOrderConfirmation);
 window.getDeliveryEstimate = safeExecute(getDeliveryEstimate, '2-3 business days');
 window.showCartSidebar = safeExecute(showCartSidebar);
 window.closeCartSidebar = safeExecute(closeCartSidebar);
+window.showProductModal = safeExecute(showProductModal);
+window.toggleWishlist = safeExecute(toggleWishlist);
+window.showComparison = safeExecute(showComparison);
+window.clearComparison = safeExecute(clearComparison);
+window.checkout = safeExecute(checkout);
+window.clearCart = safeExecute(clearCart);
 
 // Initialize on window load
 window.addEventListener('load', () => {
@@ -3267,6 +3906,12 @@ window.addEventListener('load', () => {
     
     // Update cart UI
     updateCartUI();
+    
+    // Update wishlist count
+    updateWishlistCount(wishlist.length);
+    
+    // Update comparison count
+    updateComparisonCount(comparisonList.length);
     
     // Save initial state
     saveAppState();
@@ -3309,6 +3954,8 @@ window.addEventListener('online', () => {
 function backupLocalData() {
     const backup = {
         cart: cart,
+        wishlist: wishlist,
+        comparisonList: comparisonList,
         appState: APP_STATE,
         timestamp: new Date().toISOString()
     };
@@ -3373,4 +4020,4 @@ setInterval(() => {
     }
 }, 60000); // Backup every minute
 
-console.log('📦 Kingu Electrical Script v6.0.0 Loaded');
+console.log('📦 Kingu Electrical Script v6.0.0 Fully Loaded and Ready');
