@@ -108,7 +108,27 @@
     </script>
     
     <style>
-        /* ===== GLOBAL STYLES ===== */
+        /* ===== CSS VARIABLES ===== */
+        :root {
+            --primary-green: #1a5632;
+            --secondary-green: #0d3b1f;
+            --accent-orange: #F58529;
+            --light-green: #e8f5e9;
+            --medium-green: #2e7d32;
+            --medium-gray: #666666;
+            --dark-gray: #333333;
+            --white: #ffffff;
+            --whatsapp: #25D366;
+            --shadow: 0 4px 12px rgba(0,0,0,0.1);
+            --shadow-hover: 0 10px 30px rgba(0,0,0,0.15);
+            --transition: all 0.3s ease;
+            --border-radius: 12px;
+            --border-radius-lg: 20px;
+            --emergency-red: #e74c3c;
+            --emergency-dark-red: #c0392b;
+        }
+
+        /* ===== RESET & BASE STYLES ===== */
         * {
             margin: 0;
             padding: 0;
@@ -120,18 +140,28 @@
             scroll-padding-top: 80px;
         }
         
+        /* ===== BACKGROUND IMAGE SETUP ===== */
         body {
             font-family: 'Roboto', sans-serif;
             line-height: 1.6;
             color: #333;
             overflow-x: hidden;
-            background: #fff;
             width: 100%;
             position: relative;
             min-height: 100vh;
+            
+            /* Primary background with image */
+            background-image: url('/image/background.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            
+            /* Fallback color if image doesn't load */
+            background-color: var(--white);
         }
         
-        /* ===== FIXED BACKGROUND IMAGE ===== */
+        /* Overlay for better readability */
         body::before {
             content: '';
             position: fixed;
@@ -139,14 +169,8 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: url('/image/background.png');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-attachment: fixed;
-            opacity: 0.2;
+            background: rgba(255, 255, 255, 0.7);
             z-index: -1;
-            filter: brightness(1.1);
         }
         
         /* Ensure content is readable over background */
@@ -179,13 +203,15 @@
             border: 1px solid rgba(255, 255, 255, 0.3);
         }
         
-        /* Header with stronger overlay */
+        /* ===== HEADER WITH BACKGROUND ===== */
         header {
-            background: linear-gradient(rgba(13, 59, 31, 0.92), rgba(26, 86, 50, 0.92));
-        }
-        
-        /* ===== HEADER STYLES ===== */
-        header {
+            background: 
+                linear-gradient(rgba(13, 59, 31, 0.92), rgba(26, 86, 50, 0.92)),
+                url('/image/background.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
             position: relative;
             width: 100%;
             min-height: 100vh;
@@ -242,6 +268,7 @@
             gap: 1rem;
             justify-content: center;
             margin-top: 2rem;
+            z-index: 1;
         }
         
         .contact-header a {
@@ -253,7 +280,7 @@
             display: flex;
             align-items: center;
             gap: 0.5rem;
-            transition: all 0.3s ease;
+            transition: var(--transition);
             border: 1px solid rgba(255,255,255,0.3);
             min-width: 250px;
             justify-content: center;
@@ -589,9 +616,15 @@
             border: 1px solid rgba(26, 86, 50, 0.2);
         }
         
-        /* ===== STATS SECTION ===== */
+        /* ===== STATS SECTION WITH BACKGROUND ===== */
         .stats-section {
-            background: linear-gradient(135deg, rgba(26, 86, 50, 0.95), rgba(13, 59, 31, 0.95));
+            background: 
+                linear-gradient(rgba(26, 86, 50, 0.95), rgba(13, 59, 31, 0.95)),
+                url('/image/background.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
             color: white;
             padding: 4rem 0;
             text-align: center;
@@ -645,9 +678,15 @@
             margin: 1rem 0;
         }
         
-        /* ===== EMERGENCY CTA ===== */
+        /* ===== EMERGENCY CTA WITH BACKGROUND ===== */
         .emergency-cta {
-            background: linear-gradient(135deg, rgba(220, 53, 69, 0.95), rgba(200, 35, 51, 0.95));
+            background: 
+                linear-gradient(135deg, rgba(220, 53, 69, 0.95), rgba(200, 35, 51, 0.95)),
+                url('/image/background.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
             color: white;
             padding: 3rem 0;
             text-align: center;
@@ -728,9 +767,15 @@
             border: 1px solid rgba(255, 255, 255, 0.5);
         }
         
-        /* ===== RESOURCES SECTION ===== */
+        /* ===== RESOURCES SECTION WITH BACKGROUND ===== */
         #resources {
-            background: linear-gradient(135deg, rgba(13, 61, 33, 0.95), rgba(26, 86, 50, 0.95));
+            background: 
+                linear-gradient(135deg, rgba(13, 61, 33, 0.95), rgba(26, 86, 50, 0.95)),
+                url('/image/background.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
             color: white;
             padding: 3rem 0;
             position: relative;
@@ -806,9 +851,15 @@
             text-align: center;
         }
         
-        /* ===== CTA SECTION ===== */
+        /* ===== CTA SECTION WITH BACKGROUND ===== */
         .cta {
-            background: linear-gradient(135deg, rgba(26, 86, 50, 0.95), rgba(13, 59, 31, 0.95));
+            background: 
+                linear-gradient(135deg, rgba(26, 86, 50, 0.95), rgba(13, 59, 31, 0.95)),
+                url('/image/background.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
             color: white;
             padding: 4rem 0;
             text-align: center;
@@ -888,9 +939,15 @@
             box-shadow: 0 6px 15px rgba(13, 59, 31, 0.3);
         }
         
-        /* ===== FOOTER ===== */
+        /* ===== FOOTER WITH BACKGROUND ===== */
         footer {
-            background: linear-gradient(135deg, rgba(13, 59, 31, 0.98), rgba(26, 86, 50, 0.98));
+            background: 
+                linear-gradient(135deg, rgba(13, 59, 31, 0.98), rgba(26, 86, 50, 0.98)),
+                url('/image/background.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
             color: white;
             padding: 4rem 0 2rem;
             position: relative;
@@ -959,6 +1016,22 @@
             display: none;
         }
         
+        /* ===== BACKGROUND IMAGE FALLBACK ===== */
+        .bg-fallback {
+            display: none;
+        }
+        
+        body.no-bg-image .bg-fallback {
+            display: block;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--primary-green), var(--secondary-green));
+            z-index: -2;
+        }
+        
         /* ===== MOBILE RESPONSIVE ===== */
         @media (max-width: 1024px) {
             h1 {
@@ -983,6 +1056,7 @@
             header {
                 min-height: 90vh;
                 padding: 1rem;
+                background-attachment: scroll;
             }
             
             h1 {
@@ -1066,6 +1140,14 @@
                 grid-template-columns: repeat(2, 1fr);
             }
             
+            .stats-section,
+            .emergency-cta,
+            .cta,
+            #resources,
+            footer {
+                background-attachment: scroll;
+            }
+            
             .whatsapp {
                 bottom: 80px;
                 right: 20px;
@@ -1082,9 +1164,13 @@
                 background: rgba(255, 255, 255, 0.98);
             }
             
-            /* Adjust background opacity for mobile */
+            /* Adjust background for mobile */
+            body {
+                background-attachment: scroll;
+            }
+            
             body::before {
-                opacity: 0.15;
+                background: rgba(255, 255, 255, 0.8);
             }
         }
         
@@ -1126,11 +1212,6 @@
             .card {
                 padding: 1.5rem;
             }
-            
-            /* Reduce background opacity further for small screens */
-            body::before {
-                opacity: 0.1;
-            }
         }
         
         /* For very small screens */
@@ -1158,9 +1239,25 @@
                 font-size: 1.6rem;
             }
         }
+        
+        /* Background image loading states */
+        body.bg-loading::before {
+            background: linear-gradient(135deg, var(--primary-green), var(--secondary-green));
+        }
+        
+        body.bg-loaded::before {
+            background: rgba(255, 255, 255, 0.7);
+        }
+        
+        body.bg-error::before {
+            background: rgba(255, 255, 255, 0.9);
+        }
     </style>
 </head>
 <body>
+    <!-- Background Fallback -->
+    <div class="bg-fallback"></div>
+    
     <!-- Service Worker Status -->
     <div class="sw-status" id="swStatus"></div>
     
@@ -1913,6 +2010,58 @@
     </a>
 
     <script>
+        // Background Image Loader
+        function loadBackgroundImage() {
+            const bgImage = new Image();
+            bgImage.src = '/image/background.png';
+            
+            bgImage.onload = function() {
+                console.log('✅ Background image loaded successfully');
+                document.body.classList.add('bg-loaded');
+                document.body.classList.remove('bg-loading', 'bg-error');
+            };
+            
+            bgImage.onerror = function() {
+                console.error('❌ Failed to load background image');
+                document.body.classList.add('bg-error');
+                document.body.classList.remove('bg-loading', 'bg-loaded');
+                
+                // Try alternative paths
+                const alternativePaths = [
+                    './image/background.png',
+                    'image/background.png',
+                    '/wp-content/uploads/2024/12/background-1.png',
+                    'https://images.unsplash.com/photo-1563986768609-322da13575f3?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80'
+                ];
+                
+                let currentIndex = 0;
+                
+                function tryNextPath() {
+                    if (currentIndex >= alternativePaths.length) return;
+                    
+                    const testImg = new Image();
+                    testImg.src = alternativePaths[currentIndex];
+                    
+                    testImg.onload = function() {
+                        console.log(`✅ Found background at: ${alternativePaths[currentIndex]}`);
+                        document.body.style.backgroundImage = `url("${alternativePaths[currentIndex]}")`;
+                        document.body.classList.add('bg-loaded');
+                        document.body.classList.remove('bg-error');
+                    };
+                    
+                    testImg.onerror = function() {
+                        currentIndex++;
+                        tryNextPath();
+                    };
+                }
+                
+                tryNextPath();
+            };
+            
+            // Set loading state
+            document.body.classList.add('bg-loading');
+        }
+        
         // Mobile Navigation
         const hamburger = document.getElementById('hamburger');
         const navMenu = document.getElementById('navMenu');
@@ -1956,6 +2105,28 @@
                 this.reset();
             });
         });
+        
+        // Load background image when page loads
+        window.addEventListener('load', loadBackgroundImage);
+        
+        // Clear PWA cache if needed
+        if (window.location.search.includes('clear-cache')) {
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.getRegistrations().then(function(registrations) {
+                    for(let registration of registrations) {
+                        registration.unregister();
+                    }
+                    console.log('Service Workers unregistered');
+                });
+                
+                caches.keys().then(function(cacheNames) {
+                    cacheNames.forEach(function(cacheName) {
+                        caches.delete(cacheName);
+                    });
+                    console.log('All caches cleared');
+                });
+            }
+        }
     </script>
 </body>
 </html>
