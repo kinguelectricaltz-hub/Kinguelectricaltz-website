@@ -1,7 +1,7 @@
 /**
  * Kingu Electrical Company Website - Enhanced JavaScript
  * All interactive functionality with PWA, e-commerce, and performance optimizations
- * Version: 5.2.0
+ * Version: 6.0.0
  */
 
 // Configuration Constants
@@ -17,7 +17,10 @@ const CONFIG = {
     FREE_DELIVERY_THRESHOLD: 1000000,
     BASE_DELIVERY_FEE: 25000,
     INSTALLATION_FEE: 50000,
-    API_BASE_URL: 'https://api.kingueletrical.com/v1'
+    API_BASE_URL: 'https://api.kingueletrical.com/v1',
+    ASSET_PATH: '/assets',
+    IMAGE_PATH: '/images/optimized',
+    ICON_PATH: '/assets/icons/optimized'
 };
 
 // Complete Products Data with enhanced details
@@ -29,10 +32,10 @@ const PRODUCTS = [
         description: "Complete 100kVA diesel generator set with ATS control panel. Perfect for commercial use. Made with Perkins engine.",
         price: 25500000,
         originalPrice: 27000000,
-        image: "/assets/images/products/generator-100kva.webp",
+        image: `${CONFIG.IMAGE_PATH}/generator-100kva.webp`,
         images: [
-            "/assets/images/products/generator-100kva-1.webp",
-            "/assets/images/products/generator-100kva-2.webp"
+            `${CONFIG.IMAGE_PATH}/generator-100kva-1.webp`,
+            `${CONFIG.IMAGE_PATH}/generator-100kva-2.webp`
         ],
         stock: 5,
         delivery: "Free in Dar-es-salaam & Arusha",
@@ -59,7 +62,7 @@ const PRODUCTS = [
         description: "Industrial 500kVA diesel generator for factories and large facilities with advanced control panel.",
         price: 65000000,
         originalPrice: 68000000,
-        image: "/assets/images/products/generator-500kva.webp",
+        image: `${CONFIG.IMAGE_PATH}/generator-500kva.webp`,
         stock: 2,
         delivery: "Free nationwide",
         installation: "Professional installation included",
@@ -84,7 +87,7 @@ const PRODUCTS = [
         description: "Complete 5kW solar power system with lithium batteries, hybrid inverter, and professional installation.",
         price: 8500000,
         originalPrice: 9200000,
-        image: "/assets/images/products/solar-5kw.webp",
+        image: `${CONFIG.IMAGE_PATH}/solar-5kw.webp`,
         stock: 8,
         delivery: "Free installation in Dar/Arusha",
         installation: "Complete installation included",
@@ -108,7 +111,7 @@ const PRODUCTS = [
         description: "Original alternator for Perkins/Caterpillar generators. 12-month warranty. Genuine part.",
         price: 850000,
         originalPrice: 950000,
-        image: "/assets/images/products/alternator.webp",
+        image: `${CONFIG.IMAGE_PATH}/alternator.webp`,
         stock: 15,
         delivery: "25,000 TZS (Free for orders above 1M)",
         installation: "Professional installation available",
@@ -130,7 +133,7 @@ const PRODUCTS = [
         description: "Professional 5kV insulation resistance tester with 5 ranges up to 2000GΩ. CAT IV 600V.",
         price: 1850000,
         originalPrice: 2100000,
-        image: "/assets/images/products/megger-mit515.webp",
+        image: `${CONFIG.IMAGE_PATH}/megger-mit515.webp`,
         stock: 4,
         delivery: "25,000 TZS",
         installation: "Not needed",
@@ -153,7 +156,7 @@ const PRODUCTS = [
         name: "Generator Maintenance Service",
         description: "Professional generator maintenance including oil change, filter replacement, and load testing.",
         price: 150000,
-        image: "/assets/images/services/maintenance.webp",
+        image: `${CONFIG.IMAGE_PATH}/maintenance.webp`,
         stock: "available",
         delivery: "Service at your location",
         installation: "Professional service",
@@ -176,7 +179,7 @@ const PRODUCTS = [
         description: "Special combo deal: Insulation tester and true RMS multimeter for complete electrical testing.",
         price: 2450000,
         originalPrice: 2950000,
-        image: "/assets/images/products/tester-combo.webp",
+        image: `${CONFIG.IMAGE_PATH}/tester-combo.webp`,
         stock: 3,
         delivery: "FREE delivery",
         installation: "Not needed",
@@ -209,12 +212,31 @@ const APP_STATE = {
     isOnline: navigator.onLine,
     isPWAInstalled: window.matchMedia('(display-mode: standalone)').matches,
     darkMode: false,
-    currency: 'TZS'
+    currency: 'TZS',
+    performance: {
+        loadTime: 0,
+        fcp: 0,
+        lcp: 0,
+        fid: 0,
+        cls: 0
+    }
+};
+
+// Performance Metrics
+const PERFORMANCE_METRICS = {
+    startTime: performance.now(),
+    resourcesLoaded: 0,
+    totalResources: 0,
+    largestContentfulPaint: 0,
+    firstContentfulPaint: 0
 };
 
 // Initialize everything when DOM is loaded
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('🚀 Kingu Electrical App Initializing...');
+    console.log('🚀 Kingu Electrical App Initializing v6.0.0...');
+    
+    // Start performance monitoring
+    startPerformanceMonitoring();
     
     // Load saved state
     loadAppState();
@@ -237,8 +259,84 @@ document.addEventListener('DOMContentLoaded', function() {
     // Check for updates
     checkForUpdates();
     
-    console.log('✅ Kingu Electrical App Initialized');
+    // Initialize service worker messaging
+    initServiceWorkerMessaging();
+    
+    console.log('✅ Kingu Electrical App Initialized Successfully');
+    
+    // Mark as loaded
+    setTimeout(() => {
+        document.documentElement.classList.add('loaded');
+        trackLoadPerformance();
+    }, 100);
 });
+
+// ===== PERFORMANCE MONITORING =====
+
+function startPerformanceMonitoring() {
+    // Mark time for First Contentful Paint
+    new PerformanceObserver((entryList) => {
+        for (const entry of entryList.getEntriesByName('first-contentful-paint')) {
+            PERFORMANCE_METRICS.firstContentfulPaint = entry.startTime;
+            trackEvent('performance', 'first-contentful-paint', Math.round(entry.startTime).toString());
+        }
+    }).observe({ type: 'paint', buffered: true });
+
+    // Mark time for Largest Contentful Paint
+    new PerformanceObserver((entryList) => {
+        const entries = entryList.getEntries();
+        const lastEntry = entries[entries.length - 1];
+        PERFORMANCE_METRICS.largestContentfulPaint = lastEntry.startTime;
+        trackEvent('performance', 'largest-contentful-paint', Math.round(lastEntry.startTime).toString());
+    }).observe({ type: 'largest-contentful-paint', buffered: true });
+
+    // Monitor layout shifts
+    let clsValue = 0;
+    new PerformanceObserver((entryList) => {
+        for (const entry of entryList.getEntries()) {
+            if (!entry.hadRecentInput) {
+                clsValue += entry.value;
+                trackEvent('performance', 'layout-shift', entry.value.toString());
+            }
+        }
+        PERFORMANCE_METRICS.cls = clsValue;
+    }).observe({ type: 'layout-shift', buffered: true });
+
+    // Monitor resource loading
+    if (performance.getEntriesByType) {
+        PERFORMANCE_METRICS.totalResources = performance.getEntriesByType('resource').length;
+    }
+}
+
+function trackLoadPerformance() {
+    const loadTime = performance.now() - PERFORMANCE_METRICS.startTime;
+    PERFORMANCE_METRICS.loadTime = loadTime;
+    
+    // Log performance metrics
+    console.log('📊 Performance Metrics:', {
+        loadTime: Math.round(loadTime),
+        fcp: Math.round(PERFORMANCE_METRICS.firstContentfulPaint),
+        lcp: Math.round(PERFORMANCE_METRICS.largestContentfulPaint),
+        cls: PERFORMANCE_METRICS.cls.toFixed(3)
+    });
+    
+    // Store in app state
+    APP_STATE.performance = {
+        loadTime: Math.round(loadTime),
+        fcp: Math.round(PERFORMANCE_METRICS.firstContentfulPaint),
+        lcp: Math.round(PERFORMANCE_METRICS.largestContentfulPaint),
+        cls: PERFORMANCE_METRICS.cls
+    };
+    
+    // Send to analytics
+    trackEvent('performance', 'page_load_complete', loadTime.toString());
+    
+    // Show warning if load time is high
+    if (loadTime > 3000) {
+        console.warn('⚠️ Page load time is high:', Math.round(loadTime), 'ms');
+        trackEvent('performance', 'slow_load', loadTime.toString());
+    }
+}
 
 // ===== CORE FUNCTIONALITY =====
 
@@ -250,7 +348,9 @@ function initCoreFeatures() {
     initNotifications();
     initCurrentYear();
     initAccessibility();
-    initPerformanceMonitoring();
+    initServiceWorkerMessaging();
+    initImageOptimization();
+    initResourcePreloading();
 }
 
 // Mobile Navigation with enhanced accessibility
@@ -267,10 +367,19 @@ function initMobileNavigation() {
         hamburger.setAttribute('aria-expanded', !isExpanded);
         hamburger.innerHTML = isExpanded ? '☰' : '✕';
         
+        // Add animation class
+        if (!isExpanded) {
+            navMenu.classList.add('animate-in');
+            setTimeout(() => navMenu.classList.remove('animate-in'), 500);
+        }
+        
         // Trap focus when menu is open
         if (!isExpanded) {
             trapFocus(navMenu);
         }
+        
+        // Prevent body scroll when menu is open
+        document.body.style.overflow = isExpanded ? '' : 'hidden';
     });
     
     // Close menu on escape
@@ -280,6 +389,7 @@ function initMobileNavigation() {
             hamburger.setAttribute('aria-expanded', 'false');
             hamburger.innerHTML = '☰';
             hamburger.focus();
+            document.body.style.overflow = '';
         }
     });
     
@@ -289,7 +399,20 @@ function initMobileNavigation() {
             navMenu.classList.remove('active');
             hamburger.setAttribute('aria-expanded', 'false');
             hamburger.innerHTML = '☰';
+            document.body.style.overflow = '';
         }
+    });
+    
+    // Close menu on link click (mobile)
+    navMenu.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+            if (window.innerWidth <= 768 && navMenu.classList.contains('active')) {
+                navMenu.classList.remove('active');
+                hamburger.setAttribute('aria-expanded', 'false');
+                hamburger.innerHTML = '☰';
+                document.body.style.overflow = '';
+            }
+        });
     });
 }
 
@@ -318,8 +441,14 @@ function initSmoothScrolling() {
             
             // Update active nav link
             updateActiveNavLink();
+            
+            // Track scroll event
+            trackEvent('navigation', 'scroll_to', href);
         });
     });
+    
+    // Update active nav on scroll
+    window.addEventListener('scroll', debounce(updateActiveNavLink, 100));
 }
 
 // Form Handling with validation
@@ -327,8 +456,8 @@ function initFormHandling() {
     // Contact Form
     const contactForm = document.getElementById('contact-form');
     if (contactForm) {
-        contactForm.addEventListener('submit', handleContactForm);
         initFormValidation(contactForm);
+        contactForm.addEventListener('submit', handleContactForm);
     }
     
     // Booking Form
@@ -349,6 +478,12 @@ function initFormHandling() {
     if (quickOrderForm) {
         quickOrderForm.addEventListener('submit', handleQuickOrderForm);
     }
+    
+    // Inquiry Form
+    const inquiryForm = document.getElementById('inquiryForm');
+    if (inquiryForm) {
+        inquiryForm.addEventListener('submit', handleInquiryForm);
+    }
 }
 
 // Form Validation
@@ -356,13 +491,21 @@ function initFormValidation(form) {
     const inputs = form.querySelectorAll('input[required], select[required], textarea[required]');
     
     inputs.forEach(input => {
+        // Add validation styles
+        input.classList.add('validate-me');
+        
+        // Add validation event listeners
         input.addEventListener('blur', validateField);
         input.addEventListener('input', clearFieldError);
+        input.addEventListener('invalid', handleInvalid);
     });
     
     function validateField(e) {
         const field = e.target;
         const errorSpan = field.parentElement.querySelector('.field-error') || createErrorSpan(field);
+        
+        // Clear previous state
+        field.classList.remove('invalid', 'valid');
         
         if (!field.checkValidity()) {
             errorSpan.textContent = getValidationMessage(field);
@@ -370,7 +513,6 @@ function initFormValidation(form) {
             return false;
         } else {
             errorSpan.textContent = '';
-            field.classList.remove('invalid');
             field.classList.add('valid');
             return true;
         }
@@ -381,6 +523,11 @@ function initFormValidation(form) {
         const errorSpan = field.parentElement.querySelector('.field-error');
         if (errorSpan) errorSpan.textContent = '';
         field.classList.remove('invalid');
+    }
+    
+    function handleInvalid(e) {
+        e.preventDefault();
+        validateField(e);
     }
     
     function createErrorSpan(field) {
@@ -399,6 +546,7 @@ function initFormValidation(form) {
         }
         if (field.validity.patternMismatch) return 'Please check the format';
         if (field.validity.tooShort) return `Minimum length is ${field.minLength} characters`;
+        if (field.validity.tooLong) return `Maximum length is ${field.maxLength} characters`;
         return 'Please check this field';
     }
 }
@@ -412,17 +560,38 @@ function initBookingForm(form) {
         const today = new Date().toISOString().split('T')[0];
         dateInput.min = today;
         
-        // Set default to tomorrow
-        const tomorrow = new Date();
-        tomorrow.setDate(tomorrow.getDate() + 1);
-        dateInput.value = tomorrow.toISOString().split('T')[0];
+        // Set default to 3 days from now
+        const defaultDate = new Date();
+        defaultDate.setDate(defaultDate.getDate() + 3);
+        dateInput.value = defaultDate.toISOString().split('T')[0];
+        
+        // Add date validation
+        dateInput.addEventListener('change', function() {
+            const selectedDate = new Date(this.value);
+            const today = new Date();
+            if (selectedDate < today.setHours(0,0,0,0)) {
+                this.setCustomValidity('Please select a future date');
+            } else {
+                this.setCustomValidity('');
+            }
+        });
     }
     
     if (timeInput) {
-        // Set default to 9:00 AM
-        timeInput.value = '09:00';
+        // Set default to 10:00 AM
+        timeInput.value = '10:00';
         timeInput.min = '08:00';
         timeInput.max = '17:00';
+        
+        // Add time validation
+        timeInput.addEventListener('change', function() {
+            const [hours, minutes] = this.value.split(':').map(Number);
+            if (hours < 8 || hours > 17 || (hours === 17 && minutes > 0)) {
+                this.setCustomValidity('Please select a time between 8:00 AM and 5:00 PM');
+            } else {
+                this.setCustomValidity('');
+            }
+        });
     }
 }
 
@@ -435,6 +604,21 @@ async function handleContactForm(e) {
     const submitBtn = form.querySelector('button[type="submit"]');
     const originalText = submitBtn.innerHTML;
     
+    // Validate all fields before submission
+    const inputs = form.querySelectorAll('.validate-me');
+    let isValid = true;
+    
+    inputs.forEach(input => {
+        if (!validateField({ target: input })) {
+            isValid = false;
+        }
+    });
+    
+    if (!isValid) {
+        showNotification('Please check all fields and try again.', 'error');
+        return;
+    }
+    
     // Show loading state
     submitBtn.innerHTML = `
         <span class="loading-spinner"></span>
@@ -444,11 +628,12 @@ async function handleContactForm(e) {
     
     try {
         // Simulate API call - replace with actual Formspree
-        await simulateAPIRequest(formData);
+        const data = Object.fromEntries(formData);
+        await simulateAPIRequest(data);
         
         // Success
-        submitBtn.innerHTML = '✓ Message Sent!';
-        submitBtn.style.background = 'var(--success)';
+        submitBtn.innerHTML = '<span class="success-icon">✓</span> Message Sent!';
+        submitBtn.classList.add('success');
         
         showNotification('Thank you! We will contact you within 24 hours.', 'success');
         
@@ -456,8 +641,15 @@ async function handleContactForm(e) {
         setTimeout(() => {
             form.reset();
             submitBtn.innerHTML = originalText;
-            submitBtn.style.background = '';
+            submitBtn.classList.remove('success');
             submitBtn.disabled = false;
+            
+            // Clear validation states
+            inputs.forEach(input => {
+                input.classList.remove('valid', 'invalid');
+                const errorSpan = input.parentElement.querySelector('.field-error');
+                if (errorSpan) errorSpan.textContent = '';
+            });
         }, 3000);
         
         // Track conversion
@@ -465,16 +657,18 @@ async function handleContactForm(e) {
         
     } catch (error) {
         // Error
-        submitBtn.innerHTML = '✗ Failed to Send';
-        submitBtn.style.background = 'var(--danger)';
+        submitBtn.innerHTML = '<span class="error-icon">✗</span> Failed to Send';
+        submitBtn.classList.add('error');
         
         showNotification('Failed to send message. Please try again or call us directly.', 'error');
         
         setTimeout(() => {
             submitBtn.innerHTML = originalText;
-            submitBtn.style.background = '';
+            submitBtn.classList.remove('error');
             submitBtn.disabled = false;
         }, 3000);
+        
+        trackEvent('form', 'error', 'contact');
     }
 }
 
@@ -484,10 +678,27 @@ async function handleBookingForm(e) {
     const form = e.target;
     const formData = new FormData(form);
     const data = Object.fromEntries(formData);
+    const submitBtn = form.querySelector('button[type="submit"]');
     
-    // Create WhatsApp message
-    const message = `📅 New Site Inspection Request:
+    // Validate date and time
+    const selectedDate = new Date(data.date);
+    const today = new Date();
+    today.setHours(0,0,0,0);
     
+    if (selectedDate < today) {
+        showNotification('Please select a future date for the inspection.', 'error');
+        return;
+    }
+    
+    // Show loading state
+    const originalText = submitBtn.innerHTML;
+    submitBtn.innerHTML = `<span class="loading-spinner"></span> Scheduling...`;
+    submitBtn.disabled = true;
+    
+    try {
+        // Create WhatsApp message
+        const message = `📅 New Site Inspection Request:
+        
 Name: ${data.name}
 Phone: ${data.phone}
 Email: ${data.email || 'Not provided'}
@@ -495,19 +706,52 @@ Service: ${data.service}
 Date: ${data.date}
 Time: ${data.time}
 Location: ${data.location || 'To be confirmed'}
-    
+        
 Additional Details:
 ${data.details || 'None provided'}`;
-    
-    // Show confirmation modal
-    showBookingConfirmation(message, data);
+        
+        // Show confirmation modal
+        showBookingConfirmation(message, data);
+        
+        // Reset form
+        setTimeout(() => {
+            form.reset();
+            submitBtn.innerHTML = originalText;
+            submitBtn.disabled = false;
+            
+            // Reset date to default
+            const dateInput = form.querySelector('input[type="date"]');
+            if (dateInput) {
+                const defaultDate = new Date();
+                defaultDate.setDate(defaultDate.getDate() + 3);
+                dateInput.value = defaultDate.toISOString().split('T')[0];
+            }
+            
+            // Reset time to default
+            const timeInput = form.querySelector('input[type="time"]');
+            if (timeInput) timeInput.value = '10:00';
+            
+        }, 2000);
+        
+    } catch (error) {
+        console.error('Booking error:', error);
+        showNotification('Failed to schedule inspection. Please try again.', 'error');
+        submitBtn.innerHTML = originalText;
+        submitBtn.disabled = false;
+    }
 }
 
 function handleNewsletterForm(e) {
     e.preventDefault();
     
     const form = e.target;
-    const email = form.querySelector('input[type="email"]').value;
+    const emailInput = form.querySelector('input[type="email"]');
+    const email = emailInput.value.trim();
+    
+    if (!email || !validateEmail(email)) {
+        showNotification('Please enter a valid email address.', 'error');
+        return;
+    }
     
     // Save to localStorage
     const subscribers = JSON.parse(localStorage.getItem('newsletterSubscribers') || '[]');
@@ -518,7 +762,18 @@ function handleNewsletterForm(e) {
     
     // Show success
     showNotification('Thank you for subscribing to our newsletter!', 'success');
-    form.reset();
+    
+    // Add animation
+    const submitBtn = form.querySelector('button[type="submit"]');
+    const originalText = submitBtn.innerHTML;
+    submitBtn.innerHTML = '<span class="success-icon">✓</span> Subscribed!';
+    submitBtn.classList.add('success');
+    
+    setTimeout(() => {
+        form.reset();
+        submitBtn.innerHTML = originalText;
+        submitBtn.classList.remove('success');
+    }, 2000);
     
     trackEvent('newsletter', 'subscribe', email);
 }
@@ -534,6 +789,12 @@ function handleQuickOrderForm(e) {
         requirements: form.querySelector('#orderRequirements').value
     };
     
+    // Validate phone number
+    if (!data.phone || data.phone.length < 10) {
+        showNotification('Please enter a valid phone number.', 'error');
+        return;
+    }
+    
     const message = `🛒 Quick Order Request:
     
 Customer: ${data.name}
@@ -544,14 +805,58 @@ Requirements: ${data.requirements}
 Please contact with available options and pricing.`;
     
     showOrderConfirmation(message);
-    form.reset();
+    
+    // Reset form with animation
+    const submitBtn = form.querySelector('button[type="submit"]');
+    const originalText = submitBtn.innerHTML;
+    submitBtn.innerHTML = '<span class="success-icon">✓</span> Sent!';
+    submitBtn.classList.add('success');
+    
+    setTimeout(() => {
+        form.reset();
+        submitBtn.innerHTML = originalText;
+        submitBtn.classList.remove('success');
+    }, 2000);
+    
+    trackEvent('order', 'quick_request');
 }
 
-// Scroll Animations
+function handleInquiryForm(e) {
+    e.preventDefault();
+    
+    const form = e.target;
+    const formData = new FormData(form);
+    const data = Object.fromEntries(formData);
+    
+    const message = `📝 New Product Inquiry:
+    
+Name: ${data.name}
+Phone: ${data.phone}
+Email: ${data.email}
+Product: ${data.product}
+Quantity: ${data.quantity}
+Message: ${data.message}
+    
+Please provide quotation and availability.`;
+    
+    // Open WhatsApp with message
+    const url = `https://wa.me/${CONFIG.WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+    window.open(url, '_blank');
+    
+    // Show success
+    showNotification('Inquiry sent! We will contact you shortly.', 'success');
+    
+    // Reset form
+    setTimeout(() => form.reset(), 1000);
+    
+    trackEvent('inquiry', 'submit', data.product);
+}
+
+// Scroll Animations with Intersection Observer
 function initScrollAnimations() {
     const observerOptions = {
         root: null,
-        rootMargin: '0px',
+        rootMargin: '50px',
         threshold: 0.1
     };
     
@@ -559,33 +864,41 @@ function initScrollAnimations() {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('animate-in');
-                observer.unobserve(entry.target);
+                
+                // Add stagger effect for child elements
+                if (entry.target.classList.contains('stagger-parent')) {
+                    const children = entry.target.querySelectorAll('.stagger-child');
+                    children.forEach((child, index) => {
+                        setTimeout(() => {
+                            child.classList.add('animate-in');
+                        }, index * 100);
+                    });
+                }
+                
+                // Unobserve after animation
+                if (!entry.target.classList.contains('repeat-animate')) {
+                    observer.unobserve(entry.target);
+                }
+            } else if (entry.target.classList.contains('repeat-animate')) {
+                entry.target.classList.remove('animate-in');
             }
         });
     }, observerOptions);
     
-    // Observe elements
-    document.querySelectorAll('.fade-in, .slide-in, .stagger-item').forEach(el => {
+    // Observe elements with animation classes
+    document.querySelectorAll('.fade-in, .slide-in-left, .slide-in-right, .scale-in, .stagger-parent').forEach(el => {
         observer.observe(el);
     });
 }
 
 // Notifications System
 function initNotifications() {
-    // Add notification container
+    // Add notification container if not exists
     if (!document.getElementById('notification-container')) {
         const container = document.createElement('div');
         container.id = 'notification-container';
-        container.style.cssText = `
-            position: fixed;
-            top: 100px;
-            right: 20px;
-            z-index: 9999;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            max-width: 400px;
-        `;
+        container.setAttribute('aria-live', 'polite');
+        container.setAttribute('aria-atomic', 'true');
         document.body.appendChild(container);
     }
 }
@@ -595,24 +908,33 @@ function showNotification(message, type = 'info', duration = 5000) {
     const notification = document.createElement('div');
     const id = 'notification-' + Date.now();
     
+    // Icon mapping
+    const icons = {
+        success: '✓',
+        error: '✗',
+        warning: '⚠',
+        info: 'ℹ'
+    };
+    
     notification.id = id;
     notification.className = `notification notification-${type}`;
+    notification.setAttribute('role', 'alert');
     notification.innerHTML = `
+        <div class="notification-icon">${icons[type] || icons.info}</div>
         <div class="notification-content">${message}</div>
-        <button class="notification-close" aria-label="Close notification">×</button>
+        <button class="notification-close" aria-label="Close notification" onclick="removeNotification('${id}')">×</button>
     `;
     
-    container.appendChild(notification);
+    // Prepend so newest notifications are at top
+    container.insertBefore(notification, container.firstChild);
     
-    // Close button
-    notification.querySelector('.notification-close').addEventListener('click', () => {
-        removeNotification(id);
-    });
-    
-    // Auto-remove
+    // Auto-remove after duration
     if (duration > 0) {
         setTimeout(() => removeNotification(id), duration);
     }
+    
+    // Track notification
+    trackEvent('notification', 'show', type);
     
     return id;
 }
@@ -621,13 +943,17 @@ function removeNotification(id) {
     const notification = document.getElementById(id);
     if (notification) {
         notification.classList.add('notification-exit');
-        setTimeout(() => notification.remove(), 300);
+        setTimeout(() => {
+            if (notification.parentNode) {
+                notification.parentNode.removeChild(notification);
+            }
+        }, 300);
     }
 }
 
 // Current Year in Footer
 function initCurrentYear() {
-    const yearElements = document.querySelectorAll('.current-year');
+    const yearElements = document.querySelectorAll('.current-year, #current-year');
     const currentYear = new Date().getFullYear();
     
     yearElements.forEach(el => {
@@ -642,9 +968,10 @@ function initAccessibility() {
     skipLink.href = '#main-content';
     skipLink.className = 'skip-link';
     skipLink.textContent = 'Skip to main content';
+    skipLink.setAttribute('tabindex', '1');
     document.body.insertBefore(skipLink, document.body.firstChild);
     
-    // Add focus styles
+    // Add focus styles for keyboard navigation
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Tab') {
             document.body.classList.add('keyboard-navigation');
@@ -665,35 +992,142 @@ function initAccessibility() {
     document.addEventListener('focusout', (e) => {
         e.target.classList.remove('focus-visible');
     });
+    
+    // Add aria-labels to icons
+    document.querySelectorAll('.icon-button, [class*="icon"]').forEach(icon => {
+        if (!icon.getAttribute('aria-label') && !icon.textContent.trim()) {
+            const label = icon.getAttribute('title') || 
+                         icon.className.replace(/icon-|btn-/g, '').replace(/-/g, ' ') || 
+                         'icon';
+            icon.setAttribute('aria-label', label);
+        }
+    });
 }
 
-// Performance Monitoring
-function initPerformanceMonitoring() {
-    // Log performance metrics
-    if ('performance' in window) {
-        window.addEventListener('load', () => {
-            const timing = performance.timing;
-            const loadTime = timing.loadEventEnd - timing.navigationStart;
-            console.log(`Page load time: ${loadTime}ms`);
-            
-            // Report to analytics if slow
-            if (loadTime > 3000) {
-                trackEvent('performance', 'slow_load', loadTime.toString());
+// Image Optimization
+function initImageOptimization() {
+    // Lazy load images
+    if ('IntersectionObserver' in window) {
+        const imageObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const img = entry.target;
+                    if (img.dataset.src) {
+                        img.src = img.dataset.src;
+                        img.removeAttribute('data-src');
+                    }
+                    
+                    if (img.dataset.srcset) {
+                        img.srcset = img.dataset.srcset;
+                        img.removeAttribute('data-srcset');
+                    }
+                    
+                    img.classList.add('loaded');
+                    imageObserver.unobserve(img);
+                }
+            });
+        }, {
+            rootMargin: '50px 0px',
+            threshold: 0.1
+        });
+        
+        // Observe all lazy images
+        document.querySelectorAll('img[data-src], img[data-srcset]').forEach(img => {
+            // Add low-quality placeholder
+            if (img.dataset.placeholder) {
+                img.src = img.dataset.placeholder;
             }
+            
+            // Add loading class
+            img.classList.add('lazy-load');
+            imageObserver.observe(img);
         });
     }
     
-    // Monitor memory usage
-    if ('memory' in performance) {
-        setInterval(() => {
-            const usedJSHeapSize = performance.memory.usedJSHeapSize;
-            const totalJSHeapSize = performance.memory.totalJSHeapSize;
-            const heapLimit = performance.memory.jsHeapSizeLimit;
+    // Handle image errors
+    document.addEventListener('error', (e) => {
+        if (e.target.tagName === 'IMG') {
+            const img = e.target;
+            img.classList.add('image-error');
             
-            if (usedJSHeapSize > heapLimit * 0.8) {
-                console.warn('High memory usage detected');
+            // Try fallback image
+            if (img.dataset.fallback) {
+                img.src = img.dataset.fallback;
+            } else {
+                // Generic placeholder
+                img.src = `${CONFIG.ICON_PATH}/placeholder.webp`;
             }
-        }, 30000);
+        }
+    }, true);
+}
+
+// Resource Preloading
+function initResourcePreloading() {
+    // Preload critical resources
+    const criticalResources = [
+        `${CONFIG.ICON_PATH}/whatsapp-60x60.webp`,
+        `${CONFIG.ICON_PATH}/company-logo-400x400.webp`,
+        `${CONFIG.ICON_PATH}/icon-192x192.webp`
+    ];
+    
+    criticalResources.forEach(resource => {
+        const link = document.createElement('link');
+        link.rel = 'preload';
+        link.as = 'image';
+        link.href = resource;
+        document.head.appendChild(link);
+    });
+    
+    // Preconnect to critical domains
+    const preconnectDomains = [
+        'https://fonts.googleapis.com',
+        'https://fonts.gstatic.com',
+        'https://api.kingueletrical.com'
+    ];
+    
+    preconnectDomains.forEach(domain => {
+        const link = document.createElement('link');
+        link.rel = 'preconnect';
+        link.href = domain;
+        link.crossOrigin = 'anonymous';
+        document.head.appendChild(link);
+    });
+}
+
+// Service Worker Messaging
+function initServiceWorkerMessaging() {
+    if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
+        // Listen for messages from service worker
+        navigator.serviceWorker.addEventListener('message', (event) => {
+            const { type, data } = event.data;
+            
+            switch (type) {
+                case 'UPDATE_AVAILABLE':
+                    showUpdateNotification(data);
+                    break;
+                    
+                case 'SYNC_COMPLETE':
+                    showNotification(data.message || 'Data synced successfully', 'success');
+                    break;
+                    
+                case 'OFFLINE_DATA_SAVED':
+                    console.log('Data saved for offline:', data);
+                    break;
+                    
+                case 'NEW_CONTENT_AVAILABLE':
+                    showNewContentNotification(data);
+                    break;
+            }
+        });
+        
+        // Send initial message to service worker
+        navigator.serviceWorker.controller.postMessage({
+            type: 'CLIENT_LOADED',
+            data: {
+                url: window.location.href,
+                timestamp: new Date().toISOString()
+            }
+        });
     }
 }
 
@@ -708,6 +1142,9 @@ function initEcommerce() {
     updateCartUI();
     initProductModal();
     initWishlist();
+    initPriceFilters();
+    initProductComparison();
+    initStockNotifications();
 }
 
 // Load Cart from Storage
@@ -725,6 +1162,7 @@ function loadCartFromStorage() {
         } catch (error) {
             console.error('Error loading cart:', error);
             cart.items = [];
+            localStorage.removeItem('kinguCart');
         }
     }
 }
@@ -762,6 +1200,15 @@ function setupCategoryNavigation() {
         const link = document.querySelector(`[data-category="${hash}"]`);
         if (link) link.click();
     }
+    
+    // Handle browser back/forward
+    window.addEventListener('popstate', () => {
+        if (window.location.hash) {
+            const hash = window.location.hash.substring(1);
+            const link = document.querySelector(`[data-category="${hash}"]`);
+            if (link) link.click();
+        }
+    });
 }
 
 // Show Category
@@ -782,7 +1229,12 @@ function showCategory(category) {
         displayProducts(category);
         
         // Scroll to section
-        targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        setTimeout(() => {
+            targetSection.scrollIntoView({ 
+                behavior: 'smooth', 
+                block: 'start' 
+            });
+        }, 100);
     }
 }
 
@@ -790,6 +1242,8 @@ function showCategory(category) {
 function createProductsGrid() {
     const container = document.createElement('div');
     container.className = 'products-grid';
+    container.setAttribute('role', 'list');
+    container.setAttribute('aria-label', 'Products list');
     
     // Find appropriate parent
     const parent = document.querySelector('.products-section') || 
@@ -820,7 +1274,8 @@ function displayProducts(category) {
         products = products.filter(p => 
             p.name.toLowerCase().includes(query) ||
             p.description.toLowerCase().includes(query) ||
-            (p.tags && p.tags.some(tag => tag.toLowerCase().includes(query)))
+            (p.tags && p.tags.some(tag => tag.toLowerCase().includes(query))) ||
+            (p.brand && p.brand.toLowerCase().includes(query))
         );
     }
     
@@ -832,6 +1287,9 @@ function displayProducts(category) {
     
     // Update UI
     updateProductsGrid(products);
+    
+    // Update results count
+    updateResultsCount(products.length);
 }
 
 // Apply Filters
@@ -853,6 +1311,9 @@ function applyFilters(products) {
             break;
         case 'sale':
             filtered = filtered.filter(p => p.originalPrice && p.price < p.originalPrice);
+            break;
+        case 'warranty':
+            filtered = filtered.filter(p => p.warranty && parseInt(p.warranty) >= 12);
             break;
     }
     
@@ -879,9 +1340,21 @@ function sortProducts(products) {
         case 'newest':
             sorted.sort((a, b) => b.id - a.id);
             break;
+        case 'popular':
+            sorted.sort((a, b) => (b.reviews || 0) - (a.reviews || 0));
+            break;
     }
     
     return sorted;
+}
+
+// Update Results Count
+function updateResultsCount(count) {
+    const countElements = document.querySelectorAll('.results-count');
+    countElements.forEach(el => {
+        el.textContent = `${count} product${count !== 1 ? 's' : ''} found`;
+        el.setAttribute('aria-live', 'polite');
+    });
 }
 
 // Update Products Grid
@@ -894,7 +1367,8 @@ function updateProductsGrid(products) {
                 <div class="no-products-icon">🔍</div>
                 <h3>No products found</h3>
                 <p>Try adjusting your search or filter criteria</p>
-                <button onclick="resetFilters()" class="btn">Reset Filters</button>
+                <button onclick="resetFilters()" class="btn btn-primary">Reset Filters</button>
+                <button onclick="showCategory('all')" class="btn btn-secondary">View All Products</button>
             </div>
         `;
         return;
@@ -906,6 +1380,8 @@ function updateProductsGrid(products) {
     container.querySelectorAll('.product-card').forEach(card => {
         const productId = parseInt(card.dataset.productId);
         const product = PRODUCTS.find(p => p.id === productId);
+        
+        if (!product) return;
         
         // Add to cart button
         const addToCartBtn = card.querySelector('.add-to-cart');
@@ -924,6 +1400,18 @@ function updateProductsGrid(products) {
         if (wishlistBtn) {
             wishlistBtn.addEventListener('click', () => toggleWishlist(product));
         }
+        
+        // Compare button
+        const compareBtn = card.querySelector('.compare-btn');
+        if (compareBtn) {
+            compareBtn.addEventListener('click', () => addToComparison(product));
+        }
+        
+        // Stock notification button
+        const notifyBtn = card.querySelector('.notify-btn');
+        if (notifyBtn) {
+            notifyBtn.addEventListener('click', () => setupStockNotification(product));
+        }
     });
 }
 
@@ -933,12 +1421,18 @@ function createProductCard(product) {
         ? Math.round((1 - product.price / product.originalPrice) * 100)
         : 0;
     
+    // Calculate savings
+    const savings = product.originalPrice ? product.originalPrice - product.price : 0;
+    
     return `
-        <div class="product-card" data-product-id="${product.id}">
+        <div class="product-card" data-product-id="${product.id}" role="listitem">
             <div class="product-card-header">
-                ${product.badge ? `<span class="product-badge">${product.badge}</span>` : ''}
+                ${product.badge ? `<span class="product-badge badge-${product.badge.toLowerCase().replace(' ', '-')}">${product.badge}</span>` : ''}
                 ${discount > 0 ? `<span class="discount-badge">-${discount}%</span>` : ''}
-                <button class="wishlist-btn" aria-label="Add to wishlist">♥</button>
+                <div class="product-actions">
+                    <button class="wishlist-btn" aria-label="Add to wishlist" title="Add to wishlist">♥</button>
+                    <button class="compare-btn" aria-label="Add to comparison" title="Compare product">↔</button>
+                </div>
             </div>
             
             <div class="product-image-container">
@@ -947,14 +1441,26 @@ function createProductCard(product) {
                      class="product-image"
                      loading="lazy"
                      width="300"
-                     height="200">
-                <button class="quick-view" aria-label="Quick view">👁️ Quick View</button>
+                     height="200"
+                     onerror="this.src='${CONFIG.ICON_PATH}/placeholder.webp'">
+                <div class="product-overlay">
+                    <button class="quick-view" aria-label="Quick view">👁️ Quick View</button>
+                    ${product.stock <= 3 && product.stock > 0 ? `
+                    <button class="notify-btn" aria-label="Get notified when back in stock">
+                        ⚡ Low Stock
+                    </button>
+                    ` : ''}
+                </div>
             </div>
             
             <div class="product-info">
                 <div class="product-category">${product.category.toUpperCase()}</div>
-                <h3 class="product-title">${product.name}</h3>
-                <p class="product-description">${product.description}</p>
+                <h3 class="product-title">
+                    <a href="#product-${product.id}" onclick="showProductModal(${product.id}); return false;">
+                        ${product.name}
+                    </a>
+                </h3>
+                <p class="product-description">${product.description.substring(0, 100)}...</p>
                 
                 ${product.specifications ? `
                 <div class="product-specs">
@@ -966,6 +1472,12 @@ function createProductCard(product) {
                                 <span class="spec-value">${value}</span>
                             </div>
                         `).join('')}
+                </div>
+                ` : ''}
+                
+                ${savings > 0 ? `
+                <div class="product-savings">
+                    <span class="savings-text">You save ${formatCurrency(savings)}</span>
                 </div>
                 ` : ''}
                 
@@ -982,17 +1494,26 @@ function createProductCard(product) {
                             ${product.stock > 0 ? `${product.stock} in stock` : 'Out of stock'}
                         </span>
                         ${product.rating ? `
-                            <div class="product-rating">
-                                ⭐ ${product.rating} (${product.reviews || 0})
+                            <div class="product-rating" aria-label="Rating: ${product.rating} out of 5 stars">
+                                ⭐ ${product.rating} <small>(${product.reviews || 0})</small>
                             </div>
                         ` : ''}
                     </div>
                 </div>
                 
-                <button class="add-to-cart" ${product.stock <= 0 ? 'disabled' : ''}>
-                    <span class="cart-icon">🛒</span>
-                    Add to Cart
-                </button>
+                <div class="product-actions-footer">
+                    <button class="add-to-cart" ${product.stock <= 0 ? 'disabled aria-disabled="true"' : ''}
+                            aria-label="Add ${product.name} to cart">
+                        <span class="cart-icon">🛒</span>
+                        Add to Cart
+                    </button>
+                    <a href="https://wa.me/${CONFIG.WHATSAPP_NUMBER}?text=I'm interested in ${encodeURIComponent(product.name)}" 
+                       class="btn-whatsapp" 
+                       target="_blank"
+                       aria-label="Inquire about ${product.name} on WhatsApp">
+                        💬 Inquire
+                    </a>
+                </div>
             </div>
         </div>
     `;
@@ -1018,6 +1539,38 @@ function setupProductFilters() {
             trackEvent('ecommerce', 'filter', APP_STATE.currentFilter);
         });
     });
+}
+
+// Setup Price Filters
+function initPriceFilters() {
+    const priceRange = document.getElementById('priceRange');
+    const priceMin = document.getElementById('priceMin');
+    const priceMax = document.getElementById('priceMax');
+    
+    if (priceRange && priceMin && priceMax) {
+        // Get min and max prices from products
+        const prices = PRODUCTS.map(p => p.price);
+        const minPrice = Math.min(...prices);
+        const maxPrice = Math.max(...prices);
+        
+        // Set range values
+        priceRange.min = minPrice;
+        priceRange.max = maxPrice;
+        priceRange.value = maxPrice;
+        
+        // Update display
+        priceMin.textContent = formatCurrency(minPrice);
+        priceMax.textContent = formatCurrency(maxPrice);
+        
+        priceRange.addEventListener('input', () => {
+            const value = parseInt(priceRange.value);
+            priceMax.textContent = formatCurrency(value);
+            
+            // Filter products
+            const filtered = PRODUCTS.filter(p => p.price <= value);
+            updateProductsGrid(filtered);
+        });
+    }
 }
 
 // Setup Search
@@ -1047,8 +1600,18 @@ function setupSearch() {
             searchInput.value = '';
             APP_STATE.searchQuery = '';
             displayProducts(APP_STATE.currentCategory);
+            searchInput.focus();
         });
     }
+    
+    // Handle Enter key
+    searchInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            APP_STATE.searchQuery = searchInput.value.trim();
+            displayProducts(APP_STATE.currentCategory);
+        }
+    });
 }
 
 // Setup Sorting
@@ -1067,18 +1630,32 @@ function setupSorting() {
 function addToCart(product, quantity = 1) {
     if (!product || !product.id) {
         console.error('Invalid product:', product);
+        showNotification('Unable to add product to cart.', 'error');
+        return;
+    }
+    
+    // Check stock
+    if (product.stock <= 0) {
+        showNotification('This product is out of stock.', 'error');
         return;
     }
     
     const existingItem = cart.items.find(item => item.id === product.id);
     
     if (existingItem) {
-        existingItem.quantity += quantity;
+        // Check if adding more than available stock
+        const newQuantity = existingItem.quantity + quantity;
+        if (product.stock !== 'available' && newQuantity > product.stock) {
+            showNotification(`Only ${product.stock} units available in stock.`, 'warning');
+            return;
+        }
+        existingItem.quantity = newQuantity;
     } else {
         cart.items.push({
             ...product,
             quantity: quantity,
-            addedAt: new Date().toISOString()
+            addedAt: new Date().toISOString(),
+            cartId: Date.now() + Math.random().toString(36).substr(2, 9)
         });
     }
     
@@ -1091,10 +1668,15 @@ function addToCart(product, quantity = 1) {
     showNotification(`Added ${product.name} to cart!`, 'success');
     
     // Track event
-    trackEvent('ecommerce', 'add_to_cart', product.id.toString());
+    trackEvent('ecommerce', 'add_to_cart', product.id.toString(), quantity);
     
     // Update cart badge with animation
     setTimeout(() => animateCartBadge(), 100);
+    
+    // Show cart sidebar if on mobile
+    if (window.innerWidth <= 768) {
+        showCartSidebar();
+    }
 }
 
 // Calculate Cart Totals
@@ -1128,8 +1710,8 @@ function saveCartToStorage() {
     // Sync with service worker if available
     if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
         navigator.serviceWorker.controller.postMessage({
-            type: 'SYNC_CART',
-            cart: cart
+            type: 'SAVE_CART',
+            data: cart
         });
     }
 }
@@ -1141,6 +1723,7 @@ function updateCartUI() {
     document.querySelectorAll('.cart-count').forEach(el => {
         el.textContent = cartCount;
         el.style.display = cartCount > 0 ? 'flex' : 'none';
+        el.setAttribute('aria-label', `${cartCount} items in cart`);
     });
     
     // Update cart sidebar if open
@@ -1154,9 +1737,15 @@ function updateCartUI() {
     if (cartBadge) {
         if (cartCount > 0) {
             cartBadge.innerHTML = `
-                🛒 ${cartCount} items • ${formatCurrency(cart.total)}
+                🛒 ${cartCount} ${cartCount === 1 ? 'item' : 'items'} • ${formatCurrency(cart.total)}
                 <br>
                 <small>Call ${CONFIG.DISPLAY_PHONE} to order</small>
+            `;
+        } else {
+            cartBadge.innerHTML = `
+                🛒 Your cart is empty
+                <br>
+                <small>Browse our products</small>
             `;
         }
     }
@@ -1173,29 +1762,36 @@ function renderCartItems() {
                 <div class="empty-cart-icon">🛒</div>
                 <h3>Your cart is empty</h3>
                 <p>Add some products to get started</p>
-                <button onclick="showCategory('all')" class="btn">Browse Products</button>
+                <button onclick="showCategory('all')" class="btn btn-primary">Browse Products</button>
+                <button onclick="closeCartSidebar()" class="btn btn-secondary">Continue Shopping</button>
             </div>
         `;
         return;
     }
     
     container.innerHTML = cart.items.map(item => `
-        <div class="cart-item" data-item-id="${item.id}">
+        <div class="cart-item" data-item-id="${item.id}" role="listitem">
             <img src="${item.image}" 
                  alt="${item.name}" 
                  class="cart-item-image"
                  loading="lazy"
                  width="80"
-                 height="80">
+                 height="80"
+                 onerror="this.src='${CONFIG.ICON_PATH}/placeholder.webp'">
             
             <div class="cart-item-details">
                 <div class="cart-item-header">
                     <h4 class="cart-item-title">${item.name}</h4>
                     <button class="remove-item" onclick="removeFromCart(${item.id})" 
-                            aria-label="Remove item">×</button>
+                            aria-label="Remove ${item.name} from cart">×</button>
                 </div>
                 
                 <div class="cart-item-price">${formatCurrency(item.price)} each</div>
+                
+                <div class="cart-item-meta">
+                    ${item.warranty ? `<span class="cart-item-warranty">${item.warranty}</span>` : ''}
+                    ${item.delivery ? `<span class="cart-item-delivery">${item.delivery}</span>` : ''}
+                </div>
                 
                 <div class="cart-item-controls">
                     <div class="quantity-controls">
@@ -1215,34 +1811,92 @@ function renderCartItems() {
     `).join('');
     
     // Update totals display
-    document.getElementById('cartSubtotal').textContent = formatCurrency(cart.subtotal);
-    document.getElementById('cartDelivery').textContent = formatCurrency(cart.delivery);
-    document.getElementById('cartInstallation').textContent = formatCurrency(cart.installation);
-    document.getElementById('cartTotal').textContent = formatCurrency(cart.total);
+    updateCartTotals();
+}
+
+// Update Cart Totals Display
+function updateCartTotals() {
+    const elements = {
+        subtotal: document.getElementById('cartSubtotal'),
+        delivery: document.getElementById('cartDelivery'),
+        installation: document.getElementById('cartInstallation'),
+        total: document.getElementById('cartTotal')
+    };
+    
+    if (elements.subtotal) elements.subtotal.textContent = formatCurrency(cart.subtotal);
+    if (elements.delivery) {
+        elements.delivery.textContent = formatCurrency(cart.delivery);
+        if (cart.delivery === 0) {
+            elements.delivery.innerHTML = `<span class="free-delivery">FREE</span>`;
+        }
+    }
+    if (elements.installation) elements.installation.textContent = formatCurrency(cart.installation);
+    if (elements.total) elements.total.textContent = formatCurrency(cart.total);
+    
+    // Update free delivery progress
+    updateDeliveryProgress();
+}
+
+// Update Delivery Progress
+function updateDeliveryProgress() {
+    const progressBar = document.getElementById('deliveryProgress');
+    if (!progressBar) return;
+    
+    const progress = Math.min((cart.subtotal / CONFIG.FREE_DELIVERY_THRESHOLD) * 100, 100);
+    progressBar.style.width = `${progress}%`;
+    progressBar.setAttribute('aria-valuenow', progress);
+    
+    const progressText = document.getElementById('deliveryProgressText');
+    if (progressText) {
+        if (progress >= 100) {
+            progressText.textContent = '🎉 You qualify for FREE delivery!';
+        } else {
+            const remaining = CONFIG.FREE_DELIVERY_THRESHOLD - cart.subtotal;
+            progressText.textContent = `Add ${formatCurrency(remaining)} more for FREE delivery`;
+        }
+    }
 }
 
 // Remove from Cart
 function removeFromCart(productId) {
+    const item = cart.items.find(item => item.id === productId);
+    if (!item) return;
+    
     cart.items = cart.items.filter(item => item.id !== productId);
     calculateCartTotals();
     saveCartToStorage();
     updateCartUI();
     
-    showNotification('Item removed from cart', 'info');
+    showNotification(`${item.name} removed from cart`, 'info');
     trackEvent('ecommerce', 'remove_from_cart', productId.toString());
 }
 
 // Update Cart Quantity
 function updateCartQuantity(productId, change) {
     const item = cart.items.find(item => item.id === productId);
-    if (item) {
-        item.quantity += change;
-        if (item.quantity <= 0) {
-            removeFromCart(productId);
+    if (!item) return;
+    
+    const newQuantity = item.quantity + change;
+    
+    // Check if product has stock limit
+    if (item.stock !== 'available' && newQuantity > item.stock) {
+        showNotification(`Only ${item.stock} units available in stock.`, 'warning');
+        return;
+    }
+    
+    if (newQuantity <= 0) {
+        removeFromCart(productId);
+    } else {
+        item.quantity = newQuantity;
+        calculateCartTotals();
+        saveCartToStorage();
+        updateCartUI();
+        
+        // Show notification for quantity change
+        if (change > 0) {
+            showNotification(`Increased ${item.name} quantity to ${newQuantity}`, 'success');
         } else {
-            calculateCartTotals();
-            saveCartToStorage();
-            updateCartUI();
+            showNotification(`Decreased ${item.name} quantity to ${newQuantity}`, 'info');
         }
     }
 }
@@ -1256,209 +1910,139 @@ function animateCartBadge() {
     }
 }
 
-// Product Modal
-function initProductModal() {
-    // Create modal container
-    if (!document.getElementById('productModal')) {
-        const modal = document.createElement('div');
-        modal.id = 'productModal';
-        modal.className = 'modal';
-        modal.innerHTML = `
-            <div class="modal-content">
-                <button class="modal-close" aria-label="Close modal">×</button>
-                <div class="modal-body" id="productModalContent"></div>
-            </div>
-        `;
-        document.body.appendChild(modal);
-        
-        // Close modal on click outside or escape
-        modal.addEventListener('click', (e) => {
-            if (e.target === modal || e.target.classList.contains('modal-close')) {
-                closeProductModal();
-            }
-        });
-        
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && modal.classList.contains('open')) {
-                closeProductModal();
-            }
-        });
-    }
-}
-
-function showProductModal(product) {
-    const modal = document.getElementById('productModal');
-    const content = document.getElementById('productModalContent');
+// Product Comparison
+function initProductComparison() {
+    let comparisonList = JSON.parse(localStorage.getItem('kinguComparison') || '[]');
     
-    if (!modal || !content) return;
-    
-    content.innerHTML = createProductModalContent(product);
-    modal.classList.add('open');
-    document.body.style.overflow = 'hidden';
-    
-    // Add event listeners
-    const addToCartBtn = content.querySelector('.modal-add-to-cart');
-    if (addToCartBtn) {
-        addToCartBtn.addEventListener('click', () => {
-            const quantityInput = content.querySelector('.quantity-input');
-            const quantity = quantityInput ? parseInt(quantityInput.value) || 1 : 1;
-            addToCart(product, quantity);
-            closeProductModal();
-        });
-    }
-    
-    // Track view
-    trackEvent('ecommerce', 'product_view', product.id.toString());
-}
-
-function createProductModalContent(product) {
-    return `
-        <div class="product-modal">
-            <div class="product-modal-images">
-                <img src="${product.image}" 
-                     alt="${product.name}" 
-                     class="main-image"
-                     loading="lazy">
-                ${product.images && product.images.length > 0 ? `
-                <div class="thumbnail-gallery">
-                    ${product.images.map(img => `
-                        <img src="${img}" 
-                             alt="${product.name}" 
-                             class="thumbnail"
-                             onclick="this.closest('.product-modal').querySelector('.main-image').src = this.src">
-                    `).join('')}
-                </div>
-                ` : ''}
-            </div>
-            
-            <div class="product-modal-details">
-                <h2>${product.name}</h2>
-                <div class="product-price">
-                    <span class="current-price">${formatCurrency(product.price)}</span>
-                    ${product.originalPrice && product.price < product.originalPrice
-                        ? `<span class="original-price">${formatCurrency(product.originalPrice)}</span>`
-                        : ''}
-                </div>
-                
-                <div class="product-rating-section">
-                    ${product.rating ? `
-                    <div class="rating">
-                        ⭐ ${product.rating}/5 (${product.reviews || 0} reviews)
-                    </div>
-                    ` : ''}
-                    <div class="stock-status ${product.stock > 0 ? 'in-stock' : 'out-of-stock'}">
-                        ${product.stock > 0 ? `${product.stock} units available` : 'Out of stock'}
-                    </div>
-                </div>
-                
-                <div class="product-description">
-                    <h3>Description</h3>
-                    <p>${product.description}</p>
-                </div>
-                
-                ${product.specifications ? `
-                <div class="product-specifications">
-                    <h3>Specifications</h3>
-                    <div class="specs-grid">
-                        ${Object.entries(product.specifications).map(([key, value]) => `
-                            <div class="spec-item">
-                                <strong>${key}:</strong>
-                                <span>${value}</span>
-                            </div>
-                        `).join('')}
-                    </div>
-                </div>
-                ` : ''}
-                
-                ${product.includes ? `
-                <div class="product-includes">
-                    <h3>Service Includes</h3>
-                    <ul>
-                        ${product.includes.map(item => `<li>${item}</li>`).join('')}
-                    </ul>
-                </div>
-                ` : ''}
-                
-                <div class="product-actions">
-                    <div class="quantity-selector">
-                        <button class="qty-btn" onclick="this.nextElementSibling.stepDown()">−</button>
-                        <input type="number" 
-                               min="1" 
-                               max="${product.stock}" 
-                               value="1" 
-                               class="quantity-input">
-                        <button class="qty-btn" onclick="this.previousElementSibling.stepUp()">+</button>
-                    </div>
-                    
-                    <button class="modal-add-to-cart" ${product.stock <= 0 ? 'disabled' : ''}>
-                        🛒 Add to Cart
-                    </button>
-                </div>
-                
-                <div class="product-meta">
-                    <div class="meta-item">
-                        <span class="meta-label">Delivery:</span>
-                        <span class="meta-value">${product.delivery}</span>
-                    </div>
-                    <div class="meta-item">
-                        <span class="meta-label">Installation:</span>
-                        <span class="meta-value">${product.installation}</span>
-                    </div>
-                    <div class="meta-item">
-                        <span class="meta-label">Warranty:</span>
-                        <span class="meta-value">${product.warranty || 'N/A'}</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    `;
-}
-
-function closeProductModal() {
-    const modal = document.getElementById('productModal');
-    if (modal) {
-        modal.classList.remove('open');
-        document.body.style.overflow = '';
-    }
-}
-
-// Wishlist
-function initWishlist() {
-    // Load wishlist from storage
-    let wishlist = JSON.parse(localStorage.getItem('kinguWishlist') || '[]');
-    
-    // Update wishlist count
-    updateWishlistCount(wishlist.length);
-    
-    // Expose toggle function
-    window.toggleWishlist = function(product) {
-        const index = wishlist.findIndex(item => item.id === product.id);
-        
-        if (index === -1) {
-            wishlist.push(product);
-            showNotification(`Added ${product.name} to wishlist`, 'success');
-        } else {
-            wishlist.splice(index, 1);
-            showNotification(`Removed ${product.name} from wishlist`, 'info');
+    window.addToComparison = function(product) {
+        if (comparisonList.some(p => p.id === product.id)) {
+            showNotification(`${product.name} is already in comparison`, 'info');
+            return;
         }
         
-        // Save to storage
-        localStorage.setItem('kinguWishlist', JSON.stringify(wishlist));
+        if (comparisonList.length >= 4) {
+            showNotification('Maximum 4 products can be compared at once', 'warning');
+            return;
+        }
         
-        // Update UI
-        updateWishlistCount(wishlist.length);
+        comparisonList.push(product);
+        localStorage.setItem('kinguComparison', JSON.stringify(comparisonList));
         
-        // Track event
-        trackEvent('ecommerce', 'wishlist_toggle', product.id.toString());
+        showNotification(`${product.name} added to comparison`, 'success');
+        updateComparisonCount(comparisonList.length);
+        trackEvent('ecommerce', 'add_to_comparison', product.id.toString());
     };
+    
+    window.showComparison = function() {
+        if (comparisonList.length < 2) {
+            showNotification('Add at least 2 products to compare', 'info');
+            return;
+        }
+        
+        // Create comparison modal
+        showProductComparisonModal(comparisonList);
+    };
+    
+    updateComparisonCount(comparisonList.length);
 }
 
-function updateWishlistCount(count) {
-    const wishlistElements = document.querySelectorAll('.wishlist-count');
-    wishlistElements.forEach(el => {
+function updateComparisonCount(count) {
+    const comparisonElements = document.querySelectorAll('.comparison-count');
+    comparisonElements.forEach(el => {
         el.textContent = count;
         el.style.display = count > 0 ? 'inline' : 'none';
     });
+}
+
+// Stock Notifications
+function initStockNotifications() {
+    const notifications = JSON.parse(localStorage.getItem('kinguStockNotifications') || '[]');
+    
+    window.setupStockNotification = function(product) {
+        if (product.stock > 0) {
+            showNotification('This product is in stock. You can order it now!', 'info');
+            return;
+        }
+        
+        // Check if already subscribed
+        if (notifications.some(n => n.productId === product.id)) {
+            showNotification('You will be notified when this product is back in stock', 'info');
+            return;
+        }
+        
+        // Show notification subscription form
+        showStockNotificationForm(product);
+    };
+}
+
+function showStockNotificationForm(product) {
+    const form = document.createElement('div');
+    form.className = 'stock-notification-form';
+    form.innerHTML = `
+        <div class="form-header">
+            <h4>Get Notified When Back in Stock</h4>
+            <button class="close-form" aria-label="Close">×</button>
+        </div>
+        <div class="form-body">
+            <p>We'll email you when ${product.name} is back in stock.</p>
+            <div class="form-group">
+                <label for="notifyEmail">Email Address</label>
+                <input type="email" id="notifyEmail" placeholder="your@email.com" required>
+            </div>
+            <div class="form-group">
+                <label for="notifyPhone">Phone Number (Optional)</label>
+                <input type="tel" id="notifyPhone" placeholder="+255 XXX XXX XXX">
+            </div>
+        </div>
+        <div class="form-footer">
+            <button class="btn btn-primary" onclick="subscribeStockNotification(${product.id})">
+                Notify Me
+            </button>
+        </div>
+    `;
+    
+    document.body.appendChild(form);
+    
+    // Close button
+    form.querySelector('.close-form').addEventListener('click', () => {
+        form.remove();
+    });
+    
+    // Close on outside click
+    form.addEventListener('click', (e) => {
+        if (e.target === form) {
+            form.remove();
+        }
+    });
+}
+
+function subscribeStockNotification(productId) {
+    const product = PRODUCTS.find(p => p.id === productId);
+    if (!product) return;
+    
+    const email = document.getElementById('notifyEmail').value;
+    const phone = document.getElementById('notifyPhone').value;
+    
+    if (!validateEmail(email)) {
+        showNotification('Please enter a valid email address', 'error');
+        return;
+    }
+    
+    const notifications = JSON.parse(localStorage.getItem('kinguStockNotifications') || '[]');
+    notifications.push({
+        productId: product.id,
+        productName: product.name,
+        email: email,
+        phone: phone,
+        date: new Date().toISOString()
+    });
+    
+    localStorage.setItem('kinguStockNotifications', JSON.stringify(notifications));
+    
+    showNotification('You will be notified when this product is back in stock!', 'success');
+    document.querySelector('.stock-notification-form').remove();
+    
+    trackEvent('ecommerce', 'stock_notification', product.id.toString());
 }
 
 // ===== PWA FUNCTIONALITY =====
@@ -1469,6 +2053,7 @@ function initPWAFeatures() {
     setupOfflineDetection();
     initBackgroundSync();
     initPushNotifications();
+    initPeriodicSync();
 }
 
 // Register Service Worker
@@ -1481,43 +2066,31 @@ function registerServiceWorker() {
         .then(registration => {
             console.log('Service Worker registered:', registration);
             
-            // Check for updates
+            // Check for updates periodically
+            setInterval(() => {
+                registration.update();
+            }, 60 * 60 * 1000); // Check every hour
+            
+            // Handle updates
             registration.addEventListener('updatefound', () => {
                 const newWorker = registration.installing;
                 console.log('New Service Worker found:', newWorker);
                 
                 newWorker.addEventListener('statechange', () => {
                     if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                        showUpdateNotification();
+                        showUpdateNotification({
+                            version: '6.0.0',
+                            timestamp: new Date().toISOString()
+                        });
                     }
                 });
             });
             
-            // Handle messages
-            navigator.serviceWorker.addEventListener('message', handleServiceWorkerMessage);
         })
         .catch(error => {
             console.error('Service Worker registration failed:', error);
+            trackEvent('pwa', 'registration_failed', error.message);
         });
-    }
-}
-
-// Handle Service Worker Messages
-function handleServiceWorkerMessage(event) {
-    const { type, data } = event.data;
-    
-    switch (type) {
-        case 'UPDATE_AVAILABLE':
-            showUpdateNotification();
-            break;
-        case 'SYNC_COMPLETE':
-            if (data && data.type === 'orders') {
-                showNotification('Orders synced successfully!', 'success');
-            }
-            break;
-        case 'BACKGROUND_FETCH':
-            console.log('Background fetch completed:', data);
-            break;
     }
 }
 
@@ -1528,6 +2101,9 @@ function setupInstallPrompt() {
     window.addEventListener('beforeinstallprompt', (e) => {
         e.preventDefault();
         deferredPrompt = e;
+        
+        // Update app state
+        APP_STATE.canInstall = true;
         
         // Show install button after delay
         setTimeout(() => {
@@ -1542,20 +2118,36 @@ function setupInstallPrompt() {
         APP_STATE.isPWAInstalled = true;
         showNotification('Kingu Electrical app installed successfully!', 'success');
         trackEvent('pwa', 'installed');
+        
+        // Hide install prompt if shown
+        const prompt = document.querySelector('.install-prompt');
+        if (prompt) prompt.remove();
     });
     
     function showInstallPrompt() {
+        // Check if user dismissed recently
+        const lastDismissed = localStorage.getItem('installPromptDismissed');
+        if (lastDismissed && Date.now() - parseInt(lastDismissed) < 30 * 24 * 60 * 60 * 1000) {
+            return; // Don't show for 30 days
+        }
+        
         const prompt = document.createElement('div');
-        prompt.className = 'install-prompt';
+        prompt.className = 'install-prompt fade-in';
         prompt.innerHTML = `
             <div class="install-content">
-                <img src="/assets/icons/optimized/icon-192x192.png" alt="Kingu Electrical" width="64" height="64">
-                <div>
+                <img src="${CONFIG.ICON_PATH}/icon-192x192.webp" 
+                     alt="Kingu Electrical" 
+                     width="64" 
+                     height="64">
+                <div class="install-text">
                     <h4>Install Kingu Electrical App</h4>
                     <p>Get faster access and work offline</p>
                 </div>
-                <button class="install-btn">Install</button>
-                <button class="install-close">×</button>
+                <div class="install-actions">
+                    <button class="install-btn btn btn-primary">Install</button>
+                    <button class="install-later btn btn-secondary">Later</button>
+                    <button class="install-close" aria-label="Close">×</button>
+                </div>
             </div>
         `;
         
@@ -1576,17 +2168,23 @@ function setupInstallPrompt() {
             }
         });
         
+        // Later button
+        prompt.querySelector('.install-later').addEventListener('click', () => {
+            prompt.remove();
+            localStorage.setItem('installPromptDismissed', Date.now().toString());
+        });
+        
         // Close button
         prompt.querySelector('.install-close').addEventListener('click', () => {
             prompt.remove();
-            localStorage.setItem('pwaPromptDismissed', Date.now().toString());
+            localStorage.setItem('installPromptDismissed', Date.now().toString());
         });
         
         // Auto-dismiss after 30 seconds
         setTimeout(() => {
             if (prompt.parentNode) {
                 prompt.remove();
-                localStorage.setItem('pwaPromptDismissed', Date.now().toString());
+                localStorage.setItem('installPromptDismissed', Date.now().toString());
             }
         }, 30000);
     }
@@ -1602,12 +2200,22 @@ function setupOfflineDetection() {
             if (APP_STATE.isOnline) {
                 statusIndicator.textContent = '🟢 Online';
                 statusIndicator.className = 'online';
+                statusIndicator.setAttribute('aria-label', 'Online');
+                
+                // Sync data when coming back online
+                setTimeout(syncOfflineData, 1000);
             } else {
-                statusIndicator.textContent = '🔴 Offline - Working locally';
+                statusIndicator.textContent = '🔴 Offline';
                 statusIndicator.className = 'offline';
+                statusIndicator.setAttribute('aria-label', 'Offline - Working locally');
+                
                 showNotification('You are offline. Changes will sync when you reconnect.', 'info', 7000);
             }
         }
+        
+        // Update UI based on online status
+        document.documentElement.classList.toggle('online', APP_STATE.isOnline);
+        document.documentElement.classList.toggle('offline', !APP_STATE.isOnline);
     }
     
     window.addEventListener('online', updateOnlineStatus);
@@ -1615,65 +2223,101 @@ function setupOfflineDetection() {
     updateOnlineStatus();
 }
 
+// Sync Offline Data
+async function syncOfflineData() {
+    try {
+        // Sync cart
+        if (cart.items.length > 0) {
+            await syncCartWithServer();
+        }
+        
+        // Sync forms
+        const pendingForms = JSON.parse(localStorage.getItem('pendingForms') || '[]');
+        if (pendingForms.length > 0) {
+            await syncPendingForms(pendingForms);
+        }
+        
+        // Sync analytics
+        const pendingAnalytics = JSON.parse(localStorage.getItem('pendingAnalytics') || '[]');
+        if (pendingAnalytics.length > 0) {
+            await syncAnalytics(pendingAnalytics);
+        }
+        
+    } catch (error) {
+        console.error('Sync error:', error);
+    }
+}
+
+async function syncCartWithServer() {
+    // Simulate cart sync with server
+    return new Promise(resolve => {
+        setTimeout(() => {
+            console.log('Cart synced with server');
+            trackEvent('sync', 'cart', cart.items.length.toString());
+            resolve();
+        }, 1000);
+    });
+}
+
+async function syncPendingForms(forms) {
+    // Simulate form sync
+    return new Promise(resolve => {
+        setTimeout(() => {
+            console.log('Forms synced:', forms.length);
+            localStorage.removeItem('pendingForms');
+            resolve();
+        }, 1000);
+    });
+}
+
+async function syncAnalytics(events) {
+    // Simulate analytics sync
+    return new Promise(resolve => {
+        setTimeout(() => {
+            console.log('Analytics synced:', events.length);
+            localStorage.removeItem('pendingAnalytics');
+            resolve();
+        }, 1000);
+    });
+}
+
 // Background Sync
 function initBackgroundSync() {
     if ('serviceWorker' in navigator && 'SyncManager' in window) {
         navigator.serviceWorker.ready.then(registration => {
-            // Register for periodic sync (if supported)
-            if ('periodicSync' in registration) {
-                registration.periodicSync.register('update-products', {
-                    minInterval: 24 * 60 * 60 * 1000 // 24 hours
-                }).then(() => {
-                    console.log('Periodic sync registered');
-                });
-            }
+            // Register sync events
+            registration.sync.register('sync-forms').catch(console.error);
+            registration.sync.register('sync-analytics').catch(console.error);
             
-            // Sync orders when online
-            window.addEventListener('online', () => {
-                syncPendingOrders();
-            });
-        });
+            console.log('Background sync registered');
+        }).catch(console.error);
     }
 }
 
-async function syncPendingOrders() {
-    const pendingOrders = JSON.parse(localStorage.getItem('pendingOrders') || '[]');
-    
-    if (pendingOrders.length === 0) return;
-    
-    showNotification('Syncing pending orders...', 'info');
-    
-    for (const order of pendingOrders) {
-        try {
-            // Simulate API call
-            await simulateAPIRequest(order);
-            
-            // Remove from pending
-            pendingOrders.splice(pendingOrders.indexOf(order), 1);
-            localStorage.setItem('pendingOrders', JSON.stringify(pendingOrders));
-            
-        } catch (error) {
-            console.error('Failed to sync order:', error);
-        }
-    }
-    
-    if (pendingOrders.length === 0) {
-        showNotification('All orders synced successfully!', 'success');
+// Periodic Sync
+function initPeriodicSync() {
+    if ('periodicSync' in self.registration) {
+        self.registration.periodicSync.register('update-content', {
+            minInterval: 24 * 60 * 60 * 1000, // 24 hours
+            powerState: 'auto'
+        }).then(() => {
+            console.log('Periodic sync registered');
+        }).catch(console.error);
     }
 }
 
 // Push Notifications
 function initPushNotifications() {
     if ('Notification' in window && 'serviceWorker' in navigator) {
+        // Check current permission
+        if (Notification.permission === 'granted') {
+            subscribeToPushNotifications();
+        }
+        
         // Request permission on user action
         const notifyBtn = document.getElementById('enableNotifications');
         if (notifyBtn) {
             notifyBtn.addEventListener('click', requestNotificationPermission);
-        }
-        
-        // Check current permission
-        if (Notification.permission === 'granted') {
-            console.log('Notifications already granted');
         }
     }
 }
@@ -1683,22 +2327,46 @@ async function requestNotificationPermission() {
     
     if (permission === 'granted') {
         console.log('Notification permission granted');
-        
-        // Subscribe to push notifications
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.ready.then(registration => {
-                registration.pushManager.subscribe({
-                    userVisibleOnly: true,
-                    applicationServerKey: urlBase64ToUint8Array('YOUR_VAPID_PUBLIC_KEY')
-                }).then(subscription => {
-                    console.log('Push subscription:', subscription);
-                    // Send subscription to server
-                });
-            });
-        }
-        
+        subscribeToPushNotifications();
         showNotification('Notifications enabled!', 'success');
         trackEvent('notifications', 'enabled');
+    } else if (permission === 'denied') {
+        showNotification('Notifications blocked. You can enable them in browser settings.', 'warning');
+        trackEvent('notifications', 'denied');
+    }
+}
+
+async function subscribeToPushNotifications() {
+    try {
+        const registration = await navigator.serviceWorker.ready;
+        const subscription = await registration.pushManager.subscribe({
+            userVisibleOnly: true,
+            applicationServerKey: urlBase64ToUint8Array('YOUR_VAPID_PUBLIC_KEY_HERE')
+        });
+        
+        // Send subscription to server
+        await sendSubscriptionToServer(subscription);
+        
+        console.log('Push subscription successful');
+        
+    } catch (error) {
+        console.error('Push subscription failed:', error);
+        trackEvent('notifications', 'subscription_failed', error.message);
+    }
+}
+
+async function sendSubscriptionToServer(subscription) {
+    // Send to your server
+    const response = await fetch(`${CONFIG.API_BASE_URL}/push/subscribe`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(subscription)
+    });
+    
+    if (!response.ok) {
+        throw new Error('Failed to send subscription to server');
     }
 }
 
@@ -1728,6 +2396,11 @@ function initUIEnhancements() {
     initShareButtons();
     initProgressBars();
     initCounters();
+    initBackToTop();
+    initPrintButton();
+    initFeedbackSystem();
+    initCookieConsent();
+    initWhatsAppWidget();
 }
 
 // Theme Toggle
@@ -1735,14 +2408,25 @@ function initThemeToggle() {
     const themeToggle = document.getElementById('themeToggle');
     if (!themeToggle) return;
     
-    // Check saved theme
-    const savedTheme = localStorage.getItem('theme') || 'light';
+    // Check saved theme or prefer-color-scheme
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const savedTheme = localStorage.getItem('theme') || (prefersDark ? 'dark' : 'light');
+    
     setTheme(savedTheme);
     
     themeToggle.addEventListener('click', () => {
         const newTheme = APP_STATE.darkMode ? 'light' : 'dark';
         setTheme(newTheme);
         localStorage.setItem('theme', newTheme);
+        
+        trackEvent('ui', 'theme_toggle', newTheme);
+    });
+    
+    // Listen for system theme changes
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+        if (!localStorage.getItem('theme')) {
+            setTheme(e.matches ? 'dark' : 'light');
+        }
     });
 }
 
@@ -1753,143 +2437,189 @@ function setTheme(theme) {
     const themeToggle = document.getElementById('themeToggle');
     if (themeToggle) {
         themeToggle.innerHTML = theme === 'dark' ? '☀️' : '🌙';
+        themeToggle.setAttribute('aria-label', `Switch to ${theme === 'dark' ? 'light' : 'dark'} theme`);
+    }
+    
+    // Update meta theme-color
+    const metaThemeColor = document.querySelector('meta[name="theme-color"]');
+    if (metaThemeColor) {
+        metaThemeColor.content = theme === 'dark' ? '#0d3b1f' : '#1a5632';
     }
 }
 
-// Image Lazy Loading
-function initImageLazyLoading() {
-    if ('IntersectionObserver' in window) {
-        const imageObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const img = entry.target;
-                    img.src = img.dataset.src || img.src;
-                    img.classList.add('loaded');
-                    imageObserver.unobserve(img);
-                }
-            });
+// Back to Top Button
+function initBackToTop() {
+    const backToTop = document.createElement('button');
+    backToTop.id = 'backToTop';
+    backToTop.className = 'back-to-top';
+    backToTop.innerHTML = '↑';
+    backToTop.setAttribute('aria-label', 'Back to top');
+    document.body.appendChild(backToTop);
+    
+    // Show/hide based on scroll
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 300) {
+            backToTop.classList.add('visible');
+        } else {
+            backToTop.classList.remove('visible');
+        }
+    });
+    
+    // Scroll to top
+    backToTop.addEventListener('click', () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
         });
-        
-        document.querySelectorAll('img[data-src]').forEach(img => {
-            imageObserver.observe(img);
-        });
+        trackEvent('ui', 'back_to_top');
+    });
+}
+
+// Print Button
+function initPrintButton() {
+    const printBtn = document.getElementById('printBtn');
+    if (!printBtn) return;
+    
+    printBtn.addEventListener('click', () => {
+        window.print();
+        trackEvent('ui', 'print_page');
+    });
+}
+
+// Feedback System
+function initFeedbackSystem() {
+    const feedbackBtn = document.getElementById('feedbackBtn');
+    if (!feedbackBtn) return;
+    
+    feedbackBtn.addEventListener('click', showFeedbackForm);
+}
+
+function showFeedbackForm() {
+    const form = document.createElement('div');
+    form.className = 'feedback-form';
+    form.innerHTML = `
+        <div class="feedback-header">
+            <h4>Feedback & Suggestions</h4>
+            <button class="close-feedback" aria-label="Close">×</button>
+        </div>
+        <div class="feedback-body">
+            <div class="form-group">
+                <label for="feedbackType">Type of Feedback</label>
+                <select id="feedbackType">
+                    <option value="suggestion">Suggestion</option>
+                    <option value="bug">Bug Report</option>
+                    <option value="compliment">Compliment</option>
+                    <option value="other">Other</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="feedbackMessage">Your Feedback</label>
+                <textarea id="feedbackMessage" placeholder="Tell us what you think..." rows="4" required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="feedbackEmail">Email (Optional)</label>
+                <input type="email" id="feedbackEmail" placeholder="your@email.com">
+            </div>
+        </div>
+        <div class="feedback-footer">
+            <button class="btn btn-primary" onclick="submitFeedback()">Submit Feedback</button>
+        </div>
+    `;
+    
+    document.body.appendChild(form);
+    
+    // Close button
+    form.querySelector('.close-feedback').addEventListener('click', () => form.remove());
+    
+    // Close on outside click
+    form.addEventListener('click', (e) => {
+        if (e.target === form) form.remove();
+    });
+}
+
+function submitFeedback() {
+    const type = document.getElementById('feedbackType').value;
+    const message = document.getElementById('feedbackMessage').value;
+    const email = document.getElementById('feedbackEmail').value;
+    
+    if (!message.trim()) {
+        showNotification('Please enter your feedback message', 'error');
+        return;
     }
-}
-
-// Tooltips
-function initTooltips() {
-    const tooltipElements = document.querySelectorAll('[data-tooltip]');
     
-    tooltipElements.forEach(element => {
-        element.addEventListener('mouseenter', showTooltip);
-        element.addEventListener('mouseleave', hideTooltip);
-        element.addEventListener('focus', showTooltip);
-        element.addEventListener('blur', hideTooltip);
+    // Save feedback
+    const feedbacks = JSON.parse(localStorage.getItem('kinguFeedback') || '[]');
+    feedbacks.push({
+        type,
+        message,
+        email,
+        timestamp: new Date().toISOString(),
+        url: window.location.href
     });
-}
-
-function showTooltip(e) {
-    const element = e.target;
-    const tooltipText = element.dataset.tooltip;
     
-    if (!tooltipText) return;
+    localStorage.setItem('kinguFeedback', JSON.stringify(feedbacks));
     
-    const tooltip = document.createElement('div');
-    tooltip.className = 'tooltip';
-    tooltip.textContent = tooltipText;
-    tooltip.id = 'current-tooltip';
+    showNotification('Thank you for your feedback!', 'success');
+    document.querySelector('.feedback-form').remove();
     
-    const rect = element.getBoundingClientRect();
-    tooltip.style.top = (rect.top - 40) + 'px';
-    tooltip.style.left = (rect.left + rect.width / 2) + 'px';
+    trackEvent('feedback', 'submit', type);
+}
+
+// Cookie Consent
+function initCookieConsent() {
+    if (localStorage.getItem('cookieConsent')) return;
     
-    document.body.appendChild(tooltip);
-}
-
-function hideTooltip() {
-    const tooltip = document.getElementById('current-tooltip');
-    if (tooltip) tooltip.remove();
-}
-
-// Copy Buttons
-function initCopyButtons() {
-    document.querySelectorAll('[data-copy]').forEach(button => {
-        button.addEventListener('click', (e) => {
-            const text = e.target.dataset.copy;
-            copyToClipboard(text);
-        });
-    });
-}
-
-async function copyToClipboard(text) {
-    try {
-        await navigator.clipboard.writeText(text);
-        showNotification('Copied to clipboard!', 'success');
-    } catch (error) {
-        console.error('Failed to copy:', error);
-        showNotification('Failed to copy to clipboard', 'error');
-    }
-}
-
-// Share Buttons
-function initShareButtons() {
-    if ('share' in navigator) {
-        document.querySelectorAll('[data-share]').forEach(button => {
-            button.style.display = 'inline-block';
-            button.addEventListener('click', () => {
-                const shareData = {
-                    title: button.dataset.shareTitle || CONFIG.COMPANY_NAME,
-                    text: button.dataset.shareText || 'Check out Kingu Electrical services',
-                    url: button.dataset.shareUrl || CONFIG.WEBSITE
-                };
-                
-                navigator.share(shareData).catch(console.error);
-            });
-        });
-    }
-}
-
-// Progress Bars
-function initProgressBars() {
-    const progressBars = document.querySelectorAll('.progress-bar');
+    const consent = document.createElement('div');
+    consent.id = 'cookieConsent';
+    consent.className = 'cookie-consent';
+    consent.innerHTML = `
+        <div class="cookie-content">
+            <p>We use cookies to enhance your experience. By continuing to visit this site you agree to our use of cookies.</p>
+            <div class="cookie-actions">
+                <button class="btn btn-primary" onclick="acceptCookies()">Accept</button>
+                <button class="btn btn-secondary" onclick="declineCookies()">Decline</button>
+                <a href="/privacy.html" class="cookie-link">Learn More</a>
+            </div>
+        </div>
+    `;
     
-    progressBars.forEach(bar => {
-        const value = bar.dataset.value || '0';
-        bar.style.width = value + '%';
-        bar.setAttribute('aria-valuenow', value);
-    });
+    document.body.appendChild(consent);
 }
 
-// Counters (for stats)
-function initCounters() {
-    const counters = document.querySelectorAll('.counter');
+function acceptCookies() {
+    localStorage.setItem('cookieConsent', 'accepted');
+    document.getElementById('cookieConsent').remove();
+    trackEvent('cookies', 'accepted');
+}
+
+function declineCookies() {
+    localStorage.setItem('cookieConsent', 'declined');
+    document.getElementById('cookieConsent').remove();
+    trackEvent('cookies', 'declined');
+}
+
+// WhatsApp Widget
+function initWhatsAppWidget() {
+    const whatsappBtn = document.querySelector('.whatsapp-float');
+    if (!whatsappBtn) return;
     
-    counters.forEach(counter => {
-        const target = parseInt(counter.dataset.target || '0');
-        const duration = parseInt(counter.dataset.duration || '2000');
-        const increment = target / (duration / 16); // 60fps
+    // Add animation
+    whatsappBtn.classList.add('pulse-animation');
+    
+    // Add click event
+    whatsappBtn.addEventListener('click', (e) => {
+        e.preventDefault();
         
-        let current = 0;
-        const updateCounter = () => {
-            current += increment;
-            if (current < target) {
-                counter.textContent = Math.floor(current).toLocaleString();
-                requestAnimationFrame(updateCounter);
-            } else {
-                counter.textContent = target.toLocaleString();
-            }
-        };
+        const message = `Hello Kingu Electrical! I'm interested in your services. Can you help me?`;
+        const url = `https://wa.me/${CONFIG.WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
         
-        // Start when in viewport
-        const observer = new IntersectionObserver((entries) => {
-            if (entries[0].isIntersecting) {
-                updateCounter();
-                observer.unobserve(counter);
-            }
-        });
-        
-        observer.observe(counter);
+        window.open(url, '_blank');
+        trackEvent('contact', 'whatsapp_click');
     });
+    
+    // Add tooltip
+    whatsappBtn.setAttribute('title', 'Chat with us on WhatsApp');
+    whatsappBtn.setAttribute('aria-label', 'Chat with us on WhatsApp');
 }
 
 // ===== ANALYTICS =====
@@ -1899,24 +2629,13 @@ function initAnalytics() {
     trackPageView();
     
     // Performance tracking
-    if ('PerformanceObserver' in window) {
-        // Largest Contentful Paint
-        const lcpObserver = new PerformanceObserver((entryList) => {
-            const entries = entryList.getEntries();
-            const lastEntry = entries[entries.length - 1];
-            trackEvent('performance', 'lcp', Math.round(lastEntry.startTime).toString());
-        });
-        lcpObserver.observe({ type: 'largest-contentful-paint', buffered: true });
-        
-        // First Input Delay
-        const fidObserver = new PerformanceObserver((entryList) => {
-            const entries = entryList.getEntries();
-            entries.forEach(entry => {
-                trackEvent('performance', 'fid', Math.round(entry.processingStart - entry.startTime).toString());
-            });
-        });
-        fidObserver.observe({ type: 'first-input', buffered: true });
-    }
+    trackPerformance();
+    
+    // Error tracking
+    trackErrors();
+    
+    // User engagement tracking
+    trackEngagement();
 }
 
 function trackPageView() {
@@ -1924,21 +2643,96 @@ function trackPageView() {
         url: window.location.href,
         title: document.title,
         timestamp: new Date().toISOString(),
-        referrer: document.referrer || 'direct'
+        referrer: document.referrer || 'direct',
+        screen: {
+            width: window.screen.width,
+            height: window.screen.height
+        },
+        viewport: {
+            width: window.innerWidth,
+            height: window.innerHeight
+        }
     };
     
     // Save to localStorage for offline tracking
     const pageViews = JSON.parse(localStorage.getItem('pageViews') || '[]');
     pageViews.push(pageData);
-    localStorage.setItem('pageViews', JSON.stringify(pageViews.slice(-100))); // Keep last 100
+    localStorage.setItem('pageViews', JSON.stringify(pageViews.slice(-100)));
     
     // Send to analytics (simulated)
     if (APP_STATE.isOnline) {
         setTimeout(() => {
-            // Simulate analytics call
             console.log('Page view tracked:', pageData);
+            // In production, send to your analytics service
         }, 100);
     }
+    
+    trackEvent('page', 'view', pageData.url);
+}
+
+function trackPerformance() {
+    // Track various performance metrics
+    const metrics = {
+        navigation: performance.getEntriesByType('navigation')[0],
+        paint: performance.getEntriesByType('paint'),
+        resource: performance.getEntriesByType('resource')
+    };
+    
+    if (metrics.navigation) {
+        const navTiming = metrics.navigation;
+        trackEvent('performance', 'navigation', JSON.stringify({
+            loadTime: navTiming.loadEventEnd - navTiming.startTime,
+            domInteractive: navTiming.domInteractive - navTiming.startTime,
+            domComplete: navTiming.domComplete - navTiming.startTime
+        }));
+    }
+}
+
+function trackErrors() {
+    // JavaScript errors
+    window.addEventListener('error', (event) => {
+        const errorData = {
+            message: event.message,
+            filename: event.filename,
+            lineno: event.lineno,
+            colno: event.colno,
+            timestamp: new Date().toISOString()
+        };
+        
+        trackEvent('error', 'javascript', JSON.stringify(errorData));
+    });
+    
+    // Promise rejections
+    window.addEventListener('unhandledrejection', (event) => {
+        const errorData = {
+            reason: event.reason?.message || String(event.reason),
+            timestamp: new Date().toISOString()
+        };
+        
+        trackEvent('error', 'promise_rejection', JSON.stringify(errorData));
+    });
+}
+
+function trackEngagement() {
+    // Time on page
+    let startTime = Date.now();
+    
+    window.addEventListener('beforeunload', () => {
+        const timeSpent = Date.now() - startTime;
+        trackEvent('engagement', 'time_on_page', Math.round(timeSpent / 1000).toString());
+    });
+    
+    // Scroll depth
+    let maxScroll = 0;
+    window.addEventListener('scroll', debounce(() => {
+        const scrollPercent = Math.round((window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100);
+        if (scrollPercent > maxScroll) {
+            maxScroll = scrollPercent;
+            if (scrollPercent % 25 === 0) { // Track every 25%
+                trackEvent('engagement', 'scroll_depth', `${scrollPercent}%`);
+            }
+        }
+    }, 500));
 }
 
 function trackEvent(category, action, label, value) {
@@ -1947,26 +2741,41 @@ function trackEvent(category, action, label, value) {
         action,
         label,
         value,
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString(),
+        sessionId: getSessionId(),
+        page: window.location.href
     };
     
     // Save to localStorage for offline tracking
     const events = JSON.parse(localStorage.getItem('trackedEvents') || '[]');
     events.push(eventData);
-    localStorage.setItem('trackedEvents', JSON.stringify(events.slice(-200))); // Keep last 200
+    localStorage.setItem('trackedEvents', JSON.stringify(events.slice(-200)));
     
     // Send to analytics (simulated)
     if (APP_STATE.isOnline) {
         setTimeout(() => {
-            // Simulate analytics call
             console.log('Event tracked:', eventData);
+            // In production, send to your analytics service
         }, 100);
     }
+}
+
+function getSessionId() {
+    let sessionId = sessionStorage.getItem('sessionId');
+    if (!sessionId) {
+        sessionId = 'session_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+        sessionStorage.setItem('sessionId', sessionId);
+    }
+    return sessionId;
 }
 
 // ===== UTILITY FUNCTIONS =====
 
 function formatCurrency(amount) {
+    if (typeof amount !== 'number') {
+        amount = parseFloat(amount) || 0;
+    }
+    
     return new Intl.NumberFormat('en-TZ', {
         style: 'currency',
         currency: APP_STATE.currency,
@@ -1985,7 +2794,7 @@ function trapFocus(element) {
     const firstElement = focusableElements[0];
     const lastElement = focusableElements[focusableElements.length - 1];
     
-    element.addEventListener('keydown', (e) => {
+    function handleTabKey(e) {
         if (e.key !== 'Tab') return;
         
         if (e.shiftKey) {
@@ -1999,17 +2808,26 @@ function trapFocus(element) {
                 e.preventDefault();
             }
         }
-    });
+    }
     
+    element.addEventListener('keydown', handleTabKey);
     firstElement.focus();
+    
+    // Return cleanup function
+    return () => {
+        element.removeEventListener('keydown', handleTabKey);
+    };
 }
 
 async function simulateAPIRequest(data) {
-    // Simulate network delay
     return new Promise((resolve, reject) => {
         setTimeout(() => {
-            if (Math.random() < 0.95) { // 95% success rate
-                resolve({ success: true, data });
+            if (Math.random() < 0.95) {
+                resolve({ 
+                    success: true, 
+                    data,
+                    timestamp: new Date().toISOString()
+                });
             } else {
                 reject(new Error('Simulated network error'));
             }
@@ -2017,7 +2835,87 @@ async function simulateAPIRequest(data) {
     });
 }
 
-// Show Order Confirmation
+function validateEmail(email) {
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(email);
+}
+
+function debounce(func, wait) {
+    let timeout;
+    return function executedFunction(...args) {
+        const later = () => {
+            clearTimeout(timeout);
+            func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+    };
+}
+
+function throttle(func, limit) {
+    let inThrottle;
+    return function() {
+        const args = arguments;
+        const context = this;
+        if (!inThrottle) {
+            func.apply(context, args);
+            inThrottle = true;
+            setTimeout(() => inThrottle = false, limit);
+        }
+    };
+}
+
+function getDeviceInfo() {
+    return {
+        userAgent: navigator.userAgent,
+        platform: navigator.platform,
+        language: navigator.language,
+        screen: {
+            width: window.screen.width,
+            height: window.screen.height,
+            colorDepth: window.screen.colorDepth
+        },
+        connection: navigator.connection ? {
+            effectiveType: navigator.connection.effectiveType,
+            downlink: navigator.connection.downlink,
+            rtt: navigator.connection.rtt
+        } : null
+    };
+}
+
+function showUpdateNotification(data) {
+    const notification = showNotification(
+        'A new version is available. Refresh to update?',
+        'info',
+        15000
+    );
+    
+    // Add refresh button
+    const notificationEl = document.getElementById(notification);
+    if (notificationEl) {
+        const refreshBtn = document.createElement('button');
+        refreshBtn.textContent = 'Refresh Now';
+        refreshBtn.className = 'btn btn-sm';
+        refreshBtn.style.marginLeft = '10px';
+        refreshBtn.addEventListener('click', () => {
+            window.location.reload();
+            trackEvent('update', 'refresh');
+        });
+        
+        notificationEl.querySelector('.notification-content').appendChild(refreshBtn);
+    }
+    
+    trackEvent('update', 'available', data?.version || 'unknown');
+}
+
+function showNewContentNotification(data) {
+    showNotification(
+        'New content is available. Refresh to see the latest updates.',
+        'info',
+        10000
+    );
+}
+
 function showOrderConfirmation(message) {
     showNotification('Order request sent! We will contact you shortly.', 'success');
     
@@ -2028,30 +2926,7 @@ function showOrderConfirmation(message) {
     trackEvent('order', 'quick_request');
 }
 
-function showUpdateNotification() {
-    const notification = showNotification(
-        'A new version is available. Refresh to update?',
-        'info',
-        10000
-    );
-    
-    // Add refresh button
-    const notificationEl = document.getElementById(notification);
-    if (notificationEl) {
-        const refreshBtn = document.createElement('button');
-        refreshBtn.textContent = 'Refresh';
-        refreshBtn.className = 'btn btn-sm';
-        refreshBtn.style.marginLeft = '10px';
-        refreshBtn.addEventListener('click', () => {
-            window.location.reload();
-        });
-        
-        notificationEl.querySelector('.notification-content').appendChild(refreshBtn);
-    }
-}
-
 function showBookingConfirmation(message, data) {
-    // Create booking confirmation modal
     const modal = document.createElement('div');
     modal.className = 'confirmation-modal';
     modal.innerHTML = `
@@ -2060,18 +2935,22 @@ function showBookingConfirmation(message, data) {
             <p>We will call you at <strong>${data.phone}</strong> to confirm the details.</p>
             
             <div class="booking-details">
-                <p><strong>Date:</strong> ${data.date}</p>
+                <p><strong>Date:</strong> ${formatDate(data.date)}</p>
                 <p><strong>Time:</strong> ${data.time}</p>
                 <p><strong>Service:</strong> ${data.service}</p>
+                ${data.location ? `<p><strong>Location:</strong> ${data.location}</p>` : ''}
             </div>
             
             <p>Need to make changes? Call us at ${CONFIG.DISPLAY_PHONE}</p>
             
             <div class="confirmation-actions">
                 <button class="btn btn-primary" onclick="shareBooking('${encodeURIComponent(message)}')">
-                    Share via WhatsApp
+                    <span class="whatsapp-icon">💬</span> Share via WhatsApp
                 </button>
-                <button class="btn btn-secondary" onclick="this.closest('.confirmation-modal').remove()">
+                <button class="btn btn-secondary" onclick="addToCalendar(${JSON.stringify(data).replace(/"/g, '&quot;')})">
+                    📅 Add to Calendar
+                </button>
+                <button class="btn btn-outline" onclick="this.closest('.confirmation-modal').remove()">
                     Close
                 </button>
             </div>
@@ -2084,9 +2963,63 @@ function showBookingConfirmation(message, data) {
     trackEvent('booking', 'scheduled', data.service);
 }
 
+function formatDate(dateString) {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-TZ', {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+    });
+}
+
 function shareBooking(message) {
     const url = `https://wa.me/${CONFIG.WHATSAPP_NUMBER}?text=${message}`;
     window.open(url, '_blank');
+    trackEvent('booking', 'share_whatsapp');
+}
+
+function addToCalendar(bookingData) {
+    // Create calendar event
+    const startDate = new Date(`${bookingData.date}T${bookingData.time}`);
+    const endDate = new Date(startDate.getTime() + 60 * 60 * 1000); // 1 hour later
+    
+    const calendarEvent = {
+        title: `Site Inspection - ${bookingData.service}`,
+        description: `Site inspection for ${bookingData.service} at ${bookingData.location || 'location to be confirmed'}. Contact: ${bookingData.phone}`,
+        location: bookingData.location || 'Location to be confirmed',
+        start: startDate.toISOString(),
+        end: endDate.toISOString()
+    };
+    
+    // Create .ics file
+    const icsContent = `BEGIN:VCALENDAR
+VERSION:2.0
+CALSCALE:GREGORIAN
+BEGIN:VEVENT
+SUMMARY:${calendarEvent.title}
+DESCRIPTION:${calendarEvent.description}
+LOCATION:${calendarEvent.location}
+DTSTART:${startDate.toISOString().replace(/[-:]/g, '').split('.')[0]}Z
+DTEND:${endDate.toISOString().replace(/[-:]/g, '').split('.')[0]}Z
+UID:${Date.now()}@kingueletrical.com
+DTSTAMP:${new Date().toISOString().replace(/[-:]/g, '').split('.')[0]}Z
+END:VEVENT
+END:VCALENDAR`;
+    
+    // Download .ics file
+    const blob = new Blob([icsContent], { type: 'text/calendar' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `site-inspection-${bookingData.date}.ics`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    window.URL.revokeObjectURL(url);
+    
+    showNotification('Calendar event downloaded. Import it to your calendar.', 'success');
+    trackEvent('booking', 'add_to_calendar');
 }
 
 // Load App State
@@ -2094,16 +3027,22 @@ function loadAppState() {
     const savedState = localStorage.getItem('kinguAppState');
     if (savedState) {
         try {
-            Object.assign(APP_STATE, JSON.parse(savedState));
+            const parsed = JSON.parse(savedState);
+            Object.assign(APP_STATE, parsed);
         } catch (error) {
             console.error('Error loading app state:', error);
+            localStorage.removeItem('kinguAppState');
         }
     }
 }
 
 // Save App State
 function saveAppState() {
-    localStorage.setItem('kinguAppState', JSON.stringify(APP_STATE));
+    try {
+        localStorage.setItem('kinguAppState', JSON.stringify(APP_STATE));
+    } catch (error) {
+        console.error('Error saving app state:', error);
+    }
 }
 
 // Check for Updates
@@ -2111,12 +3050,12 @@ function checkForUpdates() {
     if (!APP_STATE.isOnline) return;
     
     // Check for content updates
-    fetch('/version.json')
+    fetch('/version.json', { cache: 'no-store' })
         .then(response => response.json())
         .then(data => {
-            const currentVersion = '5.2.0';
+            const currentVersion = '6.0.0';
             if (data.version !== currentVersion) {
-                showUpdateNotification();
+                showUpdateNotification(data);
             }
         })
         .catch(() => {
@@ -2130,16 +3069,24 @@ function updateActiveNavLink() {
     const navLinks = document.querySelectorAll('.nav-menu a[href^="#"]');
     
     let current = '';
+    const scrollPosition = window.scrollY + 100;
+    
     sections.forEach(section => {
-        const sectionTop = section.offsetTop - 100;
-        if (window.scrollY >= sectionTop) {
+        const sectionTop = section.offsetTop;
+        const sectionHeight = section.offsetHeight;
+        
+        if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
             current = section.getAttribute('id');
         }
     });
     
     navLinks.forEach(link => {
         const href = link.getAttribute('href');
-        link.classList.toggle('active', href === `#${current}`);
+        const isActive = href === `#${current}` || 
+                        (current === '' && href === '#home');
+        
+        link.classList.toggle('active', isActive);
+        link.setAttribute('aria-current', isActive ? 'page' : null);
     });
 }
 
@@ -2160,15 +3107,54 @@ function resetFilters() {
     });
     
     const searchInput = document.getElementById('searchInput');
-    if (searchInput) searchInput.value = '';
+    if (searchInput) {
+        searchInput.value = '';
+        searchInput.focus();
+    }
     
     const sortSelect = document.getElementById('sortSelect');
     if (sortSelect) sortSelect.value = 'default';
     
+    // Reset price range
+    const priceRange = document.getElementById('priceRange');
+    if (priceRange) {
+        const maxPrice = Math.max(...PRODUCTS.map(p => p.price));
+        priceRange.value = maxPrice;
+        const priceMax = document.getElementById('priceMax');
+        if (priceMax) priceMax.textContent = formatCurrency(maxPrice);
+    }
+    
     // Show all products
     displayProducts('all');
     
+    // Show success message
+    showNotification('All filters have been reset', 'success');
+    
     trackEvent('filters', 'reset');
+}
+
+// Show Cart Sidebar
+function showCartSidebar() {
+    const sidebar = document.getElementById('cartSidebar');
+    if (sidebar) {
+        sidebar.classList.add('open');
+        document.body.style.overflow = 'hidden';
+        
+        // Render cart items
+        renderCartItems();
+        
+        // Trap focus
+        setTimeout(() => trapFocus(sidebar), 100);
+    }
+}
+
+// Close Cart Sidebar
+function closeCartSidebar() {
+    const sidebar = document.getElementById('cartSidebar');
+    if (sidebar) {
+        sidebar.classList.remove('open');
+        document.body.style.overflow = '';
+    }
 }
 
 // Safe Execute with Error Boundary
@@ -2178,92 +3164,103 @@ function safeExecute(fn, fallback = null) {
             return fn.apply(this, args);
         } catch (error) {
             console.error(`Error in ${fn.name}:`, error);
-            return fallback;
+            
+            // Log error to analytics
+            trackEvent('error', 'function', fn.name, error.message);
+            
+            // Show user-friendly error
+            if (fallback !== null) {
+                return fallback;
+            }
+            
+            // Default error handling
+            showNotification('Something went wrong. Please try again.', 'error');
+            return null;
         }
     };
 }
 
-// Backup Cart to Cloud
-function backupCartToCloud() {
-    if (!APP_STATE.isOnline) return;
-    
-    const cartData = {
-        items: cart.items,
-        timestamp: new Date().toISOString()
-    };
-    
-    // Store in localStorage as backup
-    localStorage.setItem('cartBackup', JSON.stringify(cartData));
-}
-
 // Optimize Image URL
-function optimizeImageUrl(url, width = 300) {
+function optimizeImageUrl(url, width = 300, format = 'webp') {
     // Use your optimization service or logic here
-    return url.replace(/\.(jpg|jpeg|png)$/, `.webp`);
+    // For now, just return the original URL
+    return url;
 }
 
 // Get Delivery Estimate
-async function getDeliveryEstimate() {
-    if (!APP_STATE.userLocation && 'geolocation' in navigator) {
+async function getDeliveryEstimate(location = null) {
+    if (!APP_STATE.isOnline) {
+        return 'Delivery estimates available when online';
+    }
+    
+    if (!location && 'geolocation' in navigator) {
         try {
             const position = await new Promise((resolve, reject) => {
-                navigator.geolocation.getCurrentPosition(resolve, reject);
+                navigator.geolocation.getCurrentPosition(resolve, reject, {
+                    timeout: 5000,
+                    maximumAge: 60000
+                });
             });
             
             APP_STATE.userLocation = {
                 lat: position.coords.latitude,
-                lng: position.coords.longitude
+                lng: position.coords.longitude,
+                accuracy: position.coords.accuracy
             };
             
-            // Calculate delivery estimate based on location
-            return '2-3 business days'; // Placeholder
+            // Simulate delivery calculation based on location
+            return calculateDeliveryEstimate(APP_STATE.userLocation);
+            
         } catch (error) {
             console.error('Geolocation error:', error);
-            return '2-3 business days';
+            trackEvent('delivery', 'geolocation_error', error.message);
         }
     }
-    return 'Delivery estimate unavailable';
+    
+    // Default estimate
+    return '2-3 business days';
 }
 
-// Measure Performance
-function measurePerformance(metric, value) {
-    if (typeof window.performance !== 'undefined') {
-        performance.measure(metric, {
-            start: performance.now() - value,
-            end: performance.now()
-        });
-    }
+function calculateDeliveryEstimate(location) {
+    // Simulate delivery calculation
+    // In production, integrate with Google Maps API or similar
+    const estimates = {
+        'Dar-es-salaam': '1-2 business days',
+        'Arusha': '2-3 business days',
+        'Dodoma': '2-4 business days',
+        'Mwanza': '3-5 business days',
+        'Mbeya': '3-5 business days',
+        'default': '3-7 business days'
+    };
     
-    // Send to analytics
-    trackEvent('performance', metric, value.toString());
+    // This is a simplified simulation
+    return estimates['default'];
 }
 
 // Export to global scope
 window.APP_STATE = APP_STATE;
 window.PRODUCTS = PRODUCTS;
 window.CONFIG = CONFIG;
-window.addToCart = addToCart;
-window.removeFromCart = removeFromCart;
-window.updateCartQuantity = updateCartQuantity;
-window.showCategory = showCategory;
-window.resetFilters = resetFilters;
-window.formatCurrency = formatCurrency;
-window.showNotification = showNotification;
-window.copyToClipboard = copyToClipboard;
-window.showOrderConfirmation = showOrderConfirmation;
-window.getDeliveryEstimate = getDeliveryEstimate;
-
-// Apply safe execution to critical functions
+window.cart = cart;
 window.addToCart = safeExecute(addToCart);
 window.removeFromCart = safeExecute(removeFromCart);
 window.updateCartQuantity = safeExecute(updateCartQuantity);
+window.showCategory = safeExecute(showCategory);
+window.resetFilters = safeExecute(resetFilters);
+window.formatCurrency = safeExecute(formatCurrency);
+window.showNotification = safeExecute(showNotification);
+window.copyToClipboard = safeExecute(copyToClipboard);
+window.showOrderConfirmation = safeExecute(showOrderConfirmation);
+window.getDeliveryEstimate = safeExecute(getDeliveryEstimate, '2-3 business days');
+window.showCartSidebar = safeExecute(showCartSidebar);
+window.closeCartSidebar = safeExecute(closeCartSidebar);
 
 // Initialize on window load
 window.addEventListener('load', () => {
-    console.log('🎉 Kingu Electrical App Loaded Successfully');
+    console.log('🎉 Kingu Electrical App Loaded Successfully v6.0.0');
     
     // Add loaded class to body
-    document.body.classList.add('loaded');
+    document.documentElement.classList.add('loaded');
     
     // Trigger initial animations
     initScrollAnimations();
@@ -2274,15 +3271,106 @@ window.addEventListener('load', () => {
     // Save initial state
     saveAppState();
     
-    // Backup cart
-    backupCartToCloud();
+    // Backup cart to server if online
+    if (APP_STATE.isOnline) {
+        backupCartToCloud();
+    }
+    
+    // Track successful load
+    trackEvent('app', 'loaded', 'v6.0.0');
 });
 
 // Listen for page visibility changes
 document.addEventListener('visibilitychange', () => {
-    if (!document.hidden) {
+    if (document.visibilityState === 'visible') {
         // Page became visible again
         checkForUpdates();
-        backupCartToCloud();
+        if (APP_STATE.isOnline) {
+            backupCartToCloud();
+        }
+        trackEvent('engagement', 'page_visible');
+    } else {
+        trackEvent('engagement', 'page_hidden');
     }
 });
+
+// Handle offline/online events
+window.addEventListener('offline', () => {
+    // Save unsaved data
+    backupLocalData();
+});
+
+window.addEventListener('online', () => {
+    // Sync when back online
+    setTimeout(syncOfflineData, 1000);
+});
+
+// Backup local data
+function backupLocalData() {
+    const backup = {
+        cart: cart,
+        appState: APP_STATE,
+        timestamp: new Date().toISOString()
+    };
+    
+    localStorage.setItem('kinguBackup', JSON.stringify(backup));
+    console.log('Local data backed up for offline use');
+}
+
+// Backup cart to cloud
+function backupCartToCloud() {
+    if (!APP_STATE.isOnline || cart.items.length === 0) return;
+    
+    // Simulate cloud backup
+    setTimeout(() => {
+        console.log('Cart backed up to cloud');
+        trackEvent('sync', 'cart_backup', cart.items.length.toString());
+    }, 1000);
+}
+
+// Handle beforeunload
+window.addEventListener('beforeunload', (e) => {
+    // Save current state
+    saveAppState();
+    
+    // If there are pending changes, warn user
+    const pendingForms = JSON.parse(localStorage.getItem('pendingForms') || '[]');
+    if (pendingForms.length > 0 && APP_STATE.isOnline === false) {
+        e.preventDefault();
+        e.returnValue = 'You have unsaved form data that will be lost if you leave.';
+    }
+});
+
+// Service Worker message handler
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.addEventListener('message', (event) => {
+        const { type, data } = event.data;
+        
+        switch (type) {
+            case 'CACHE_UPDATED':
+                console.log('Cache updated:', data);
+                break;
+                
+            case 'OFFLINE_READY':
+                console.log('App is ready for offline use');
+                showNotification('App is ready for offline use', 'success');
+                break;
+                
+            case 'RESOURCE_LOAD_FAILED':
+                console.warn('Resource load failed:', data);
+                break;
+        }
+    });
+}
+
+// Periodic state save
+setInterval(saveAppState, 30000); // Save every 30 seconds
+
+// Periodic cart backup
+setInterval(() => {
+    if (APP_STATE.isOnline) {
+        backupCartToCloud();
+    }
+}, 60000); // Backup every minute
+
+console.log('📦 Kingu Electrical Script v6.0.0 Loaded');
