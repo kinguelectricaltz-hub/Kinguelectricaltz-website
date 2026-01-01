@@ -131,7 +131,7 @@
             min-height: 100vh;
         }
         
-        /* ===== BACKGROUND IMAGE ===== */
+        /* ===== FIXED BACKGROUND IMAGE ===== */
         body::before {
             content: '';
             position: fixed;
@@ -139,14 +139,31 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: url('https://dailynews.co.tz/tanzania-extends-power-transmission-network-by-674-kilometers/');
+            background-image: url('https://images.unsplash.com/photo-1621905252507-b35492cc74b4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
             background-attachment: fixed;
-            opacity: 0.1;
+            opacity: 0.15;
             z-index: -1;
+            filter: brightness(1.1);
         }
+        
+        /* Alternative electrical background - Choose ONE of these: */
+        /* Option 1: Power lines background */
+        /* body::before {
+            background-image: url('https://images.unsplash.com/photo-1621905252507-b35492cc74b4?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80');
+        } */
+        
+        /* Option 2: Electrical grid background */
+        /* body::before {
+            background-image: url('https://images.unsplash.com/photo-1621905251189-08b45d6a269e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80');
+        } */
+        
+        /* Option 3: Generator background */
+        /* body::before {
+            background-image: url('https://images.unsplash.com/photo-1621905252507-b35492cc74b4?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80');
+        } */
         
         /* Ensure content is readable over background */
         .container, 
@@ -163,15 +180,28 @@
             z-index: 1;
         }
         
+        /* Make cards and forms more opaque for better readability */
         .card,
         .team-card,
         .product-card,
         .testimonial,
         .project-item,
         .certificate-item,
-        form {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
+        form,
+        .Kingu-shop-section,
+        .booking-widget {
+            background: rgba(255, 255, 255, 0.97);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        /* Header with stronger overlay */
+        header {
+            background: linear-gradient(rgba(13, 59, 31, 0.92), rgba(26, 86, 50, 0.92)), 
+                        url('https://images.unsplash.com/photo-1621905252507-b35492cc74b4?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
         }
         
         /* ===== HEADER STYLES ===== */
@@ -179,7 +209,6 @@
             position: relative;
             width: 100%;
             min-height: 100vh;
-            background: linear-gradient(135deg, rgba(26, 86, 50, 0.95), rgba(13, 59, 31, 0.95));
             color: white;
             display: flex;
             align-items: center;
@@ -220,10 +249,11 @@
         .tagline {
             font-size: 1.5rem;
             margin-bottom: 3rem;
-            opacity: 0.9;
+            opacity: 0.95;
             max-width: 800px;
             margin-left: auto;
             margin-right: auto;
+            font-weight: 300;
         }
         
         .contact-header {
@@ -235,7 +265,7 @@
         }
         
         .contact-header a {
-            background: rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.2);
             color: white;
             padding: 1rem 1.5rem;
             border-radius: 50px;
@@ -244,21 +274,21 @@
             align-items: center;
             gap: 0.5rem;
             transition: all 0.3s ease;
-            border: 1px solid rgba(255,255,255,0.2);
+            border: 1px solid rgba(255,255,255,0.3);
             min-width: 250px;
             justify-content: center;
             backdrop-filter: blur(10px);
         }
         
         .contact-header a:hover {
-            background: rgba(255, 255, 255, 0.25);
+            background: rgba(255, 255, 255, 0.3);
             transform: translateY(-3px);
             box-shadow: 0 6px 20px rgba(0,0,0,0.2);
         }
         
         /* ===== PROMO BANNER ===== */
         .promo-banner {
-            background: linear-gradient(135deg, #FF6B35, #FF8E53);
+            background: linear-gradient(135deg, rgba(255, 107, 53, 0.95), rgba(255, 142, 83, 0.95));
             color: white;
             padding: 1rem 0;
             text-align: center;
@@ -284,7 +314,7 @@
         
         /* ===== KINGU SHOP CTA ===== */
         .Kingu-shop-cta {
-            background: linear-gradient(135deg, #1a5632, #0d3d21);
+            background: linear-gradient(135deg, rgba(26, 86, 50, 0.95), rgba(13, 61, 33, 0.95));
             color: white;
             padding: 1.5rem 0;
             text-align: center;
@@ -302,6 +332,8 @@
             margin-top: 1rem;
             transition: all 0.3s ease;
             text-decoration: none;
+            border: none;
+            cursor: pointer;
         }
         
         .btn-Kingu-shop:hover {
@@ -312,12 +344,12 @@
         
         /* ===== NAVIGATION ===== */
         nav {
-            background: rgba(13, 59, 31, 0.95);
+            background: rgba(13, 59, 31, 0.98);
             position: sticky;
             top: 0;
             z-index: 1000;
             padding: 0;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
+            border-bottom: 1px solid rgba(255,255,255,0.2);
             backdrop-filter: blur(10px);
         }
         
@@ -361,19 +393,20 @@
         
         .nav-menu a:hover,
         .nav-menu a:focus {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.15);
             transform: translateY(-2px);
         }
         
         .nav-menu a[href*="Kinguelectrical-shop"] {
-            background: #1a5632;
+            background: rgba(255, 255, 255, 0.2);
             color: white;
-            border: 2px solid white;
+            border: 2px solid rgba(255,255,255,0.4);
         }
         
         .nav-menu a[href*="Kinguelectrical-shop"]:hover {
             background: white;
             color: #1a5632;
+            border-color: white;
         }
         
         /* ===== HAMBURGER MENU ===== */
@@ -404,8 +437,13 @@
             position: relative;
         }
         
+        /* Alternate section backgrounds for better readability */
         section:nth-child(even) {
-            background: rgba(248, 249, 250, 0.8);
+            background: rgba(248, 249, 250, 0.7);
+        }
+        
+        section:nth-child(odd):not(#home) {
+            background: rgba(255, 255, 255, 0.7);
         }
         
         h2 {
@@ -439,21 +477,21 @@
         
         /* ===== CARD STYLES ===== */
         .card {
-            background: rgba(255, 255, 255, 0.95);
+            background: rgba(255, 255, 255, 0.97);
             border-radius: 12px;
             padding: 2.5rem;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            box-shadow: 0 6px 25px rgba(0,0,0,0.1);
             transition: all 0.3s ease;
             height: 100%;
             display: flex;
             flex-direction: column;
-            border: 1px solid rgba(0,0,0,0.05);
-            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(5px);
         }
         
         .card:hover {
             transform: translateY(-10px);
-            box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
         }
         
         .card h3 {
@@ -464,7 +502,7 @@
         }
         
         .card p {
-            color: #555;
+            color: #444;
             line-height: 1.7;
             flex-grow: 1;
             margin-bottom: 1rem;
@@ -483,19 +521,19 @@
         }
         
         .team-card {
-            background: rgba(255, 255, 255, 0.95);
+            background: rgba(255, 255, 255, 0.97);
             border-radius: 12px;
             padding: 2rem;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            box-shadow: 0 6px 25px rgba(0,0,0,0.1);
             text-align: center;
             transition: all 0.3s ease;
-            border: 1px solid rgba(0,0,0,0.05);
-            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(5px);
         }
         
         .team-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
         }
         
         .team-avatar {
@@ -509,6 +547,7 @@
             color: white;
             font-size: 2.5rem;
             font-weight: bold;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
         }
         
         .team-avatar.director {
@@ -561,12 +600,13 @@
         
         .skill-tag {
             display: inline-block;
-            background: rgba(26, 86, 50, 0.1);
+            background: rgba(26, 86, 50, 0.15);
             color: #1a5632;
             padding: 0.25rem 0.75rem;
             border-radius: 20px;
             font-size: 0.8rem;
             margin: 0.25rem;
+            border: 1px solid rgba(26, 86, 50, 0.2);
         }
         
         /* ===== STATS SECTION ===== */
@@ -575,6 +615,21 @@
             color: white;
             padding: 4rem 0;
             text-align: center;
+            position: relative;
+        }
+        
+        .stats-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://images.unsplash.com/photo-1621905251189-08b45d6a269e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.1;
+            z-index: -1;
         }
         
         .stats-grid {
@@ -582,6 +637,8 @@
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 2rem;
             margin-top: 2rem;
+            position: relative;
+            z-index: 1;
         }
         
         .stat-item {
@@ -592,6 +649,7 @@
             font-size: 3rem;
             font-weight: bold;
             margin-bottom: 0.5rem;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
         }
         
         /* ===== PACKAGES SECTION ===== */
@@ -611,6 +669,7 @@
             border-radius: 20px;
             font-weight: bold;
             font-size: 0.8rem;
+            box-shadow: 0 4px 10px rgba(255, 107, 53, 0.3);
         }
         
         .price {
@@ -626,6 +685,21 @@
             color: white;
             padding: 3rem 0;
             text-align: center;
+            position: relative;
+        }
+        
+        .emergency-cta::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://images.unsplash.com/photo-1581094794329-c8112a89af12?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.1;
+            z-index: -1;
         }
         
         .emergency-btn {
@@ -639,6 +713,13 @@
             align-items: center;
             gap: 10px;
             margin: 1rem 0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .emergency-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
         }
         
         /* ===== PRODUCTS SECTION ===== */
@@ -650,27 +731,30 @@
         }
         
         .product-card {
-            background: rgba(255, 255, 255, 0.95);
+            background: rgba(255, 255, 255, 0.97);
             border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            box-shadow: 0 6px 25px rgba(0,0,0,0.1);
             transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(5px);
         }
         
         .product-card:hover {
             transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
         }
         
         /* ===== KINGU SHOP SECTION ===== */
         .Kingu-shop-section {
-            background: linear-gradient(135deg, rgba(248, 249, 250, 0.9), rgba(233, 236, 239, 0.9));
+            background: linear-gradient(135deg, rgba(248, 249, 250, 0.95), rgba(233, 236, 239, 0.95));
             border-radius: 15px;
             padding: 2rem;
             margin: 3rem 0;
             text-align: center;
             border: 2px solid #1a5632;
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(5px);
+            box-shadow: 0 6px 25px rgba(0,0,0,0.1);
         }
         
         /* ===== TESTIMONIALS ===== */
@@ -684,11 +768,12 @@
         
         .testimonial {
             min-width: 300px;
-            background: rgba(255, 255, 255, 0.95);
+            background: rgba(255, 255, 255, 0.97);
             border-radius: 12px;
             padding: 2rem;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-            backdrop-filter: blur(10px);
+            box-shadow: 0 6px 25px rgba(0,0,0,0.1);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
         }
         
         /* ===== RESOURCES SECTION ===== */
@@ -696,10 +781,27 @@
             background: linear-gradient(135deg, rgba(13, 61, 33, 0.95), rgba(26, 86, 50, 0.95));
             color: white;
             padding: 3rem 0;
+            position: relative;
+        }
+        
+        #resources::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://images.unsplash.com/photo-1621905252507-b35492cc74b4?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.1;
+            z-index: -1;
         }
         
         #resources h2 {
             color: white;
+            position: relative;
+            z-index: 1;
         }
         
         .resources-horizontal {
@@ -707,15 +809,17 @@
             gap: 2rem;
             overflow-x: auto;
             padding: 1rem 0;
+            position: relative;
+            z-index: 1;
         }
         
         .resource-horizontal-card {
             min-width: 300px;
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.15);
             border-radius: 12px;
             padding: 2rem;
             backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
         }
         
         .btn-horizontal {
@@ -727,6 +831,14 @@
             display: inline-block;
             margin-top: 1rem;
             border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-horizontal:hover {
+            background: #c82333;
+            transform: translateY(-2px);
         }
         
         /* ===== PROJECTS ===== */
@@ -737,11 +849,12 @@
         }
         
         .project-item {
-            background: rgba(255, 255, 255, 0.95);
+            background: rgba(255, 255, 255, 0.97);
             border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-            backdrop-filter: blur(10px);
+            box-shadow: 0 6px 25px rgba(0,0,0,0.1);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
         }
         
         /* ===== CERTIFICATES ===== */
@@ -763,6 +876,22 @@
             text-align: center;
             border-radius: 15px;
             margin: 4rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .cta::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://images.unsplash.com/photo-1621905252507-b35492cc74b4?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.1;
+            z-index: -1;
         }
         
         /* ===== BUTTON STYLES ===== */
@@ -778,12 +907,13 @@
             font-weight: 600;
             transition: all 0.3s ease;
             font-family: 'Poppins', sans-serif;
+            box-shadow: 0 4px 15px rgba(26, 86, 50, 0.3);
         }
         
         .btn:hover {
             background: #0d3b1f;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 15px rgba(13, 59, 31, 0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(13, 59, 31, 0.4);
         }
         
         /* ===== FORM STYLES ===== */
@@ -792,11 +922,12 @@
             gap: 1rem;
             max-width: 800px;
             margin: 0 auto;
-            background: rgba(255, 255, 255, 0.95);
+            background: rgba(255, 255, 255, 0.97);
             padding: 2rem;
             border-radius: 12px;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            backdrop-filter: blur(5px);
+            box-shadow: 0 6px 25px rgba(0,0,0,0.1);
+            border: 1px solid rgba(255, 255, 255, 0.5);
         }
         
         input, textarea, select {
@@ -805,6 +936,13 @@
             border-radius: 8px;
             font-family: 'Roboto', sans-serif;
             background: rgba(255, 255, 255, 0.9);
+            transition: all 0.3s ease;
+        }
+        
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: #1a5632;
+            box-shadow: 0 0 0 3px rgba(26, 86, 50, 0.1);
         }
         
         button[type="submit"] {
@@ -817,15 +955,18 @@
             cursor: pointer;
             transition: background 0.3s ease;
             font-family: 'Poppins', sans-serif;
+            font-weight: 600;
         }
         
         button[type="submit"]:hover {
             background: #0d3b1f;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(13, 59, 31, 0.3);
         }
         
         /* ===== FOOTER ===== */
         footer {
-            background: linear-gradient(135deg, rgba(13, 59, 31, 0.95), rgba(26, 86, 50, 0.95));
+            background: linear-gradient(135deg, rgba(13, 59, 31, 0.98), rgba(26, 86, 50, 0.98));
             color: white;
             padding: 4rem 0 2rem;
             position: relative;
@@ -846,7 +987,7 @@
         }
         
         .footer-column a {
-            color: rgba(255, 255, 255, 0.8);
+            color: rgba(255, 255, 255, 0.85);
             text-decoration: none;
             display: block;
             margin-bottom: 0.5rem;
@@ -855,12 +996,13 @@
         
         .footer-column a:hover {
             color: white;
+            transform: translateX(5px);
         }
         
         .copyright {
             text-align: center;
             padding-top: 2rem;
-            border-top: 1px solid rgba(255,255,255,0.1);
+            border-top: 1px solid rgba(255,255,255,0.2);
         }
         
         /* ===== WHATSAPP BUTTON ===== */
@@ -875,7 +1017,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4);
+            box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4);
             z-index: 999;
             transition: all 0.3s ease;
             text-decoration: none;
@@ -885,7 +1027,7 @@
         
         .whatsapp:hover {
             transform: scale(1.1);
-            box-shadow: 0 6px 25px rgba(37, 211, 102, 0.6);
+            box-shadow: 0 8px 25px rgba(37, 211, 102, 0.6);
         }
         
         /* ===== PWA INSTALL PROMPT ===== */
@@ -939,6 +1081,8 @@
             .contact-header a {
                 width: 100%;
                 max-width: 300px;
+                font-size: 0.9rem;
+                padding: 0.8rem 1.2rem;
             }
             
             /* Navigation */
@@ -974,6 +1118,7 @@
                 padding: 1rem;
                 display: block;
                 border-bottom: 1px solid rgba(255,255,255,0.1);
+                font-size: 1rem;
             }
             
             /* Content */
@@ -1002,14 +1147,20 @@
                 right: 20px;
                 width: 55px;
                 height: 55px;
+                font-size: 1.3rem;
             }
             
-            /* Reduce background opacity on mobile for better readability */
+            /* Increase opacity for better readability on mobile */
             .card,
             .team-card,
             .product-card,
             .testimonial {
                 background: rgba(255, 255, 255, 0.98);
+            }
+            
+            /* Adjust background opacity for mobile */
+            body::before {
+                opacity: 0.08;
             }
         }
         
@@ -1023,16 +1174,18 @@
             }
             
             .stat-number {
-                font-size: 2rem;
+                font-size: 2.5rem;
             }
             
             .stats-grid {
                 grid-template-columns: 1fr;
+                gap: 1.5rem;
             }
             
             .contact-header a {
-                font-size: 0.9rem;
-                padding: 0.8rem 1rem;
+                font-size: 0.85rem;
+                padding: 0.7rem 1rem;
+                min-width: auto;
             }
             
             .team-avatar {
@@ -1043,6 +1196,42 @@
             
             h2 {
                 font-size: 1.8rem;
+                margin-bottom: 2rem;
+            }
+            
+            .card {
+                padding: 1.5rem;
+            }
+            
+            /* Reduce background opacity further for small screens */
+            body::before {
+                opacity: 0.05;
+            }
+        }
+        
+        /* For very small screens */
+        @media (max-width: 360px) {
+            h1 {
+                font-size: 1.6rem;
+            }
+            
+            .tagline {
+                font-size: 0.9rem;
+            }
+            
+            .contact-header a {
+                font-size: 0.8rem;
+                padding: 0.6rem 0.8rem;
+            }
+            
+            .team-avatar {
+                width: 80px;
+                height: 80px;
+                font-size: 1.8rem;
+            }
+            
+            h2 {
+                font-size: 1.6rem;
             }
         }
     </style>
@@ -1515,7 +1704,7 @@
         </section>
 
         <!-- Booking Widget -->
-        <div style="background: rgba(255, 255, 255, 0.95); padding: 2rem; border-radius: 12px; margin: 3rem 0; backdrop-filter: blur(10px);">
+        <div style="background: rgba(255, 255, 255, 0.97); padding: 2rem; border-radius: 12px; margin: 3rem 0; box-shadow: 0 6px 25px rgba(0,0,0,0.1); border: 1px solid rgba(255, 255, 255, 0.5);">
             <h3 style="text-align: center;">📅 Book a Free Site Inspection</h3>
             <form>
                 <input type="text" placeholder="Your Name" required>
@@ -1589,13 +1778,13 @@
         </section>
 
         <!-- WhatsApp Features -->
-        <div style="background: linear-gradient(135deg, rgba(37, 211, 102, 0.95), rgba(33, 196, 95, 0.95)); color: white; padding: 2rem; border-radius: 12px; text-align: center; margin: 3rem 0;">
+        <div style="background: linear-gradient(135deg, rgba(37, 211, 102, 0.95), rgba(33, 196, 95, 0.95)); color: white; padding: 2rem; border-radius: 12px; text-align: center; margin: 3rem 0; box-shadow: 0 6px 25px rgba(37, 211, 102, 0.3);">
             <h3>📱 Instant Support via WhatsApp</h3>
             <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-top: 1.5rem;">
-                <a href="https://wa.me/255682843552?text=Hi! I need a quote for electrical services" target="_blank" style="background: white; color: #25D366; padding: 1rem 2rem; border-radius: 25px; text-decoration: none; font-weight: 600;">
+                <a href="https://wa.me/255682843552?text=Hi! I need a quote for electrical services" target="_blank" style="background: white; color: #25D366; padding: 1rem 2rem; border-radius: 25px; text-decoration: none; font-weight: 600; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">
                     📋 Get Instant Quote
                 </a>
-                <a href="https://wa.me/255682843552?text=I have an electrical emergency!" target="_blank" style="background: white; color: #25D366; padding: 1rem 2rem; border-radius: 25px; text-decoration: none; font-weight: 600;">
+                <a href="https://wa.me/255682843552?text=I have an electrical emergency!" target="_blank" style="background: white; color: #25D366; padding: 1rem 2rem; border-radius: 25px; text-decoration: none; font-weight: 600; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">
                     🚨 Emergency Help
                 </a>
             </div>
@@ -1608,17 +1797,29 @@
                 <div>
                     <h3>Primary Service Areas:</h3>
                     <ul style="list-style: none; margin-bottom: 1.5rem;">
-                        <li style="margin-bottom: 0.5rem;">✓ Dar-es-salaam (All Districts)</li>
-                        <li style="margin-bottom: 0.5rem;">✓ Arusha Region</li>
-                        <li style="margin-bottom: 0.5rem;">✓ Dodoma</li>
-                        <li style="margin-bottom: 0.5rem;">✓ Mwanza</li>
-                        <li style="margin-bottom: 0.5rem;">✓ Mbeya</li>
-                        <li style="margin-bottom: 0.5rem;">✓ Zanzibar</li>
+                        <li style="margin-bottom: 0.5rem; padding-left: 1.5rem; position: relative;">
+                            <span style="position: absolute; left: 0; color: #1a5632;">✓</span> Dar-es-salaam (All Districts)
+                        </li>
+                        <li style="margin-bottom: 0.5rem; padding-left: 1.5rem; position: relative;">
+                            <span style="position: absolute; left: 0; color: #1a5632;">✓</span> Arusha Region
+                        </li>
+                        <li style="margin-bottom: 0.5rem; padding-left: 1.5rem; position: relative;">
+                            <span style="position: absolute; left: 0; color: #1a5632;">✓</span> Dodoma
+                        </li>
+                        <li style="margin-bottom: 0.5rem; padding-left: 1.5rem; position: relative;">
+                            <span style="position: absolute; left: 0; color: #1a5632;">✓</span> Mwanza
+                        </li>
+                        <li style="margin-bottom: 0.5rem; padding-left: 1.5rem; position: relative;">
+                            <span style="position: absolute; left: 0; color: #1a5632;">✓</span> Mbeya
+                        </li>
+                        <li style="margin-bottom: 0.5rem; padding-left: 1.5rem; position: relative;">
+                            <span style="position: absolute; left: 0; color: #1a5632;">✓</span> Zanzibar
+                        </li>
                     </ul>
                     <a href="tel:+255682843552" class="btn">Check If We Cover Your Area</a>
                 </div>
                 <div>
-                    <div style="height: 300px; background: linear-gradient(45deg, #1a5632, #0d3b1f); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: white; font-size: 4rem;">
+                    <div style="height: 300px; background: linear-gradient(45deg, #1a5632, #0d3b1f); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: white; font-size: 4rem; box-shadow: 0 6px 25px rgba(0,0,0,0.2);">
                         🗺️
                     </div>
                 </div>
@@ -1649,7 +1850,7 @@
             </div>
             
             <div style="text-align: center; margin-top: 2rem;">
-                <a href="tel:+255682843552" style="color: #FF6B35; font-weight: bold; text-decoration: none; font-size: 1.1rem;">
+                <a href="tel:+255682843552" style="color: #FF6B35; font-weight: bold; text-decoration: none; font-size: 1.1rem; text-shadow: 0 1px 2px rgba(0,0,0,0.2);">
                     📞 Call +255 682 843 552 for Professional Consultation
                 </a>
             </div>
@@ -1659,10 +1860,10 @@
         <section id="videos">
             <h2>Generator Installation Process</h2>
             <div style="max-width: 800px; margin: 0 auto;">
-                <div style="width: 100%; height: 400px; background: linear-gradient(45deg, #1a5632, #0d3b1f); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: white; font-size: 4rem;">
+                <div style="width: 100%; height: 400px; background: linear-gradient(45deg, #1a5632, #0d3b1f); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: white; font-size: 4rem; box-shadow: 0 6px 25px rgba(0,0,0,0.2);">
                     ▶
                 </div>
-                <p style="text-align: center; margin-top: 1rem;">Watch: Generator Installation Process - Time-lapse</p>
+                <p style="text-align: center; margin-top: 1rem; font-size: 1.1rem; color: #555;">Watch: Generator Installation Process - Time-lapse</p>
             </div>
         </section>
 
@@ -1671,25 +1872,25 @@
             <h2>Certificates & Compliance</h2>
             <div class="certificate-grid">
                 <div class="certificate-item">
-                    <div style="height: 200px; background: linear-gradient(45deg, #1a5632, #0d3b1f); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-size: 3rem;">📄</div>
+                    <div style="height: 200px; background: linear-gradient(45deg, #1a5632, #0d3b1f); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-size: 3rem; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">📄</div>
                     <h4>Certificate of Incorporation</h4>
                     <p><strong>BRELA Registration</strong><br>No: 157024493</p>
                 </div>
 
                 <div class="certificate-item">
-                    <div style="height: 200px; background: linear-gradient(45deg, #FF6B35, #FF8E53); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-size: 3rem;">🏢</div>
+                    <div style="height: 200px; background: linear-gradient(45deg, #FF6B35, #FF8E53); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-size: 3rem; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">🏢</div>
                     <h4>TIN Certificate</h4>
                     <p><strong>Tanzania Revenue Authority</strong><br>TIN: 157-024-493</p>
                 </div>
 
                 <div class="certificate-item">
-                    <div style="height: 200px; background: linear-gradient(45deg, #0d6efd, #0b5ed7); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-size: 3rem;">⚡</div>
+                    <div style="height: 200px; background: linear-gradient(45deg, #0d6efd, #0b5ed7); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-size: 3rem; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">⚡</div>
                     <h4>EWURA License</h4>
                     <p><strong>Class A Electrical License</strong><br>No: ELA-2022-008</p>
                 </div>
 
                 <div class="certificate-item">
-                    <div style="height: 200px; background: linear-gradient(45deg, #20c997, #199d76); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-size: 3rem;">👨‍🔧</div>
+                    <div style="height: 200px; background: linear-gradient(45deg, #20c997, #199d76); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-size: 3rem; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">👨‍🔧</div>
                     <h4>ERB Registration</h4>
                     <p><strong>Professional Engineer</strong><br>Registered Practitioner</p>
                 </div>
@@ -1701,7 +1902,7 @@
             <div class="cta-content">
                 <h2>Need Professional Electrical Services?</h2>
                 <p>Contact our Expert Engineers Today for reliable and cost-effective electrical solutions tailored to your specific needs.</p>
-                <a href="https://wa.me/255682843552" target="_blank" class="btn" style="background: white; color: #1a5632; padding: 1rem 2rem;">
+                <a href="https://wa.me/255682843552" target="_blank" class="btn" style="background: white; color: #1a5632; padding: 1rem 2rem; font-size: 1.1rem;">
                     Chat with us on WhatsApp
                 </a>
             </div>
