@@ -26,6 +26,7 @@
             --kingu-accent: #ff6b35;       /* Orange for highlights */
             --kingu-success: #2a9d8f;      /* Green for success */
             --kingu-white: #ffffff;        /* White background */
+            --kingu-blue: #2980b9;         /* Blue for quotations */
         }
 
         body {
@@ -263,7 +264,13 @@
             color: white;
         }
 
-        .type-btn:hover:not(.active) {
+        .type-btn.quotation-active {
+            background: var(--kingu-blue);
+            color: white;
+            border-color: var(--kingu-blue);
+        }
+
+        .type-btn:hover:not(.active):not(.quotation-active) {
             background-color: var(--kingu-light);
         }
 
@@ -359,6 +366,10 @@
             border-top: 4px solid var(--kingu-green);
         }
 
+        .quotation-form-container {
+            border-top: 4px solid var(--kingu-blue);
+        }
+
         .form-section {
             margin-bottom: 30px;
         }
@@ -373,9 +384,17 @@
             align-items: center;
         }
 
+        .quotation-section-title {
+            color: var(--kingu-blue);
+        }
+
         .section-title i {
             margin-right: 10px;
             color: var(--kingu-red);
+        }
+
+        .quotation-section-title i {
+            color: var(--kingu-blue);
         }
 
         .form-row {
@@ -399,6 +418,10 @@
             font-size: 14px;
         }
 
+        .quotation-form-group label {
+            color: var(--kingu-blue);
+        }
+
         .form-control {
             width: 100%;
             padding: 12px 15px;
@@ -414,6 +437,11 @@
             box-shadow: 0 0 0 3px rgba(17, 106, 65, 0.1);
         }
 
+        .quotation-control:focus {
+            border-color: var(--kingu-blue);
+            box-shadow: 0 0 0 3px rgba(41, 128, 185, 0.1);
+        }
+
         /* Proforma Specific Fields */
         .proforma-fields {
             background-color: var(--kingu-light);
@@ -421,6 +449,11 @@
             border-radius: 8px;
             margin-top: 15px;
             border-left: 4px solid var(--kingu-red);
+        }
+
+        .quotation-fields {
+            background-color: rgba(41, 128, 185, 0.1);
+            border-left: 4px solid var(--kingu-blue);
         }
 
         /* Invoice Items Table */
@@ -437,12 +470,20 @@
             background-color: var(--kingu-green);
         }
 
+        .quotation-items-table thead {
+            background-color: var(--kingu-blue);
+        }
+
         .items-table th {
             padding: 16px;
             text-align: left;
             font-weight: 600;
             color: white;
             border-bottom: 2px solid var(--kingu-dark);
+        }
+
+        .quotation-items-table th {
+            border-bottom: 2px solid #1a5276;
         }
 
         .items-table td {
@@ -503,10 +544,22 @@
             transition: all 0.3s;
         }
 
+        .quotation-add-item-btn {
+            background-color: rgba(41, 128, 185, 0.1);
+            color: var(--kingu-blue);
+            border: 2px dashed var(--kingu-blue);
+        }
+
         .add-item-btn:hover {
             background-color: var(--kingu-green);
             color: white;
             border-color: var(--kingu-green);
+        }
+
+        .quotation-add-item-btn:hover {
+            background-color: var(--kingu-blue);
+            color: white;
+            border-color: var(--kingu-blue);
         }
 
         .add-item-btn i {
@@ -522,6 +575,11 @@
             border-left: 4px solid var(--kingu-green);
         }
 
+        .quotation-totals-section {
+            background: linear-gradient(135deg, #f8fafc 0%, rgba(41, 128, 185, 0.1) 100%);
+            border-left: 4px solid var(--kingu-blue);
+        }
+
         .total-row {
             display: flex;
             justify-content: space-between;
@@ -529,14 +587,26 @@
             border-bottom: 1px solid rgba(17, 106, 65, 0.1);
         }
 
+        .quotation-total-row {
+            border-bottom: 1px solid rgba(41, 128, 185, 0.2);
+        }
+
         .total-label {
             font-weight: 600;
             color: var(--kingu-dark);
         }
 
+        .quotation-total-label {
+            color: var(--kingu-blue);
+        }
+
         .total-value {
             font-weight: 700;
             color: var(--kingu-green);
+        }
+
+        .quotation-total-value {
+            color: var(--kingu-blue);
         }
 
         .grand-total {
@@ -545,6 +615,11 @@
             margin-top: 10px;
             padding-top: 15px;
             color: var(--kingu-dark);
+        }
+
+        .quotation-grand-total {
+            border-top: 2px solid var(--kingu-blue);
+            color: var(--kingu-blue);
         }
 
         /* Invoice Preview */
@@ -556,6 +631,10 @@
             margin-top: 30px;
             display: none;
             border-top: 4px solid var(--kingu-green);
+        }
+
+        .quotation-preview-container {
+            border-top: 4px solid var(--kingu-blue);
         }
 
         .invoice-header {
@@ -651,6 +730,10 @@
             font-weight: 700;
         }
 
+        .quotation-title {
+            color: var(--kingu-blue);
+        }
+
         .invoice-details {
             display: flex;
             justify-content: space-between;
@@ -671,6 +754,10 @@
             font-size: 16px;
         }
 
+        .quotation-info-title {
+            color: var(--kingu-blue);
+        }
+
         .company-details p, .client-details p {
             margin-bottom: 8px;
             color: #555;
@@ -687,6 +774,11 @@
             border-left: 4px solid var(--kingu-green);
         }
 
+        .quotation-info-box {
+            background-color: rgba(41, 128, 185, 0.1);
+            border-left: 4px solid var(--kingu-blue);
+        }
+
         .invoice-info-box p {
             margin-bottom: 10px;
             display: flex;
@@ -695,6 +787,10 @@
 
         .invoice-info-box strong {
             color: var(--kingu-dark);
+        }
+
+        .quotation-info-box strong {
+            color: var(--kingu-blue);
         }
 
         .invoice-items-preview {
@@ -710,12 +806,20 @@
             background-color: var(--kingu-green);
         }
 
+        .quotation-items-preview thead {
+            background-color: var(--kingu-blue);
+        }
+
         .invoice-items-preview th {
             padding: 18px;
             text-align: left;
             font-weight: 700;
             color: white;
             border-bottom: 3px solid var(--kingu-dark);
+        }
+
+        .quotation-items-preview th {
+            border-bottom: 3px solid #1a5276;
         }
 
         .invoice-items-preview td {
@@ -737,12 +841,21 @@
             border-left: 4px solid var(--kingu-green);
         }
 
+        .quotation-totals {
+            background: rgba(41, 128, 185, 0.1);
+            border-left: 4px solid var(--kingu-blue);
+        }
+
         .terms-section {
             background-color: #f8fafc;
             padding: 25px;
             border-radius: 8px;
             margin-top: 40px;
             border-left: 4px solid var(--kingu-red);
+        }
+
+        .quotation-terms-section {
+            border-left: 4px solid var(--kingu-blue);
         }
 
         .terms-title {
@@ -753,9 +866,17 @@
             align-items: center;
         }
 
+        .quotation-terms-title {
+            color: var(--kingu-blue);
+        }
+
         .terms-title i {
             margin-right: 10px;
             color: var(--kingu-red);
+        }
+
+        .quotation-terms-title i {
+            color: var(--kingu-blue);
         }
 
         .terms-content p {
@@ -936,6 +1057,10 @@
             border: 1px solid var(--kingu-green);
         }
 
+        .quotation-currency-select {
+            border: 1px solid var(--kingu-blue);
+        }
+
         .stamp {
             position: absolute;
             right: 40px;
@@ -947,6 +1072,20 @@
             text-align: center;
             font-weight: 700;
             color: var(--kingu-green);
+            transform: rotate(5deg);
+        }
+
+        .quotation-stamp {
+            position: absolute;
+            right: 40px;
+            top: 40px;
+            padding: 15px 30px;
+            background-color: rgba(41, 128, 185, 0.1);
+            border: 2px dashed var(--kingu-blue);
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 700;
+            color: var(--kingu-blue);
             transform: rotate(5deg);
         }
 
@@ -967,6 +1106,7 @@
         .red { background-color: var(--kingu-red); }
         .yellow-start { background-color: var(--kingu-yellow-start); }
         .yellow-end { background-color: var(--kingu-yellow-end); }
+        .blue { background-color: var(--kingu-blue); }
 
         /* Invoice History & Proforma Invoices Styles */
         .history-container {
@@ -1026,8 +1166,8 @@
         }
 
         .status-quotation {
-            background-color: rgba(52, 152, 219, 0.2);
-            color: #2980b9;
+            background-color: rgba(41, 128, 185, 0.2);
+            color: var(--kingu-blue);
         }
 
         .action-btn-small {
@@ -1045,21 +1185,6 @@
 
         .action-btn-small:hover {
             transform: translateY(-1px);
-        }
-
-        /* Quotation Specific Styles */
-        .quotation-stamp {
-            position: absolute;
-            right: 40px;
-            top: 40px;
-            padding: 15px 30px;
-            background-color: rgba(52, 152, 219, 0.1);
-            border: 2px dashed #2980b9;
-            border-radius: 8px;
-            text-align: center;
-            font-weight: 700;
-            color: #2980b9;
-            transform: rotate(5deg);
         }
 
         @media print {
@@ -1218,6 +1343,7 @@
                     <div class="color-box red" title="Electrical Red: #e63946"></div>
                     <div class="color-box yellow-start" title="Light Bulb Start: #ffae42"></div>
                     <div class="color-box yellow-end" title="Light Bulb End: #ffea00"></div>
+                    <div class="color-box blue" title="Quotation Blue: #2980b9"></div>
                 </div>
             </div>
         </aside>
@@ -1228,7 +1354,7 @@
                 <h1 id="page-title">Create Proforma Invoice</h1>
                 <div>
                     <button class="btn btn-whatsapp" id="whatsapp-btn" style="margin-right: 10px;">
-                        <i class="fab fa-whatsapp"></i> Share Invoice
+                        <i class="fab fa-whatsapp"></i> Share Document
                     </button>
                     <button class="btn btn-pdf" id="pdf-btn" style="display: none; margin-right: 10px;">
                         <i class="fas fa-file-pdf"></i> Export PDF
@@ -1237,7 +1363,7 @@
                         <i class="fas fa-file-import"></i> Load Sample
                     </button>
                     <button class="btn btn-secondary" id="print-btn" style="display: none;">
-                        <i class="fas fa-print"></i> Print Invoice
+                        <i class="fas fa-print"></i> Print Document
                     </button>
                 </div>
             </div>
@@ -1251,14 +1377,14 @@
             <!-- Invoice Form -->
             <div id="invoice-form" class="invoice-form-container">
                 <div class="form-section">
-                    <h3 class="section-title"><i class="fas fa-info-circle"></i> Invoice Details</h3>
+                    <h3 class="section-title" id="details-title"><i class="fas fa-info-circle"></i> Invoice Details</h3>
                     <div class="form-row">
                         <div class="form-group">
-                            <label for="invoice-number">Invoice Number</label>
+                            <label for="invoice-number" id="doc-number-label">Invoice Number</label>
                             <input type="text" id="invoice-number" class="form-control" value="PROFORMA/GL/06/2025/001">
                         </div>
                         <div class="form-group">
-                            <label for="invoice-date">Invoice Date</label>
+                            <label for="invoice-date" id="doc-date-label">Invoice Date</label>
                             <input type="date" id="invoice-date" class="form-control" value="">
                         </div>
                         <div class="form-group">
@@ -1267,7 +1393,7 @@
                         </div>
                     </div>
                     
-                    <div class="proforma-fields">
+                    <div class="proforma-fields" id="extra-fields">
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="currency">Currency</label>
@@ -1328,8 +1454,8 @@
                 </div>
                 
                 <div class="form-section">
-                    <h3 class="section-title"><i class="fas fa-list-alt"></i> Invoice Items</h3>
-                    <table class="items-table">
+                    <h3 class="section-title" id="items-title"><i class="fas fa-list-alt"></i> Invoice Items</h3>
+                    <table class="items-table" id="items-table">
                         <thead>
                             <tr>
                                 <th>DESCRIPTION</th>
@@ -1372,7 +1498,7 @@
                     </button>
                 </div>
                 
-                <div class="totals-section">
+                <div class="totals-section" id="totals-section">
                     <div class="total-row">
                         <span class="total-label">Subtotal:</span>
                         <span class="total-value" id="subtotal">TSh 600,000.00</span>
@@ -1382,7 +1508,7 @@
                         <span class="total-value" id="tax">TSh 108,000.00</span>
                     </div>
                     <div class="total-row grand-total">
-                        <span class="total-label">GRAND TOTAL:</span>
+                        <span class="total-label" id="grand-total-label">GRAND TOTAL:</span>
                         <span class="total-value" id="grand-total">TSh 708,000.00</span>
                     </div>
                 </div>
@@ -1414,7 +1540,7 @@ SWIFT CODE: SBICTZTX</textarea>
                         <i class="fas fa-redo"></i> Clear Form
                     </button>
                     <button class="btn btn-success" id="preview-btn">
-                        <i class="fas fa-eye"></i> Preview Invoice
+                        <i class="fas fa-eye"></i> Preview Document
                     </button>
                     <button class="btn btn-primary" id="save-btn">
                         <i class="fas fa-save"></i> Save Proforma
@@ -1422,7 +1548,7 @@ SWIFT CODE: SBICTZTX</textarea>
                 </div>
             </div>
             
-            <!-- Invoice Preview -->
+            <!-- Document Preview -->
             <div id="invoice-preview" class="invoice-preview-container">
                 <div class="stamp" style="display: none;">PROFORMA INVOICE</div>
                 <div class="quotation-stamp" style="display: none;">QUOTATION</div>
@@ -1445,12 +1571,12 @@ SWIFT CODE: SBICTZTX</textarea>
                             </div>
                         </div>
                     </div>
-                    <div class="invoice-title" id="preview-invoice-type">PROFORMA INVOICE</div>
+                    <div class="invoice-title" id="preview-doc-type">PROFORMA INVOICE</div>
                 </div>
                 
                 <div class="invoice-details">
                     <div class="client-info">
-                        <div class="info-title">TO:</div>
+                        <div class="info-title" id="client-title">TO:</div>
                         <div class="client-details">
                             <p id="preview-client-name"><strong>GREENLIGHT PLANNET TANZANIA LTD</strong></p>
                             <p id="preview-client-address">ARUSHA, TANZANIA</p>
@@ -1463,9 +1589,9 @@ SWIFT CODE: SBICTZTX</textarea>
                     
                     <div class="invoice-info">
                         <div class="info-title" id="preview-details-title">INVOICE DETAILS:</div>
-                        <div class="invoice-info-box">
-                            <p><strong id="preview-doc-number">Invoice #:</strong> <span id="preview-invoice-number">PROFORMA/GL/06/2025/001</span></p>
-                            <p><strong>Date:</strong> <span id="preview-invoice-date">June 15, 2025</span></p>
+                        <div class="invoice-info-box" id="preview-info-box">
+                            <p><strong id="preview-doc-number-label">Invoice #:</strong> <span id="preview-invoice-number">PROFORMA/GL/06/2025/001</span></p>
+                            <p><strong id="preview-doc-date-label">Date:</strong> <span id="preview-invoice-date">June 15, 2025</span></p>
                             <p><strong>Validity:</strong> <span id="preview-validity">30 days</span></p>
                             <p><strong>Delivery:</strong> <span id="preview-delivery-time">7 days after PO</span></p>
                             <p><strong>Payment Terms:</strong> <span id="preview-payment-terms">100% after delivery</span></p>
@@ -1473,7 +1599,7 @@ SWIFT CODE: SBICTZTX</textarea>
                     </div>
                 </div>
                 
-                <div style="margin: 30px 0; padding: 20px; background-color: var(--kingu-light); border-radius: 8px; border-left: 4px solid var(--kingu-green);">
+                <div style="margin: 30px 0; padding: 20px; background-color: var(--kingu-light); border-radius: 8px; border-left: 4px solid var(--kingu-green);" id="preview-intro-box">
                     <h3 style="color: var(--kingu-green); margin-bottom: 15px;" id="preview-subject">Subject: Quotation for Electrical Services</h3>
                     <p id="preview-quotation-text" style="color: #555; line-height: 1.6;">
                         Dear Sir/Madam,<br><br>
@@ -1482,7 +1608,7 @@ SWIFT CODE: SBICTZTX</textarea>
                     </p>
                 </div>
                 
-                <table class="invoice-items-preview">
+                <table class="invoice-items-preview" id="preview-items-table">
                     <thead>
                         <tr>
                             <th>DESCRIPTION</th>
@@ -1496,7 +1622,7 @@ SWIFT CODE: SBICTZTX</textarea>
                     </tbody>
                 </table>
                 
-                <div class="invoice-totals">
+                <div class="invoice-totals" id="preview-totals">
                     <div class="total-row">
                         <span class="total-label">Subtotal:</span>
                         <span class="total-value" id="preview-subtotal">TSh 600,000.00</span>
@@ -1506,13 +1632,13 @@ SWIFT CODE: SBICTZTX</textarea>
                         <span class="total-value" id="preview-tax">TSh 108,000.00</span>
                     </div>
                     <div class="total-row grand-total">
-                        <span class="total-label">TOTAL QUOTATION:</span>
+                        <span class="total-label" id="preview-grand-total-label">TOTAL QUOTATION:</span>
                         <span class="total-value" id="preview-grand-total">TSh 708,000.00</span>
                     </div>
                 </div>
                 
-                <div class="terms-section">
-                    <div class="terms-title"><i class="fas fa-file-contract"></i> TERMS & CONDITIONS</div>
+                <div class="terms-section" id="preview-terms-section">
+                    <div class="terms-title" id="preview-terms-title"><i class="fas fa-file-contract"></i> TERMS & CONDITIONS</div>
                     <div class="terms-content">
                         <p><strong>Bank Details:</strong> <span id="preview-bank-details">STANBIC BANK TANZANIA LIMITED, ACCOUNT: 912 000 275 9274</span></p>
                         <p id="preview-notes">This quotation shall remain valid for 30 days only. Prices are inclusive of VAT where applicable. Delivery subject to stock availability.</p>
@@ -1536,8 +1662,8 @@ SWIFT CODE: SBICTZTX</textarea>
                         <div class="signature-line"></div>
                         <div class="signature-text">Authorized Signature & Company Stamp</div>
                         <div style="margin-top: 30px; font-size: 14px; color: #666; text-align: center;">
-                            <p>Thank you for considering our quotation. We look forward to the opportunity to serve you.</p>
-                            <p style="margin-top: 10px;"><em>This is a computer-generated quotation. No signature is required.</em></p>
+                            <p id="preview-thank-you">Thank you for considering our quotation. We look forward to the opportunity to serve you.</p>
+                            <p style="margin-top: 10px;"><em id="preview-footer-note">This is a computer-generated quotation. No signature is required.</em></p>
                         </div>
                     </div>
                 </div>
@@ -1556,10 +1682,10 @@ SWIFT CODE: SBICTZTX</textarea>
             <!-- Invoice History Section -->
             <div id="invoice-history" class="history-container">
                 <h2 style="color: var(--kingu-green); margin-bottom: 20px; display: flex; align-items: center;">
-                    <i class="fas fa-history" style="margin-right: 10px;"></i> Invoice History
+                    <i class="fas fa-history" style="margin-right: 10px;"></i> Document History
                 </h2>
                 <div id="history-list">
-                    <p>Loading invoice history...</p>
+                    <p>Loading document history...</p>
                 </div>
             </div>
         </main>
@@ -1653,10 +1779,10 @@ SWIFT CODE: SBICTZTX</textarea>
             // Action buttons
             document.getElementById('add-item-btn').addEventListener('click', addNewItem);
             document.getElementById('clear-btn').addEventListener('click', clearForm);
-            document.getElementById('preview-btn').addEventListener('click', generateInvoice);
-            document.getElementById('save-btn').addEventListener('click', saveInvoice);
+            document.getElementById('preview-btn').addEventListener('click', generateDocument);
+            document.getElementById('save-btn').addEventListener('click', saveDocument);
             document.getElementById('load-sample-btn').addEventListener('click', loadSampleProforma);
-            printBtn.addEventListener('click', printInvoice);
+            printBtn.addEventListener('click', printDocument);
             pdfBtn.addEventListener('click', exportToPDF);
             whatsappBtn.addEventListener('click', sendWhatsApp);
             
@@ -1674,12 +1800,64 @@ SWIFT CODE: SBICTZTX</textarea>
         // Set invoice type
         function setInvoiceType(type) {
             const buttons = ['btn-proforma', 'btn-standard', 'btn-quotation'];
-            buttons.forEach(btn => document.getElementById(btn).classList.remove('active'));
+            buttons.forEach(btn => {
+                document.getElementById(btn).classList.remove('active');
+                document.getElementById(btn).classList.remove('quotation-active');
+            });
             
             const proformaFields = document.querySelector('.proforma-fields');
-            const previewTitle = document.getElementById('preview-invoice-type');
+            const previewTitle = document.getElementById('preview-doc-type');
             const saveBtn = document.getElementById('save-btn');
             const pageTitle = document.getElementById('page-title');
+            
+            // Update form styling based on type
+            if (type === 'quotation') {
+                document.getElementById('invoice-form').classList.add('quotation-form-container');
+                document.getElementById('btn-quotation').classList.add('quotation-active');
+                document.getElementById('details-title').classList.add('quotation-section-title');
+                document.getElementById('items-title').classList.add('quotation-section-title');
+                document.getElementById('items-table').classList.add('quotation-items-table');
+                document.getElementById('add-item-btn').classList.add('quotation-add-item-btn');
+                document.getElementById('totals-section').classList.add('quotation-totals-section');
+                document.querySelectorAll('.form-group label').forEach(label => {
+                    label.classList.add('quotation-form-group');
+                });
+                document.getElementById('extra-fields').classList.add('quotation-fields');
+                document.querySelectorAll('.total-row').forEach(row => {
+                    row.classList.add('quotation-total-row');
+                });
+                document.querySelectorAll('.total-label').forEach(label => {
+                    label.classList.add('quotation-total-label');
+                });
+                document.querySelectorAll('.total-value').forEach(value => {
+                    value.classList.add('quotation-total-value');
+                });
+                document.querySelector('.grand-total').classList.add('quotation-grand-total');
+                document.getElementById('currency').classList.add('quotation-currency-select');
+            } else {
+                document.getElementById('invoice-form').classList.remove('quotation-form-container');
+                document.getElementById('btn-proforma').classList.add('active');
+                document.getElementById('details-title').classList.remove('quotation-section-title');
+                document.getElementById('items-title').classList.remove('quotation-section-title');
+                document.getElementById('items-table').classList.remove('quotation-items-table');
+                document.getElementById('add-item-btn').classList.remove('quotation-add-item-btn');
+                document.getElementById('totals-section').classList.remove('quotation-totals-section');
+                document.querySelectorAll('.form-group label').forEach(label => {
+                    label.classList.remove('quotation-form-group');
+                });
+                document.getElementById('extra-fields').classList.remove('quotation-fields');
+                document.querySelectorAll('.total-row').forEach(row => {
+                    row.classList.remove('quotation-total-row');
+                });
+                document.querySelectorAll('.total-label').forEach(label => {
+                    label.classList.remove('quotation-total-label');
+                });
+                document.querySelectorAll('.total-value').forEach(value => {
+                    value.classList.remove('quotation-total-value');
+                });
+                document.querySelector('.grand-total').classList.remove('quotation-grand-total');
+                document.getElementById('currency').classList.remove('quotation-currency-select');
+            }
             
             let invoicePrefix = '';
             let displayTitle = '';
@@ -1704,7 +1882,7 @@ SWIFT CODE: SBICTZTX</textarea>
                     saveBtnText = 'Save Invoice';
                     break;
                 case 'quotation':
-                    document.getElementById('btn-quotation').classList.add('active');
+                    document.getElementById('btn-quotation').classList.add('quotation-active');
                     proformaFields.style.display = 'block';
                     invoicePrefix = 'QUOTE';
                     displayTitle = 'Create Quotation';
@@ -1717,6 +1895,9 @@ SWIFT CODE: SBICTZTX</textarea>
             previewTitle.textContent = previewType;
             saveBtn.innerHTML = `<i class="fas fa-save"></i> ${saveBtnText}`;
             
+            // Update labels in the form
+            updateFormLabels(type);
+            
             // Update invoice number
             const year = new Date().getFullYear();
             const month = (new Date().getMonth() + 1).toString().padStart(2, '0');
@@ -1727,6 +1908,104 @@ SWIFT CODE: SBICTZTX</textarea>
             if (invoicePreview.style.display === 'block') {
                 updatePreview();
             }
+        }
+        
+        // Update form labels based on document type
+        function updateFormLabels(type) {
+            const isQuotation = type === 'quotation';
+            
+            // Update document details section
+            document.getElementById('details-title').innerHTML = `<i class="fas fa-info-circle"></i> ${isQuotation ? 'Quotation' : 'Invoice'} Details`;
+            document.getElementById('doc-number-label').textContent = isQuotation ? 'Quotation Number' : 'Invoice Number';
+            document.getElementById('doc-date-label').textContent = isQuotation ? 'Quotation Date' : 'Invoice Date';
+            
+            // Update items section
+            document.getElementById('items-title').innerHTML = `<i class="fas fa-list-alt"></i> ${isQuotation ? 'Quotation' : 'Invoice'} Items`;
+            
+            // Update grand total label
+            document.getElementById('grand-total-label').textContent = isQuotation ? 'TOTAL QUOTATION:' : 'GRAND TOTAL:';
+            
+            // Update buttons
+            document.getElementById('preview-btn').innerHTML = `<i class="fas fa-eye"></i> Preview ${isQuotation ? 'Quotation' : 'Document'}`;
+            document.getElementById('print-btn').innerHTML = `<i class="fas fa-print"></i> Print ${isQuotation ? 'Quotation' : 'Document'}`;
+            whatsappBtn.innerHTML = `<i class="fab fa-whatsapp"></i> Share ${isQuotation ? 'Quotation' : 'Document'}`;
+        }
+        
+        // Update preview labels based on document type
+        function updatePreviewLabels(isQuotation) {
+            // Update document type in header
+            const previewDocType = document.getElementById('preview-doc-type');
+            previewDocType.textContent = isQuotation ? 'QUOTATION' : (document.getElementById('btn-proforma').classList.contains('active') ? 'PROFORMA INVOICE' : 'TAX INVOICE');
+            previewDocType.classList.toggle('quotation-title', isQuotation);
+            
+            // Update client title
+            document.getElementById('client-title').textContent = isQuotation ? 'TO:' : 'BILL TO:';
+            document.getElementById('client-title').classList.toggle('quotation-info-title', isQuotation);
+            
+            // Update details title
+            document.getElementById('preview-details-title').textContent = isQuotation ? 'QUOTATION DETAILS:' : 'INVOICE DETAILS:';
+            document.getElementById('preview-details-title').classList.toggle('quotation-info-title', isQuotation);
+            
+            // Update document number and date labels
+            document.getElementById('preview-doc-number-label').textContent = isQuotation ? 'Quotation #:' : 'Invoice #:';
+            document.getElementById('preview-doc-date-label').textContent = isQuotation ? 'Quotation Date:' : 'Invoice Date:';
+            
+            // Update info box styling
+            document.getElementById('preview-info-box').classList.toggle('quotation-info-box', isQuotation);
+            
+            // Update items table styling
+            document.getElementById('preview-items-table').classList.toggle('quotation-items-preview', isQuotation);
+            
+            // Update totals section styling
+            document.getElementById('preview-totals').classList.toggle('quotation-totals', isQuotation);
+            document.getElementById('preview-grand-total-label').textContent = isQuotation ? 'TOTAL QUOTATION:' : 'GRAND TOTAL:';
+            document.querySelectorAll('#preview-totals .total-label').forEach(label => {
+                label.classList.toggle('quotation-total-label', isQuotation);
+            });
+            document.querySelectorAll('#preview-totals .total-value').forEach(value => {
+                value.classList.toggle('quotation-total-value', isQuotation);
+            });
+            document.querySelector('#preview-totals .grand-total').classList.toggle('quotation-grand-total', isQuotation);
+            
+            // Update terms section styling
+            document.getElementById('preview-terms-section').classList.toggle('quotation-terms-section', isQuotation);
+            document.getElementById('preview-terms-title').classList.toggle('quotation-terms-title', isQuotation);
+            
+            // Update intro box
+            const introBox = document.getElementById('preview-intro-box');
+            if (isQuotation) {
+                introBox.style.backgroundColor = 'rgba(41, 128, 185, 0.1)';
+                introBox.style.borderLeft = '4px solid var(--kingu-blue)';
+                document.getElementById('preview-subject').style.color = 'var(--kingu-blue)';
+                document.getElementById('preview-subject').textContent = 'Subject: Quotation for Electrical Services';
+                document.getElementById('preview-quotation-text').innerHTML = `
+                    Dear Sir/Madam,<br><br>
+                    Thank you for your inquiry. We are pleased to submit our quotation for the requested electrical services. 
+                    All prices are inclusive of VAT where applicable and are valid for <span id="preview-validity-text">${document.getElementById('validity-days').value || '30'} days</span>.
+                `;
+            } else {
+                const isProforma = document.getElementById('btn-proforma').classList.contains('active');
+                introBox.style.backgroundColor = 'var(--kingu-light)';
+                introBox.style.borderLeft = '4px solid var(--kingu-green)';
+                document.getElementById('preview-subject').style.color = 'var(--kingu-green)';
+                document.getElementById('preview-subject').textContent = isProforma ? 'Subject: Proforma Invoice for Electrical Services' : 'Subject: Invoice for Electrical Services';
+                document.getElementById('preview-quotation-text').innerHTML = `
+                    ${isProforma ? 'PROFORMA INVOICE' : 'TAX INVOICE'}<br><br>
+                    This ${isProforma ? 'proforma invoice' : 'invoice'} is prepared for the services rendered. 
+                    All prices are inclusive of VAT where applicable.
+                `;
+            }
+            
+            // Update footer text
+            document.getElementById('preview-thank-you').textContent = isQuotation 
+                ? 'Thank you for considering our quotation. We look forward to the opportunity to serve you.' 
+                : 'Thank you for your business! We value our partnership and look forward to serving you.';
+            document.getElementById('preview-footer-note').textContent = isQuotation 
+                ? 'This is a computer-generated quotation. No signature is required.' 
+                : 'This is a computer-generated document. No signature is required.';
+            
+            // Update container styling
+            invoicePreview.classList.toggle('quotation-preview-container', isQuotation);
         }
         
         // Update currency symbol in item rows
@@ -1839,8 +2118,8 @@ SWIFT CODE: SBICTZTX</textarea>
             updateTotals();
         }
         
-        // Generate invoice preview
-        function generateInvoice() {
+        // Generate document preview
+        function generateDocument() {
             updatePreview();
             
             invoiceForm.style.display = 'none';
@@ -1859,35 +2138,16 @@ SWIFT CODE: SBICTZTX</textarea>
         
         // Update preview with form data
         function updatePreview() {
-            const isQuotation = document.getElementById('btn-quotation').classList.contains('active');
+            const isQuotation = document.getElementById('btn-quotation').classList.contains('quotation-active');
+            
+            // Update preview labels
+            updatePreviewLabels(isQuotation);
+            
             const currency = document.getElementById('currency').value;
             
             // Update stamps visibility
             document.querySelector('.stamp').style.display = isQuotation ? 'none' : 'block';
             document.querySelector('.quotation-stamp').style.display = isQuotation ? 'block' : 'none';
-            
-            // Update titles for quotation
-            if (isQuotation) {
-                document.getElementById('preview-details-title').textContent = 'QUOTATION DETAILS:';
-                document.getElementById('preview-doc-number').textContent = 'Quotation #:';
-                document.getElementById('preview-subject').textContent = 'Subject: Quotation for Electrical Services';
-                document.getElementById('preview-quotation-text').innerHTML = `
-                    Dear Sir/Madam,<br><br>
-                    Thank you for your inquiry. We are pleased to submit our quotation for the requested electrical services. 
-                    All prices are inclusive of VAT where applicable and are valid for <span id="preview-validity-text">${document.getElementById('validity-days').value || '30'} days</span>.
-                `;
-                document.querySelector('.grand-total .total-label').textContent = 'TOTAL QUOTATION:';
-            } else {
-                document.getElementById('preview-details-title').textContent = 'INVOICE DETAILS:';
-                document.getElementById('preview-doc-number').textContent = document.getElementById('btn-proforma').classList.contains('active') ? 'Proforma #:' : 'Invoice #:';
-                document.getElementById('preview-subject').textContent = document.getElementById('btn-proforma').classList.contains('active') ? 'Subject: Proforma Invoice for Electrical Services' : 'Subject: Invoice for Electrical Services';
-                document.getElementById('preview-quotation-text').innerHTML = `
-                    ${document.getElementById('btn-proforma').classList.contains('active') ? 'PROFORMA INVOICE' : 'TAX INVOICE'}<br><br>
-                    This ${document.getElementById('btn-proforma').classList.contains('active') ? 'proforma invoice' : 'invoice'} is prepared for the services rendered. 
-                    All prices are inclusive of VAT where applicable.
-                `;
-                document.querySelector('.grand-total .total-label').textContent = 'GRAND TOTAL:';
-            }
             
             // Update client info
             document.getElementById('preview-client-name').innerHTML = `<strong>${document.getElementById('client-name').value || 'Client Name'}</strong>`;
@@ -1897,7 +2157,7 @@ SWIFT CODE: SBICTZTX</textarea>
             document.getElementById('preview-client-phone').textContent = document.getElementById('client-phone').value ? `Phone: ${document.getElementById('client-phone').value}` : '';
             document.getElementById('preview-client-email').textContent = document.getElementById('client-email').value ? `Email: ${document.getElementById('client-email').value}` : '';
             
-            // Update invoice details
+            // Update document details
             document.getElementById('preview-invoice-number').textContent = document.getElementById('invoice-number').value;
             document.getElementById('preview-invoice-date').textContent = formatDate(document.getElementById('invoice-date').value);
             
@@ -1910,7 +2170,7 @@ SWIFT CODE: SBICTZTX</textarea>
             
             document.getElementById('preview-payment-terms').textContent = document.getElementById('payment-terms').value || '';
             
-            // Update invoice items
+            // Update document items
             previewItems.innerHTML = '';
             
             const rows = document.querySelectorAll('#invoice-items tr');
@@ -1945,25 +2205,25 @@ SWIFT CODE: SBICTZTX</textarea>
             document.getElementById('preview-notes').textContent = document.getElementById('notes').value || '';
         }
         
-        // Save invoice
-        function saveInvoice() {
+        // Save document
+        function saveDocument() {
             const isProforma = document.getElementById('btn-proforma').classList.contains('active');
             const isStandard = document.getElementById('btn-standard').classList.contains('active');
-            const isQuotation = document.getElementById('btn-quotation').classList.contains('active');
+            const isQuotation = document.getElementById('btn-quotation').classList.contains('quotation-active');
             
-            const invoiceType = isProforma ? 'Proforma' : isStandard ? 'Standard' : 'Quotation';
+            const documentType = isProforma ? 'Proforma' : isStandard ? 'Standard' : 'Quotation';
             const currency = document.getElementById('currency').value;
             
-            const invoiceData = {
-                id: Date.now(), // Unique ID for each invoice
+            const documentData = {
+                id: Date.now(), // Unique ID for each document
                 companyName: "Kingu Electrical Company Ltd",
                 email: COMPANY_EMAIL,
                 tagline: COMPANY_TAGLINE,
                 phoneNumbers: ["+255 677 01 47 40", "+255 763 95 79 08", "+255 682 84 35 52"],
                 address: COMPANY_ADDRESS,
-                type: invoiceType,
-                invoiceNumber: document.getElementById('invoice-number').value,
-                invoiceDate: document.getElementById('invoice-date').value,
+                type: documentType,
+                documentNumber: document.getElementById('invoice-number').value,
+                documentDate: document.getElementById('invoice-date').value,
                 validityDays: document.getElementById('validity-days').value,
                 currency: currency,
                 deliveryTime: document.getElementById('delivery-time').value,
@@ -1993,103 +2253,83 @@ SWIFT CODE: SBICTZTX</textarea>
                     price: parseFloat(row.querySelector('.item-price').value) || 0,
                     total: extractCurrencyValue(row.querySelector('.item-total').textContent)
                 };
-                invoiceData.items.push(item);
+                documentData.items.push(item);
             });
             
             // Save to localStorage (simulating saving to a folder)
-            let invoices = JSON.parse(localStorage.getItem('kinguInvoices')) || [];
-            invoices.push(invoiceData);
-            localStorage.setItem('kinguInvoices', JSON.stringify(invoices));
+            let documents = JSON.parse(localStorage.getItem('kinguDocuments')) || [];
+            documents.push(documentData);
+            localStorage.setItem('kinguDocuments', JSON.stringify(documents));
             
             // Generate and save PDF automatically
-            generateAndSavePDF(invoiceData);
+            generateAndSavePDF(documentData);
             
-            alert(`${invoiceType} ${isQuotation ? '' : 'Invoice '}${invoiceData.invoiceNumber} saved successfully!\nPDF has been generated and saved.`);
+            alert(`${documentType} ${isQuotation ? '' : 'Invoice '}${documentData.documentNumber} saved successfully!\nPDF has been generated and saved.`);
             
             // Update the history views
-            loadSavedInvoices();
+            loadSavedDocuments();
             
-            // Show the invoice preview
-            generateInvoice();
+            // Show the document preview
+            generateDocument();
         }
         
         // Generate and save PDF
-        function generateAndSavePDF(invoiceData) {
+        function generateAndSavePDF(documentData) {
             // Show loading message
             const originalText = pdfBtn.innerHTML;
             pdfBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating PDF...';
             
-            // Get invoice preview element
-            const invoiceElement = document.getElementById('invoice-preview');
+            // Get document preview element
+            const documentElement = document.getElementById('invoice-preview');
             
             // Temporarily update preview with the saved data
             const originalDisplay = invoicePreview.style.display;
             invoicePreview.style.display = 'block';
             
-            // Update preview with invoice data
-            document.getElementById('preview-invoice-type').textContent = invoiceData.type.toUpperCase();
-            document.getElementById('preview-client-name').innerHTML = `<strong>${invoiceData.clientName}</strong>`;
-            document.getElementById('preview-client-address').textContent = invoiceData.clientAddress;
-            document.getElementById('preview-client-tin').textContent = invoiceData.clientTIN ? `TIN Number: ${invoiceData.clientTIN}` : '';
-            document.getElementById('preview-client-phone').textContent = `Phone: ${invoiceData.clientPhone}`;
-            document.getElementById('preview-client-email').textContent = `Email: ${invoiceData.clientEmail}`;
-            document.getElementById('preview-invoice-number').textContent = invoiceData.invoiceNumber;
-            document.getElementById('preview-invoice-date').textContent = formatDate(invoiceData.invoiceDate);
-            document.getElementById('preview-validity').textContent = `${invoiceData.validityDays} days`;
-            document.getElementById('preview-delivery-time').textContent = `${invoiceData.deliveryTime} days after PO`;
-            document.getElementById('preview-payment-terms').textContent = invoiceData.paymentTerms;
+            // Update preview with document data
+            const isQuotation = documentData.type === 'Quotation';
+            updatePreviewLabels(isQuotation);
             
-            // Set quotation-specific content
-            const isQuotation = invoiceData.type === 'Quotation';
+            document.getElementById('preview-doc-type').textContent = documentData.type.toUpperCase();
+            document.getElementById('preview-client-name').innerHTML = `<strong>${documentData.clientName}</strong>`;
+            document.getElementById('preview-client-address').textContent = documentData.clientAddress;
+            document.getElementById('preview-client-tin').textContent = documentData.clientTIN ? `TIN Number: ${documentData.clientTIN}` : '';
+            document.getElementById('preview-client-phone').textContent = `Phone: ${documentData.clientPhone}`;
+            document.getElementById('preview-client-email').textContent = `Email: ${documentData.clientEmail}`;
+            document.getElementById('preview-invoice-number').textContent = documentData.documentNumber;
+            document.getElementById('preview-invoice-date').textContent = formatDate(documentData.documentDate);
+            document.getElementById('preview-validity').textContent = `${documentData.validityDays} days`;
+            document.getElementById('preview-delivery-time').textContent = `${documentData.deliveryTime} days after PO`;
+            document.getElementById('preview-payment-terms').textContent = documentData.paymentTerms;
+            
+            // Set stamps
             document.querySelector('.stamp').style.display = isQuotation ? 'none' : 'block';
             document.querySelector('.quotation-stamp').style.display = isQuotation ? 'block' : 'none';
             
-            if (isQuotation) {
-                document.getElementById('preview-details-title').textContent = 'QUOTATION DETAILS:';
-                document.getElementById('preview-doc-number').textContent = 'Quotation #:';
-                document.getElementById('preview-subject').textContent = 'Subject: Quotation for Electrical Services';
-                document.getElementById('preview-quotation-text').innerHTML = `
-                    Dear Sir/Madam,<br><br>
-                    Thank you for your inquiry. We are pleased to submit our quotation for the requested electrical services. 
-                    All prices are inclusive of VAT where applicable and are valid for <span id="preview-validity-text">${invoiceData.validityDays} days</span>.
-                `;
-                document.querySelector('.grand-total .total-label').textContent = 'TOTAL QUOTATION:';
-            } else {
-                document.getElementById('preview-details-title').textContent = 'INVOICE DETAILS:';
-                document.getElementById('preview-doc-number').textContent = invoiceData.type === 'Proforma' ? 'Proforma #:' : 'Invoice #:';
-                document.getElementById('preview-subject').textContent = `Subject: ${invoiceData.type} for Electrical Services`;
-                document.getElementById('preview-quotation-text').innerHTML = `
-                    ${invoiceData.type.toUpperCase()}<br><br>
-                    This ${invoiceData.type.toLowerCase()} is prepared for the services rendered. 
-                    All prices are inclusive of VAT where applicable.
-                `;
-                document.querySelector('.grand-total .total-label').textContent = 'GRAND TOTAL:';
-            }
-            
             // Update items
             previewItems.innerHTML = '';
-            invoiceData.items.forEach(item => {
+            documentData.items.forEach(item => {
                 const newRow = document.createElement('tr');
                 newRow.innerHTML = `
                     <td>${item.description}</td>
                     <td>${parseFloat(item.quantity).toFixed(2)}</td>
-                    <td>${formatCurrency(item.price, invoiceData.currency)}</td>
-                    <td>${formatCurrency(item.total, invoiceData.currency)}</td>
+                    <td>${formatCurrency(item.price, documentData.currency)}</td>
+                    <td>${formatCurrency(item.total, documentData.currency)}</td>
                 `;
                 previewItems.appendChild(newRow);
             });
             
             // Update totals
-            document.getElementById('preview-subtotal').textContent = formatCurrency(invoiceData.subtotal, invoiceData.currency);
-            document.getElementById('preview-tax').textContent = formatCurrency(invoiceData.tax, invoiceData.currency);
-            document.getElementById('preview-grand-total').textContent = formatCurrency(invoiceData.grandTotal, invoiceData.currency);
+            document.getElementById('preview-subtotal').textContent = formatCurrency(documentData.subtotal, documentData.currency);
+            document.getElementById('preview-tax').textContent = formatCurrency(documentData.tax, documentData.currency);
+            document.getElementById('preview-grand-total').textContent = formatCurrency(documentData.grandTotal, documentData.currency);
             
             // Update terms
-            document.getElementById('preview-bank-details').textContent = invoiceData.bankDetails;
-            document.getElementById('preview-notes').textContent = invoiceData.notes;
+            document.getElementById('preview-bank-details').textContent = documentData.bankDetails;
+            document.getElementById('preview-notes').textContent = documentData.notes;
             
-            // Use html2canvas to capture the invoice
-            html2canvas(invoiceElement, {
+            // Use html2canvas to capture the document
+            html2canvas(documentElement, {
                 scale: 2,
                 useCORS: true,
                 logging: false,
@@ -2111,19 +2351,19 @@ SWIFT CODE: SBICTZTX</textarea>
                 pdf.addImage(imgData, 'PNG', imgX, imgY, imgWidth * ratio, imgHeight * ratio);
                 
                 // Generate filename
-                const fileName = `Kingu_${invoiceData.type}_${invoiceData.invoiceNumber}_${invoiceData.clientName.replace(/\s+/g, '_')}.pdf`;
+                const fileName = `Kingu_${documentData.type}_${documentData.documentNumber}_${documentData.clientName.replace(/\s+/g, '_')}.pdf`;
                 
                 // Save PDF (in a real app, this would save to a server folder)
                 // For now, we'll save the PDF data in localStorage for demonstration
                 const pdfData = pdf.output('datauristring');
-                invoiceData.pdfData = pdfData;
+                documentData.pdfData = pdfData;
                 
                 // Update localStorage with PDF data
-                let invoices = JSON.parse(localStorage.getItem('kinguInvoices')) || [];
-                const index = invoices.findIndex(inv => inv.id === invoiceData.id);
+                let documents = JSON.parse(localStorage.getItem('kinguDocuments')) || [];
+                const index = documents.findIndex(doc => doc.id === documentData.id);
                 if (index !== -1) {
-                    invoices[index] = invoiceData;
-                    localStorage.setItem('kinguInvoices', JSON.stringify(invoices));
+                    documents[index] = documentData;
+                    localStorage.setItem('kinguDocuments', JSON.stringify(documents));
                 }
                 
                 // Offer download to user
@@ -2145,31 +2385,31 @@ SWIFT CODE: SBICTZTX</textarea>
         
         // Export to PDF (manual export)
         function exportToPDF() {
-            const invoiceData = {
-                invoiceNumber: document.getElementById('invoice-number').value,
+            const documentData = {
+                documentNumber: document.getElementById('invoice-number').value,
                 clientName: document.getElementById('client-name').value,
                 type: document.getElementById('btn-proforma').classList.contains('active') ? 'Proforma' : 
                       document.getElementById('btn-standard').classList.contains('active') ? 'Standard' : 'Quotation',
                 currency: document.getElementById('currency').value
             };
             
-            generateAndSavePDF(invoiceData);
+            generateAndSavePDF(documentData);
         }
         
-        // Load saved invoices and display in history
-        function loadSavedInvoices() {
-            const invoices = JSON.parse(localStorage.getItem('kinguInvoices')) || [];
+        // Load saved documents and display in history
+        function loadSavedDocuments() {
+            const documents = JSON.parse(localStorage.getItem('kinguDocuments')) || [];
             
-            if (invoices.length === 0) {
-                proformaList.innerHTML = '<p>No proforma invoices found. Create your first invoice!</p>';
-                historyList.innerHTML = '<p>No invoice history found. Create your first invoice!</p>';
+            if (documents.length === 0) {
+                proformaList.innerHTML = '<p>No proforma invoices found. Create your first document!</p>';
+                historyList.innerHTML = '<p>No document history found. Create your first document!</p>';
                 return;
             }
             
             // Filter proforma invoices
-            const proformaInvoices = invoices.filter(inv => inv.type === 'Proforma');
-            // All invoices for history
-            const allInvoices = [...invoices].reverse(); // Show newest first
+            const proformaInvoices = documents.filter(doc => doc.type === 'Proforma');
+            // All documents for history
+            const allDocuments = [...documents].reverse(); // Show newest first
             
             // Display proforma invoices
             if (proformaInvoices.length > 0) {
@@ -2177,7 +2417,7 @@ SWIFT CODE: SBICTZTX</textarea>
                     <table class="history-table">
                         <thead>
                             <tr>
-                                <th>Invoice #</th>
+                                <th>Document #</th>
                                 <th>Client</th>
                                 <th>Date</th>
                                 <th>Amount</th>
@@ -2188,22 +2428,22 @@ SWIFT CODE: SBICTZTX</textarea>
                         <tbody>
                 `;
                 
-                proformaInvoices.forEach(invoice => {
+                proformaInvoices.forEach(document => {
                     proformaHTML += `
                         <tr>
-                            <td>${invoice.invoiceNumber}</td>
-                            <td>${invoice.clientName}</td>
-                            <td>${formatDateShort(invoice.invoiceDate)}</td>
-                            <td>${formatCurrency(invoice.grandTotal, invoice.currency)}</td>
-                            <td><span class="status-badge status-pending">${invoice.status}</span></td>
+                            <td>${document.documentNumber}</td>
+                            <td>${document.clientName}</td>
+                            <td>${formatDateShort(document.documentDate)}</td>
+                            <td>${formatCurrency(document.grandTotal, document.currency)}</td>
+                            <td><span class="status-badge status-pending">${document.status}</span></td>
                             <td>
-                                <button class="action-btn-small" style="background-color: var(--kingu-green); color: white;" onclick="viewInvoice(${invoice.id})">
+                                <button class="action-btn-small" style="background-color: var(--kingu-green); color: white;" onclick="viewDocument(${document.id})">
                                     <i class="fas fa-eye"></i> View
                                 </button>
-                                <button class="action-btn-small" style="background-color: #d32f2f; color: white;" onclick="downloadPDF(${invoice.id})">
+                                <button class="action-btn-small" style="background-color: #d32f2f; color: white;" onclick="downloadPDF(${document.id})">
                                     <i class="fas fa-file-pdf"></i> PDF
                                 </button>
-                                <button class="action-btn-small" style="background-color: #6b7280; color: white;" onclick="deleteInvoice(${invoice.id})">
+                                <button class="action-btn-small" style="background-color: #6b7280; color: white;" onclick="deleteDocument(${document.id})">
                                     <i class="fas fa-trash"></i> Delete
                                 </button>
                             </td>
@@ -2217,13 +2457,13 @@ SWIFT CODE: SBICTZTX</textarea>
                 proformaList.innerHTML = '<p>No proforma invoices found. Create your first proforma invoice!</p>';
             }
             
-            // Display all invoices in history
+            // Display all documents in history
             let historyHTML = `
                 <table class="history-table">
                     <thead>
                         <tr>
                             <th>Type</th>
-                            <th>Invoice #</th>
+                            <th>Document #</th>
                             <th>Client</th>
                             <th>Date</th>
                             <th>Amount</th>
@@ -2234,27 +2474,27 @@ SWIFT CODE: SBICTZTX</textarea>
                     <tbody>
             `;
             
-            allInvoices.forEach(invoice => {
-                const statusClass = invoice.status === 'Paid' ? 'status-paid' : 
-                                  invoice.status === 'Overdue' ? 'status-overdue' : 
-                                  invoice.status === 'Quotation' ? 'status-quotation' : 'status-pending';
+            allDocuments.forEach(document => {
+                const statusClass = document.status === 'Paid' ? 'status-paid' : 
+                                  document.status === 'Overdue' ? 'status-overdue' : 
+                                  document.status === 'Quotation' ? 'status-quotation' : 'status-pending';
                 
                 historyHTML += `
                     <tr>
-                        <td>${invoice.type}</td>
-                        <td>${invoice.invoiceNumber}</td>
-                        <td>${invoice.clientName}</td>
-                        <td>${formatDateShort(invoice.invoiceDate)}</td>
-                        <td>${formatCurrency(invoice.grandTotal, invoice.currency)}</td>
-                        <td><span class="status-badge ${statusClass}">${invoice.status}</span></td>
+                        <td>${document.type}</td>
+                        <td>${document.documentNumber}</td>
+                        <td>${document.clientName}</td>
+                        <td>${formatDateShort(document.documentDate)}</td>
+                        <td>${formatCurrency(document.grandTotal, document.currency)}</td>
+                        <td><span class="status-badge ${statusClass}">${document.status}</span></td>
                         <td>
-                            <button class="action-btn-small" style="background-color: var(--kingu-green); color: white;" onclick="viewInvoice(${invoice.id})">
+                            <button class="action-btn-small" style="background-color: var(--kingu-green); color: white;" onclick="viewDocument(${document.id})">
                                 <i class="fas fa-eye"></i> View
                             </button>
-                            <button class="action-btn-small" style="background-color: #d32f2f; color: white;" onclick="downloadPDF(${invoice.id})">
+                            <button class="action-btn-small" style="background-color: #d32f2f; color: white;" onclick="downloadPDF(${document.id})">
                                 <i class="fas fa-file-pdf"></i> PDF
                             </button>
-                            <button class="action-btn-small" style="background-color: #6b7280; color: white;" onclick="deleteInvoice(${invoice.id})">
+                            <button class="action-btn-small" style="background-color: #6b7280; color: white;" onclick="deleteDocument(${document.id})">
                                 <i class="fas fa-trash"></i> Delete
                             </button>
                         </td>
@@ -2266,45 +2506,45 @@ SWIFT CODE: SBICTZTX</textarea>
             historyList.innerHTML = historyHTML;
         }
         
-        // View saved invoice
-        function viewInvoice(invoiceId) {
-            const invoices = JSON.parse(localStorage.getItem('kinguInvoices')) || [];
-            const invoice = invoices.find(inv => inv.id === invoiceId);
+        // View saved document
+        function viewDocument(documentId) {
+            const documents = JSON.parse(localStorage.getItem('kinguDocuments')) || [];
+            const document = documents.find(doc => doc.id === documentId);
             
-            if (invoice) {
-                // Set invoice type
-                setInvoiceType(invoice.type.toLowerCase());
+            if (document) {
+                // Set document type
+                setInvoiceType(document.type.toLowerCase());
                 
-                // Fill form with invoice data
-                document.getElementById('invoice-number').value = invoice.invoiceNumber;
-                document.getElementById('invoice-date').value = invoice.invoiceDate;
-                document.getElementById('validity-days').value = invoice.validityDays;
-                document.getElementById('currency').value = invoice.currency;
-                document.getElementById('delivery-time').value = invoice.deliveryTime;
-                document.getElementById('client-name').value = invoice.clientName;
-                document.getElementById('client-email').value = invoice.clientEmail;
-                document.getElementById('client-phone').value = invoice.clientPhone;
-                document.getElementById('client-address').value = invoice.clientAddress;
-                document.getElementById('client-tin').value = invoice.clientTIN;
-                document.getElementById('client-vat').value = invoice.clientVAT || '';
-                document.getElementById('payment-terms').value = invoice.paymentTerms;
-                document.getElementById('bank-details').value = invoice.bankDetails;
-                document.getElementById('notes').value = invoice.notes;
+                // Fill form with document data
+                document.getElementById('invoice-number').value = document.documentNumber;
+                document.getElementById('invoice-date').value = document.documentDate;
+                document.getElementById('validity-days').value = document.validityDays;
+                document.getElementById('currency').value = document.currency;
+                document.getElementById('delivery-time').value = document.deliveryTime;
+                document.getElementById('client-name').value = document.clientName;
+                document.getElementById('client-email').value = document.clientEmail;
+                document.getElementById('client-phone').value = document.clientPhone;
+                document.getElementById('client-address').value = document.clientAddress;
+                document.getElementById('client-tin').value = document.clientTIN;
+                document.getElementById('client-vat').value = document.clientVAT || '';
+                document.getElementById('payment-terms').value = document.paymentTerms;
+                document.getElementById('bank-details').value = document.bankDetails;
+                document.getElementById('notes').value = document.notes;
                 
                 // Set items
                 invoiceItems.innerHTML = '';
-                invoice.items.forEach(item => {
+                document.items.forEach(item => {
                     const newRow = document.createElement('tr');
                     newRow.innerHTML = `
                         <td><input type="text" class="item-description" value="${item.description}"></td>
                         <td><input type="number" class="item-quantity" min="0" step="0.01" value="${item.quantity}"></td>
                         <td>
                             <div style="display: flex; align-items: center;">
-                                <span class="currency-symbol" style="margin-right: 5px;">${invoice.currency === 'TSh' ? 'TSh' : invoice.currency === 'USD' ? '$' : invoice.currency === 'EUR' ? '€' : '£'}</span>
+                                <span class="currency-symbol" style="margin-right: 5px;">${document.currency === 'TSh' ? 'TSh' : document.currency === 'USD' ? '$' : document.currency === 'EUR' ? '€' : '£'}</span>
                                 <input type="number" class="item-price" min="0" step="0.01" value="${item.price}" style="flex: 1;">
                             </div>
                         </td>
-                        <td class="item-total text-right">${formatCurrency(item.total, invoice.currency)}</td>
+                        <td class="item-total text-right">${formatCurrency(item.total, document.currency)}</td>
                         <td class="text-center"><button class="delete-item"><i class="fas fa-trash"></i></button></td>
                     `;
                     invoiceItems.appendChild(newRow);
@@ -2317,7 +2557,7 @@ SWIFT CODE: SBICTZTX</textarea>
                 updateCurrencySymbol();
                 updateTotals();
                 
-                // Show create invoice page
+                // Show create document page
                 invoiceForm.style.display = 'block';
                 invoicePreview.style.display = 'none';
                 proformaInvoicesContainer.style.display = 'none';
@@ -2326,20 +2566,20 @@ SWIFT CODE: SBICTZTX</textarea>
                 document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
                 document.getElementById('nav-create').classList.add('active');
                 
-                alert(`Loaded ${invoice.type.toLowerCase()} ${invoice.invoiceNumber}. You can edit and save as a new document.`);
+                alert(`Loaded ${document.type.toLowerCase()} ${document.documentNumber}. You can edit and save as a new document.`);
             }
         }
         
         // Download PDF
-        function downloadPDF(invoiceId) {
-            const invoices = JSON.parse(localStorage.getItem('kinguInvoices')) || [];
-            const invoice = invoices.find(inv => inv.id === invoiceId);
+        function downloadPDF(documentId) {
+            const documents = JSON.parse(localStorage.getItem('kinguDocuments')) || [];
+            const document = documents.find(doc => doc.id === documentId);
             
-            if (invoice && invoice.pdfData) {
+            if (document && document.pdfData) {
                 // Create a download link for the PDF
                 const link = document.createElement('a');
-                link.href = invoice.pdfData;
-                link.download = `Kingu_${invoice.type}_${invoice.invoiceNumber}_${invoice.clientName.replace(/\s+/g, '_')}.pdf`;
+                link.href = document.pdfData;
+                link.download = `Kingu_${document.type}_${document.documentNumber}_${document.clientName.replace(/\s+/g, '_')}.pdf`;
                 document.body.appendChild(link);
                 link.click();
                 document.body.removeChild(link);
@@ -2348,13 +2588,13 @@ SWIFT CODE: SBICTZTX</textarea>
             }
         }
         
-        // Delete invoice
-        function deleteInvoice(invoiceId) {
+        // Delete document
+        function deleteDocument(documentId) {
             if (confirm('Are you sure you want to delete this document? This action cannot be undone.')) {
-                let invoices = JSON.parse(localStorage.getItem('kinguInvoices')) || [];
-                invoices = invoices.filter(inv => inv.id !== invoiceId);
-                localStorage.setItem('kinguInvoices', JSON.stringify(invoices));
-                loadSavedInvoices();
+                let documents = JSON.parse(localStorage.getItem('kinguDocuments')) || [];
+                documents = documents.filter(doc => doc.id !== documentId);
+                localStorage.setItem('kinguDocuments', JSON.stringify(documents));
+                loadSavedDocuments();
                 alert('Document deleted successfully.');
             }
         }
@@ -2389,7 +2629,7 @@ SWIFT CODE: SBICTZTX</textarea>
                 
                 const isProforma = document.getElementById('btn-proforma').classList.contains('active');
                 const isStandard = document.getElementById('btn-standard').classList.contains('active');
-                const isQuotation = document.getElementById('btn-quotation').classList.contains('active');
+                const isQuotation = document.getElementById('btn-quotation').classList.contains('quotation-active');
                 
                 const year = new Date().getFullYear();
                 const month = (new Date().getMonth() + 1).toString().padStart(2, '0');
@@ -2414,9 +2654,9 @@ SWIFT CODE: SBICTZTX</textarea>
             }
         }
         
-        // Load sample proforma data
+        // Load sample data
         function loadSampleProforma() {
-            const isQuotation = document.getElementById('btn-quotation').classList.contains('active');
+            const isQuotation = document.getElementById('btn-quotation').classList.contains('quotation-active');
             
             if (isQuotation) {
                 // Load sample quotation data
@@ -2524,9 +2764,9 @@ SWIFT CODE: SBICTZTX</textarea>
             }
         }
         
-        // Print invoice
-        function printInvoice() {
-            const isQuotation = document.getElementById('btn-quotation').classList.contains('active');
+        // Print document
+        function printDocument() {
+            const isQuotation = document.getElementById('btn-quotation').classList.contains('quotation-active');
             
             // Show appropriate stamp before printing
             if (isQuotation) {
@@ -2545,15 +2785,16 @@ SWIFT CODE: SBICTZTX</textarea>
             }, 100);
         }
         
-        // Send invoice via WhatsApp
+        // Send document via WhatsApp
         function sendWhatsApp() {
-            const invoiceNumber = document.getElementById('invoice-number').value;
+            const documentNumber = document.getElementById('invoice-number').value;
             const clientName = document.getElementById('client-name').value || 'Client';
             const grandTotal = document.getElementById('grand-total').textContent;
-            const isQuotation = document.getElementById('btn-quotation').classList.contains('active');
-            const docType = isQuotation ? 'quotation' : 'proforma invoice';
+            const isQuotation = document.getElementById('btn-quotation').classList.contains('quotation-active');
+            const isProforma = document.getElementById('btn-proforma').classList.contains('active');
+            const docType = isQuotation ? 'quotation' : (isProforma ? 'proforma invoice' : 'invoice');
             
-            const message = `Hello, here is your ${docType} ${invoiceNumber} from KINGU ELECTRICAL COMPANY LIMITED for ${clientName}. Total amount: ${grandTotal}. Please review and confirm.`;
+            const message = `Hello, here is your ${docType} ${documentNumber} from KINGU ELECTRICAL COMPANY LIMITED for ${clientName}. Total amount: ${grandTotal}. Please review and confirm.`;
             
             // Encode the message for WhatsApp URL
             const encodedMessage = encodeURIComponent(message);
@@ -2596,7 +2837,7 @@ SWIFT CODE: SBICTZTX</textarea>
                 this.classList.add('active');
                 
                 // Load proforma invoices
-                loadSavedInvoices();
+                loadSavedDocuments();
             });
             
             document.getElementById('nav-history').addEventListener('click', function(e) {
@@ -2612,8 +2853,8 @@ SWIFT CODE: SBICTZTX</textarea>
                 document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
                 this.classList.add('active');
                 
-                // Load invoice history
-                loadSavedInvoices();
+                // Load document history
+                loadSavedDocuments();
             });
             
             document.getElementById('nav-clients').addEventListener('click', function(e) {
@@ -2637,6 +2878,13 @@ SWIFT CODE: SBICTZTX</textarea>
                 this.classList.add('active');
             });
         }
+        
+        // Make functions available globally for onclick handlers
+        window.viewInvoice = viewDocument;
+        window.viewDocument = viewDocument;
+        window.downloadPDF = downloadPDF;
+        window.deleteInvoice = deleteDocument;
+        window.deleteDocument = deleteDocument;
     </script>
 </body>
 </html>
