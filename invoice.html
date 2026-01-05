@@ -102,14 +102,16 @@
             color: white;
             letter-spacing: 0.5px;
             text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            line-height: 1;
         }
 
         .company-name-red {
             font-size: 16px;
             font-weight: 700;
             color: var(--kingu-red);
-            margin-top: -2px;
+            margin-top: 2px;
             text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+            line-height: 1;
         }
 
         .company-full-name {
@@ -117,17 +119,42 @@
             color: rgba(255, 255, 255, 0.9);
             margin-top: 2px;
             font-weight: 500;
+            line-height: 1;
         }
 
         .company-tagline {
             font-size: 11px;
             opacity: 0.9;
-            margin-top: 5px;
+            margin-top: 8px;
             color: rgba(255, 255, 255, 0.9);
             font-style: italic;
             line-height: 1.3;
             border-top: 1px solid rgba(255, 255, 255, 0.1);
             padding-top: 5px;
+        }
+
+        /* Updated styles for better text alignment */
+        .company-header {
+            line-height: 1.2;
+            margin-bottom: 3px;
+        }
+
+        .company-header .kingu {
+            font-size: 20px;
+            font-weight: 800;
+            color: white;
+            letter-spacing: 0.5px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            display: block;
+        }
+
+        .company-header .electrical {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--kingu-red);
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+            display: block;
+            margin-top: -2px;
         }
 
         .nav-menu {
@@ -178,9 +205,10 @@
         }
 
         .company-info-sidebar p {
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             display: flex;
             align-items: flex-start;
+            line-height: 1.4;
         }
 
         .company-info-sidebar i {
@@ -663,6 +691,7 @@
             color: var(--kingu-green);
             line-height: 0.9;
             margin-bottom: 5px;
+            display: block;
         }
 
         .electrical-logo {
@@ -671,7 +700,8 @@
             color: var(--kingu-red);
             line-height: 0.9;
             margin-bottom: 8px;
-            margin-left: 15px;
+            display: block;
+            margin-left: 0;
         }
 
         .company-logo {
@@ -700,8 +730,8 @@
 
         .contact-info-logo .phone-numbers {
             display: flex;
-            flex-wrap: wrap;
-            gap: 5px;
+            flex-direction: column;
+            gap: 3px;
             margin: 5px 0;
         }
 
@@ -710,11 +740,14 @@
             padding: 2px 8px;
             border-radius: 4px;
             border: 1px solid rgba(17, 106, 65, 0.2);
+            display: inline-block;
+            width: fit-content;
         }
 
         .contact-info-logo .email {
             color: var(--kingu-green);
             font-weight: 600;
+            margin: 5px 0;
         }
 
         .contact-info-logo .address {
@@ -1278,9 +1311,11 @@
                     <i class="fas fa-bolt"></i>
                 </div>
                 <div class="logo-text">
-                    <div class="company-name-green">KINGU</div>
-                    <div class="company-name-red">ELECTRICAL</div>
-                    <div class="company-full-name">COMPANY LIMITED</div>
+                    <div class="company-header">
+                        <span class="kingu">Kingu</span>
+                        <span class="electrical">Electrical</span>
+                    </div>
+                    <div class="company-full-name">Company Ltd</div>
                     <div class="company-tagline">Quality Electrical Services with Professional Experience</div>
                 </div>
             </div>
@@ -1319,11 +1354,12 @@
             </ul>
             
             <div class="company-info-sidebar">
-                <p><i class="fas fa-map-marker-alt"></i> <span>Plot 123, Industrial Area<br>Dar es Salaam, Tanzania</span></p>
-                <p><i class="fas fa-phone"></i> +255 682 843 552 <span class="contact-badge">CALL</span></p>
-                <p><i class="fab fa-whatsapp"></i> +255 682 843 552 <span class="contact-badge">WHATSAPP</span></p>
-                <p><i class="fas fa-envelope"></i> Kinguelectricaltz@gmail.com</p>
-                <p><i class="fas fa-globe"></i> www.kinguelectrical.com</p>
+                <p><i class="fas fa-map-marker-alt"></i> <span>P.O. Box 62313<br>Dar Es Salaam Tanzania</span></p>
+                <p><i class="fas fa-phone"></i> +255 677 01 47 40</p>
+                <p><i class="fas fa-phone"></i> +255 763 95 79 08</p>
+                <p><i class="fas fa-phone"></i> +255 682 84 35 52</p>
+                <p><i class="fab fa-whatsapp"></i> +255 682 84 35 52 <span class="contact-badge">WHATSAPP</span></p>
+                <p><i class="fas fa-envelope"></i> kinguelectricaltz@gmail.com</p>
                 <p><i class="fas fa-university"></i> STANBIC BANK<br>912 000 275 9274</p>
                 
                 <div class="contact-badges">
@@ -1695,10 +1731,13 @@ SWIFT CODE: SBICTZTX</textarea>
         // Initialize jsPDF
         const { jsPDF } = window.jspdf;
         
-        // Company details
+        // Company details - UPDATED TO MATCH IMAGE
         const COMPANY_NAME = "KINGU ELECTRICAL COMPANY LIMITED";
         const COMPANY_EMAIL = "kinguelectricaltz@gmail.com";
-        const COMPANY_PHONE = "+255 682 84 35 52";
+        const COMPANY_PHONE_1 = "+255 677 01 47 40";
+        const COMPANY_PHONE_2 = "+255 763 95 79 08";
+        const COMPANY_PHONE_3 = "+255 682 84 35 52";
+        const COMPANY_WHATSAPP = "+255 682 84 35 52";
         const COMPANY_TAGLINE = "Quality Electrical Services with Professional Experience";
         const COMPANY_ADDRESS = "P.O. Box 62313, Dar Es Salaam Tanzania.";
         
@@ -2222,7 +2261,7 @@ SWIFT CODE: SBICTZTX</textarea>
                 companyName: "Kingu Electrical Company Ltd",
                 email: COMPANY_EMAIL,
                 tagline: COMPANY_TAGLINE,
-                phoneNumbers: ["+255 677 01 47 40", "+255 763 95 79 08", "+255 682 84 35 52"],
+                phoneNumbers: [COMPANY_PHONE_1, COMPANY_PHONE_2, COMPANY_PHONE_3],
                 address: COMPANY_ADDRESS,
                 type: documentType,
                 documentNumber: document.getElementById('invoice-number').value,
