@@ -1132,24 +1132,46 @@
         }
 
         @media print {
-            .sidebar, .header, .invoice-form-container, .action-buttons, .invoice-type-selector {
-                display: none !important;
+            body * {
+                visibility: hidden;
+            }
+            
+            .invoice-preview-container, 
+            .invoice-preview-container * {
+                visibility: visible;
             }
             
             .invoice-preview-container {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                box-shadow: none !important;
+                padding: 20px !important;
+                margin: 0 !important;
+                background-color: white;
+            }
+            
+            .sidebar, 
+            .header, 
+            .invoice-form-container, 
+            .action-buttons, 
+            .invoice-type-selector,
+            .nav-menu,
+            .btn,
+            button,
+            .history-container {
+                display: none !important;
+            }
+            
+            .stamp, .quotation-stamp {
                 display: block !important;
-                box-shadow: none;
-                padding: 20px;
-                margin: 0;
+                visibility: visible !important;
             }
             
             body {
                 background-color: white;
                 font-size: 12px;
-            }
-            
-            .stamp, .quotation-stamp {
-                display: block !important;
             }
             
             .invoice-footer {
@@ -1802,38 +1824,75 @@ SWIFT CODE: SBICTZTX</textarea>
         let proformaInvoicesContainer, invoiceHistoryContainer, proformaList, historyList;
         let clientDatabaseContainer, clientList, reportsSection, settingsSection;
         
+        // Safe DOM helper functions
+        function safeSetTextContent(elementId, text) {
+            const element = document.getElementById(elementId);
+            if (element) {
+                element.textContent = text;
+                return true;
+            }
+            console.warn(`Element with id '${elementId}' not found`);
+            return false;
+        }
+
+        function safeSetHTML(elementId, html) {
+            const element = document.getElementById(elementId);
+            if (element) {
+                element.innerHTML = html;
+                return true;
+            }
+            console.warn(`Element with id '${elementId}' not found`);
+            return false;
+        }
+
+        function safeGetElement(elementId) {
+            const element = document.getElementById(elementId);
+            if (!element) {
+                console.warn(`Element with id '${elementId}' not found`);
+            }
+            return element;
+        }
+        
         // Initialize the application
         document.addEventListener('DOMContentLoaded', function() {
             // Get DOM elements
-            invoiceForm = document.getElementById('invoice-form');
-            invoicePreview = document.getElementById('invoice-preview');
-            pageTitle = document.getElementById('page-title');
-            printBtn = document.getElementById('print-btn');
-            pdfBtn = document.getElementById('pdf-btn');
-            whatsappBtn = document.getElementById('whatsapp-btn');
-            invoiceItems = document.getElementById('invoice-items');
-            previewItems = document.getElementById('preview-items');
+            invoiceForm = safeGetElement('invoice-form');
+            invoicePreview = safeGetElement('invoice-preview');
+            pageTitle = safeGetElement('page-title');
+            printBtn = safeGetElement('print-btn');
+            pdfBtn = safeGetElement('pdf-btn');
+            whatsappBtn = safeGetElement('whatsapp-btn');
+            invoiceItems = safeGetElement('invoice-items');
+            previewItems = safeGetElement('preview-items');
+            
+            // Check if required elements exist
+            if (!invoiceForm || !invoicePreview) {
+                console.error('Required DOM elements not found. Please check the HTML structure.');
+                return;
+            }
             
             // History sections
-            proformaInvoicesContainer = document.getElementById('proforma-invoices');
-            invoiceHistoryContainer = document.getElementById('invoice-history');
-            proformaList = document.getElementById('proforma-list');
-            historyList = document.getElementById('history-list');
+            proformaInvoicesContainer = safeGetElement('proforma-invoices');
+            invoiceHistoryContainer = safeGetElement('invoice-history');
+            proformaList = safeGetElement('proforma-list');
+            historyList = safeGetElement('history-list');
             
             // New sections
-            clientDatabaseContainer = document.getElementById('client-database');
-            clientList = document.getElementById('client-list');
-            reportsSection = document.getElementById('reports-section');
-            settingsSection = document.getElementById('settings-section');
+            clientDatabaseContainer = safeGetElement('client-database');
+            clientList = safeGetElement('client-list');
+            reportsSection = safeGetElement('reports-section');
+            settingsSection = safeGetElement('settings-section');
             
             // Set default dates
             const today = new Date();
-            document.getElementById('invoice-date').valueAsDate = today;
+            const invoiceDate = safeGetElement('invoice-date');
+            if (invoiceDate) invoiceDate.valueAsDate = today;
             
             // Set due date to 30 days from now
             const dueDate = new Date();
             dueDate.setDate(dueDate.getDate() + 30);
-            document.getElementById('due-date').valueAsDate = dueDate;
+            const dueDateInput = safeGetElement('due-date');
+            if (dueDateInput) dueDateInput.valueAsDate = dueDate;
             
             // Initialize totals
             updateTotals();
@@ -1868,7 +1927,7 @@ SWIFT CODE: SBICTZTX</textarea>
             ];
             
             formInputs.forEach(id => {
-                const element = document.getElementById(id);
+                const element = safeGetElement(id);
                 if (element) {
                     element.addEventListener('input', updatePreview);
                     if (element.tagName === 'SELECT') {
@@ -1878,63 +1937,103 @@ SWIFT CODE: SBICTZTX</textarea>
             });
             
             // Currency change listener
-            document.getElementById('currency').addEventListener('change', function() {
-                updateCurrencySymbol();
-                updateTotals();
-                updatePreview();
-            });
+            const currencySelect = safeGetElement('currency');
+            if (currencySelect) {
+                currencySelect.addEventListener('change', function() {
+                    updateCurrencySymbol();
+                    updateTotals();
+                    updatePreview();
+                });
+            }
             
             // Invoice type buttons
-            document.getElementById('btn-proforma').addEventListener('click', () => setInvoiceType('proforma'));
-            document.getElementById('btn-standard').addEventListener('click', () => setInvoiceType('standard'));
-            document.getElementById('btn-quotation').addEventListener('click', () => setInvoiceType('quotation'));
+            const btnProforma = safeGetElement('btn-proforma');
+            const btnStandard = safeGetElement('btn-standard');
+            const btnQuotation = safeGetElement('btn-quotation');
+            
+            if (btnProforma) btnProforma.addEventListener('click', () => setInvoiceType('proforma'));
+            if (btnStandard) btnStandard.addEventListener('click', () => setInvoiceType('standard'));
+            if (btnQuotation) btnQuotation.addEventListener('click', () => setInvoiceType('quotation'));
             
             // Action buttons
-            document.getElementById('add-item-btn').addEventListener('click', addNewItem);
-            document.getElementById('clear-btn').addEventListener('click', clearForm);
-            document.getElementById('preview-btn').addEventListener('click', generateDocument);
-            document.getElementById('save-btn').addEventListener('click', saveDocument);
-            document.getElementById('load-sample-btn').addEventListener('click', loadSampleProforma);
-            document.getElementById('new-document-btn').addEventListener('click', createNewDocument);
-            printBtn.addEventListener('click', printDocument);
-            pdfBtn.addEventListener('click', exportToPDF);
-            whatsappBtn.addEventListener('click', sendWhatsApp);
-            document.getElementById('generate-number-btn').addEventListener('click', generateInvoiceNumber);
-            document.getElementById('send-email-btn').addEventListener('click', sendEmail);
+            const addItemBtn = safeGetElement('add-item-btn');
+            if (addItemBtn) addItemBtn.addEventListener('click', addNewItem);
+            
+            const clearBtn = safeGetElement('clear-btn');
+            if (clearBtn) clearBtn.addEventListener('click', clearForm);
+            
+            const previewBtn = safeGetElement('preview-btn');
+            if (previewBtn) previewBtn.addEventListener('click', generateDocument);
+            
+            const saveBtn = safeGetElement('save-btn');
+            if (saveBtn) saveBtn.addEventListener('click', saveDocument);
+            
+            const loadSampleBtn = safeGetElement('load-sample-btn');
+            if (loadSampleBtn) loadSampleBtn.addEventListener('click', loadSampleProforma);
+            
+            const newDocBtn = safeGetElement('new-document-btn');
+            if (newDocBtn) newDocBtn.addEventListener('click', createNewDocument);
+            
+            if (printBtn) printBtn.addEventListener('click', printDocument);
+            if (pdfBtn) pdfBtn.addEventListener('click', exportToPDF);
+            if (whatsappBtn) whatsappBtn.addEventListener('click', sendWhatsApp);
+            
+            const generateNumBtn = safeGetElement('generate-number-btn');
+            if (generateNumBtn) generateNumBtn.addEventListener('click', generateInvoiceNumber);
+            
+            const sendEmailBtn = safeGetElement('send-email-btn');
+            if (sendEmailBtn) sendEmailBtn.addEventListener('click', sendEmail);
             
             // New feature buttons
-            document.getElementById('add-service-item').addEventListener('click', () => addPredefinedItem('service'));
-            document.getElementById('add-product-item').addEventListener('click', () => addPredefinedItem('product'));
-            document.getElementById('add-labor-item').addEventListener('click', () => addPredefinedItem('labor'));
-            document.getElementById('client-search-btn').addEventListener('click', searchClientDatabase);
-            document.getElementById('add-client-btn').addEventListener('click', addNewClient);
+            const addServiceBtn = safeGetElement('add-service-item');
+            if (addServiceBtn) addServiceBtn.addEventListener('click', () => addPredefinedItem('service'));
+            
+            const addProductBtn = safeGetElement('add-product-item');
+            if (addProductBtn) addProductBtn.addEventListener('click', () => addPredefinedItem('product'));
+            
+            const addLaborBtn = safeGetElement('add-labor-item');
+            if (addLaborBtn) addLaborBtn.addEventListener('click', () => addPredefinedItem('labor'));
+            
+            const clientSearchBtn = safeGetElement('client-search-btn');
+            if (clientSearchBtn) clientSearchBtn.addEventListener('click', searchClientDatabase);
+            
+            const addClientBtn = safeGetElement('add-client-btn');
+            if (addClientBtn) addClientBtn.addEventListener('click', addNewClient);
             
             // Discount handling
-            document.getElementById('discount-type').addEventListener('change', function() {
-                const discountValueContainer = document.getElementById('discount-value-container');
-                if (this.value === 'none') {
-                    discountValueContainer.style.display = 'none';
-                    document.getElementById('discount-row').style.display = 'none';
-                } else {
-                    discountValueContainer.style.display = 'block';
-                    document.getElementById('discount-row').style.display = 'flex';
-                    document.getElementById('discount-label').textContent = 
-                        this.value === 'percentage' ? 'Discount (%):' : 'Discount:';
-                }
-                updateTotals();
-            });
+            const discountType = safeGetElement('discount-type');
+            if (discountType) {
+                discountType.addEventListener('change', function() {
+                    const discountValueContainer = safeGetElement('discount-value-container');
+                    const discountRow = safeGetElement('discount-row');
+                    if (this.value === 'none') {
+                        if (discountValueContainer) discountValueContainer.style.display = 'none';
+                        if (discountRow) discountRow.style.display = 'none';
+                    } else {
+                        if (discountValueContainer) discountValueContainer.style.display = 'block';
+                        if (discountRow) discountRow.style.display = 'flex';
+                        const discountLabel = safeGetElement('discount-label');
+                        if (discountLabel) {
+                            discountLabel.textContent = this.value === 'percentage' ? 'Discount (%):' : 'Discount:';
+                        }
+                    }
+                    updateTotals();
+                });
+            }
             
-            document.getElementById('discount-value').addEventListener('input', updateTotals);
+            const discountValue = safeGetElement('discount-value');
+            if (discountValue) discountValue.addEventListener('input', updateTotals);
             
             // Payment terms custom field
-            document.getElementById('payment-terms').addEventListener('change', function() {
-                const customContainer = document.getElementById('custom-terms-container');
-                if (this.value === 'Custom') {
-                    customContainer.style.display = 'block';
-                } else {
-                    customContainer.style.display = 'none';
-                }
-            });
+            const paymentTerms = safeGetElement('payment-terms');
+            if (paymentTerms) {
+                paymentTerms.addEventListener('change', function() {
+                    const customContainer = safeGetElement('custom-terms-container');
+                    if (customContainer) {
+                        customContainer.style.display = this.value === 'Custom' ? 'block' : 'none';
+                    }
+                });
+            }
             
             // Delete item buttons (delegated event)
             document.addEventListener('click', function(e) {
@@ -1949,9 +2048,9 @@ SWIFT CODE: SBICTZTX</textarea>
         
         // Generate new invoice number
         function generateInvoiceNumber() {
-            const isProforma = document.getElementById('btn-proforma').classList.contains('active');
-            const isStandard = document.getElementById('btn-standard').classList.contains('active');
-            const isQuotation = document.getElementById('btn-quotation').classList.contains('quotation-active');
+            const isProforma = document.getElementById('btn-proforma')?.classList.contains('active');
+            const isStandard = document.getElementById('btn-standard')?.classList.contains('active');
+            const isQuotation = document.getElementById('btn-quotation')?.classList.contains('quotation-active');
             
             let prefix = 'PROFORMA';
             if (isStandard) prefix = 'INV';
@@ -1961,33 +2060,38 @@ SWIFT CODE: SBICTZTX</textarea>
             const month = (new Date().getMonth() + 1).toString().padStart(2, '0');
             const randomNum = Math.floor(Math.random() * 1000).toString().padStart(3, '0');
             
-            document.getElementById('invoice-number').value = `${prefix}/GL/${month}/${year}/${randomNum}`;
-            updatePreview();
+            const invoiceNumberInput = safeGetElement('invoice-number');
+            if (invoiceNumberInput) {
+                invoiceNumberInput.value = `${prefix}/GL/${month}/${year}/${randomNum}`;
+                updatePreview();
+            }
         }
         
         // Create new document
         function createNewDocument() {
             clearForm();
-            invoiceForm.style.display = 'block';
-            invoicePreview.style.display = 'none';
-            printBtn.style.display = 'none';
-            pdfBtn.style.display = 'none';
-            whatsappBtn.style.display = 'inline-flex';
+            if (invoiceForm) invoiceForm.style.display = 'block';
+            if (invoicePreview) invoicePreview.style.display = 'none';
+            if (printBtn) printBtn.style.display = 'none';
+            if (pdfBtn) pdfBtn.style.display = 'none';
+            if (whatsappBtn) whatsappBtn.style.display = 'inline-flex';
             
             // Hide all other sections
-            proformaInvoicesContainer.style.display = 'none';
-            invoiceHistoryContainer.style.display = 'none';
-            clientDatabaseContainer.style.display = 'none';
-            reportsSection.style.display = 'none';
-            settingsSection.style.display = 'none';
+            if (proformaInvoicesContainer) proformaInvoicesContainer.style.display = 'none';
+            if (invoiceHistoryContainer) invoiceHistoryContainer.style.display = 'none';
+            if (clientDatabaseContainer) clientDatabaseContainer.style.display = 'none';
+            if (reportsSection) reportsSection.style.display = 'none';
+            if (settingsSection) settingsSection.style.display = 'none';
             
             document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
-            document.getElementById('nav-create').classList.add('active');
+            const navCreate = safeGetElement('nav-create');
+            if (navCreate) navCreate.classList.add('active');
         }
         
         // Add predefined item
         function addPredefinedItem(type) {
-            const currency = document.getElementById('currency').value;
+            const currencySelect = safeGetElement('currency');
+            const currency = currencySelect ? currencySelect.value : 'TSh';
             const symbol = currency === 'TSh' ? 'TSh' : 
                           currency === 'USD' ? '$' :
                           currency === 'EUR' ? '€' : '£';
@@ -2024,7 +2128,7 @@ SWIFT CODE: SBICTZTX</textarea>
                 <td class="text-center"><button class="delete-item"><i class="fas fa-trash"></i></button></td>
             `;
             
-            invoiceItems.appendChild(newRow);
+            if (invoiceItems) invoiceItems.appendChild(newRow);
             
             // Add event listeners
             newRow.querySelector('.item-quantity').addEventListener('input', updateTotals);
@@ -2054,6 +2158,10 @@ SWIFT CODE: SBICTZTX</textarea>
             });
             clientOptions += '</div>';
             
+            // Remove existing modal if any
+            const existingModal = document.getElementById('client-modal');
+            if (existingModal) existingModal.remove();
+            
             // Show client selection
             document.body.insertAdjacentHTML('beforeend', `
                 <div id="client-modal" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; display: flex; align-items: center; justify-content: center;">
@@ -2075,12 +2183,12 @@ SWIFT CODE: SBICTZTX</textarea>
             const client = clients[index];
             
             if (client) {
-                document.getElementById('client-name').value = client.name || '';
-                document.getElementById('client-email').value = client.email || '';
-                document.getElementById('client-phone').value = client.phone || '';
-                document.getElementById('client-address').value = client.address || '';
-                document.getElementById('client-tin').value = client.tin || '';
-                document.getElementById('client-vat').value = client.vat || '';
+                safeGetElement('client-name').value = client.name || '';
+                safeGetElement('client-email').value = client.email || '';
+                safeGetElement('client-phone').value = client.phone || '';
+                safeGetElement('client-address').value = client.address || '';
+                safeGetElement('client-tin').value = client.tin || '';
+                safeGetElement('client-vat').value = client.vat || '';
                 
                 // Remove modal
                 const modal = document.getElementById('client-modal');
@@ -2122,15 +2230,17 @@ SWIFT CODE: SBICTZTX</textarea>
             const clients = JSON.parse(localStorage.getItem('kinguClients')) || [];
             
             if (clients.length === 0) {
-                clientList.innerHTML = `
-                    <div style="text-align: center; padding: 40px;">
-                        <i class="fas fa-users" style="font-size: 48px; color: #ddd; margin-bottom: 15px;"></i>
-                        <p>No clients in database</p>
-                        <button class="btn btn-primary" onclick="addNewClient()" style="margin-top: 15px;">
-                            <i class="fas fa-user-plus"></i> Add First Client
-                        </button>
-                    </div>
-                `;
+                if (clientList) {
+                    clientList.innerHTML = `
+                        <div style="text-align: center; padding: 40px;">
+                            <i class="fas fa-users" style="font-size: 48px; color: #ddd; margin-bottom: 15px;"></i>
+                            <p>No clients in database</p>
+                            <button class="btn btn-primary" onclick="addNewClient()" style="margin-top: 15px;">
+                                <i class="fas fa-user-plus"></i> Add First Client
+                            </button>
+                        </div>
+                    `;
+                }
                 return;
             }
             
@@ -2174,7 +2284,7 @@ SWIFT CODE: SBICTZTX</textarea>
             });
             
             clientHTML += '</tbody></table>';
-            clientList.innerHTML = clientHTML;
+            if (clientList) clientList.innerHTML = clientHTML;
         }
         
         // Convert number to words (simplified version)
@@ -2221,26 +2331,30 @@ SWIFT CODE: SBICTZTX</textarea>
         // Calculate and update totals with discount
         function updateTotals() {
             let subtotal = 0;
-            const currency = document.getElementById('currency').value;
+            const currencySelect = safeGetElement('currency');
+            const currency = currencySelect ? currencySelect.value : 'TSh';
             const rows = document.querySelectorAll('#invoice-items tr');
             
             rows.forEach(row => {
-                const quantity = parseFloat(row.querySelector('.item-quantity').value) || 0;
-                const price = parseFloat(row.querySelector('.item-price').value) || 0;
+                const quantity = parseFloat(row.querySelector('.item-quantity')?.value) || 0;
+                const price = parseFloat(row.querySelector('.item-price')?.value) || 0;
                 const total = quantity * price;
                 
-                row.querySelector('.item-total').textContent = formatCurrency(total, currency);
+                const itemTotal = row.querySelector('.item-total');
+                if (itemTotal) itemTotal.textContent = formatCurrency(total, currency);
                 subtotal += total;
             });
             
             // Apply discount
-            const discountType = document.getElementById('discount-type').value;
-            const discountValue = parseFloat(document.getElementById('discount-value').value) || 0;
+            const discountType = safeGetElement('discount-type');
+            const discountTypeValue = discountType ? discountType.value : 'none';
+            const discountValueInput = safeGetElement('discount-value');
+            const discountValue = parseFloat(discountValueInput?.value) || 0;
             let discount = 0;
             
-            if (discountType === 'percentage' && discountValue > 0) {
+            if (discountTypeValue === 'percentage' && discountValue > 0) {
                 discount = subtotal * (discountValue / 100);
-            } else if (discountType === 'fixed' && discountValue > 0) {
+            } else if (discountTypeValue === 'fixed' && discountValue > 0) {
                 discount = discountValue;
             }
             
@@ -2252,16 +2366,16 @@ SWIFT CODE: SBICTZTX</textarea>
             const vat = discountedSubtotal * vatRate;
             const grandTotal = discountedSubtotal + vat;
             
-            document.getElementById('subtotal').textContent = formatCurrency(subtotal, currency);
-            document.getElementById('discount-amount').textContent = formatCurrency(discount, currency);
-            document.getElementById('tax').textContent = formatCurrency(vat, currency);
-            document.getElementById('grand-total').textContent = formatCurrency(grandTotal, currency);
+            safeSetTextContent('subtotal', formatCurrency(subtotal, currency));
+            safeSetTextContent('discount-amount', formatCurrency(discount, currency));
+            safeSetTextContent('tax', formatCurrency(vat, currency));
+            safeSetTextContent('grand-total', formatCurrency(grandTotal, currency));
             
             // Update amount in words
-            document.getElementById('amount-words').textContent = numberToWords(Math.round(grandTotal));
+            safeSetTextContent('amount-words', numberToWords(Math.round(grandTotal)));
             
             // Update preview if visible
-            if (invoicePreview.style.display === 'block') {
+            if (invoicePreview && invoicePreview.style.display === 'block') {
                 updatePreview();
             }
         }
@@ -2269,15 +2383,21 @@ SWIFT CODE: SBICTZTX</textarea>
         // Format date
         function formatDate(dateString) {
             if (!dateString) return '';
+            const date = new Date(dateString);
+            if (isNaN(date.getTime())) return '';
+            
             const options = { year: 'numeric', month: 'long', day: 'numeric' };
-            return new Date(dateString).toLocaleDateString('en-US', options);
+            return date.toLocaleDateString('en-US', options);
         }
         
         // Format date for table display
         function formatDateShort(dateString) {
             if (!dateString) return '';
+            const date = new Date(dateString);
+            if (isNaN(date.getTime())) return '';
+            
             const options = { year: 'numeric', month: 'short', day: 'numeric' };
-            return new Date(dateString).toLocaleDateString('en-US', options);
+            return date.toLocaleDateString('en-US', options);
         }
         
         // Format currency with thousand separators
@@ -2299,7 +2419,8 @@ SWIFT CODE: SBICTZTX</textarea>
         
         // Update currency symbol in item rows
         function updateCurrencySymbol() {
-            const currency = document.getElementById('currency').value;
+            const currencySelect = safeGetElement('currency');
+            const currency = currencySelect ? currencySelect.value : 'TSh';
             const symbol = currency === 'TSh' ? 'TSh' : 
                           currency === 'USD' ? '$' :
                           currency === 'EUR' ? '€' : '£';
@@ -2311,8 +2432,8 @@ SWIFT CODE: SBICTZTX</textarea>
         
         // Send email function (simulated)
         function sendEmail() {
-            const clientEmail = document.getElementById('client-email').value;
-            const documentNumber = document.getElementById('invoice-number').value;
+            const clientEmail = safeGetElement('client-email')?.value;
+            const documentNumber = safeGetElement('invoice-number')?.value;
             
             if (!clientEmail) {
                 alert('Please enter client email address');
@@ -2320,78 +2441,45 @@ SWIFT CODE: SBICTZTX</textarea>
             }
             
             // Simulate email sending
-            const emailBtn = document.getElementById('send-email-btn');
-            const originalText = emailBtn.innerHTML;
-            emailBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
-            emailBtn.disabled = true;
-            
-            setTimeout(() => {
-                emailBtn.innerHTML = originalText;
-                emailBtn.disabled = false;
-                alert(`Invoice ${documentNumber} sent to ${clientEmail} successfully!`);
-            }, 1500);
+            const emailBtn = safeGetElement('send-email-btn');
+            if (emailBtn) {
+                const originalText = emailBtn.innerHTML;
+                emailBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+                emailBtn.disabled = true;
+                
+                setTimeout(() => {
+                    emailBtn.innerHTML = originalText;
+                    emailBtn.disabled = false;
+                    alert(`Invoice ${documentNumber} sent to ${clientEmail} successfully!`);
+                }, 1500);
+            }
         }
         
         // Set invoice type with additional functionality
         function setInvoiceType(type) {
             const buttons = ['btn-proforma', 'btn-standard', 'btn-quotation'];
             buttons.forEach(btn => {
-                document.getElementById(btn).classList.remove('active');
-                document.getElementById(btn).classList.remove('quotation-active');
+                const button = safeGetElement(btn);
+                if (button) {
+                    button.classList.remove('active');
+                    button.classList.remove('quotation-active');
+                }
             });
             
-            const proformaFields = document.querySelector('.proforma-fields');
-            const previewTitle = document.getElementById('preview-doc-type');
-            const saveBtn = document.getElementById('save-btn');
-            const pageTitle = document.getElementById('page-title');
+            const previewTitle = safeGetElement('preview-doc-type');
+            const saveBtn = safeGetElement('save-btn');
+            const pageTitle = safeGetElement('page-title');
             
             // Update form styling based on type
-            if (type === 'quotation') {
-                document.getElementById('invoice-form').classList.add('quotation-form-container');
-                document.getElementById('btn-quotation').classList.add('quotation-active');
-                document.getElementById('details-title').classList.add('quotation-section-title');
-                document.getElementById('items-title').classList.add('quotation-section-title');
-                document.getElementById('items-table').classList.add('quotation-items-table');
-                document.getElementById('add-item-btn').classList.add('quotation-add-item-btn');
-                document.getElementById('totals-section').classList.add('quotation-totals-section');
-                document.querySelectorAll('.form-group label').forEach(label => {
-                    label.classList.add('quotation-form-group');
-                });
-                document.getElementById('extra-fields').classList.add('quotation-fields');
-                document.querySelectorAll('.total-row').forEach(row => {
-                    row.classList.add('quotation-total-row');
-                });
-                document.querySelectorAll('.total-label').forEach(label => {
-                    label.classList.add('quotation-total-label');
-                });
-                document.querySelectorAll('.total-value').forEach(value => {
-                    value.classList.add('quotation-total-value');
-                });
-                document.querySelector('.grand-total').classList.add('quotation-grand-total');
-                document.getElementById('currency').classList.add('quotation-currency-select');
-            } else {
-                document.getElementById('invoice-form').classList.remove('quotation-form-container');
-                document.getElementById('btn-proforma').classList.add('active');
-                document.getElementById('details-title').classList.remove('quotation-section-title');
-                document.getElementById('items-title').classList.remove('quotation-section-title');
-                document.getElementById('items-table').classList.remove('quotation-items-table');
-                document.getElementById('add-item-btn').classList.remove('quotation-add-item-btn');
-                document.getElementById('totals-section').classList.remove('quotation-totals-section');
-                document.querySelectorAll('.form-group label').forEach(label => {
-                    label.classList.remove('quotation-form-group');
-                });
-                document.getElementById('extra-fields').classList.remove('quotation-fields');
-                document.querySelectorAll('.total-row').forEach(row => {
-                    row.classList.remove('quotation-total-row');
-                });
-                document.querySelectorAll('.total-label').forEach(label => {
-                    label.classList.remove('quotation-total-label');
-                });
-                document.querySelectorAll('.total-value').forEach(value => {
-                    value.classList.remove('quotation-total-value');
-                });
-                document.querySelector('.grand-total').classList.remove('quotation-grand-total');
-                document.getElementById('currency').classList.remove('quotation-currency-select');
+            const invoiceForm = safeGetElement('invoice-form');
+            if (invoiceForm) {
+                if (type === 'quotation') {
+                    invoiceForm.classList.add('quotation-form-container');
+                    safeGetElement('btn-quotation')?.classList.add('quotation-active');
+                } else {
+                    invoiceForm.classList.remove('quotation-form-container');
+                    safeGetElement('btn-proforma')?.classList.add('active');
+                }
             }
             
             let invoicePrefix = '';
@@ -2401,24 +2489,27 @@ SWIFT CODE: SBICTZTX</textarea>
             
             switch(type) {
                 case 'proforma':
-                    document.getElementById('btn-proforma').classList.add('active');
-                    proformaFields.style.display = 'block';
+                    safeGetElement('btn-proforma')?.classList.add('active');
+                    const proformaFields = document.querySelector('.proforma-fields');
+                    if (proformaFields) proformaFields.style.display = 'block';
                     invoicePrefix = 'PROFORMA';
                     displayTitle = 'Create Proforma Invoice';
                     previewType = 'PROFORMA INVOICE';
                     saveBtnText = 'Save Proforma';
                     break;
                 case 'standard':
-                    document.getElementById('btn-standard').classList.add('active');
-                    proformaFields.style.display = 'none';
+                    safeGetElement('btn-standard')?.classList.add('active');
+                    const proformaFields2 = document.querySelector('.proforma-fields');
+                    if (proformaFields2) proformaFields2.style.display = 'none';
                     invoicePrefix = 'INV';
                     displayTitle = 'Create Standard Invoice';
                     previewType = 'TAX INVOICE';
                     saveBtnText = 'Save Invoice';
                     break;
                 case 'quotation':
-                    document.getElementById('btn-quotation').classList.add('quotation-active');
-                    proformaFields.style.display = 'block';
+                    safeGetElement('btn-quotation')?.classList.add('quotation-active');
+                    const proformaFields3 = document.querySelector('.proforma-fields');
+                    if (proformaFields3) proformaFields3.style.display = 'block';
                     invoicePrefix = 'QUOTE';
                     displayTitle = 'Create Quotation';
                     previewType = 'QUOTATION';
@@ -2426,9 +2517,9 @@ SWIFT CODE: SBICTZTX</textarea>
                     break;
             }
             
-            pageTitle.textContent = displayTitle;
-            previewTitle.textContent = previewType;
-            saveBtn.innerHTML = `<i class="fas fa-save"></i> ${saveBtnText}`;
+            if (pageTitle) pageTitle.textContent = displayTitle;
+            if (previewTitle) previewTitle.textContent = previewType;
+            if (saveBtn) saveBtn.innerHTML = `<i class="fas fa-save"></i> ${saveBtnText}`;
             
             // Update labels in the form
             updateFormLabels(type);
@@ -2437,7 +2528,7 @@ SWIFT CODE: SBICTZTX</textarea>
             generateInvoiceNumber();
             
             // Update preview if visible
-            if (invoicePreview.style.display === 'block') {
+            if (invoicePreview && invoicePreview.style.display === 'block') {
                 updatePreview();
             }
         }
@@ -2447,159 +2538,205 @@ SWIFT CODE: SBICTZTX</textarea>
             const isQuotation = type === 'quotation';
             
             // Update document details section
-            document.getElementById('details-title').innerHTML = `<i class="fas fa-info-circle"></i> ${isQuotation ? 'Quotation' : 'Invoice'} Details`;
-            document.getElementById('doc-number-label').textContent = isQuotation ? 'Quotation Number' : 'Invoice Number';
-            document.getElementById('doc-date-label').textContent = isQuotation ? 'Quotation Date' : 'Invoice Date';
+            safeSetHTML('details-title', `<i class="fas fa-info-circle"></i> ${isQuotation ? 'Quotation' : 'Invoice'} Details`);
+            safeSetTextContent('doc-number-label', isQuotation ? 'Quotation Number' : 'Invoice Number');
+            safeSetTextContent('doc-date-label', isQuotation ? 'Quotation Date' : 'Invoice Date');
             
             // Update items section
-            document.getElementById('items-title').innerHTML = `<i class="fas fa-list-alt"></i> ${isQuotation ? 'Quotation' : 'Invoice'} Items`;
+            safeSetHTML('items-title', `<i class="fas fa-list-alt"></i> ${isQuotation ? 'Quotation' : 'Invoice'} Items`);
             
             // Update grand total label
-            document.getElementById('grand-total-label').textContent = isQuotation ? 'TOTAL QUOTATION:' : 'GRAND TOTAL:';
+            safeSetTextContent('grand-total-label', isQuotation ? 'TOTAL QUOTATION:' : 'GRAND TOTAL:');
             
             // Update buttons
-            document.getElementById('preview-btn').innerHTML = `<i class="fas fa-eye"></i> Preview ${isQuotation ? 'Quotation' : 'Document'}`;
-            document.getElementById('print-btn').innerHTML = `<i class="fas fa-print"></i> Print ${isQuotation ? 'Quotation' : 'Document'}`;
-            whatsappBtn.innerHTML = `<i class="fab fa-whatsapp"></i> Share ${isQuotation ? 'Quotation' : 'Document'}`;
+            safeSetHTML('preview-btn', `<i class="fas fa-eye"></i> Preview ${isQuotation ? 'Quotation' : 'Document'}`);
+            if (printBtn) printBtn.innerHTML = `<i class="fas fa-print"></i> Print ${isQuotation ? 'Quotation' : 'Document'}`;
+            if (whatsappBtn) whatsappBtn.innerHTML = `<i class="fab fa-whatsapp"></i> Share ${isQuotation ? 'Quotation' : 'Document'}`;
         }
         
         // Update preview labels based on document type
         function updatePreviewLabels(isQuotation) {
             // Update document type in header
-            const previewDocType = document.getElementById('preview-doc-type');
-            previewDocType.textContent = isQuotation ? 'QUOTATION' : (document.getElementById('btn-proforma').classList.contains('active') ? 'PROFORMA INVOICE' : 'TAX INVOICE');
-            previewDocType.classList.toggle('quotation-title', isQuotation);
+            const previewDocType = safeGetElement('preview-doc-type');
+            if (previewDocType) {
+                previewDocType.textContent = isQuotation ? 'QUOTATION' : (document.getElementById('btn-proforma')?.classList.contains('active') ? 'PROFORMA INVOICE' : 'TAX INVOICE');
+                previewDocType.classList.toggle('quotation-title', isQuotation);
+            }
             
             // Update client title
-            document.getElementById('client-title').textContent = isQuotation ? 'TO:' : 'BILL TO:';
-            document.getElementById('client-title').classList.toggle('quotation-info-title', isQuotation);
+            safeSetTextContent('client-title', isQuotation ? 'TO:' : 'BILL TO:');
+            const clientTitle = safeGetElement('client-title');
+            if (clientTitle) clientTitle.classList.toggle('quotation-info-title', isQuotation);
             
             // Update company title
-            document.getElementById('company-title').textContent = 'FROM:';
-            document.getElementById('company-title').classList.toggle('quotation-info-title', isQuotation);
+            safeSetTextContent('company-title', 'FROM:');
+            const companyTitle = safeGetElement('company-title');
+            if (companyTitle) companyTitle.classList.toggle('quotation-info-title', isQuotation);
             
             // Update details title
-            document.getElementById('preview-details-title').textContent = isQuotation ? 'QUOTATION DETAILS:' : 'INVOICE DETAILS:';
-            document.getElementById('preview-details-title').classList.toggle('quotation-info-title', isQuotation);
+            safeSetTextContent('preview-details-title', isQuotation ? 'QUOTATION DETAILS:' : 'INVOICE DETAILS:');
+            const detailsTitle = safeGetElement('preview-details-title');
+            if (detailsTitle) detailsTitle.classList.toggle('quotation-info-title', isQuotation);
             
             // Update document number and date labels
-            document.getElementById('preview-doc-number-label').textContent = isQuotation ? 'Quotation #:' : 'Invoice #:';
-            document.getElementById('preview-doc-date-label').textContent = isQuotation ? 'Quotation Date:' : 'Invoice Date:';
+            safeSetTextContent('preview-doc-number-label', isQuotation ? 'Quotation #:' : 'Invoice #:');
+            safeSetTextContent('preview-doc-date-label', isQuotation ? 'Quotation Date:' : 'Invoice Date:');
             
             // Update info box styling
-            document.getElementById('preview-info-box').classList.toggle('quotation-info-box', isQuotation);
+            const infoBox = safeGetElement('preview-info-box');
+            if (infoBox) infoBox.classList.toggle('quotation-info-box', isQuotation);
             
             // Update items table styling
-            document.getElementById('preview-items-table').classList.toggle('quotation-items-preview', isQuotation);
+            const itemsTable = safeGetElement('preview-items-table');
+            if (itemsTable) itemsTable.classList.toggle('quotation-items-preview', isQuotation);
             
             // Update totals section styling
-            document.getElementById('preview-totals').classList.toggle('quotation-totals', isQuotation);
-            document.getElementById('preview-grand-total-label').textContent = isQuotation ? 'TOTAL QUOTATION:' : 'GRAND TOTAL:';
+            const totals = safeGetElement('preview-totals');
+            if (totals) totals.classList.toggle('quotation-totals', isQuotation);
+            
+            safeSetTextContent('preview-grand-total-label', isQuotation ? 'TOTAL QUOTATION:' : 'GRAND TOTAL:');
             document.querySelectorAll('#preview-totals .total-label').forEach(label => {
                 label.classList.toggle('quotation-total-label', isQuotation);
             });
             document.querySelectorAll('#preview-totals .total-value').forEach(value => {
                 value.classList.toggle('quotation-total-value', isQuotation);
             });
-            document.querySelector('#preview-totals .grand-total').classList.toggle('quotation-grand-total', isQuotation);
+            const grandTotal = document.querySelector('#preview-totals .grand-total');
+            if (grandTotal) grandTotal.classList.toggle('quotation-grand-total', isQuotation);
             
             // Update terms section styling
-            document.getElementById('preview-terms-section').classList.toggle('quotation-terms-section', isQuotation);
-            document.getElementById('preview-terms-title').classList.toggle('quotation-terms-title', isQuotation);
+            const termsSection = safeGetElement('preview-terms-section');
+            if (termsSection) termsSection.classList.toggle('quotation-terms-section', isQuotation);
+            
+            const termsTitle = safeGetElement('preview-terms-title');
+            if (termsTitle) termsTitle.classList.toggle('quotation-terms-title', isQuotation);
             
             // Update intro box
-            const introBox = document.getElementById('preview-intro-box');
-            if (isQuotation) {
-                introBox.style.backgroundColor = 'rgba(41, 128, 185, 0.1)';
-                introBox.style.borderLeft = '4px solid var(--kingu-blue)';
-                document.getElementById('preview-subject').style.color = 'var(--kingu-blue)';
-                document.getElementById('preview-subject').textContent = 'Subject: Quotation for Electrical Services';
-                document.getElementById('preview-quotation-text').innerHTML = `
-                    Dear Sir/Madam,<br><br>
-                    Thank you for your inquiry. We are pleased to submit our quotation for the requested electrical services. 
-                    All prices are inclusive of VAT where applicable and are valid for 30 days.
-                `;
-            } else {
-                const isProforma = document.getElementById('btn-proforma').classList.contains('active');
-                introBox.style.backgroundColor = 'var(--kingu-light)';
-                introBox.style.borderLeft = '4px solid var(--kingu-green)';
-                document.getElementById('preview-subject').style.color = 'var(--kingu-green)';
-                document.getElementById('preview-subject').textContent = isProforma ? 'Subject: Proforma Invoice for Electrical Services' : 'Subject: Invoice for Electrical Services';
-                document.getElementById('preview-quotation-text').innerHTML = `
-                    ${isProforma ? 'PROFORMA INVOICE' : 'TAX INVOICE'}<br><br>
-                    This ${isProforma ? 'proforma invoice' : 'invoice'} is prepared for the services rendered. 
-                    All prices are inclusive of VAT where applicable.
-                `;
+            const introBox = safeGetElement('preview-intro-box');
+            if (introBox) {
+                if (isQuotation) {
+                    introBox.style.backgroundColor = 'rgba(41, 128, 185, 0.1)';
+                    introBox.style.borderLeft = '4px solid var(--kingu-blue)';
+                    const subject = safeGetElement('preview-subject');
+                    if (subject) {
+                        subject.style.color = 'var(--kingu-blue)';
+                        subject.textContent = 'Subject: Quotation for Electrical Services';
+                    }
+                    const quotationText = safeGetElement('preview-quotation-text');
+                    if (quotationText) {
+                        quotationText.innerHTML = `
+                            Dear Sir/Madam,<br><br>
+                            Thank you for your inquiry. We are pleased to submit our quotation for the requested electrical services. 
+                            All prices are inclusive of VAT where applicable and are valid for 30 days.
+                        `;
+                    }
+                } else {
+                    const isProforma = document.getElementById('btn-proforma')?.classList.contains('active');
+                    introBox.style.backgroundColor = 'var(--kingu-light)';
+                    introBox.style.borderLeft = '4px solid var(--kingu-green)';
+                    const subject = safeGetElement('preview-subject');
+                    if (subject) {
+                        subject.style.color = 'var(--kingu-green)';
+                        subject.textContent = isProforma ? 'Subject: Proforma Invoice for Electrical Services' : 'Subject: Invoice for Electrical Services';
+                    }
+                    const quotationText = safeGetElement('preview-quotation-text');
+                    if (quotationText) {
+                        quotationText.innerHTML = `
+                            ${isProforma ? 'PROFORMA INVOICE' : 'TAX INVOICE'}<br><br>
+                            This ${isProforma ? 'proforma invoice' : 'invoice'} is prepared for the services rendered. 
+                            All prices are inclusive of VAT where applicable.
+                        `;
+                    }
+                }
             }
             
             // Update footer text
-            document.getElementById('preview-thank-you').textContent = isQuotation 
+            safeSetTextContent('preview-thank-you', isQuotation 
                 ? 'Thank you for considering our quotation. We look forward to the opportunity to serve you.' 
-                : 'Thank you for your business! We value our partnership and look forward to serving you.';
-            document.getElementById('preview-footer-note').textContent = isQuotation 
+                : 'Thank you for your business! We value our partnership and look forward to serving you.');
+            safeSetTextContent('preview-footer-note', isQuotation 
                 ? 'This is a computer-generated quotation. No signature is required.' 
-                : 'This is a computer-generated document. No signature is required.';
+                : 'This is a computer-generated document. No signature is required.');
             
             // Update container styling
-            invoicePreview.classList.toggle('quotation-preview-container', isQuotation);
+            if (invoicePreview) invoicePreview.classList.toggle('quotation-preview-container', isQuotation);
         }
         
         // Update preview with additional fields
         function updatePreview() {
-            const isQuotation = document.getElementById('btn-quotation').classList.contains('quotation-active');
+            const isQuotation = document.getElementById('btn-quotation')?.classList.contains('quotation-active');
             
             // Update preview labels
             updatePreviewLabels(isQuotation);
             
-            const currency = document.getElementById('currency').value;
+            const currencySelect = safeGetElement('currency');
+            const currency = currencySelect ? currencySelect.value : 'TSh';
             
             // Update stamps visibility
-            document.querySelector('.stamp').style.display = isQuotation ? 'none' : 'block';
-            document.querySelector('.quotation-stamp').style.display = isQuotation ? 'block' : 'none';
+            const stamp = document.querySelector('.stamp');
+            const quotationStamp = document.querySelector('.quotation-stamp');
+            if (stamp) stamp.style.display = isQuotation ? 'none' : 'block';
+            if (quotationStamp) quotationStamp.style.display = isQuotation ? 'block' : 'none';
             
             // Update client info
-            document.getElementById('preview-client-name').innerHTML = `<strong>${document.getElementById('client-name').value || 'Client Name'}</strong>`;
-            document.getElementById('preview-client-address').textContent = document.getElementById('client-address').value || 'Client Address';
-            document.getElementById('preview-client-tin').textContent = document.getElementById('client-tin').value ? `TIN Number: ${document.getElementById('client-tin').value}` : '';
-            document.getElementById('preview-client-vat').textContent = document.getElementById('client-vat').value ? `VAT: ${document.getElementById('client-vat').value}` : '';
-            document.getElementById('preview-client-phone').textContent = document.getElementById('client-phone').value ? `Phone: ${document.getElementById('client-phone').value}` : '';
-            document.getElementById('preview-client-email').textContent = document.getElementById('client-email').value ? `Email: ${document.getElementById('client-email').value}` : '';
+            const clientName = safeGetElement('client-name')?.value || 'Client Name';
+            safeSetHTML('preview-client-name', `<strong>${clientName}</strong>`);
+            
+            const clientAddress = safeGetElement('client-address')?.value || 'Client Address';
+            safeSetTextContent('preview-client-address', clientAddress);
+            
+            const clientTin = safeGetElement('client-tin')?.value;
+            safeSetTextContent('preview-client-tin', clientTin ? `TIN Number: ${clientTin}` : '');
+            
+            const clientVat = safeGetElement('client-vat')?.value;
+            safeSetTextContent('preview-client-vat', clientVat ? `VAT: ${clientVat}` : '');
+            
+            const clientPhone = safeGetElement('client-phone')?.value;
+            safeSetTextContent('preview-client-phone', clientPhone ? `Phone: ${clientPhone}` : '');
+            
+            const clientEmail = safeGetElement('client-email')?.value;
+            safeSetTextContent('preview-client-email', clientEmail ? `Email: ${clientEmail}` : '');
             
             // Update document details
-            document.getElementById('preview-invoice-number').textContent = document.getElementById('invoice-number').value;
-            document.getElementById('preview-invoice-date').textContent = formatDate(document.getElementById('invoice-date').value);
+            const invoiceNumber = safeGetElement('invoice-number')?.value;
+            safeSetTextContent('preview-invoice-number', invoiceNumber || '');
             
-            const dueDate = document.getElementById('due-date').value;
+            const invoiceDate = safeGetElement('invoice-date')?.value;
+            safeSetTextContent('preview-invoice-date', formatDate(invoiceDate));
+            
+            const dueDate = safeGetElement('due-date')?.value;
             if (dueDate) {
                 // Add due date to preview if it exists
-                const infoBox = document.getElementById('preview-info-box');
-                const dueDateElement = infoBox.querySelector('#preview-due-date');
-                if (!dueDateElement) {
-                    const p = document.createElement('p');
-                    p.innerHTML = `<strong>Due Date:</strong> <span id="preview-due-date">${formatDate(dueDate)}</span>`;
-                    infoBox.appendChild(p);
-                } else {
-                    dueDateElement.textContent = formatDate(dueDate);
+                const infoBox = safeGetElement('preview-info-box');
+                if (infoBox) {
+                    let dueDateElement = infoBox.querySelector('#preview-due-date');
+                    if (!dueDateElement) {
+                        const p = document.createElement('p');
+                        p.innerHTML = `<strong>Due Date:</strong> <span id="preview-due-date">${formatDate(dueDate)}</span>`;
+                        infoBox.appendChild(p);
+                    } else {
+                        dueDateElement.textContent = formatDate(dueDate);
+                    }
                 }
             }
             
-            const deliveryTime = document.getElementById('delivery-time').value || '7';
-            document.getElementById('preview-delivery-time').textContent = `${deliveryTime} days after PO`;
+            const deliveryTime = safeGetElement('delivery-time')?.value || '7';
+            safeSetTextContent('preview-delivery-time', `${deliveryTime} days after PO`);
             
-            let paymentTerms = document.getElementById('payment-terms').value || '';
+            let paymentTerms = safeGetElement('payment-terms')?.value || '';
             if (paymentTerms === 'Custom') {
-                paymentTerms = document.getElementById('custom-payment-terms').value || '';
+                paymentTerms = safeGetElement('custom-payment-terms')?.value || '';
             }
-            document.getElementById('preview-payment-terms').textContent = paymentTerms;
+            safeSetTextContent('preview-payment-terms', paymentTerms);
             
             // Update document items
-            previewItems.innerHTML = '';
+            if (previewItems) previewItems.innerHTML = '';
             
             const rows = document.querySelectorAll('#invoice-items tr');
             rows.forEach(row => {
-                const description = row.querySelector('.item-description').value || 'Service item';
-                const quantity = parseFloat(row.querySelector('.item-quantity').value) || 0;
-                const price = parseFloat(row.querySelector('.item-price').value) || 0;
+                const description = row.querySelector('.item-description')?.value || 'Service item';
+                const quantity = parseFloat(row.querySelector('.item-quantity')?.value) || 0;
+                const price = parseFloat(row.querySelector('.item-price')?.value) || 0;
                 const total = quantity * price;
                 
                 const newRow = document.createElement('tr');
@@ -2610,147 +2747,133 @@ SWIFT CODE: SBICTZTX</textarea>
                     <td>${formatCurrency(total, currency)}</td>
                 `;
                 
-                previewItems.appendChild(newRow);
+                if (previewItems) previewItems.appendChild(newRow);
             });
             
             // Update totals
-            const subtotal = extractCurrencyValue(document.getElementById('subtotal').textContent);
-            const discount = extractCurrencyValue(document.getElementById('discount-amount').textContent);
-            const tax = extractCurrencyValue(document.getElementById('tax').textContent);
-            const grandTotal = extractCurrencyValue(document.getElementById('grand-total').textContent);
+            const subtotal = extractCurrencyValue(safeGetElement('subtotal')?.textContent || '0');
+            const discount = extractCurrencyValue(safeGetElement('discount-amount')?.textContent || '0');
+            const tax = extractCurrencyValue(safeGetElement('tax')?.textContent || '0');
+            const grandTotal = extractCurrencyValue(safeGetElement('grand-total')?.textContent || '0');
             
             // Update totals in preview
-            const previewTotals = document.getElementById('preview-totals');
-            let totalsHTML = `
-                <div class="total-row">
-                    <span class="total-label">Subtotal:</span>
-                    <span class="total-value" id="preview-subtotal">${formatCurrency(subtotal, currency)}</span>
-                </div>
-            `;
-            
-            if (discount > 0) {
-                totalsHTML += `
+            const previewTotals = safeGetElement('preview-totals');
+            if (previewTotals) {
+                let totalsHTML = `
                     <div class="total-row">
-                        <span class="total-label">Discount:</span>
-                        <span class="total-value" id="preview-discount">${formatCurrency(discount, currency)}</span>
+                        <span class="total-label">Subtotal:</span>
+                        <span class="total-value" id="preview-subtotal">${formatCurrency(subtotal, currency)}</span>
                     </div>
                 `;
+                
+                if (discount > 0) {
+                    totalsHTML += `
+                        <div class="total-row">
+                            <span class="total-label">Discount:</span>
+                            <span class="total-value" id="preview-discount">${formatCurrency(discount, currency)}</span>
+                        </div>
+                    `;
+                }
+                
+                totalsHTML += `
+                    <div class="total-row">
+                        <span class="total-label">VAT (18%):</span>
+                        <span class="total-value" id="preview-tax">${formatCurrency(tax, currency)}</span>
+                    </div>
+                    <div class="total-row grand-total">
+                        <span class="total-label" id="preview-grand-total-label">${isQuotation ? 'TOTAL QUOTATION:' : 'GRAND TOTAL:'}</span>
+                        <span class="total-value" id="preview-grand-total">${formatCurrency(grandTotal, currency)}</span>
+                    </div>
+                `;
+                
+                // Add amount in words
+                const amountWords = safeGetElement('amount-words')?.textContent || '';
+                totalsHTML += `
+                    <div style="margin-top: 15px; font-size: 14px; font-style: italic; color: #555;">
+                        <strong>Amount in Words:</strong> ${amountWords}
+                    </div>
+                `;
+                
+                previewTotals.innerHTML = totalsHTML;
             }
             
-            totalsHTML += `
-                <div class="total-row">
-                    <span class="total-label">VAT (18%):</span>
-                    <span class="total-value" id="preview-tax">${formatCurrency(tax, currency)}</span>
-                </div>
-                <div class="total-row grand-total">
-                    <span class="total-label" id="preview-grand-total-label">${isQuotation ? 'TOTAL QUOTATION:' : 'GRAND TOTAL:'}</span>
-                    <span class="total-value" id="preview-grand-total">${formatCurrency(grandTotal, currency)}</span>
-                </div>
-            `;
-            
-            // Add amount in words
-            totalsHTML += `
-                <div style="margin-top: 15px; font-size: 14px; font-style: italic; color: #555;">
-                    <strong>Amount in Words:</strong> ${document.getElementById('amount-words').textContent}
-                </div>
-            `;
-            
-            previewTotals.innerHTML = totalsHTML;
-            
             // Update terms
-            document.getElementById('preview-bank-details').textContent = document.getElementById('bank-details').value || '';
-            document.getElementById('preview-notes').textContent = document.getElementById('notes').value || '';
+            const bankDetails = safeGetElement('bank-details')?.value || '';
+            safeSetTextContent('preview-bank-details', bankDetails);
+            
+            const notes = safeGetElement('notes')?.value || '';
+            safeSetTextContent('preview-notes', notes);
         }
         
         // Setup navigation with new sections
         function setupNavigation() {
-            document.getElementById('nav-create').addEventListener('click', function(e) {
-                e.preventDefault();
-                showSection('create');
-                this.classList.add('active');
-            });
+            const navItems = ['nav-create', 'nav-proforma', 'nav-history', 'nav-clients', 'nav-reports', 'nav-settings'];
             
-            document.getElementById('nav-proforma').addEventListener('click', function(e) {
-                e.preventDefault();
-                showSection('proforma');
-                this.classList.add('active');
-            });
-            
-            document.getElementById('nav-history').addEventListener('click', function(e) {
-                e.preventDefault();
-                showSection('history');
-                this.classList.add('active');
-            });
-            
-            document.getElementById('nav-clients').addEventListener('click', function(e) {
-                e.preventDefault();
-                showSection('clients');
-                this.classList.add('active');
-            });
-            
-            document.getElementById('nav-reports').addEventListener('click', function(e) {
-                e.preventDefault();
-                showSection('reports');
-                this.classList.add('active');
-            });
-            
-            document.getElementById('nav-settings').addEventListener('click', function(e) {
-                e.preventDefault();
-                showSection('settings');
-                this.classList.add('active');
+            navItems.forEach(navId => {
+                const navItem = safeGetElement(navId);
+                if (navItem) {
+                    navItem.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        const section = navId.replace('nav-', '');
+                        showSection(section);
+                        
+                        // Update navigation active state
+                        document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
+                        this.classList.add('active');
+                    });
+                }
             });
         }
         
         // Show specific section
         function showSection(section) {
             // Hide all sections
-            invoiceForm.style.display = 'none';
-            invoicePreview.style.display = 'none';
-            proformaInvoicesContainer.style.display = 'none';
-            invoiceHistoryContainer.style.display = 'none';
-            clientDatabaseContainer.style.display = 'none';
-            reportsSection.style.display = 'none';
-            settingsSection.style.display = 'none';
+            if (invoiceForm) invoiceForm.style.display = 'none';
+            if (invoicePreview) invoicePreview.style.display = 'none';
+            if (proformaInvoicesContainer) proformaInvoicesContainer.style.display = 'none';
+            if (invoiceHistoryContainer) invoiceHistoryContainer.style.display = 'none';
+            if (clientDatabaseContainer) clientDatabaseContainer.style.display = 'none';
+            if (reportsSection) reportsSection.style.display = 'none';
+            if (settingsSection) settingsSection.style.display = 'none';
             
             // Hide action buttons
-            printBtn.style.display = 'none';
-            pdfBtn.style.display = 'none';
-            whatsappBtn.style.display = 'none';
-            document.getElementById('new-document-btn').style.display = 'inline-flex';
+            if (printBtn) printBtn.style.display = 'none';
+            if (pdfBtn) pdfBtn.style.display = 'none';
+            if (whatsappBtn) whatsappBtn.style.display = 'none';
+            const newDocBtn = safeGetElement('new-document-btn');
+            if (newDocBtn) newDocBtn.style.display = 'inline-flex';
             
             // Show selected section
             switch(section) {
                 case 'create':
-                    invoiceForm.style.display = 'block';
-                    whatsappBtn.style.display = 'inline-flex';
+                    if (invoiceForm) invoiceForm.style.display = 'block';
+                    if (whatsappBtn) whatsappBtn.style.display = 'inline-flex';
                     break;
                 case 'proforma':
-                    proformaInvoicesContainer.style.display = 'block';
+                    if (proformaInvoicesContainer) proformaInvoicesContainer.style.display = 'block';
                     loadSavedDocuments();
                     break;
                 case 'history':
-                    invoiceHistoryContainer.style.display = 'block';
+                    if (invoiceHistoryContainer) invoiceHistoryContainer.style.display = 'block';
                     loadSavedDocuments();
                     break;
                 case 'clients':
-                    clientDatabaseContainer.style.display = 'block';
+                    if (clientDatabaseContainer) clientDatabaseContainer.style.display = 'block';
                     loadClientDatabase();
                     break;
                 case 'reports':
-                    reportsSection.style.display = 'block';
+                    if (reportsSection) reportsSection.style.display = 'block';
                     break;
                 case 'settings':
-                    settingsSection.style.display = 'block';
+                    if (settingsSection) settingsSection.style.display = 'block';
                     break;
             }
-            
-            // Update navigation active state
-            document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
         }
         
         // Add new item row
         function addNewItem() {
-            const currency = document.getElementById('currency').value;
+            const currencySelect = safeGetElement('currency');
+            const currency = currencySelect ? currencySelect.value : 'TSh';
             const symbol = currency === 'TSh' ? 'TSh' : 
                           currency === 'USD' ? '$' :
                           currency === 'EUR' ? '€' : '£';
@@ -2769,7 +2892,7 @@ SWIFT CODE: SBICTZTX</textarea>
                 <td class="text-center"><button class="delete-item"><i class="fas fa-trash"></i></button></td>
             `;
             
-            invoiceItems.appendChild(newRow);
+            if (invoiceItems) invoiceItems.appendChild(newRow);
             
             // Add event listeners
             newRow.querySelector('.item-quantity').addEventListener('input', updateTotals);
@@ -2781,7 +2904,7 @@ SWIFT CODE: SBICTZTX</textarea>
         // Delete item row
         function deleteItem(button) {
             const row = button.closest('tr');
-            row.remove();
+            if (row) row.remove();
             updateTotals();
         }
         
@@ -2791,18 +2914,18 @@ SWIFT CODE: SBICTZTX</textarea>
             
             // Add a small delay to ensure rendering is complete
             setTimeout(() => {
-                invoiceForm.style.display = 'none';
-                invoicePreview.style.display = 'block';
-                printBtn.style.display = 'inline-flex';
-                pdfBtn.style.display = 'inline-flex';
-                whatsappBtn.style.display = 'inline-flex';
+                if (invoiceForm) invoiceForm.style.display = 'none';
+                if (invoicePreview) invoicePreview.style.display = 'block';
+                if (printBtn) printBtn.style.display = 'inline-flex';
+                if (pdfBtn) pdfBtn.style.display = 'inline-flex';
+                if (whatsappBtn) whatsappBtn.style.display = 'inline-flex';
                 
                 // Hide history sections
-                proformaInvoicesContainer.style.display = 'none';
-                invoiceHistoryContainer.style.display = 'none';
-                clientDatabaseContainer.style.display = 'none';
-                reportsSection.style.display = 'none';
-                settingsSection.style.display = 'none';
+                if (proformaInvoicesContainer) proformaInvoicesContainer.style.display = 'none';
+                if (invoiceHistoryContainer) invoiceHistoryContainer.style.display = 'none';
+                if (clientDatabaseContainer) clientDatabaseContainer.style.display = 'none';
+                if (reportsSection) reportsSection.style.display = 'none';
+                if (settingsSection) settingsSection.style.display = 'none';
                 
                 // Update navigation
                 document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
@@ -2811,12 +2934,13 @@ SWIFT CODE: SBICTZTX</textarea>
         
         // Save document
         function saveDocument() {
-            const isProforma = document.getElementById('btn-proforma').classList.contains('active');
-            const isStandard = document.getElementById('btn-standard').classList.contains('active');
-            const isQuotation = document.getElementById('btn-quotation').classList.contains('quotation-active');
+            const isProforma = document.getElementById('btn-proforma')?.classList.contains('active');
+            const isStandard = document.getElementById('btn-standard')?.classList.contains('active');
+            const isQuotation = document.getElementById('btn-quotation')?.classList.contains('quotation-active');
             
             const documentType = isProforma ? 'Proforma' : isStandard ? 'Standard' : 'Quotation';
-            const currency = document.getElementById('currency').value;
+            const currencySelect = safeGetElement('currency');
+            const currency = currencySelect ? currencySelect.value : 'TSh';
             
             const documentData = {
                 id: Date.now(), // Unique ID for each document
@@ -2827,25 +2951,25 @@ SWIFT CODE: SBICTZTX</textarea>
                 phoneNumbers: [COMPANY_PHONE_1, COMPANY_PHONE_2, COMPANY_PHONE_3],
                 address: COMPANY_ADDRESS,
                 type: documentType,
-                documentNumber: document.getElementById('invoice-number').value,
-                documentDate: document.getElementById('invoice-date').value,
-                dueDate: document.getElementById('due-date').value,
+                documentNumber: safeGetElement('invoice-number')?.value || '',
+                documentDate: safeGetElement('invoice-date')?.value || '',
+                dueDate: safeGetElement('due-date')?.value || '',
                 currency: currency,
-                deliveryTime: document.getElementById('delivery-time').value,
-                clientName: document.getElementById('client-name').value,
-                clientEmail: document.getElementById('client-email').value,
-                clientPhone: document.getElementById('client-phone').value,
-                clientAddress: document.getElementById('client-address').value,
-                clientTIN: document.getElementById('client-tin').value,
-                clientVAT: document.getElementById('client-vat').value,
-                paymentTerms: document.getElementById('payment-terms').value,
-                bankDetails: document.getElementById('bank-details').value,
-                notes: document.getElementById('notes').value,
+                deliveryTime: safeGetElement('delivery-time')?.value || '7',
+                clientName: safeGetElement('client-name')?.value || '',
+                clientEmail: safeGetElement('client-email')?.value || '',
+                clientPhone: safeGetElement('client-phone')?.value || '',
+                clientAddress: safeGetElement('client-address')?.value || '',
+                clientTIN: safeGetElement('client-tin')?.value || '',
+                clientVAT: safeGetElement('client-vat')?.value || '',
+                paymentTerms: safeGetElement('payment-terms')?.value || '',
+                bankDetails: safeGetElement('bank-details')?.value || '',
+                notes: safeGetElement('notes')?.value || '',
                 items: [],
-                subtotal: extractCurrencyValue(document.getElementById('subtotal').textContent),
-                discount: extractCurrencyValue(document.getElementById('discount-amount').textContent),
-                tax: extractCurrencyValue(document.getElementById('tax').textContent),
-                grandTotal: extractCurrencyValue(document.getElementById('grand-total').textContent),
+                subtotal: extractCurrencyValue(safeGetElement('subtotal')?.textContent || '0'),
+                discount: extractCurrencyValue(safeGetElement('discount-amount')?.textContent || '0'),
+                tax: extractCurrencyValue(safeGetElement('tax')?.textContent || '0'),
+                grandTotal: extractCurrencyValue(safeGetElement('grand-total')?.textContent || '0'),
                 savedDate: new Date().toISOString(),
                 status: isQuotation ? 'Quotation' : (isProforma ? 'Pending' : 'Unpaid')
             };
@@ -2854,10 +2978,10 @@ SWIFT CODE: SBICTZTX</textarea>
             const rows = document.querySelectorAll('#invoice-items tr');
             rows.forEach(row => {
                 const item = {
-                    description: row.querySelector('.item-description').value,
-                    quantity: parseFloat(row.querySelector('.item-quantity').value) || 0,
-                    price: parseFloat(row.querySelector('.item-price').value) || 0,
-                    total: extractCurrencyValue(row.querySelector('.item-total').textContent)
+                    description: row.querySelector('.item-description')?.value || '',
+                    quantity: parseFloat(row.querySelector('.item-quantity')?.value) || 0,
+                    price: parseFloat(row.querySelector('.item-price')?.value) || 0,
+                    total: extractCurrencyValue(row.querySelector('.item-total')?.textContent || '0')
                 };
                 documentData.items.push(item);
             });
@@ -2890,116 +3014,124 @@ SWIFT CODE: SBICTZTX</textarea>
             
             try {
                 // Get document preview element
-                const documentElement = document.getElementById('invoice-preview');
+                const documentElement = safeGetElement('invoice-preview');
+                if (!documentElement) {
+                    throw new Error('Invoice preview element not found');
+                }
                 
                 // Temporarily update preview with the saved data
-                const originalDisplay = invoicePreview.style.display;
-                invoicePreview.style.display = 'block';
+                const originalDisplay = invoicePreview ? invoicePreview.style.display : 'none';
+                if (invoicePreview) invoicePreview.style.display = 'block';
                 
                 // Store original content
-                const originalClientName = document.getElementById('preview-client-name').innerHTML;
-                const originalClientAddress = document.getElementById('preview-client-address').textContent;
-                const originalClientTIN = document.getElementById('preview-client-tin').textContent;
-                const originalClientPhone = document.getElementById('preview-client-phone').textContent;
-                const originalClientEmail = document.getElementById('preview-client-email').textContent;
-                const originalInvoiceNumber = document.getElementById('preview-invoice-number').textContent;
-                const originalInvoiceDate = document.getElementById('preview-invoice-date').textContent;
-                const originalDueDate = document.getElementById('preview-due-date') ? document.getElementById('preview-due-date').textContent : '';
-                const originalDeliveryTime = document.getElementById('preview-delivery-time').textContent;
-                const originalPaymentTerms = document.getElementById('preview-payment-terms').textContent;
-                const originalPreviewItems = previewItems.innerHTML;
-                const originalPreviewTotals = document.getElementById('preview-totals').innerHTML;
-                const originalBankDetails = document.getElementById('preview-bank-details').textContent;
-                const originalNotes = document.getElementById('preview-notes').textContent;
+                const originalClientName = safeGetElement('preview-client-name')?.innerHTML;
+                const originalClientAddress = safeGetElement('preview-client-address')?.textContent;
+                const originalClientTIN = safeGetElement('preview-client-tin')?.textContent;
+                const originalClientPhone = safeGetElement('preview-client-phone')?.textContent;
+                const originalClientEmail = safeGetElement('preview-client-email')?.textContent;
+                const originalInvoiceNumber = safeGetElement('preview-invoice-number')?.textContent;
+                const originalInvoiceDate = safeGetElement('preview-invoice-date')?.textContent;
+                const originalPreviewItems = previewItems ? previewItems.innerHTML : '';
+                const originalPreviewTotals = safeGetElement('preview-totals')?.innerHTML;
+                const originalBankDetails = safeGetElement('preview-bank-details')?.textContent;
+                const originalNotes = safeGetElement('preview-notes')?.textContent;
                 
                 // Update preview with document data
                 const isQuotation = documentData.type === 'Quotation';
                 updatePreviewLabels(isQuotation);
                 
-                document.getElementById('preview-doc-type').textContent = documentData.type.toUpperCase();
-                document.getElementById('preview-client-name').innerHTML = `<strong>${documentData.clientName || 'Client Name'}</strong>`;
-                document.getElementById('preview-client-address').textContent = documentData.clientAddress || 'Client Address';
-                document.getElementById('preview-client-tin').textContent = documentData.clientTIN ? `TIN Number: ${documentData.clientTIN}` : '';
-                document.getElementById('preview-client-phone').textContent = documentData.clientPhone ? `Phone: ${documentData.clientPhone}` : '';
-                document.getElementById('preview-client-email').textContent = documentData.clientEmail ? `Email: ${documentData.clientEmail}` : '';
-                document.getElementById('preview-invoice-number').textContent = documentData.documentNumber;
-                document.getElementById('preview-invoice-date').textContent = formatDate(documentData.documentDate);
+                safeSetTextContent('preview-doc-type', documentData.type.toUpperCase());
+                safeSetHTML('preview-client-name', `<strong>${documentData.clientName || 'Client Name'}</strong>`);
+                safeSetTextContent('preview-client-address', documentData.clientAddress || 'Client Address');
+                safeSetTextContent('preview-client-tin', documentData.clientTIN ? `TIN Number: ${documentData.clientTIN}` : '');
+                safeSetTextContent('preview-client-phone', documentData.clientPhone ? `Phone: ${documentData.clientPhone}` : '');
+                safeSetTextContent('preview-client-email', documentData.clientEmail ? `Email: ${documentData.clientEmail}` : '');
+                safeSetTextContent('preview-invoice-number', documentData.documentNumber);
+                safeSetTextContent('preview-invoice-date', formatDate(documentData.documentDate));
                 
                 // Update due date
                 if (documentData.dueDate) {
-                    let dueDateElement = document.getElementById('preview-due-date');
-                    if (!dueDateElement) {
-                        const infoBox = document.getElementById('preview-info-box');
-                        const p = document.createElement('p');
-                        p.innerHTML = `<strong>Due Date:</strong> <span id="preview-due-date">${formatDate(documentData.dueDate)}</span>`;
-                        infoBox.appendChild(p);
-                    } else {
-                        dueDateElement.textContent = formatDate(documentData.dueDate);
+                    const infoBox = safeGetElement('preview-info-box');
+                    if (infoBox) {
+                        let dueDateElement = infoBox.querySelector('#preview-due-date');
+                        if (!dueDateElement) {
+                            const p = document.createElement('p');
+                            p.innerHTML = `<strong>Due Date:</strong> <span id="preview-due-date">${formatDate(documentData.dueDate)}</span>`;
+                            infoBox.appendChild(p);
+                        } else {
+                            dueDateElement.textContent = formatDate(documentData.dueDate);
+                        }
                     }
                 }
                 
-                document.getElementById('preview-delivery-time').textContent = documentData.deliveryTime ? `${documentData.deliveryTime} days after PO` : '7 days after PO';
-                document.getElementById('preview-payment-terms').textContent = documentData.paymentTerms || '';
+                safeSetTextContent('preview-delivery-time', documentData.deliveryTime ? `${documentData.deliveryTime} days after PO` : '7 days after PO');
+                safeSetTextContent('preview-payment-terms', documentData.paymentTerms || '');
                 
                 // Set stamps
-                document.querySelector('.stamp').style.display = isQuotation ? 'none' : 'block';
-                document.querySelector('.quotation-stamp').style.display = isQuotation ? 'block' : 'none';
+                const stamp = document.querySelector('.stamp');
+                const quotationStamp = document.querySelector('.quotation-stamp');
+                if (stamp) stamp.style.display = isQuotation ? 'none' : 'block';
+                if (quotationStamp) quotationStamp.style.display = isQuotation ? 'block' : 'none';
                 
                 // Update items
-                previewItems.innerHTML = '';
-                documentData.items.forEach(item => {
-                    const newRow = document.createElement('tr');
-                    newRow.innerHTML = `
-                        <td>${item.description || 'Item'}</td>
-                        <td>${parseFloat(item.quantity || 0).toFixed(2)}</td>
-                        <td>${formatCurrency(item.price || 0, documentData.currency || 'TSh')}</td>
-                        <td>${formatCurrency(item.total || 0, documentData.currency || 'TSh')}</td>
-                    `;
-                    previewItems.appendChild(newRow);
-                });
-                
-                // Update totals in preview
-                const previewTotals = document.getElementById('preview-totals');
-                let totalsHTML = `
-                    <div class="total-row">
-                        <span class="total-label">Subtotal:</span>
-                        <span class="total-value" id="preview-subtotal">${formatCurrency(documentData.subtotal || 0, documentData.currency || 'TSh')}</span>
-                    </div>
-                `;
-                
-                if (documentData.discount > 0) {
-                    totalsHTML += `
-                        <div class="total-row">
-                            <span class="total-label">Discount:</span>
-                            <span class="total-value" id="preview-discount">${formatCurrency(documentData.discount || 0, documentData.currency || 'TSh')}</span>
-                        </div>
-                    `;
+                if (previewItems) {
+                    previewItems.innerHTML = '';
+                    documentData.items.forEach(item => {
+                        const newRow = document.createElement('tr');
+                        newRow.innerHTML = `
+                            <td>${item.description || 'Item'}</td>
+                            <td>${parseFloat(item.quantity || 0).toFixed(2)}</td>
+                            <td>${formatCurrency(item.price || 0, documentData.currency || 'TSh')}</td>
+                            <td>${formatCurrency(item.total || 0, documentData.currency || 'TSh')}</td>
+                        `;
+                        previewItems.appendChild(newRow);
+                    });
                 }
                 
-                totalsHTML += `
-                    <div class="total-row">
-                        <span class="total-label">VAT (18%):</span>
-                        <span class="total-value" id="preview-tax">${formatCurrency(documentData.tax || 0, documentData.currency || 'TSh')}</span>
-                    </div>
-                    <div class="total-row grand-total">
-                        <span class="total-label" id="preview-grand-total-label">${isQuotation ? 'TOTAL QUOTATION:' : 'GRAND TOTAL:'}</span>
-                        <span class="total-value" id="preview-grand-total">${formatCurrency(documentData.grandTotal || 0, documentData.currency || 'TSh')}</span>
-                    </div>
-                `;
-                
-                // Add amount in words
-                const amountWords = numberToWords(Math.round(documentData.grandTotal || 0));
-                totalsHTML += `
-                    <div style="margin-top: 15px; font-size: 14px; font-style: italic; color: #555;">
-                        <strong>Amount in Words:</strong> ${amountWords}
-                    </div>
-                `;
-                
-                previewTotals.innerHTML = totalsHTML;
+                // Update totals in preview
+                const previewTotals = safeGetElement('preview-totals');
+                if (previewTotals) {
+                    let totalsHTML = `
+                        <div class="total-row">
+                            <span class="total-label">Subtotal:</span>
+                            <span class="total-value" id="preview-subtotal">${formatCurrency(documentData.subtotal || 0, documentData.currency || 'TSh')}</span>
+                        </div>
+                    `;
+                    
+                    if (documentData.discount > 0) {
+                        totalsHTML += `
+                            <div class="total-row">
+                                <span class="total-label">Discount:</span>
+                                <span class="total-value" id="preview-discount">${formatCurrency(documentData.discount || 0, documentData.currency || 'TSh')}</span>
+                            </div>
+                        `;
+                    }
+                    
+                    totalsHTML += `
+                        <div class="total-row">
+                            <span class="total-label">VAT (18%):</span>
+                            <span class="total-value" id="preview-tax">${formatCurrency(documentData.tax || 0, documentData.currency || 'TSh')}</span>
+                        </div>
+                        <div class="total-row grand-total">
+                            <span class="total-label" id="preview-grand-total-label">${isQuotation ? 'TOTAL QUOTATION:' : 'GRAND TOTAL:'}</span>
+                            <span class="total-value" id="preview-grand-total">${formatCurrency(documentData.grandTotal || 0, documentData.currency || 'TSh')}</span>
+                        </div>
+                    `;
+                    
+                    // Add amount in words
+                    const amountWords = numberToWords(Math.round(documentData.grandTotal || 0));
+                    totalsHTML += `
+                        <div style="margin-top: 15px; font-size: 14px; font-style: italic; color: #555;">
+                            <strong>Amount in Words:</strong> ${amountWords}
+                        </div>
+                    `;
+                    
+                    previewTotals.innerHTML = totalsHTML;
+                }
                 
                 // Update terms
-                document.getElementById('preview-bank-details').textContent = documentData.bankDetails || '';
-                document.getElementById('preview-notes').textContent = documentData.notes || '';
+                safeSetTextContent('preview-bank-details', documentData.bankDetails || '');
+                safeSetTextContent('preview-notes', documentData.notes || '');
                 
                 // Force a reflow to ensure all elements are rendered
                 documentElement.offsetHeight;
@@ -3014,9 +3146,11 @@ SWIFT CODE: SBICTZTX</textarea>
                     onclone: function(clonedDoc) {
                         // Ensure stamps are visible in the cloned document
                         if (isQuotation) {
-                            clonedDoc.querySelector('.quotation-stamp').style.display = 'block';
+                            const stamp = clonedDoc.querySelector('.quotation-stamp');
+                            if (stamp) stamp.style.display = 'block';
                         } else {
-                            clonedDoc.querySelector('.stamp').style.display = 'block';
+                            const stamp = clonedDoc.querySelector('.stamp');
+                            if (stamp) stamp.style.display = 'block';
                         }
                     }
                 }).then(canvas => {
@@ -3039,28 +3173,21 @@ SWIFT CODE: SBICTZTX</textarea>
                     const fileName = `Kingu_${documentData.type}_${documentData.documentNumber}_${(documentData.clientName || 'Client').replace(/\s+/g, '_')}.pdf`;
                     
                     // Restore original content
-                    document.getElementById('preview-client-name').innerHTML = originalClientName;
-                    document.getElementById('preview-client-address').textContent = originalClientAddress;
-                    document.getElementById('preview-client-tin').textContent = originalClientTIN;
-                    document.getElementById('preview-client-phone').textContent = originalClientPhone;
-                    document.getElementById('preview-client-email').textContent = originalClientEmail;
-                    document.getElementById('preview-invoice-number').textContent = originalInvoiceNumber;
-                    document.getElementById('preview-invoice-date').textContent = originalInvoiceDate;
+                    if (originalClientName) safeSetHTML('preview-client-name', originalClientName);
+                    if (originalClientAddress) safeSetTextContent('preview-client-address', originalClientAddress);
+                    if (originalClientTIN) safeSetTextContent('preview-client-tin', originalClientTIN);
+                    if (originalClientPhone) safeSetTextContent('preview-client-phone', originalClientPhone);
+                    if (originalClientEmail) safeSetTextContent('preview-client-email', originalClientEmail);
+                    if (originalInvoiceNumber) safeSetTextContent('preview-invoice-number', originalInvoiceNumber);
+                    if (originalInvoiceDate) safeSetTextContent('preview-invoice-date', originalInvoiceDate);
                     
-                    // Restore due date if it existed
-                    if (originalDueDate) {
-                        document.getElementById('preview-due-date').textContent = originalDueDate;
-                    }
-                    
-                    document.getElementById('preview-delivery-time').textContent = originalDeliveryTime;
-                    document.getElementById('preview-payment-terms').textContent = originalPaymentTerms;
-                    previewItems.innerHTML = originalPreviewItems;
-                    document.getElementById('preview-totals').innerHTML = originalPreviewTotals;
-                    document.getElementById('preview-bank-details').textContent = originalBankDetails;
-                    document.getElementById('preview-notes').textContent = originalNotes;
+                    if (originalPreviewItems && previewItems) previewItems.innerHTML = originalPreviewItems;
+                    if (originalPreviewTotals) safeGetElement('preview-totals').innerHTML = originalPreviewTotals;
+                    if (originalBankDetails) safeSetTextContent('preview-bank-details', originalBankDetails);
+                    if (originalNotes) safeSetTextContent('preview-notes', originalNotes);
                     
                     // Restore original display
-                    invoicePreview.style.display = originalDisplay;
+                    if (invoicePreview) invoicePreview.style.display = originalDisplay;
                     
                     // Save PDF
                     pdf.save(fileName);
@@ -3081,9 +3208,9 @@ SWIFT CODE: SBICTZTX</textarea>
                     }
                     
                     // Restore original display
-                    invoicePreview.style.display = 'block';
+                    if (invoicePreview) invoicePreview.style.display = 'block';
                     setTimeout(() => {
-                        invoicePreview.style.display = 'none';
+                        if (invoicePreview) invoicePreview.style.display = 'none';
                     }, 100);
                     
                     alert('Error generating PDF. Please try again. If the problem persists, try printing the document instead.');
@@ -3101,42 +3228,42 @@ SWIFT CODE: SBICTZTX</textarea>
         
         // Export to PDF (manual export)
         function exportToPDF() {
-            const isProforma = document.getElementById('btn-proforma').classList.contains('active');
-            const isStandard = document.getElementById('btn-standard').classList.contains('active');
-            const isQuotation = document.getElementById('btn-quotation').classList.contains('quotation-active');
+            const isProforma = document.getElementById('btn-proforma')?.classList.contains('active');
+            const isStandard = document.getElementById('btn-standard')?.classList.contains('active');
+            const isQuotation = document.getElementById('btn-quotation')?.classList.contains('quotation-active');
             
             const documentData = {
-                documentNumber: document.getElementById('invoice-number').value,
-                clientName: document.getElementById('client-name').value,
+                documentNumber: safeGetElement('invoice-number')?.value || '',
+                clientName: safeGetElement('client-name')?.value || '',
                 type: isQuotation ? 'Quotation' : (isProforma ? 'Proforma' : 'Standard'),
-                currency: document.getElementById('currency').value,
+                currency: safeGetElement('currency')?.value || 'TSh',
                 // Additional required fields
-                clientAddress: document.getElementById('client-address').value,
-                clientEmail: document.getElementById('client-email').value,
-                clientPhone: document.getElementById('client-phone').value,
-                clientTIN: document.getElementById('client-tin').value,
-                clientVAT: document.getElementById('client-vat').value,
-                documentDate: document.getElementById('invoice-date').value,
-                dueDate: document.getElementById('due-date').value,
-                deliveryTime: document.getElementById('delivery-time').value,
-                paymentTerms: document.getElementById('payment-terms').value,
-                bankDetails: document.getElementById('bank-details').value,
-                notes: document.getElementById('notes').value,
+                clientAddress: safeGetElement('client-address')?.value || '',
+                clientEmail: safeGetElement('client-email')?.value || '',
+                clientPhone: safeGetElement('client-phone')?.value || '',
+                clientTIN: safeGetElement('client-tin')?.value || '',
+                clientVAT: safeGetElement('client-vat')?.value || '',
+                documentDate: safeGetElement('invoice-date')?.value || '',
+                dueDate: safeGetElement('due-date')?.value || '',
+                deliveryTime: safeGetElement('delivery-time')?.value || '',
+                paymentTerms: safeGetElement('payment-terms')?.value || '',
+                bankDetails: safeGetElement('bank-details')?.value || '',
+                notes: safeGetElement('notes')?.value || '',
                 items: [],
-                subtotal: extractCurrencyValue(document.getElementById('subtotal').textContent),
-                discount: extractCurrencyValue(document.getElementById('discount-amount').textContent),
-                tax: extractCurrencyValue(document.getElementById('tax').textContent),
-                grandTotal: extractCurrencyValue(document.getElementById('grand-total').textContent)
+                subtotal: extractCurrencyValue(safeGetElement('subtotal')?.textContent || '0'),
+                discount: extractCurrencyValue(safeGetElement('discount-amount')?.textContent || '0'),
+                tax: extractCurrencyValue(safeGetElement('tax')?.textContent || '0'),
+                grandTotal: extractCurrencyValue(safeGetElement('grand-total')?.textContent || '0')
             };
             
             // Collect items for the PDF
             const rows = document.querySelectorAll('#invoice-items tr');
             rows.forEach(row => {
                 const item = {
-                    description: row.querySelector('.item-description').value,
-                    quantity: parseFloat(row.querySelector('.item-quantity').value) || 0,
-                    price: parseFloat(row.querySelector('.item-price').value) || 0,
-                    total: extractCurrencyValue(row.querySelector('.item-total').textContent)
+                    description: row.querySelector('.item-description')?.value || '',
+                    quantity: parseFloat(row.querySelector('.item-quantity')?.value) || 0,
+                    price: parseFloat(row.querySelector('.item-price')?.value) || 0,
+                    total: extractCurrencyValue(row.querySelector('.item-total')?.textContent || '0')
                 };
                 documentData.items.push(item);
             });
@@ -3149,8 +3276,8 @@ SWIFT CODE: SBICTZTX</textarea>
             const documents = JSON.parse(localStorage.getItem('kinguDocuments')) || [];
             
             if (documents.length === 0) {
-                proformaList.innerHTML = '<p>No proforma invoices found. Create your first document!</p>';
-                historyList.innerHTML = '<p>No document history found. Create your first document!</p>';
+                if (proformaList) proformaList.innerHTML = '<p>No proforma invoices found. Create your first document!</p>';
+                if (historyList) historyList.innerHTML = '<p>No document history found. Create your first document!</p>';
                 return;
             }
             
@@ -3160,7 +3287,7 @@ SWIFT CODE: SBICTZTX</textarea>
             const allDocuments = [...documents].reverse(); // Show newest first
             
             // Display proforma invoices
-            if (proformaInvoices.length > 0) {
+            if (proformaInvoices.length > 0 && proformaList) {
                 let proformaHTML = `
                     <table class="history-table">
                         <thead>
@@ -3201,57 +3328,59 @@ SWIFT CODE: SBICTZTX</textarea>
                 
                 proformaHTML += '</tbody></table>';
                 proformaList.innerHTML = proformaHTML;
-            } else {
+            } else if (proformaList) {
                 proformaList.innerHTML = '<p>No proforma invoices found. Create your first proforma invoice!</p>';
             }
             
             // Display all documents in history
-            let historyHTML = `
-                <table class="history-table">
-                    <thead>
-                        <tr>
-                            <th>Type</th>
-                            <th>Document #</th>
-                            <th>Client</th>
-                            <th>Date</th>
-                            <th>Amount</th>
-                            <th>Status</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-            `;
-            
-            allDocuments.forEach(document => {
-                const statusClass = document.status === 'Paid' ? 'status-paid' : 
-                                  document.status === 'Overdue' ? 'status-overdue' : 
-                                  document.status === 'Quotation' ? 'status-quotation' : 'status-pending';
-                
-                historyHTML += `
-                    <tr>
-                        <td>${document.type}</td>
-                        <td>${document.documentNumber}</td>
-                        <td>${document.clientName}</td>
-                        <td>${formatDateShort(document.documentDate)}</td>
-                        <td>${formatCurrency(document.grandTotal, document.currency)}</td>
-                        <td><span class="status-badge ${statusClass}">${document.status}</span></td>
-                        <td>
-                            <button class="action-btn-small" style="background-color: var(--kingu-green); color: white;" onclick="viewDocument(${document.id})">
-                                <i class="fas fa-eye"></i> View
-                            </button>
-                            <button class="action-btn-small" style="background-color: #d32f2f; color: white;" onclick="downloadPDF(${document.id})">
-                                <i class="fas fa-file-pdf"></i> PDF
-                            </button>
-                            <button class="action-btn-small" style="background-color: #6b7280; color: white;" onclick="deleteDocument(${document.id})">
-                                <i class="fas fa-trash"></i> Delete
-                            </button>
-                        </td>
-                    </tr>
+            if (historyList) {
+                let historyHTML = `
+                    <table class="history-table">
+                        <thead>
+                            <tr>
+                                <th>Type</th>
+                                <th>Document #</th>
+                                <th>Client</th>
+                                <th>Date</th>
+                                <th>Amount</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
                 `;
-            });
-            
-            historyHTML += '</tbody></table>';
-            historyList.innerHTML = historyHTML;
+                
+                allDocuments.forEach(document => {
+                    const statusClass = document.status === 'Paid' ? 'status-paid' : 
+                                      document.status === 'Overdue' ? 'status-overdue' : 
+                                      document.status === 'Quotation' ? 'status-quotation' : 'status-pending';
+                    
+                    historyHTML += `
+                        <tr>
+                            <td>${document.type}</td>
+                            <td>${document.documentNumber}</td>
+                            <td>${document.clientName}</td>
+                            <td>${formatDateShort(document.documentDate)}</td>
+                            <td>${formatCurrency(document.grandTotal, document.currency)}</td>
+                            <td><span class="status-badge ${statusClass}">${document.status}</span></td>
+                            <td>
+                                <button class="action-btn-small" style="background-color: var(--kingu-green); color: white;" onclick="viewDocument(${document.id})">
+                                    <i class="fas fa-eye"></i> View
+                                </button>
+                                <button class="action-btn-small" style="background-color: #d32f2f; color: white;" onclick="downloadPDF(${document.id})">
+                                    <i class="fas fa-file-pdf"></i> PDF
+                                </button>
+                                <button class="action-btn-small" style="background-color: #6b7280; color: white;" onclick="deleteDocument(${document.id})">
+                                    <i class="fas fa-trash"></i> Delete
+                                </button>
+                            </td>
+                        </tr>
+                    `;
+                });
+                
+                historyHTML += '</tbody></table>';
+                historyList.innerHTML = historyHTML;
+            }
         }
         
         // View saved document
@@ -3264,23 +3393,23 @@ SWIFT CODE: SBICTZTX</textarea>
                 setInvoiceType(document.type.toLowerCase());
                 
                 // Fill form with document data
-                document.getElementById('invoice-number').value = document.documentNumber;
-                document.getElementById('invoice-date').value = document.documentDate;
-                document.getElementById('due-date').value = document.dueDate || '';
-                document.getElementById('currency').value = document.currency;
-                document.getElementById('delivery-time').value = document.deliveryTime;
-                document.getElementById('client-name').value = document.clientName;
-                document.getElementById('client-email').value = document.clientEmail;
-                document.getElementById('client-phone').value = document.clientPhone;
-                document.getElementById('client-address').value = document.clientAddress;
-                document.getElementById('client-tin').value = document.clientTIN;
-                document.getElementById('client-vat').value = document.clientVAT || '';
-                document.getElementById('payment-terms').value = document.paymentTerms;
-                document.getElementById('bank-details').value = document.bankDetails;
-                document.getElementById('notes').value = document.notes;
+                safeGetElement('invoice-number').value = document.documentNumber;
+                safeGetElement('invoice-date').value = document.documentDate;
+                safeGetElement('due-date').value = document.dueDate || '';
+                safeGetElement('currency').value = document.currency;
+                safeGetElement('delivery-time').value = document.deliveryTime;
+                safeGetElement('client-name').value = document.clientName;
+                safeGetElement('client-email').value = document.clientEmail;
+                safeGetElement('client-phone').value = document.clientPhone;
+                safeGetElement('client-address').value = document.clientAddress;
+                safeGetElement('client-tin').value = document.clientTIN;
+                safeGetElement('client-vat').value = document.clientVAT || '';
+                safeGetElement('payment-terms').value = document.paymentTerms;
+                safeGetElement('bank-details').value = document.bankDetails;
+                safeGetElement('notes').value = document.notes;
                 
                 // Set items
-                invoiceItems.innerHTML = '';
+                if (invoiceItems) invoiceItems.innerHTML = '';
                 document.items.forEach(item => {
                     const newRow = document.createElement('tr');
                     newRow.innerHTML = `
@@ -3295,7 +3424,7 @@ SWIFT CODE: SBICTZTX</textarea>
                         <td class="item-total text-right">${formatCurrency(item.total, document.currency)}</td>
                         <td class="text-center"><button class="delete-item"><i class="fas fa-trash"></i></button></td>
                     `;
-                    invoiceItems.appendChild(newRow);
+                    if (invoiceItems) invoiceItems.appendChild(newRow);
                     
                     // Add event listeners
                     newRow.querySelector('.item-quantity').addEventListener('input', updateTotals);
@@ -3306,16 +3435,7 @@ SWIFT CODE: SBICTZTX</textarea>
                 updateTotals();
                 
                 // Show create document page
-                invoiceForm.style.display = 'block';
-                invoicePreview.style.display = 'none';
-                proformaInvoicesContainer.style.display = 'none';
-                invoiceHistoryContainer.style.display = 'none';
-                clientDatabaseContainer.style.display = 'none';
-                reportsSection.style.display = 'none';
-                settingsSection.style.display = 'none';
-                
-                document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
-                document.getElementById('nav-create').classList.add('active');
+                showSection('create');
                 
                 alert(`Loaded ${document.type.toLowerCase()} ${document.documentNumber}. You can edit and save as a new document.`);
             }
@@ -3348,71 +3468,71 @@ SWIFT CODE: SBICTZTX</textarea>
         // Clear form
         function clearForm() {
             if (confirm('Are you sure you want to clear the form? All entered data will be lost.')) {
-                document.getElementById('invoice-form').reset();
+                const form = safeGetElement('invoice-form');
+                if (form) form.reset();
                 
-                const currency = document.getElementById('currency').value;
+                const currencySelect = safeGetElement('currency');
+                const currency = currencySelect ? currencySelect.value : 'TSh';
                 const symbol = currency === 'TSh' ? 'TSh' : 
                               currency === 'USD' ? '$' :
                               currency === 'EUR' ? '€' : '£';
                 
-                invoiceItems.innerHTML = `
-                    <tr>
-                        <td><input type="text" class="item-description" placeholder="Service description" value="Service item"></td>
-                        <td><input type="number" class="item-quantity" min="0" step="0.01" value="1.00"></td>
-                        <td>
-                            <div style="display: flex; align-items: center;">
-                                <span class="currency-symbol" style="margin-right: 5px;">${symbol}</span>
-                                <input type="number" class="item-price" min="0" step="0.01" value="0.00" style="flex: 1;">
-                            </div>
-                        </td>
-                        <td class="item-total text-right">${formatCurrency(0, currency)}</td>
-                        <td class="text-center"><button class="delete-item"><i class="fas fa-trash"></i></button></td>
-                    </tr>
-                `;
+                if (invoiceItems) {
+                    invoiceItems.innerHTML = `
+                        <tr>
+                            <td><input type="text" class="item-description" placeholder="Service description" value="Service item"></td>
+                            <td><input type="number" class="item-quantity" min="0" step="0.01" value="1.00"></td>
+                            <td>
+                                <div style="display: flex; align-items: center;">
+                                    <span class="currency-symbol" style="margin-right: 5px;">${symbol}</span>
+                                    <input type="number" class="item-price" min="0" step="0.01" value="0.00" style="flex: 1;">
+                                </div>
+                            </td>
+                            <td class="item-total text-right">${formatCurrency(0, currency)}</td>
+                            <td class="text-center"><button class="delete-item"><i class="fas fa-trash"></i></button></td>
+                        </tr>
+                    `;
+                }
                 
                 const today = new Date();
-                document.getElementById('invoice-date').valueAsDate = today;
+                const invoiceDate = safeGetElement('invoice-date');
+                if (invoiceDate) invoiceDate.valueAsDate = today;
                 
                 // Set due date to 30 days from now
                 const dueDate = new Date();
                 dueDate.setDate(dueDate.getDate() + 30);
-                document.getElementById('due-date').valueAsDate = dueDate;
+                const dueDateInput = safeGetElement('due-date');
+                if (dueDateInput) dueDateInput.valueAsDate = dueDate;
                 
                 // Reset discount
-                document.getElementById('discount-type').value = 'none';
-                document.getElementById('discount-value-container').style.display = 'none';
-                document.getElementById('discount-row').style.display = 'none';
-                document.getElementById('discount-value').value = '0';
+                const discountType = safeGetElement('discount-type');
+                if (discountType) discountType.value = 'none';
+                
+                const discountValueContainer = safeGetElement('discount-value-container');
+                if (discountValueContainer) discountValueContainer.style.display = 'none';
+                
+                const discountRow = safeGetElement('discount-row');
+                if (discountRow) discountRow.style.display = 'none';
+                
+                const discountValue = safeGetElement('discount-value');
+                if (discountValue) discountValue.value = '0';
                 
                 // Reset custom terms
-                document.getElementById('custom-terms-container').style.display = 'none';
+                const customTermsContainer = safeGetElement('custom-terms-container');
+                if (customTermsContainer) customTermsContainer.style.display = 'none';
                 
                 // Generate new invoice number
                 generateInvoiceNumber();
                 
                 updateTotals();
                 
-                invoiceForm.style.display = 'block';
-                invoicePreview.style.display = 'none';
-                printBtn.style.display = 'none';
-                pdfBtn.style.display = 'none';
-                whatsappBtn.style.display = 'inline-flex';
-                
-                // Hide all other sections
-                proformaInvoicesContainer.style.display = 'none';
-                invoiceHistoryContainer.style.display = 'none';
-                clientDatabaseContainer.style.display = 'none';
-                reportsSection.style.display = 'none';
-                settingsSection.style.display = 'none';
-                
-                document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
-                document.getElementById('nav-create').classList.add('active');
+                createNewDocument();
             }
         }
         
         // Load sample data
         function loadSampleProforma() {
-            const isQuotation = document.getElementById('btn-quotation').classList.contains('quotation-active');
+            const isQuotation = document.getElementById('btn-quotation')?.classList.contains('quotation-active');
             
             if (isQuotation) {
                 // Load sample quotation data
@@ -3425,7 +3545,7 @@ SWIFT CODE: SBICTZTX</textarea>
                     { description: "Labor and Installation", quantity: "15.00", price: "100000.00" }
                 ];
                 
-                invoiceItems.innerHTML = '';
+                if (invoiceItems) invoiceItems.innerHTML = '';
                 
                 sampleItems.forEach(item => {
                     const newRow = document.createElement('tr');
@@ -3442,25 +3562,25 @@ SWIFT CODE: SBICTZTX</textarea>
                         <td class="text-center"><button class="delete-item"><i class="fas fa-trash"></i></button></td>
                     `;
                     
-                    invoiceItems.appendChild(newRow);
+                    if (invoiceItems) invoiceItems.appendChild(newRow);
                     
                     newRow.querySelector('.item-quantity').addEventListener('input', updateTotals);
                     newRow.querySelector('.item-price').addEventListener('input', updateTotals);
                 });
                 
-                document.getElementById('currency').value = 'TSh';
+                safeGetElement('currency').value = 'TSh';
                 updateCurrencySymbol();
                 
                 // Set sample client info for quotation
-                document.getElementById('client-name').value = 'TANZANIA COMMERCIAL BANK';
-                document.getElementById('client-address').value = 'DAR ES SALAAM, TANZANIA';
-                document.getElementById('client-tin').value = '200-456-789';
-                document.getElementById('client-phone').value = '+255 222 123 456';
-                document.getElementById('client-email').value = 'procurement@tcb.co.tz';
-                document.getElementById('payment-terms').value = '30% advance, 70% after completion';
-                document.getElementById('bank-details').value = 'STANBIC BANK 912 000 275 9274 (KINGU ELECTRICAL COMPANY LIMITED)';
-                document.getElementById('notes').value = 'This quotation is valid for 45 days.\nDelivery time: 30 days after order confirmation.\nPrices include VAT and all taxes.\nWarranty: 12 months on all installations.';
-                document.getElementById('delivery-time').value = '30';
+                safeGetElement('client-name').value = 'TANZANIA COMMERCIAL BANK';
+                safeGetElement('client-address').value = 'DAR ES SALAAM, TANZANIA';
+                safeGetElement('client-tin').value = '200-456-789';
+                safeGetElement('client-phone').value = '+255 222 123 456';
+                safeGetElement('client-email').value = 'procurement@tcb.co.tz';
+                safeGetElement('payment-terms').value = '30% advance, 70% after completion';
+                safeGetElement('bank-details').value = 'STANBIC BANK 912 000 275 9274 (KINGU ELECTRICAL COMPANY LIMITED)';
+                safeGetElement('notes').value = 'This quotation is valid for 45 days.\nDelivery time: 30 days after order confirmation.\nPrices include VAT and all taxes.\nWarranty: 12 months on all installations.';
+                safeGetElement('delivery-time').value = '30';
                 
                 updateTotals();
                 
@@ -3477,7 +3597,7 @@ SWIFT CODE: SBICTZTX</textarea>
                     { description: "Engine oil", quantity: "9.00", price: "14000.00" }
                 ];
                 
-                invoiceItems.innerHTML = '';
+                if (invoiceItems) invoiceItems.innerHTML = '';
                 
                 sampleItems.forEach(item => {
                     const newRow = document.createElement('tr');
@@ -3494,24 +3614,24 @@ SWIFT CODE: SBICTZTX</textarea>
                         <td class="text-center"><button class="delete-item"><i class="fas fa-trash"></i></button></td>
                     `;
                     
-                    invoiceItems.appendChild(newRow);
+                    if (invoiceItems) invoiceItems.appendChild(newRow);
                     
                     newRow.querySelector('.item-quantity').addEventListener('input', updateTotals);
                     newRow.querySelector('.item-price').addEventListener('input', updateTotals);
                 });
                 
-                document.getElementById('currency').value = 'TSh';
+                safeGetElement('currency').value = 'TSh';
                 updateCurrencySymbol();
                 
                 // Set sample client info
-                document.getElementById('client-name').value = 'GREENLIGHT PLANNET TANZANIA LTD';
-                document.getElementById('client-address').value = 'ARUSHA, TANZANIA';
-                document.getElementById('client-tin').value = '109-628-980';
-                document.getElementById('client-phone').value = '+255 765 432 100';
-                document.getElementById('client-email').value = 'accounts@greenlight.co.tz';
-                document.getElementById('payment-terms').value = '100% after delivery';
-                document.getElementById('bank-details').value = 'STANBIC BANK 912 000 275 9274 (KINGU ELECTRICAL COMPANY LIMITED)';
-                document.getElementById('notes').value = 'This Proforma shall remain valid for 30 days only.\nDelivery time: 7 days after PO issue.';
+                safeGetElement('client-name').value = 'GREENLIGHT PLANNET TANZANIA LTD';
+                safeGetElement('client-address').value = 'ARUSHA, TANZANIA';
+                safeGetElement('client-tin').value = '109-628-980';
+                safeGetElement('client-phone').value = '+255 765 432 100';
+                safeGetElement('client-email').value = 'accounts@greenlight.co.tz';
+                safeGetElement('payment-terms').value = '100% after delivery';
+                safeGetElement('bank-details').value = 'STANBIC BANK 912 000 275 9274 (KINGU ELECTRICAL COMPANY LIMITED)';
+                safeGetElement('notes').value = 'This Proforma shall remain valid for 30 days only.\nDelivery time: 7 days after PO issue.';
                 
                 updateTotals();
                 
@@ -3521,32 +3641,90 @@ SWIFT CODE: SBICTZTX</textarea>
         
         // Print document
         function printDocument() {
-            const isQuotation = document.getElementById('btn-quotation').classList.contains('quotation-active');
+            const isQuotation = document.getElementById('btn-quotation')?.classList.contains('quotation-active');
             
-            // Show appropriate stamp before printing
+            // Store current display states
+            const originalDisplay = invoicePreview ? invoicePreview.style.display : 'none';
+            const originalStampDisplay = document.querySelector('.stamp')?.style.display || 'none';
+            const originalQuotationStampDisplay = document.querySelector('.quotation-stamp')?.style.display || 'none';
+            
+            // Ensure preview is visible
+            if (invoicePreview) invoicePreview.style.display = 'block';
+            
+            // Show appropriate stamp
             if (isQuotation) {
-                document.querySelector('.quotation-stamp').style.display = 'block';
+                const quotationStamp = document.querySelector('.quotation-stamp');
+                if (quotationStamp) quotationStamp.style.display = 'block';
             } else {
-                document.querySelector('.stamp').style.display = 'block';
+                const stamp = document.querySelector('.stamp');
+                if (stamp) stamp.style.display = 'block';
             }
             
+            // Force a reflow to ensure rendering
+            if (invoicePreview) invoicePreview.offsetHeight;
+            
+            // Use a timeout to ensure content is rendered before printing
             setTimeout(() => {
-                window.print();
-                // Hide stamp after printing
+                // Clone the preview to avoid affecting the original
+                const printContent = invoicePreview ? invoicePreview.cloneNode(true) : null;
+                
+                if (printContent) {
+                    // Apply print-specific styles to clone
+                    printContent.style.position = 'absolute';
+                    printContent.style.left = '0';
+                    printContent.style.top = '0';
+                    printContent.style.width = '100%';
+                    printContent.style.backgroundColor = 'white';
+                    printContent.style.zIndex = '9999';
+                    
+                    // Add to body
+                    document.body.appendChild(printContent);
+                    
+                    // Hide everything else
+                    const allElements = document.body.children;
+                    for (let element of allElements) {
+                        if (element !== printContent) {
+                            element.style.visibility = 'hidden';
+                        }
+                    }
+                    
+                    // Print
+                    window.print();
+                    
+                    // Clean up
+                    document.body.removeChild(printContent);
+                    
+                    // Restore visibility
+                    for (let element of allElements) {
+                        element.style.visibility = 'visible';
+                    }
+                } else {
+                    // Fallback to regular print if cloning fails
+                    window.print();
+                }
+                
+                // Restore original states
                 setTimeout(() => {
-                    document.querySelector('.stamp').style.display = 'none';
-                    document.querySelector('.quotation-stamp').style.display = 'none';
+                    if (invoicePreview) invoicePreview.style.display = originalDisplay;
+                    
+                    if (isQuotation) {
+                        const quotationStamp = document.querySelector('.quotation-stamp');
+                        if (quotationStamp) quotationStamp.style.display = originalQuotationStampDisplay;
+                    } else {
+                        const stamp = document.querySelector('.stamp');
+                        if (stamp) stamp.style.display = originalStampDisplay;
+                    }
                 }, 100);
-            }, 100);
+            }, 500);
         }
         
         // Send document via WhatsApp
         function sendWhatsApp() {
-            const documentNumber = document.getElementById('invoice-number').value;
-            const clientName = document.getElementById('client-name').value || 'Client';
-            const grandTotal = document.getElementById('grand-total').textContent;
-            const isQuotation = document.getElementById('btn-quotation').classList.contains('quotation-active');
-            const isProforma = document.getElementById('btn-proforma').classList.contains('active');
+            const documentNumber = safeGetElement('invoice-number')?.value || '';
+            const clientName = safeGetElement('client-name')?.value || 'Client';
+            const grandTotal = safeGetElement('grand-total')?.textContent || '';
+            const isQuotation = document.getElementById('btn-quotation')?.classList.contains('quotation-active');
+            const isProforma = document.getElementById('btn-proforma')?.classList.contains('active');
             const docType = isQuotation ? 'quotation' : (isProforma ? 'proforma invoice' : 'invoice');
             
             const message = `Hello, here is your ${docType} ${documentNumber} from KINGU ELECTRICAL COMPANY LIMITED for ${clientName}. Total amount: ${grandTotal}. Please review and confirm.`;
