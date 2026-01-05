@@ -429,6 +429,8 @@
             padding: 30px;
             margin-bottom: 30px;
             border-top: 4px solid var(--kingu-green);
+            max-width: 100%;
+            overflow-x: hidden;
         }
 
         .quotation-form-container {
@@ -687,15 +689,19 @@
             color: var(--kingu-blue);
         }
 
-        /* Invoice Preview */
+        /* Invoice Preview - Optimized for A4 */
         .invoice-preview-container {
             background-color: white;
             border-radius: 12px;
             box-shadow: 0 5px 25px rgba(17, 106, 65, 0.1);
-            padding: 40px;
+            padding: 30px; /* Reduced padding for better A4 fit */
             margin-top: 30px;
             display: none;
             border-top: 4px solid var(--kingu-green);
+            max-width: 800px; /* Limit width for A4 */
+            margin-left: auto;
+            margin-right: auto;
+            font-size: 12px; /* Smaller font for better fit */
         }
 
         .quotation-preview-container {
@@ -706,16 +712,19 @@
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
-            margin-bottom: 40px;
-            padding-bottom: 20px;
+            margin-bottom: 30px; /* Reduced */
+            padding-bottom: 15px;
             border-bottom: 2px solid var(--kingu-light);
+            flex-wrap: wrap;
         }
 
         .invoice-company-logo {
             display: flex;
             flex-direction: column;
             align-items: flex-start;
-            max-width: 300px;
+            max-width: 250px; /* Reduced for A4 */
+            flex: 1;
+            min-width: 200px;
         }
 
         .company-logo-text {
@@ -723,93 +732,98 @@
         }
 
         .kingu-logo {
-            font-size: 48px;
+            font-size: 36px; /* Reduced from 48px */
             font-weight: 900;
             color: var(--kingu-green);
             line-height: 0.9;
-            margin-bottom: 5px;
+            margin-bottom: 3px;
             display: block;
         }
 
         .electrical-logo {
-            font-size: 36px;
+            font-size: 28px; /* Reduced from 36px */
             font-weight: 700;
             color: var(--kingu-red);
             line-height: 0.9;
-            margin-bottom: 8px;
+            margin-bottom: 5px;
             display: block;
             margin-left: 0;
         }
 
         .company-logo {
-            font-size: 20px;
+            font-size: 16px; /* Reduced from 20px */
             font-weight: 700;
             color: var(--kingu-dark);
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             border-top: 2px solid var(--kingu-light);
-            padding-top: 10px;
-            margin-top: 5px;
+            padding-top: 8px;
+            margin-top: 3px;
         }
 
         .tagline-logo {
-            font-size: 14px;
+            font-size: 11px; /* Reduced from 14px */
             color: #666;
             font-style: italic;
-            line-height: 1.4;
-            margin-bottom: 15px;
+            line-height: 1.3;
+            margin-bottom: 10px;
         }
 
         .contact-info-logo {
-            font-size: 13px;
+            font-size: 11px; /* Reduced from 13px */
             color: #555;
-            line-height: 1.5;
+            line-height: 1.4;
         }
 
         .contact-info-logo .phone-numbers {
             display: flex;
             flex-direction: column;
-            gap: 3px;
-            margin: 5px 0;
+            gap: 2px;
+            margin: 3px 0;
         }
 
         .contact-info-logo .phone-numbers span {
             background-color: var(--kingu-light);
-            padding: 2px 8px;
-            border-radius: 4px;
+            padding: 2px 6px;
+            border-radius: 3px;
             border: 1px solid rgba(17, 106, 65, 0.2);
             display: inline-block;
             width: fit-content;
+            font-size: 10px;
         }
 
         .contact-info-logo .email {
             color: var(--kingu-green);
             font-weight: 600;
-            margin: 5px 0;
+            margin: 3px 0;
+            font-size: 11px;
         }
 
         .contact-info-logo .address {
-            font-size: 12px;
+            font-size: 10px; /* Reduced from 12px */
             color: #777;
-            margin-top: 5px;
+            margin-top: 3px;
         }
 
         .company-tin {
-            font-size: 12px;
+            font-size: 10px; /* Reduced from 12px */
             color: #555;
             font-weight: 600;
-            margin-top: 8px;
-            padding: 3px 8px;
+            margin-top: 5px;
+            padding: 2px 6px;
             background-color: var(--kingu-light);
-            border-radius: 4px;
+            border-radius: 3px;
             display: inline-block;
             border: 1px solid rgba(17, 106, 65, 0.2);
         }
 
         .invoice-title {
-            font-size: 32px;
+            font-size: 24px; /* Reduced from 32px */
             color: var(--kingu-green);
             text-align: right;
             font-weight: 700;
+            flex: 1;
+            min-width: 200px;
+            margin-top: 10px;
         }
 
         .quotation-title {
@@ -819,21 +833,23 @@
         .invoice-details {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 40px;
-            gap: 30px;
+            margin-bottom: 25px; /* Reduced */
+            gap: 20px;
+            flex-wrap: wrap;
         }
 
         .company-info, .client-info {
             flex: 1;
+            min-width: 200px;
         }
 
         .info-title {
             font-weight: 700;
             color: var(--kingu-green);
-            margin-bottom: 15px;
-            padding-bottom: 8px;
-            border-bottom: 2px solid var(--kingu-light);
-            font-size: 16px;
+            margin-bottom: 10px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid var(--kingu-light);
+            font-size: 14px; /* Reduced from 16px */
         }
 
         .quotation-info-title {
@@ -841,28 +857,31 @@
         }
 
         .company-details p, .client-details p {
-            margin-bottom: 8px;
+            margin-bottom: 6px;
             color: #555;
+            font-size: 12px;
         }
 
         .invoice-info {
             flex: 0.8;
+            min-width: 200px;
         }
 
         .invoice-info-box {
             background-color: var(--kingu-light);
-            padding: 20px;
-            border-radius: 8px;
-            border-left: 4px solid var(--kingu-green);
+            padding: 15px;
+            border-radius: 6px;
+            border-left: 3px solid var(--kingu-green);
+            font-size: 12px;
         }
 
         .quotation-info-box {
             background-color: rgba(41, 128, 185, 0.1);
-            border-left: 4px solid var(--kingu-blue);
+            border-left: 3px solid var(--kingu-blue);
         }
 
         .invoice-info-box p {
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             display: flex;
             justify-content: space-between;
         }
@@ -878,10 +897,11 @@
         .invoice-items-preview {
             width: 100%;
             border-collapse: collapse;
-            margin: 30px 0;
-            border-radius: 8px;
+            margin: 20px 0;
+            border-radius: 6px;
             overflow: hidden;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 1px 5px rgba(0, 0, 0, 0.05);
+            font-size: 11px;
         }
 
         .invoice-items-preview thead {
@@ -893,20 +913,22 @@
         }
 
         .invoice-items-preview th {
-            padding: 18px;
+            padding: 12px 8px; /* Reduced padding */
             text-align: left;
             font-weight: 700;
             color: white;
-            border-bottom: 3px solid var(--kingu-dark);
+            border-bottom: 2px solid var(--kingu-dark);
+            font-size: 12px;
         }
 
         .quotation-items-preview th {
-            border-bottom: 3px solid #1a5276;
+            border-bottom: 2px solid #1a5276;
         }
 
         .invoice-items-preview td {
-            padding: 16px;
+            padding: 10px 8px; /* Reduced padding */
             border-bottom: 1px solid #e5e7eb;
+            font-size: 11px;
         }
 
         .invoice-items-preview tbody tr:nth-child(even) {
@@ -914,38 +936,41 @@
         }
 
         .invoice-totals {
-            width: 350px;
+            width: 300px; /* Reduced from 350px */
             margin-left: auto;
-            margin-top: 30px;
+            margin-top: 20px;
             background: var(--kingu-light);
-            padding: 25px;
-            border-radius: 8px;
-            border-left: 4px solid var(--kingu-green);
+            padding: 20px;
+            border-radius: 6px;
+            border-left: 3px solid var(--kingu-green);
+            font-size: 12px;
         }
 
         .quotation-totals {
             background: rgba(41, 128, 185, 0.1);
-            border-left: 4px solid var(--kingu-blue);
+            border-left: 3px solid var(--kingu-blue);
         }
 
         .terms-section {
             background-color: #f8fafc;
-            padding: 25px;
-            border-radius: 8px;
-            margin-top: 40px;
-            border-left: 4px solid var(--kingu-red);
+            padding: 20px;
+            border-radius: 6px;
+            margin-top: 30px;
+            border-left: 3px solid var(--kingu-red);
+            font-size: 11px;
         }
 
         .quotation-terms-section {
-            border-left: 4px solid var(--kingu-blue);
+            border-left: 3px solid var(--kingu-blue);
         }
 
         .terms-title {
             color: var(--kingu-green);
             font-weight: 700;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
             display: flex;
             align-items: center;
+            font-size: 14px;
         }
 
         .quotation-terms-title {
@@ -953,8 +978,9 @@
         }
 
         .terms-title i {
-            margin-right: 10px;
+            margin-right: 8px;
             color: var(--kingu-red);
+            font-size: 14px;
         }
 
         .quotation-terms-title i {
@@ -962,8 +988,10 @@
         }
 
         .terms-content p {
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             color: #555;
+            font-size: 11px;
+            line-height: 1.4;
         }
 
         /* Action Buttons */
@@ -976,27 +1004,28 @@
 
         /* Footer Styles */
         .invoice-footer {
-            margin-top: 60px;
-            padding-top: 30px;
+            margin-top: 40px; /* Reduced */
+            padding-top: 20px;
             border-top: 2px solid var(--kingu-light);
             text-align: center;
+            font-size: 11px;
         }
 
         .authorized-signature {
-            margin-top: 40px;
-            padding-top: 20px;
+            margin-top: 30px;
+            padding-top: 15px;
             border-top: 1px solid #eee;
         }
 
         .signature-line {
-            width: 300px;
+            width: 250px; /* Reduced from 300px */
             height: 1px;
             background-color: #333;
-            margin: 40px auto 10px;
+            margin: 30px auto 8px;
         }
 
         .signature-text {
-            font-size: 14px;
+            font-size: 12px;
             color: #666;
             text-align: center;
         }
@@ -1026,30 +1055,34 @@
 
         .stamp {
             position: absolute;
-            right: 40px;
-            bottom: 40px;
-            padding: 15px 30px;
+            right: 20px; /* Reduced from 40px */
+            bottom: 20px; /* Reduced from 40px */
+            padding: 10px 20px; /* Reduced */
             background-color: var(--kingu-light);
             border: 2px dashed var(--kingu-green);
-            border-radius: 8px;
+            border-radius: 6px;
             text-align: center;
             font-weight: 700;
             color: var(--kingu-green);
             transform: rotate(5deg);
+            font-size: 12px;
+            max-width: 150px;
         }
 
         .quotation-stamp {
             position: absolute;
-            right: 40px;
-            top: 40px;
-            padding: 15px 30px;
+            right: 20px; /* Reduced from 40px */
+            top: 20px; /* Reduced from 40px */
+            padding: 10px 20px; /* Reduced */
             background-color: rgba(41, 128, 185, 0.1);
             border: 2px dashed var(--kingu-blue);
-            border-radius: 8px;
+            border-radius: 6px;
             text-align: center;
             font-weight: 700;
             color: var(--kingu-blue);
             transform: rotate(5deg);
+            font-size: 12px;
+            max-width: 150px;
         }
 
         /* Invoice History & Proforma Invoices Styles */
@@ -1131,25 +1164,80 @@
             transform: translateY(-1px);
         }
 
+        /* A4 Print Styles */
         @media print {
+            @page {
+                margin: 0.5cm; /* Minimal margins for A4 */
+                size: A4 portrait;
+            }
+            
+            body, html {
+                margin: 0 !important;
+                padding: 0 !important;
+                width: 210mm; /* A4 width */
+                height: 297mm; /* A4 height */
+                background: white !important;
+                font-size: 11px !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+            
             body * {
                 visibility: hidden;
+                max-width: 100% !important;
             }
             
             .invoice-preview-container, 
             .invoice-preview-container * {
-                visibility: visible;
+                visibility: visible !important;
             }
             
             .invoice-preview-container {
-                position: absolute;
-                left: 0;
-                top: 0;
-                width: 100%;
+                position: absolute !important;
+                left: 0 !important;
+                top: 0 !important;
+                width: 100% !important;
+                max-width: 210mm !important;
                 box-shadow: none !important;
-                padding: 20px !important;
+                padding: 15mm !important; /* A4 safe area */
                 margin: 0 !important;
-                background-color: white;
+                background-color: white !important;
+                border: none !important;
+                border-radius: 0 !important;
+                font-size: 11px !important;
+                page-break-inside: avoid !important;
+                page-break-after: avoid !important;
+            }
+            
+            /* Further reduce sizes for print */
+            .kingu-logo {
+                font-size: 32px !important;
+            }
+            
+            .electrical-logo {
+                font-size: 24px !important;
+            }
+            
+            .company-logo {
+                font-size: 14px !important;
+            }
+            
+            .invoice-title {
+                font-size: 20px !important;
+            }
+            
+            .invoice-items-preview {
+                font-size: 10px !important;
+            }
+            
+            .invoice-items-preview th,
+            .invoice-items-preview td {
+                padding: 8px 6px !important;
+            }
+            
+            .invoice-totals {
+                width: 250px !important;
+                font-size: 11px !important;
             }
             
             .sidebar, 
@@ -1160,22 +1248,56 @@
             .nav-menu,
             .btn,
             button,
-            .history-container {
+            .history-container,
+            .main-content > *:not(.invoice-preview-container) {
                 display: none !important;
+                visibility: hidden !important;
+            }
+            
+            .container {
+                display: block !important;
+                width: 100% !important;
+                height: 100% !important;
+            }
+            
+            .main-content {
+                padding: 0 !important;
+                margin: 0 !important;
+                width: 100% !important;
+                height: 100% !important;
             }
             
             .stamp, .quotation-stamp {
                 display: block !important;
                 visibility: visible !important;
+                font-size: 10px !important;
+                padding: 8px 15px !important;
+                right: 15mm !important;
+                bottom: 15mm !important;
             }
             
-            body {
-                background-color: white;
-                font-size: 12px;
+            .quotation-stamp {
+                top: 15mm !important;
             }
             
             .invoice-footer {
-                page-break-inside: avoid;
+                margin-top: 20px !important;
+                font-size: 10px !important;
+            }
+            
+            /* Prevent page breaks inside important elements */
+            .invoice-header,
+            .invoice-details,
+            .invoice-items-preview,
+            .invoice-totals,
+            .terms-section {
+                page-break-inside: avoid !important;
+            }
+            
+            /* Force page break if content overflows */
+            .invoice-preview-container {
+                overflow: visible !important;
+                height: auto !important;
             }
         }
 
@@ -1231,6 +1353,18 @@
             
             .footer-electrical {
                 font-size: 20px;
+            }
+        }
+
+        /* A4 specific styles for screen preview */
+        @media screen and (min-width: 800px) {
+            .invoice-preview-container {
+                width: 210mm;
+                min-height: 297mm;
+                padding: 20mm;
+                margin: 20px auto;
+                box-shadow: 0 0 20px rgba(0,0,0,0.1);
+                position: relative;
             }
         }
     </style>
@@ -1574,7 +1708,7 @@ SWIFT CODE: SBICTZTX</textarea>
                 </div>
             </div>
             
-            <!-- Document Preview -->
+            <!-- Document Preview - Optimized for A4 -->
             <div id="invoice-preview" class="invoice-preview-container">
                 <div class="stamp" style="display: none;">PROFORMA INVOICE</div>
                 <div class="quotation-stamp" style="display: none;">QUOTATION</div>
@@ -1637,9 +1771,9 @@ SWIFT CODE: SBICTZTX</textarea>
                     </div>
                 </div>
                 
-                <div style="margin: 30px 0; padding: 20px; background-color: var(--kingu-light); border-radius: 8px; border-left: 4px solid var(--kingu-green);" id="preview-intro-box">
-                    <h3 style="color: var(--kingu-green); margin-bottom: 15px;" id="preview-subject">Subject: Proforma Invoice for Electrical Services</h3>
-                    <p id="preview-quotation-text" style="color: #555; line-height: 1.6;">
+                <div style="margin: 20px 0; padding: 15px; background-color: var(--kingu-light); border-radius: 6px; border-left: 3px solid var(--kingu-green);" id="preview-intro-box">
+                    <h3 style="color: var(--kingu-green); margin-bottom: 10px; font-size: 14px;" id="preview-subject">Subject: Proforma Invoice for Electrical Services</h3>
+                    <p id="preview-quotation-text" style="color: #555; line-height: 1.5; font-size: 11px;">
                         PROFORMA INVOICE<br><br>
                         This proforma invoice is prepared for the services rendered. 
                         All prices are inclusive of VAT where applicable and are valid for 30 days.
@@ -1649,10 +1783,10 @@ SWIFT CODE: SBICTZTX</textarea>
                 <table class="invoice-items-preview" id="preview-items-table">
                     <thead>
                         <tr>
-                            <th>DESCRIPTION</th>
-                            <th>UNITS</th>
-                            <th>UNIT PRICE</th>
-                            <th>AMOUNT</th>
+                            <th style="width: 50%;">DESCRIPTION</th>
+                            <th style="width: 15%;">UNITS</th>
+                            <th style="width: 15%;">UNIT PRICE</th>
+                            <th style="width: 20%;">AMOUNT</th>
                         </tr>
                     </thead>
                     <tbody id="preview-items">
@@ -1669,14 +1803,14 @@ SWIFT CODE: SBICTZTX</textarea>
                     <div class="terms-content">
                         <p><strong>Bank Details:</strong> <span id="preview-bank-details">BANK: STANBIC BANK TANZANIA LIMITED<br>ACCOUNT NAME: KINGU ELECTRICAL COMPANY LIMITED<br>ACCOUNT NUMBER: 912 000 275 9274<br>SWIFT CODE: SBICTZTX</span></p>
                         <p id="preview-notes">1. This Proforma shall remain valid for 30 days only.<br>2. Prices are inclusive of VAT where applicable.<br>3. Delivery subject to stock availability.<br>4. All disputes subject to Dar es Salaam jurisdiction.</p>
-                        <div class="contact-badges" style="margin-top: 15px;">
-                            <span class="contact-badge-small">
+                        <div class="contact-badges" style="margin-top: 10px;">
+                            <span class="contact-badge-small" style="font-size: 10px; padding: 3px 8px;">
                                 <i class="fas fa-phone"></i> +255 677 014 740
                             </span>
-                            <span class="contact-badge-small whatsapp-badge">
+                            <span class="contact-badge-small whatsapp-badge" style="font-size: 10px; padding: 3px 8px;">
                                 <i class="fab fa-whatsapp"></i> +255 682 843 552
                             </span>
-                            <span class="contact-badge-small email-badge">
+                            <span class="contact-badge-small email-badge" style="font-size: 10px; padding: 3px 8px;">
                                 <i class="fas fa-envelope"></i> Kinguelectricaltz@gmail.com
                             </span>
                         </div>
@@ -1688,9 +1822,9 @@ SWIFT CODE: SBICTZTX</textarea>
                     <div class="authorized-signature">
                         <div class="signature-line"></div>
                         <div class="signature-text">Authorized Signature & Company Stamp</div>
-                        <div style="margin-top: 30px; font-size: 14px; color: #666; text-align: center;">
+                        <div style="margin-top: 20px; font-size: 11px; color: #666; text-align: center;">
                             <p id="preview-thank-you">Thank you for your business! We value our partnership and look forward to serving you.</p>
-                            <p style="margin-top: 10px;"><em id="preview-footer-note">This is a computer-generated document. No signature is required.</em></p>
+                            <p style="margin-top: 8px;"><em id="preview-footer-note">This is a computer-generated document. No signature is required.</em></p>
                         </div>
                     </div>
                 </div>
@@ -1807,7 +1941,7 @@ SWIFT CODE: SBICTZTX</textarea>
         // Initialize jsPDF
         const { jsPDF } = window.jspdf;
         
-        // Company details - UPDATED TO INCLUDE TIN NUMBER
+        // Company details
         const COMPANY_NAME = "KINGU ELECTRICAL COMPANY LIMITED";
         const COMPANY_TIN = "157-024-493";
         const COMPANY_EMAIL = "kinguelectricaltz@gmail.com";
@@ -1821,8 +1955,6 @@ SWIFT CODE: SBICTZTX</textarea>
         // DOM Elements
         let invoiceForm, invoicePreview, pageTitle, printBtn, pdfBtn, whatsappBtn;
         let invoiceItems, previewItems;
-        let proformaInvoicesContainer, invoiceHistoryContainer, proformaList, historyList;
-        let clientDatabaseContainer, clientList, reportsSection, settingsSection;
         
         // Safe DOM helper functions
         function safeSetTextContent(elementId, text) {
@@ -1870,18 +2002,6 @@ SWIFT CODE: SBICTZTX</textarea>
                 console.error('Required DOM elements not found. Please check the HTML structure.');
                 return;
             }
-            
-            // History sections
-            proformaInvoicesContainer = safeGetElement('proforma-invoices');
-            invoiceHistoryContainer = safeGetElement('invoice-history');
-            proformaList = safeGetElement('proforma-list');
-            historyList = safeGetElement('history-list');
-            
-            // New sections
-            clientDatabaseContainer = safeGetElement('client-database');
-            clientList = safeGetElement('client-list');
-            reportsSection = safeGetElement('reports-section');
-            settingsSection = safeGetElement('settings-section');
             
             // Set default dates
             const today = new Date();
@@ -2077,11 +2197,9 @@ SWIFT CODE: SBICTZTX</textarea>
             if (whatsappBtn) whatsappBtn.style.display = 'inline-flex';
             
             // Hide all other sections
-            if (proformaInvoicesContainer) proformaInvoicesContainer.style.display = 'none';
-            if (invoiceHistoryContainer) invoiceHistoryContainer.style.display = 'none';
-            if (clientDatabaseContainer) clientDatabaseContainer.style.display = 'none';
-            if (reportsSection) reportsSection.style.display = 'none';
-            if (settingsSection) settingsSection.style.display = 'none';
+            document.querySelectorAll('.history-container').forEach(container => {
+                container.style.display = 'none';
+            });
             
             document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
             const navCreate = safeGetElement('nav-create');
@@ -2228,6 +2346,7 @@ SWIFT CODE: SBICTZTX</textarea>
         // Load client database
         function loadClientDatabase() {
             const clients = JSON.parse(localStorage.getItem('kinguClients')) || [];
+            const clientList = safeGetElement('client-list');
             
             if (clients.length === 0) {
                 if (clientList) {
@@ -2741,7 +2860,7 @@ SWIFT CODE: SBICTZTX</textarea>
                 
                 const newRow = document.createElement('tr');
                 newRow.innerHTML = `
-                    <td>${description}</td>
+                    <td style="word-break: break-word;">${description}</td>
                     <td>${quantity.toFixed(2)}</td>
                     <td>${formatCurrency(price, currency)}</td>
                     <td>${formatCurrency(total, currency)}</td>
@@ -2789,7 +2908,7 @@ SWIFT CODE: SBICTZTX</textarea>
                 // Add amount in words
                 const amountWords = safeGetElement('amount-words')?.textContent || '';
                 totalsHTML += `
-                    <div style="margin-top: 15px; font-size: 14px; font-style: italic; color: #555;">
+                    <div style="margin-top: 10px; font-size: 11px; font-style: italic; color: #555; word-break: break-word;">
                         <strong>Amount in Words:</strong> ${amountWords}
                     </div>
                 `;
@@ -2830,11 +2949,11 @@ SWIFT CODE: SBICTZTX</textarea>
             // Hide all sections
             if (invoiceForm) invoiceForm.style.display = 'none';
             if (invoicePreview) invoicePreview.style.display = 'none';
-            if (proformaInvoicesContainer) proformaInvoicesContainer.style.display = 'none';
-            if (invoiceHistoryContainer) invoiceHistoryContainer.style.display = 'none';
-            if (clientDatabaseContainer) clientDatabaseContainer.style.display = 'none';
-            if (reportsSection) reportsSection.style.display = 'none';
-            if (settingsSection) settingsSection.style.display = 'none';
+            
+            // Hide all history containers
+            document.querySelectorAll('.history-container').forEach(container => {
+                container.style.display = 'none';
+            });
             
             // Hide action buttons
             if (printBtn) printBtn.style.display = 'none';
@@ -2850,22 +2969,27 @@ SWIFT CODE: SBICTZTX</textarea>
                     if (whatsappBtn) whatsappBtn.style.display = 'inline-flex';
                     break;
                 case 'proforma':
-                    if (proformaInvoicesContainer) proformaInvoicesContainer.style.display = 'block';
+                    const proformaContainer = safeGetElement('proforma-invoices');
+                    if (proformaContainer) proformaContainer.style.display = 'block';
                     loadSavedDocuments();
                     break;
                 case 'history':
-                    if (invoiceHistoryContainer) invoiceHistoryContainer.style.display = 'block';
+                    const historyContainer = safeGetElement('invoice-history');
+                    if (historyContainer) historyContainer.style.display = 'block';
                     loadSavedDocuments();
                     break;
                 case 'clients':
-                    if (clientDatabaseContainer) clientDatabaseContainer.style.display = 'block';
+                    const clientContainer = safeGetElement('client-database');
+                    if (clientContainer) clientContainer.style.display = 'block';
                     loadClientDatabase();
                     break;
                 case 'reports':
-                    if (reportsSection) reportsSection.style.display = 'block';
+                    const reportsContainer = safeGetElement('reports-section');
+                    if (reportsContainer) reportsContainer.style.display = 'block';
                     break;
                 case 'settings':
-                    if (settingsSection) settingsSection.style.display = 'block';
+                    const settingsContainer = safeGetElement('settings-section');
+                    if (settingsContainer) settingsContainer.style.display = 'block';
                     break;
             }
         }
@@ -2910,6 +3034,10 @@ SWIFT CODE: SBICTZTX</textarea>
         
         // Generate document preview
         function generateDocument() {
+            // Optimize preview for A4
+            optimizeForA4();
+            
+            // Update preview
             updatePreview();
             
             // Add a small delay to ensure rendering is complete
@@ -2920,16 +3048,68 @@ SWIFT CODE: SBICTZTX</textarea>
                 if (pdfBtn) pdfBtn.style.display = 'inline-flex';
                 if (whatsappBtn) whatsappBtn.style.display = 'inline-flex';
                 
-                // Hide history sections
-                if (proformaInvoicesContainer) proformaInvoicesContainer.style.display = 'none';
-                if (invoiceHistoryContainer) invoiceHistoryContainer.style.display = 'none';
-                if (clientDatabaseContainer) clientDatabaseContainer.style.display = 'none';
-                if (reportsSection) reportsSection.style.display = 'none';
-                if (settingsSection) settingsSection.style.display = 'none';
+                // Hide all other sections
+                document.querySelectorAll('.history-container').forEach(container => {
+                    container.style.display = 'none';
+                });
                 
                 // Update navigation
                 document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
             }, 100);
+        }
+        
+        // Optimize preview for A4 printing
+        function optimizeForA4() {
+            // Apply A4 optimization styles to preview
+            const preview = safeGetElement('invoice-preview');
+            if (preview) {
+                // Ensure preview is properly sized for A4
+                preview.style.maxWidth = '800px';
+                preview.style.marginLeft = 'auto';
+                preview.style.marginRight = 'auto';
+            }
+        }
+        
+        // Print document with A4 optimization
+        function printDocument() {
+            const isQuotation = document.getElementById('btn-quotation')?.classList.contains('quotation-active');
+            
+            // Store current display states
+            const originalDisplay = invoicePreview ? invoicePreview.style.display : 'none';
+            
+            // Ensure preview is visible
+            if (invoicePreview) invoicePreview.style.display = 'block';
+            
+            // Show appropriate stamp
+            if (isQuotation) {
+                const quotationStamp = document.querySelector('.quotation-stamp');
+                if (quotationStamp) quotationStamp.style.display = 'block';
+            } else {
+                const stamp = document.querySelector('.stamp');
+                if (stamp) stamp.style.display = 'block';
+            }
+            
+            // Force a reflow to ensure rendering
+            if (invoicePreview) invoicePreview.offsetHeight;
+            
+            // Use a timeout to ensure content is rendered before printing
+            setTimeout(() => {
+                // Trigger browser's print dialog
+                window.print();
+                
+                // Restore original states
+                setTimeout(() => {
+                    if (invoicePreview) invoicePreview.style.display = originalDisplay;
+                    
+                    if (isQuotation) {
+                        const quotationStamp = document.querySelector('.quotation-stamp');
+                        if (quotationStamp) quotationStamp.style.display = 'none';
+                    } else {
+                        const stamp = document.querySelector('.stamp');
+                        if (stamp) stamp.style.display = 'none';
+                    }
+                }, 100);
+            }, 500);
         }
         
         // Save document
@@ -3003,7 +3183,7 @@ SWIFT CODE: SBICTZTX</textarea>
             generateDocument();
         }
         
-        // Generate and save PDF
+        // Generate and save PDF with A4 optimization
         function generateAndSavePDF(documentData) {
             // Show loading message
             const originalText = pdfBtn ? pdfBtn.innerHTML : '';
@@ -3079,7 +3259,7 @@ SWIFT CODE: SBICTZTX</textarea>
                     documentData.items.forEach(item => {
                         const newRow = document.createElement('tr');
                         newRow.innerHTML = `
-                            <td>${item.description || 'Item'}</td>
+                            <td style="word-break: break-word;">${item.description || 'Item'}</td>
                             <td>${parseFloat(item.quantity || 0).toFixed(2)}</td>
                             <td>${formatCurrency(item.price || 0, documentData.currency || 'TSh')}</td>
                             <td>${formatCurrency(item.total || 0, documentData.currency || 'TSh')}</td>
@@ -3121,7 +3301,7 @@ SWIFT CODE: SBICTZTX</textarea>
                     // Add amount in words
                     const amountWords = numberToWords(Math.round(documentData.grandTotal || 0));
                     totalsHTML += `
-                        <div style="margin-top: 15px; font-size: 14px; font-style: italic; color: #555;">
+                        <div style="margin-top: 10px; font-size: 11px; font-style: italic; color: #555; word-break: break-word;">
                             <strong>Amount in Words:</strong> ${amountWords}
                         </div>
                     `;
@@ -3143,6 +3323,7 @@ SWIFT CODE: SBICTZTX</textarea>
                     logging: false,
                     backgroundColor: '#ffffff',
                     allowTaint: true,
+                    windowWidth: 800, // Set width for A4
                     onclone: function(clonedDoc) {
                         // Ensure stamps are visible in the cloned document
                         if (isQuotation) {
@@ -3152,6 +3333,10 @@ SWIFT CODE: SBICTZTX</textarea>
                             const stamp = clonedDoc.querySelector('.stamp');
                             if (stamp) stamp.style.display = 'block';
                         }
+                        
+                        // Apply print styles to clone
+                        clonedDoc.body.style.width = '210mm';
+                        clonedDoc.body.style.height = '297mm';
                     }
                 }).then(canvas => {
                     const imgData = canvas.toDataURL('image/png');
@@ -3164,7 +3349,7 @@ SWIFT CODE: SBICTZTX</textarea>
                     const imgHeight = canvas.height;
                     const ratio = Math.min(pdfWidth / imgWidth, pdfHeight / imgHeight);
                     const imgX = (pdfWidth - imgWidth * ratio) / 2;
-                    const imgY = 5; // Reduced top margin
+                    const imgY = 10; // Top margin
                     
                     // Add image to PDF
                     pdf.addImage(imgData, 'PNG', imgX, imgY, imgWidth * ratio, imgHeight * ratio);
@@ -3275,111 +3460,113 @@ SWIFT CODE: SBICTZTX</textarea>
         function loadSavedDocuments() {
             const documents = JSON.parse(localStorage.getItem('kinguDocuments')) || [];
             
-            if (documents.length === 0) {
-                if (proformaList) proformaList.innerHTML = '<p>No proforma invoices found. Create your first document!</p>';
-                if (historyList) historyList.innerHTML = '<p>No document history found. Create your first document!</p>';
-                return;
-            }
-            
             // Filter proforma invoices
             const proformaInvoices = documents.filter(doc => doc.type === 'Proforma');
             // All documents for history
             const allDocuments = [...documents].reverse(); // Show newest first
             
             // Display proforma invoices
-            if (proformaInvoices.length > 0 && proformaList) {
-                let proformaHTML = `
-                    <table class="history-table">
-                        <thead>
-                            <tr>
-                                <th>Document #</th>
-                                <th>Client</th>
-                                <th>Date</th>
-                                <th>Amount</th>
-                                <th>Status</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                `;
-                
-                proformaInvoices.forEach(document => {
-                    proformaHTML += `
-                        <tr>
-                            <td>${document.documentNumber}</td>
-                            <td>${document.clientName}</td>
-                            <td>${formatDateShort(document.documentDate)}</td>
-                            <td>${formatCurrency(document.grandTotal, document.currency)}</td>
-                            <td><span class="status-badge status-pending">${document.status}</span></td>
-                            <td>
-                                <button class="action-btn-small" style="background-color: var(--kingu-green); color: white;" onclick="viewDocument(${document.id})">
-                                    <i class="fas fa-eye"></i> View
-                                </button>
-                                <button class="action-btn-small" style="background-color: #d32f2f; color: white;" onclick="downloadPDF(${document.id})">
-                                    <i class="fas fa-file-pdf"></i> PDF
-                                </button>
-                                <button class="action-btn-small" style="background-color: #6b7280; color: white;" onclick="deleteDocument(${document.id})">
-                                    <i class="fas fa-trash"></i> Delete
-                                </button>
-                            </td>
-                        </tr>
+            const proformaList = safeGetElement('proforma-list');
+            if (proformaList) {
+                if (proformaInvoices.length > 0) {
+                    let proformaHTML = `
+                        <table class="history-table">
+                            <thead>
+                                <tr>
+                                    <th>Document #</th>
+                                    <th>Client</th>
+                                    <th>Date</th>
+                                    <th>Amount</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
                     `;
-                });
-                
-                proformaHTML += '</tbody></table>';
-                proformaList.innerHTML = proformaHTML;
-            } else if (proformaList) {
-                proformaList.innerHTML = '<p>No proforma invoices found. Create your first proforma invoice!</p>';
+                    
+                    proformaInvoices.forEach(document => {
+                        proformaHTML += `
+                            <tr>
+                                <td>${document.documentNumber}</td>
+                                <td>${document.clientName}</td>
+                                <td>${formatDateShort(document.documentDate)}</td>
+                                <td>${formatCurrency(document.grandTotal, document.currency)}</td>
+                                <td><span class="status-badge status-pending">${document.status}</span></td>
+                                <td>
+                                    <button class="action-btn-small" style="background-color: var(--kingu-green); color: white;" onclick="viewDocument(${document.id})">
+                                        <i class="fas fa-eye"></i> View
+                                    </button>
+                                    <button class="action-btn-small" style="background-color: #d32f2f; color: white;" onclick="downloadPDF(${document.id})">
+                                        <i class="fas fa-file-pdf"></i> PDF
+                                    </button>
+                                    <button class="action-btn-small" style="background-color: #6b7280; color: white;" onclick="deleteDocument(${document.id})">
+                                        <i class="fas fa-trash"></i> Delete
+                                    </button>
+                                </td>
+                            </tr>
+                        `;
+                    });
+                    
+                    proformaHTML += '</tbody></table>';
+                    proformaList.innerHTML = proformaHTML;
+                } else {
+                    proformaList.innerHTML = '<p>No proforma invoices found. Create your first proforma invoice!</p>';
+                }
             }
             
             // Display all documents in history
+            const historyList = safeGetElement('history-list');
             if (historyList) {
-                let historyHTML = `
-                    <table class="history-table">
-                        <thead>
-                            <tr>
-                                <th>Type</th>
-                                <th>Document #</th>
-                                <th>Client</th>
-                                <th>Date</th>
-                                <th>Amount</th>
-                                <th>Status</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                `;
-                
-                allDocuments.forEach(document => {
-                    const statusClass = document.status === 'Paid' ? 'status-paid' : 
-                                      document.status === 'Overdue' ? 'status-overdue' : 
-                                      document.status === 'Quotation' ? 'status-quotation' : 'status-pending';
-                    
-                    historyHTML += `
-                        <tr>
-                            <td>${document.type}</td>
-                            <td>${document.documentNumber}</td>
-                            <td>${document.clientName}</td>
-                            <td>${formatDateShort(document.documentDate)}</td>
-                            <td>${formatCurrency(document.grandTotal, document.currency)}</td>
-                            <td><span class="status-badge ${statusClass}">${document.status}</span></td>
-                            <td>
-                                <button class="action-btn-small" style="background-color: var(--kingu-green); color: white;" onclick="viewDocument(${document.id})">
-                                    <i class="fas fa-eye"></i> View
-                                </button>
-                                <button class="action-btn-small" style="background-color: #d32f2f; color: white;" onclick="downloadPDF(${document.id})">
-                                    <i class="fas fa-file-pdf"></i> PDF
-                                </button>
-                                <button class="action-btn-small" style="background-color: #6b7280; color: white;" onclick="deleteDocument(${document.id})">
-                                    <i class="fas fa-trash"></i> Delete
-                                </button>
-                            </td>
-                        </tr>
+                if (allDocuments.length > 0) {
+                    let historyHTML = `
+                        <table class="history-table">
+                            <thead>
+                                <tr>
+                                    <th>Type</th>
+                                    <th>Document #</th>
+                                    <th>Client</th>
+                                    <th>Date</th>
+                                    <th>Amount</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
                     `;
-                });
-                
-                historyHTML += '</tbody></table>';
-                historyList.innerHTML = historyHTML;
+                    
+                    allDocuments.forEach(document => {
+                        const statusClass = document.status === 'Paid' ? 'status-paid' : 
+                                          document.status === 'Overdue' ? 'status-overdue' : 
+                                          document.status === 'Quotation' ? 'status-quotation' : 'status-pending';
+                        
+                        historyHTML += `
+                            <tr>
+                                <td>${document.type}</td>
+                                <td>${document.documentNumber}</td>
+                                <td>${document.clientName}</td>
+                                <td>${formatDateShort(document.documentDate)}</td>
+                                <td>${formatCurrency(document.grandTotal, document.currency)}</td>
+                                <td><span class="status-badge ${statusClass}">${document.status}</span></td>
+                                <td>
+                                    <button class="action-btn-small" style="background-color: var(--kingu-green); color: white;" onclick="viewDocument(${document.id})">
+                                        <i class="fas fa-eye"></i> View
+                                    </button>
+                                    <button class="action-btn-small" style="background-color: #d32f2f; color: white;" onclick="downloadPDF(${document.id})">
+                                        <i class="fas fa-file-pdf"></i> PDF
+                                    </button>
+                                    <button class="action-btn-small" style="background-color: #6b7280; color: white;" onclick="deleteDocument(${document.id})">
+                                        <i class="fas fa-trash"></i> Delete
+                                    </button>
+                                </td>
+                            </tr>
+                        `;
+                    });
+                    
+                    historyHTML += '</tbody></table>';
+                    historyList.innerHTML = historyHTML;
+                } else {
+                    historyList.innerHTML = '<p>No document history found. Create your first document!</p>';
+                }
             }
         }
         
@@ -3637,85 +3824,6 @@ SWIFT CODE: SBICTZTX</textarea>
                 
                 alert('Sample proforma invoice loaded from DG SERVICE GREENLIGHT June 2025.pdf');
             }
-        }
-        
-        // Print document
-        function printDocument() {
-            const isQuotation = document.getElementById('btn-quotation')?.classList.contains('quotation-active');
-            
-            // Store current display states
-            const originalDisplay = invoicePreview ? invoicePreview.style.display : 'none';
-            const originalStampDisplay = document.querySelector('.stamp')?.style.display || 'none';
-            const originalQuotationStampDisplay = document.querySelector('.quotation-stamp')?.style.display || 'none';
-            
-            // Ensure preview is visible
-            if (invoicePreview) invoicePreview.style.display = 'block';
-            
-            // Show appropriate stamp
-            if (isQuotation) {
-                const quotationStamp = document.querySelector('.quotation-stamp');
-                if (quotationStamp) quotationStamp.style.display = 'block';
-            } else {
-                const stamp = document.querySelector('.stamp');
-                if (stamp) stamp.style.display = 'block';
-            }
-            
-            // Force a reflow to ensure rendering
-            if (invoicePreview) invoicePreview.offsetHeight;
-            
-            // Use a timeout to ensure content is rendered before printing
-            setTimeout(() => {
-                // Clone the preview to avoid affecting the original
-                const printContent = invoicePreview ? invoicePreview.cloneNode(true) : null;
-                
-                if (printContent) {
-                    // Apply print-specific styles to clone
-                    printContent.style.position = 'absolute';
-                    printContent.style.left = '0';
-                    printContent.style.top = '0';
-                    printContent.style.width = '100%';
-                    printContent.style.backgroundColor = 'white';
-                    printContent.style.zIndex = '9999';
-                    
-                    // Add to body
-                    document.body.appendChild(printContent);
-                    
-                    // Hide everything else
-                    const allElements = document.body.children;
-                    for (let element of allElements) {
-                        if (element !== printContent) {
-                            element.style.visibility = 'hidden';
-                        }
-                    }
-                    
-                    // Print
-                    window.print();
-                    
-                    // Clean up
-                    document.body.removeChild(printContent);
-                    
-                    // Restore visibility
-                    for (let element of allElements) {
-                        element.style.visibility = 'visible';
-                    }
-                } else {
-                    // Fallback to regular print if cloning fails
-                    window.print();
-                }
-                
-                // Restore original states
-                setTimeout(() => {
-                    if (invoicePreview) invoicePreview.style.display = originalDisplay;
-                    
-                    if (isQuotation) {
-                        const quotationStamp = document.querySelector('.quotation-stamp');
-                        if (quotationStamp) quotationStamp.style.display = originalQuotationStampDisplay;
-                    } else {
-                        const stamp = document.querySelector('.stamp');
-                        if (stamp) stamp.style.display = originalStampDisplay;
-                    }
-                }, 100);
-            }, 500);
         }
         
         // Send document via WhatsApp
