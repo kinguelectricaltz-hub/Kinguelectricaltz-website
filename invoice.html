@@ -1739,7 +1739,7 @@ SWIFT CODE: SBICTZTX</textarea>
             setupNavigation();
             
             // Load saved invoices
-            loadSavedInvoices();
+            loadSavedDocuments();
         });
         
         // Setup all event listeners
@@ -2122,18 +2122,21 @@ SWIFT CODE: SBICTZTX</textarea>
         function generateDocument() {
             updatePreview();
             
-            invoiceForm.style.display = 'none';
-            invoicePreview.style.display = 'block';
-            printBtn.style.display = 'inline-flex';
-            pdfBtn.style.display = 'inline-flex';
-            whatsappBtn.style.display = 'inline-flex';
-            
-            // Hide history sections
-            proformaInvoicesContainer.style.display = 'none';
-            invoiceHistoryContainer.style.display = 'none';
-            
-            // Update navigation
-            document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
+            // Add a small delay to ensure rendering is complete
+            setTimeout(() => {
+                invoiceForm.style.display = 'none';
+                invoicePreview.style.display = 'block';
+                printBtn.style.display = 'inline-flex';
+                pdfBtn.style.display = 'inline-flex';
+                whatsappBtn.style.display = 'inline-flex';
+                
+                // Hide history sections
+                proformaInvoicesContainer.style.display = 'none';
+                invoiceHistoryContainer.style.display = 'none';
+                
+                // Update navigation
+                document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
+            }, 100);
         }
         
         // Update preview with form data
@@ -2276,122 +2279,215 @@ SWIFT CODE: SBICTZTX</textarea>
         // Generate and save PDF
         function generateAndSavePDF(documentData) {
             // Show loading message
-            const originalText = pdfBtn.innerHTML;
-            pdfBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating PDF...';
+            const originalText = pdfBtn ? pdfBtn.innerHTML : '';
+            if (pdfBtn) {
+                pdfBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating PDF...';
+                pdfBtn.disabled = true;
+            }
             
-            // Get document preview element
-            const documentElement = document.getElementById('invoice-preview');
-            
-            // Temporarily update preview with the saved data
-            const originalDisplay = invoicePreview.style.display;
-            invoicePreview.style.display = 'block';
-            
-            // Update preview with document data
-            const isQuotation = documentData.type === 'Quotation';
-            updatePreviewLabels(isQuotation);
-            
-            document.getElementById('preview-doc-type').textContent = documentData.type.toUpperCase();
-            document.getElementById('preview-client-name').innerHTML = `<strong>${documentData.clientName}</strong>`;
-            document.getElementById('preview-client-address').textContent = documentData.clientAddress;
-            document.getElementById('preview-client-tin').textContent = documentData.clientTIN ? `TIN Number: ${documentData.clientTIN}` : '';
-            document.getElementById('preview-client-phone').textContent = `Phone: ${documentData.clientPhone}`;
-            document.getElementById('preview-client-email').textContent = `Email: ${documentData.clientEmail}`;
-            document.getElementById('preview-invoice-number').textContent = documentData.documentNumber;
-            document.getElementById('preview-invoice-date').textContent = formatDate(documentData.documentDate);
-            document.getElementById('preview-validity').textContent = `${documentData.validityDays} days`;
-            document.getElementById('preview-delivery-time').textContent = `${documentData.deliveryTime} days after PO`;
-            document.getElementById('preview-payment-terms').textContent = documentData.paymentTerms;
-            
-            // Set stamps
-            document.querySelector('.stamp').style.display = isQuotation ? 'none' : 'block';
-            document.querySelector('.quotation-stamp').style.display = isQuotation ? 'block' : 'none';
-            
-            // Update items
-            previewItems.innerHTML = '';
-            documentData.items.forEach(item => {
-                const newRow = document.createElement('tr');
-                newRow.innerHTML = `
-                    <td>${item.description}</td>
-                    <td>${parseFloat(item.quantity).toFixed(2)}</td>
-                    <td>${formatCurrency(item.price, documentData.currency)}</td>
-                    <td>${formatCurrency(item.total, documentData.currency)}</td>
-                `;
-                previewItems.appendChild(newRow);
-            });
-            
-            // Update totals
-            document.getElementById('preview-subtotal').textContent = formatCurrency(documentData.subtotal, documentData.currency);
-            document.getElementById('preview-tax').textContent = formatCurrency(documentData.tax, documentData.currency);
-            document.getElementById('preview-grand-total').textContent = formatCurrency(documentData.grandTotal, documentData.currency);
-            
-            // Update terms
-            document.getElementById('preview-bank-details').textContent = documentData.bankDetails;
-            document.getElementById('preview-notes').textContent = documentData.notes;
-            
-            // Use html2canvas to capture the document
-            html2canvas(documentElement, {
-                scale: 2,
-                useCORS: true,
-                logging: false,
-                backgroundColor: '#ffffff'
-            }).then(canvas => {
-                const imgData = canvas.toDataURL('image/png');
-                const pdf = new jsPDF('p', 'mm', 'a4');
-                const pdfWidth = pdf.internal.pageSize.getWidth();
-                const pdfHeight = pdf.internal.pageSize.getHeight();
+            try {
+                // Get document preview element
+                const documentElement = document.getElementById('invoice-preview');
                 
-                // Calculate image dimensions to fit A4
-                const imgWidth = canvas.width;
-                const imgHeight = canvas.height;
-                const ratio = Math.min(pdfWidth / imgWidth, pdfHeight / imgHeight);
-                const imgX = (pdfWidth - imgWidth * ratio) / 2;
-                const imgY = 10;
+                // Temporarily update preview with the saved data
+                const originalDisplay = invoicePreview.style.display;
+                invoicePreview.style.display = 'block';
                 
-                // Add image to PDF
-                pdf.addImage(imgData, 'PNG', imgX, imgY, imgWidth * ratio, imgHeight * ratio);
+                // Store original content
+                const originalClientName = document.getElementById('preview-client-name').innerHTML;
+                const originalClientAddress = document.getElementById('preview-client-address').textContent;
+                const originalClientTIN = document.getElementById('preview-client-tin').textContent;
+                const originalClientPhone = document.getElementById('preview-client-phone').textContent;
+                const originalClientEmail = document.getElementById('preview-client-email').textContent;
+                const originalInvoiceNumber = document.getElementById('preview-invoice-number').textContent;
+                const originalInvoiceDate = document.getElementById('preview-invoice-date').textContent;
+                const originalValidity = document.getElementById('preview-validity').textContent;
+                const originalDeliveryTime = document.getElementById('preview-delivery-time').textContent;
+                const originalPaymentTerms = document.getElementById('preview-payment-terms').textContent;
+                const originalPreviewItems = previewItems.innerHTML;
+                const originalSubtotal = document.getElementById('preview-subtotal').textContent;
+                const originalTax = document.getElementById('preview-tax').textContent;
+                const originalGrandTotal = document.getElementById('preview-grand-total').textContent;
+                const originalBankDetails = document.getElementById('preview-bank-details').textContent;
+                const originalNotes = document.getElementById('preview-notes').textContent;
                 
-                // Generate filename
-                const fileName = `Kingu_${documentData.type}_${documentData.documentNumber}_${documentData.clientName.replace(/\s+/g, '_')}.pdf`;
+                // Update preview with document data
+                const isQuotation = documentData.type === 'Quotation';
+                updatePreviewLabels(isQuotation);
                 
-                // Save PDF (in a real app, this would save to a server folder)
-                // For now, we'll save the PDF data in localStorage for demonstration
-                const pdfData = pdf.output('datauristring');
-                documentData.pdfData = pdfData;
+                document.getElementById('preview-doc-type').textContent = documentData.type.toUpperCase();
+                document.getElementById('preview-client-name').innerHTML = `<strong>${documentData.clientName || 'Client Name'}</strong>`;
+                document.getElementById('preview-client-address').textContent = documentData.clientAddress || 'Client Address';
+                document.getElementById('preview-client-tin').textContent = documentData.clientTIN ? `TIN Number: ${documentData.clientTIN}` : '';
+                document.getElementById('preview-client-phone').textContent = documentData.clientPhone ? `Phone: ${documentData.clientPhone}` : '';
+                document.getElementById('preview-client-email').textContent = documentData.clientEmail ? `Email: ${documentData.clientEmail}` : '';
+                document.getElementById('preview-invoice-number').textContent = documentData.documentNumber;
+                document.getElementById('preview-invoice-date').textContent = formatDate(documentData.documentDate);
+                document.getElementById('preview-validity').textContent = documentData.validityDays ? `${documentData.validityDays} days` : '30 days';
+                document.getElementById('preview-delivery-time').textContent = documentData.deliveryTime ? `${documentData.deliveryTime} days after PO` : '7 days after PO';
+                document.getElementById('preview-payment-terms').textContent = documentData.paymentTerms || '';
                 
-                // Update localStorage with PDF data
-                let documents = JSON.parse(localStorage.getItem('kinguDocuments')) || [];
-                const index = documents.findIndex(doc => doc.id === documentData.id);
-                if (index !== -1) {
-                    documents[index] = documentData;
-                    localStorage.setItem('kinguDocuments', JSON.stringify(documents));
+                // Set stamps
+                document.querySelector('.stamp').style.display = isQuotation ? 'none' : 'block';
+                document.querySelector('.quotation-stamp').style.display = isQuotation ? 'block' : 'none';
+                
+                // Update items
+                previewItems.innerHTML = '';
+                documentData.items.forEach(item => {
+                    const newRow = document.createElement('tr');
+                    newRow.innerHTML = `
+                        <td>${item.description || 'Item'}</td>
+                        <td>${parseFloat(item.quantity || 0).toFixed(2)}</td>
+                        <td>${formatCurrency(item.price || 0, documentData.currency || 'TSh')}</td>
+                        <td>${formatCurrency(item.total || 0, documentData.currency || 'TSh')}</td>
+                    `;
+                    previewItems.appendChild(newRow);
+                });
+                
+                // Update totals
+                document.getElementById('preview-subtotal').textContent = formatCurrency(documentData.subtotal || 0, documentData.currency || 'TSh');
+                document.getElementById('preview-tax').textContent = formatCurrency(documentData.tax || 0, documentData.currency || 'TSh');
+                document.getElementById('preview-grand-total').textContent = formatCurrency(documentData.grandTotal || 0, documentData.currency || 'TSh');
+                
+                // Update terms
+                document.getElementById('preview-bank-details').textContent = documentData.bankDetails || '';
+                document.getElementById('preview-notes').textContent = documentData.notes || '';
+                
+                // Force a reflow to ensure all elements are rendered
+                documentElement.offsetHeight;
+                
+                // Use html2canvas to capture the document
+                html2canvas(documentElement, {
+                    scale: 2,
+                    useCORS: true,
+                    logging: false,
+                    backgroundColor: '#ffffff',
+                    allowTaint: true,
+                    onclone: function(clonedDoc) {
+                        // Ensure stamps are visible in the cloned document
+                        if (isQuotation) {
+                            clonedDoc.querySelector('.quotation-stamp').style.display = 'block';
+                        } else {
+                            clonedDoc.querySelector('.stamp').style.display = 'block';
+                        }
+                    }
+                }).then(canvas => {
+                    const imgData = canvas.toDataURL('image/png');
+                    const pdf = new jsPDF('p', 'mm', 'a4');
+                    const pdfWidth = pdf.internal.pageSize.getWidth();
+                    const pdfHeight = pdf.internal.pageSize.getHeight();
+                    
+                    // Calculate image dimensions to fit A4
+                    const imgWidth = canvas.width;
+                    const imgHeight = canvas.height;
+                    const ratio = Math.min(pdfWidth / imgWidth, pdfHeight / imgHeight);
+                    const imgX = (pdfWidth - imgWidth * ratio) / 2;
+                    const imgY = 5; // Reduced top margin
+                    
+                    // Add image to PDF
+                    pdf.addImage(imgData, 'PNG', imgX, imgY, imgWidth * ratio, imgHeight * ratio);
+                    
+                    // Generate filename
+                    const fileName = `Kingu_${documentData.type}_${documentData.documentNumber}_${(documentData.clientName || 'Client').replace(/\s+/g, '_')}.pdf`;
+                    
+                    // Restore original content
+                    document.getElementById('preview-client-name').innerHTML = originalClientName;
+                    document.getElementById('preview-client-address').textContent = originalClientAddress;
+                    document.getElementById('preview-client-tin').textContent = originalClientTIN;
+                    document.getElementById('preview-client-phone').textContent = originalClientPhone;
+                    document.getElementById('preview-client-email').textContent = originalClientEmail;
+                    document.getElementById('preview-invoice-number').textContent = originalInvoiceNumber;
+                    document.getElementById('preview-invoice-date').textContent = originalInvoiceDate;
+                    document.getElementById('preview-validity').textContent = originalValidity;
+                    document.getElementById('preview-delivery-time').textContent = originalDeliveryTime;
+                    document.getElementById('preview-payment-terms').textContent = originalPaymentTerms;
+                    previewItems.innerHTML = originalPreviewItems;
+                    document.getElementById('preview-subtotal').textContent = originalSubtotal;
+                    document.getElementById('preview-tax').textContent = originalTax;
+                    document.getElementById('preview-grand-total').textContent = originalGrandTotal;
+                    document.getElementById('preview-bank-details').textContent = originalBankDetails;
+                    document.getElementById('preview-notes').textContent = originalNotes;
+                    
+                    // Restore original display
+                    invoicePreview.style.display = originalDisplay;
+                    
+                    // Save PDF
+                    pdf.save(fileName);
+                    
+                    // Restore button text
+                    if (pdfBtn) {
+                        pdfBtn.innerHTML = originalText;
+                        pdfBtn.disabled = false;
+                    }
+                    
+                }).catch(error => {
+                    console.error('Error generating PDF:', error);
+                    
+                    // Restore button text
+                    if (pdfBtn) {
+                        pdfBtn.innerHTML = originalText;
+                        pdfBtn.disabled = false;
+                    }
+                    
+                    // Restore original display
+                    invoicePreview.style.display = 'block';
+                    setTimeout(() => {
+                        invoicePreview.style.display = 'none';
+                    }, 100);
+                    
+                    alert('Error generating PDF. Please try again. If the problem persists, try printing the document instead.');
+                });
+                
+            } catch (error) {
+                console.error('Error in PDF generation:', error);
+                if (pdfBtn) {
+                    pdfBtn.innerHTML = originalText;
+                    pdfBtn.disabled = false;
                 }
-                
-                // Offer download to user
-                pdf.save(fileName);
-                
-                // Restore original display
-                invoicePreview.style.display = originalDisplay;
-                
-                // Restore button text
-                pdfBtn.innerHTML = originalText;
-                
-            }).catch(error => {
-                console.error('Error generating PDF:', error);
-                pdfBtn.innerHTML = originalText;
-                invoicePreview.style.display = originalDisplay;
-                alert('Error generating PDF. Please try again.');
-            });
+                alert('Error generating PDF: ' + error.message);
+            }
         }
         
         // Export to PDF (manual export)
         function exportToPDF() {
+            const isProforma = document.getElementById('btn-proforma').classList.contains('active');
+            const isStandard = document.getElementById('btn-standard').classList.contains('active');
+            const isQuotation = document.getElementById('btn-quotation').classList.contains('quotation-active');
+            
             const documentData = {
                 documentNumber: document.getElementById('invoice-number').value,
                 clientName: document.getElementById('client-name').value,
-                type: document.getElementById('btn-proforma').classList.contains('active') ? 'Proforma' : 
-                      document.getElementById('btn-standard').classList.contains('active') ? 'Standard' : 'Quotation',
-                currency: document.getElementById('currency').value
+                type: isQuotation ? 'Quotation' : (isProforma ? 'Proforma' : 'Standard'),
+                currency: document.getElementById('currency').value,
+                // Additional required fields
+                clientAddress: document.getElementById('client-address').value,
+                clientEmail: document.getElementById('client-email').value,
+                clientPhone: document.getElementById('client-phone').value,
+                clientTIN: document.getElementById('client-tin').value,
+                clientVAT: document.getElementById('client-vat').value,
+                documentDate: document.getElementById('invoice-date').value,
+                validityDays: document.getElementById('validity-days').value,
+                deliveryTime: document.getElementById('delivery-time').value,
+                paymentTerms: document.getElementById('payment-terms').value,
+                bankDetails: document.getElementById('bank-details').value,
+                notes: document.getElementById('notes').value,
+                items: [],
+                subtotal: extractCurrencyValue(document.getElementById('subtotal').textContent),
+                tax: extractCurrencyValue(document.getElementById('tax').textContent),
+                grandTotal: extractCurrencyValue(document.getElementById('grand-total').textContent)
             };
+            
+            // Collect items for the PDF
+            const rows = document.querySelectorAll('#invoice-items tr');
+            rows.forEach(row => {
+                const item = {
+                    description: row.querySelector('.item-description').value,
+                    quantity: parseFloat(row.querySelector('.item-quantity').value) || 0,
+                    price: parseFloat(row.querySelector('.item-price').value) || 0,
+                    total: extractCurrencyValue(row.querySelector('.item-total').textContent)
+                };
+                documentData.items.push(item);
+            });
             
             generateAndSavePDF(documentData);
         }
