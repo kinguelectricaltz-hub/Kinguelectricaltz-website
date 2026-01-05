@@ -793,6 +793,18 @@
             margin-top: 5px;
         }
 
+        .company-tin {
+            font-size: 12px;
+            color: #555;
+            font-weight: 600;
+            margin-top: 8px;
+            padding: 3px 8px;
+            background-color: var(--kingu-light);
+            border-radius: 4px;
+            display: inline-block;
+            border: 1px solid rgba(17, 106, 65, 0.2);
+        }
+
         .invoice-title {
             font-size: 32px;
             color: var(--kingu-green);
@@ -1214,7 +1226,7 @@
                         <span class="kingu">Kingu</span>
                         <span class="electrical">Electrical</span>
                     </div>
-                    <div class="company-full-name">Company Ltd</div>
+                    <div class="company-full-name">Company Limited</div>
                     <div class="company-tagline">Quality Electrical Services with Professional Experience</div>
                 </div>
             </div>
@@ -1254,6 +1266,7 @@
             
             <div class="company-info-sidebar">
                 <p><i class="fas fa-map-marker-alt"></i> <span>P.O. Box 62313<br>Dar Es Salaam Tanzania</span></p>
+                <p><i class="fas fa-hashtag"></i> TIN: 157-024-493</p>
                 <p><i class="fas fa-phone"></i> +255 677 01 47 40</p>
                 <p><i class="fas fa-phone"></i> +255 763 95 79 08</p>
                 <p><i class="fas fa-phone"></i> +255 682 84 35 52</p>
@@ -1549,7 +1562,8 @@ SWIFT CODE: SBICTZTX</textarea>
                         <div class="company-logo-text">
                             <div class="kingu-logo">Kingu</div>
                             <div class="electrical-logo">Electrical</div>
-                            <div class="company-logo">Company Ltd</div>
+                            <div class="company-logo">Company Limited</div>
+                            <div class="company-tin">TIN: 157-024-493</div>
                             <div class="tagline-logo">Quality Electrical Services with Professional Experience</div>
                             <div class="contact-info-logo">
                                 <div class="phone-numbers">
@@ -1578,13 +1592,23 @@ SWIFT CODE: SBICTZTX</textarea>
                         </div>
                     </div>
                     
+                    <div class="company-info">
+                        <div class="info-title" id="company-title">FROM:</div>
+                        <div class="company-details">
+                            <p><strong>KINGU ELECTRICAL COMPANY LIMITED</strong></p>
+                            <p>TIN: 157-024-493</p>
+                            <p>P.O. Box 62313, Dar Es Salaam Tanzania</p>
+                            <p>Phone: +255 677 01 47 40</p>
+                            <p>Email: kinguelectricaltz@gmail.com</p>
+                        </div>
+                    </div>
+                    
                     <div class="invoice-info">
                         <div class="info-title" id="preview-details-title">INVOICE DETAILS:</div>
                         <div class="invoice-info-box" id="preview-info-box">
                             <p><strong id="preview-doc-number-label">Invoice #:</strong> <span id="preview-invoice-number">PROFORMA/GL/06/2025/001</span></p>
                             <p><strong id="preview-doc-date-label">Date:</strong> <span id="preview-invoice-date">June 15, 2025</span></p>
                             <p><strong>Due Date:</strong> <span id="preview-due-date">July 15, 2025</span></p>
-                            <p><strong>Validity:</strong> <span id="preview-validity">30 days</span></p>
                             <p><strong>Delivery:</strong> <span id="preview-delivery-time">7 days after PO</span></p>
                             <p><strong>Payment Terms:</strong> <span id="preview-payment-terms">100% after delivery</span></p>
                         </div>
@@ -1596,7 +1620,7 @@ SWIFT CODE: SBICTZTX</textarea>
                     <p id="preview-quotation-text" style="color: #555; line-height: 1.6;">
                         PROFORMA INVOICE<br><br>
                         This proforma invoice is prepared for the services rendered. 
-                        All prices are inclusive of VAT where applicable and are valid for <span id="preview-validity-text">30 days</span>.
+                        All prices are inclusive of VAT where applicable and are valid for 30 days.
                     </p>
                 </div>
                 
@@ -1621,11 +1645,11 @@ SWIFT CODE: SBICTZTX</textarea>
                 <div class="terms-section" id="preview-terms-section">
                     <div class="terms-title" id="preview-terms-title"><i class="fas fa-file-contract"></i> TERMS & CONDITIONS</div>
                     <div class="terms-content">
-                        <p><strong>Bank Details:</strong> <span id="preview-bank-details">STANBIC BANK TANZANIA LIMITED, ACCOUNT: 912 000 275 9274</span></p>
-                        <p id="preview-notes">This quotation shall remain valid for 30 days only. Prices are inclusive of VAT where applicable. Delivery subject to stock availability.</p>
+                        <p><strong>Bank Details:</strong> <span id="preview-bank-details">BANK: STANBIC BANK TANZANIA LIMITED<br>ACCOUNT NAME: KINGU ELECTRICAL COMPANY LIMITED<br>ACCOUNT NUMBER: 912 000 275 9274<br>SWIFT CODE: SBICTZTX</span></p>
+                        <p id="preview-notes">1. This Proforma shall remain valid for 30 days only.<br>2. Prices are inclusive of VAT where applicable.<br>3. Delivery subject to stock availability.<br>4. All disputes subject to Dar es Salaam jurisdiction.</p>
                         <div class="contact-badges" style="margin-top: 15px;">
                             <span class="contact-badge-small">
-                                <i class="fas fa-phone"></i> +255 682 843 552
+                                <i class="fas fa-phone"></i> +255 677 014 740
                             </span>
                             <span class="contact-badge-small whatsapp-badge">
                                 <i class="fab fa-whatsapp"></i> +255 682 843 552
@@ -1761,8 +1785,9 @@ SWIFT CODE: SBICTZTX</textarea>
         // Initialize jsPDF
         const { jsPDF } = window.jspdf;
         
-        // Company details - UPDATED TO MATCH IMAGE
+        // Company details - UPDATED TO INCLUDE TIN NUMBER
         const COMPANY_NAME = "KINGU ELECTRICAL COMPANY LIMITED";
+        const COMPANY_TIN = "157-024-493";
         const COMPANY_EMAIL = "kinguelectricaltz@gmail.com";
         const COMPANY_PHONE_1 = "+255 677 01 47 40";
         const COMPANY_PHONE_2 = "+255 763 95 79 08";
@@ -2449,6 +2474,10 @@ SWIFT CODE: SBICTZTX</textarea>
             document.getElementById('client-title').textContent = isQuotation ? 'TO:' : 'BILL TO:';
             document.getElementById('client-title').classList.toggle('quotation-info-title', isQuotation);
             
+            // Update company title
+            document.getElementById('company-title').textContent = 'FROM:';
+            document.getElementById('company-title').classList.toggle('quotation-info-title', isQuotation);
+            
             // Update details title
             document.getElementById('preview-details-title').textContent = isQuotation ? 'QUOTATION DETAILS:' : 'INVOICE DETAILS:';
             document.getElementById('preview-details-title').classList.toggle('quotation-info-title', isQuotation);
@@ -2488,7 +2517,7 @@ SWIFT CODE: SBICTZTX</textarea>
                 document.getElementById('preview-quotation-text').innerHTML = `
                     Dear Sir/Madam,<br><br>
                     Thank you for your inquiry. We are pleased to submit our quotation for the requested electrical services. 
-                    All prices are inclusive of VAT where applicable and are valid for <span id="preview-validity-text">30 days</span>.
+                    All prices are inclusive of VAT where applicable and are valid for 30 days.
                 `;
             } else {
                 const isProforma = document.getElementById('btn-proforma').classList.contains('active');
@@ -2553,10 +2582,6 @@ SWIFT CODE: SBICTZTX</textarea>
                     dueDateElement.textContent = formatDate(dueDate);
                 }
             }
-            
-            const validityDays = document.getElementById('validity-days').value || '30';
-            document.getElementById('preview-validity').textContent = `${validityDays} days`;
-            document.getElementById('preview-validity-text').textContent = `${validityDays} days`;
             
             const deliveryTime = document.getElementById('delivery-time').value || '7';
             document.getElementById('preview-delivery-time').textContent = `${deliveryTime} days after PO`;
@@ -2795,7 +2820,8 @@ SWIFT CODE: SBICTZTX</textarea>
             
             const documentData = {
                 id: Date.now(), // Unique ID for each document
-                companyName: "Kingu Electrical Company Ltd",
+                companyName: "KINGU ELECTRICAL COMPANY LIMITED",
+                companyTIN: COMPANY_TIN,
                 email: COMPANY_EMAIL,
                 tagline: COMPANY_TAGLINE,
                 phoneNumbers: [COMPANY_PHONE_1, COMPANY_PHONE_2, COMPANY_PHONE_3],
