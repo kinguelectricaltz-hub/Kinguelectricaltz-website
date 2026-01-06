@@ -851,6 +851,12 @@
             margin-top: 30px;
             border-top: 4px solid var(--kingu-green);
             display: none;
+            width: 100%;
+            max-width: 210mm;
+            margin-left: auto;
+            margin-right: auto;
+            min-height: 297mm;
+            box-sizing: border-box;
         }
 
         .quotation-preview-container {
@@ -1137,6 +1143,7 @@
             font-weight: 700;
             color: var(--kingu-green);
             transform: rotate(5deg);
+            display: none;
         }
 
         .quotation-stamp {
@@ -1151,6 +1158,7 @@
             font-weight: 700;
             color: var(--kingu-blue);
             transform: rotate(5deg);
+            display: none;
         }
 
         /* Invoice History & Proforma Invoices Styles */
@@ -1250,6 +1258,7 @@
             border: 1px solid var(--kingu-blue);
         }
 
+        /* Add print styles */
         @media print {
             @page {
                 size: A4;
@@ -1263,28 +1272,23 @@
                 -webkit-print-color-adjust: exact !important;
                 print-color-adjust: exact !important;
                 width: 210mm !important;
+                height: 100% !important;
             }
             
-            .invoice-preview-container,
-            .invoice-preview-container * {
-                visibility: visible !important;
+            .container {
                 display: block !important;
+                width: 100% !important;
+                height: 100% !important;
+                margin: 0 !important;
+                padding: 0 !important;
             }
             
-            .invoice-preview-container {
-                position: absolute !important;
-                left: 0 !important;
-                top: 0 !important;
-                width: 210mm !important;
-                min-height: 297mm !important;
+            .main-content {
+                padding: 0 !important;
                 margin: 0 !important;
-                padding: 20mm !important;
-                box-shadow: none !important;
-                background-color: white !important;
-                border: none !important;
-                border-radius: 0 !important;
-                page-break-inside: avoid !important;
-                page-break-after: avoid !important;
+                width: 100% !important;
+                height: 100% !important;
+                background: white !important;
             }
             
             .sidebar, 
@@ -1301,27 +1305,52 @@
             .a4-preview-container,
             .pwa-notification,
             .offline-indicator,
-            .sync-notification {
+            .sync-notification,
+            #type-selector,
+            #client-database,
+            #proforma-invoices,
+            #invoice-history,
+            #reports-section,
+            #settings-section,
+            #whatsapp-btn,
+            #pdf-btn,
+            #print-btn {
                 display: none !important;
                 visibility: hidden !important;
+                opacity: 0 !important;
+                height: 0 !important;
+                width: 0 !important;
+                position: absolute !important;
             }
             
-            .container {
+            .invoice-preview-container {
                 display: block !important;
-                width: 100% !important;
-                height: 100% !important;
-            }
-            
-            .main-content {
-                padding: 0 !important;
+                visibility: visible !important;
+                opacity: 1 !important;
+                position: absolute !important;
+                left: 0 !important;
+                top: 0 !important;
+                width: 210mm !important;
+                min-height: 297mm !important;
                 margin: 0 !important;
-                width: 100% !important;
-                height: 100% !important;
+                padding: 20mm !important;
+                box-shadow: none !important;
+                background-color: white !important;
+                border: none !important;
+                border-radius: 0 !important;
+                page-break-inside: avoid !important;
+                page-break-after: avoid !important;
+                overflow: visible !important;
             }
             
             .stamp, .quotation-stamp {
                 display: block !important;
                 visibility: visible !important;
+                opacity: 1 !important;
+            }
+            
+            .btn, button {
+                display: none !important;
             }
         }
 
@@ -1390,6 +1419,11 @@
             .footer-contact {
                 flex-direction: column;
                 gap: 15px;
+            }
+            
+            .invoice-preview-container {
+                padding: 20px;
+                margin: 10px;
             }
         }
     </style>
@@ -1801,8 +1835,8 @@ SWIFT CODE: SBICTZTX</textarea>
             
             <!-- Enhanced Document Preview -->
             <div id="invoice-preview" class="invoice-preview-container">
-                <div class="stamp" style="display: none;">PROFORMA INVOICE</div>
-                <div class="quotation-stamp" style="display: none;">QUOTATION</div>
+                <div class="stamp">PROFORMA INVOICE</div>
+                <div class="quotation-stamp">QUOTATION</div>
                 
                 <div class="invoice-header">
                     <div class="invoice-company-logo">
@@ -1881,7 +1915,7 @@ SWIFT CODE: SBICTZTX</textarea>
                 <!-- Horizontal Terms & Bank Details for Print -->
                 <div class="preview-terms-bank print-terms-bank" id="preview-terms-bank">
                     <div class="preview-terms-box" id="preview-terms-box">
-                        <div class="preview-terms-title" id="preview-terms-title"><i class="fas fa-file-contract"></i> TERMS & CONDITIONS</div>
+                        <div class="preview-terms-title"><i class="fas fa-file-contract"></i> TERMS & CONDITIONS</div>
                         <div class="terms-content">
                             <p id="preview-notes">This quotation shall remain valid for 30 days only. Prices are inclusive of VAT where applicable. Delivery subject to stock availability.</p>
                             <div class="contact-badges" style="margin-top: 15px;">
@@ -2048,6 +2082,19 @@ SWIFT CODE: SBICTZTX</textarea>
             setTimeout(() => {
                 showNotification('Kingu Invoice System Ready!', 'success');
             }, 500);
+            
+            // Register Service Worker
+            if ('serviceWorker' in navigator) {
+                window.addEventListener('load', function() {
+                    navigator.serviceWorker.register('sw.js')
+                        .then(function(registration) {
+                            console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                        })
+                        .catch(function(err) {
+                            console.log('ServiceWorker registration failed: ', err);
+                        });
+                });
+            }
         });
         
         // ==================== MAIN APPLICATION ====================
@@ -2072,9 +2119,83 @@ SWIFT CODE: SBICTZTX</textarea>
             const clearBtn = document.getElementById('clear-btn');
             const sendEmailBtn = document.getElementById('send-email-btn');
             const loadSampleBtn = document.getElementById('load-sample-btn');
+            const whatsappBtn = document.getElementById('whatsapp-btn');
             
             // Set current document type
             let currentDocumentType = 'Proforma';
+            
+            // ==================== UTILITY FUNCTIONS ====================
+            function getCurrencySymbol(currency) {
+                switch(currency) {
+                    case 'USD': return '$';
+                    case 'EUR': return '€';
+                    case 'GBP': return '£';
+                    default: return 'TSh';
+                }
+            }
+            
+            function formatCurrency(amount, currency) {
+                const symbol = getCurrencySymbol(currency);
+                const formattedAmount = parseFloat(amount).toFixed(2)
+                    .replace(/\d(?=(\d{3})+\.)/g, '$&,');
+                
+                return symbol + (currency === 'TSh' ? '' : ' ') + formattedAmount;
+            }
+            
+            function extractCurrencyValue(formattedValue) {
+                return parseFloat(formattedValue.replace(/[^0-9.-]+/g,"")) || 0;
+            }
+            
+            function formatDate(dateString) {
+                if (!dateString || isNaN(new Date(dateString).getTime())) return '';
+                const options = { year: 'numeric', month: 'long', day: 'numeric' };
+                return new Date(dateString).toLocaleDateString('en-US', options);
+            }
+            
+            function convertNumberToWords(num) {
+                const units = ['', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine'];
+                const teens = ['ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen'];
+                const tens = ['', '', 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety'];
+                
+                if (num === 0) return 'zero';
+                
+                let words = '';
+                
+                const millions = Math.floor(num / 1000000);
+                if (millions > 0) {
+                    words += convertNumberToWords(millions) + ' million ';
+                    num %= 1000000;
+                }
+                
+                const thousands = Math.floor(num / 1000);
+                if (thousands > 0) {
+                    words += convertNumberToWords(thousands) + ' thousand ';
+                    num %= 1000;
+                }
+                
+                const hundreds = Math.floor(num / 100);
+                if (hundreds > 0) {
+                    words += units[hundreds] + ' hundred ';
+                    num %= 100;
+                }
+                
+                if (num > 0) {
+                    if (words !== '') words += 'and ';
+                    
+                    if (num < 10) {
+                        words += units[num];
+                    } else if (num < 20) {
+                        words += teens[num - 10];
+                    } else {
+                        words += tens[Math.floor(num / 10)];
+                        if (num % 10 > 0) {
+                            words += '-' + units[num % 10];
+                        }
+                    }
+                }
+                
+                return words.trim() + ' shillings';
+            }
             
             // ==================== INVOICE TYPE SELECTOR ====================
             btnProforma.addEventListener('click', function() {
@@ -2267,233 +2388,290 @@ SWIFT CODE: SBICTZTX</textarea>
             });
             
             function saveDocument() {
-                const formData = collectFormData();
-                const documents = JSON.parse(localStorage.getItem('kingu-documents') || '[]');
-                
-                // Add document details
-                formData.id = Date.now();
-                formData.createdAt = new Date().toISOString();
-                formData.status = 'draft';
-                formData.documentType = currentDocumentType;
-                formData.clientName = document.getElementById('client-name').value;
-                formData.grandTotal = extractCurrencyValue(document.getElementById('grand-total').textContent);
-                formData.currency = document.getElementById('currency').value;
-                
-                // Save to localStorage
-                documents.unshift(formData); // Add to beginning for newest first
-                localStorage.setItem('kingu-documents', JSON.stringify(documents));
-                
-                // Update history view
-                loadDocumentHistory();
-                
-                showNotification(`${currentDocumentType} saved successfully to history!`, 'success');
-                
-                // Optionally auto-load into preview
-                generateDocument();
+                try {
+                    const formData = collectFormData();
+                    let documents = [];
+                    
+                    try {
+                        const stored = localStorage.getItem('kingu-documents');
+                        if (stored) {
+                            documents = JSON.parse(stored);
+                            if (!Array.isArray(documents)) documents = [];
+                        }
+                    } catch (e) {
+                        console.error('Error parsing stored documents:', e);
+                        documents = [];
+                    }
+                    
+                    // Add document details
+                    formData.id = Date.now();
+                    formData.createdAt = new Date().toISOString();
+                    formData.status = 'draft';
+                    formData.documentType = currentDocumentType;
+                    formData.clientName = document.getElementById('client-name').value;
+                    formData.grandTotal = extractCurrencyValue(document.getElementById('grand-total').textContent);
+                    formData.currency = document.getElementById('currency').value;
+                    formData.documentNumber = document.getElementById('invoice-number').value;
+                    
+                    // Save to localStorage
+                    documents.unshift(formData); // Add to beginning for newest first
+                    localStorage.setItem('kingu-documents', JSON.stringify(documents));
+                    
+                    // Update history view
+                    loadDocumentHistory();
+                    
+                    showNotification(`${currentDocumentType} saved successfully to history!`, 'success');
+                    
+                    // Optionally auto-load into preview
+                    generateDocument();
+                } catch (error) {
+                    console.error('Save document error:', error);
+                    showNotification('Failed to save document. Please try again.', 'error');
+                }
             }
 
             // Function to load document history
             function loadDocumentHistory() {
-                const documents = JSON.parse(localStorage.getItem('kingu-documents') || '[]');
-                const historyList = document.getElementById('history-list');
-                
-                if (documents.length === 0) {
-                    historyList.innerHTML = '<p>No documents saved yet.</p>';
-                    return;
-                }
-                
-                let html = `
-                    <div style="overflow-x: auto;">
-                        <table class="history-table">
-                            <thead>
-                                <tr>
-                                    <th>Document #</th>
-                                    <th>Type</th>
-                                    <th>Client</th>
-                                    <th>Date</th>
-                                    <th>Amount</th>
-                                    <th>Status</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                `;
-                
-                documents.forEach(doc => {
-                    const date = new Date(doc.createdAt).toLocaleDateString();
-                    const amount = formatCurrency(doc.grandTotal || 0, doc.currency || 'TSh');
+                try {
+                    const stored = localStorage.getItem('kingu-documents');
+                    const documents = stored ? JSON.parse(stored) : [];
+                    const historyList = document.getElementById('history-list');
+                    
+                    if (!Array.isArray(documents) || documents.length === 0) {
+                        historyList.innerHTML = '<p>No documents saved yet.</p>';
+                        return;
+                    }
+                    
+                    let html = `
+                        <div style="overflow-x: auto;">
+                            <table class="history-table">
+                                <thead>
+                                    <tr>
+                                        <th>Document #</th>
+                                        <th>Type</th>
+                                        <th>Client</th>
+                                        <th>Date</th>
+                                        <th>Amount</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                    `;
+                    
+                    documents.forEach(doc => {
+                        const date = doc.createdAt ? new Date(doc.createdAt).toLocaleDateString() : 'N/A';
+                        const amount = formatCurrency(doc.grandTotal || 0, doc.currency || 'TSh');
+                        
+                        html += `
+                            <tr>
+                                <td>${doc.documentNumber || 'N/A'}</td>
+                                <td>${doc.documentType || 'Invoice'}</td>
+                                <td>${doc.clientName || 'N/A'}</td>
+                                <td>${date}</td>
+                                <td>${amount}</td>
+                                <td><span class="status-badge status-${doc.status || 'draft'}">${doc.status || 'Draft'}</span></td>
+                                <td>
+                                    <button class="action-btn-small" onclick="loadSavedDocument(${doc.id})" title="Load" style="background-color: var(--kingu-green); color: white;">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="action-btn-small" onclick="deleteSavedDocument(${doc.id})" title="Delete" style="background-color: var(--kingu-red); color: white;">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                    <button class="action-btn-small" onclick="printSavedDocument(${doc.id})" title="Print" style="background-color: var(--kingu-blue); color: white;">
+                                        <i class="fas fa-print"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        `;
+                    });
                     
                     html += `
-                        <tr>
-                            <td>${doc.documentNumber}</td>
-                            <td>${doc.documentType || 'Invoice'}</td>
-                            <td>${doc.clientName || 'N/A'}</td>
-                            <td>${date}</td>
-                            <td>${amount}</td>
-                            <td><span class="status-badge status-${doc.status || 'draft'}">${doc.status || 'Draft'}</span></td>
-                            <td>
-                                <button class="action-btn-small" onclick="loadSavedDocument(${doc.id})" title="Load" style="background-color: var(--kingu-green); color: white;">
-                                    <i class="fas fa-edit"></i>
-                                </button>
-                                <button class="action-btn-small" onclick="deleteSavedDocument(${doc.id})" title="Delete" style="background-color: var(--kingu-red); color: white;">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                                <button class="action-btn-small" onclick="printSavedDocument(${doc.id})" title="Print" style="background-color: var(--kingu-blue); color: white;">
-                                    <i class="fas fa-print"></i>
-                                </button>
-                            </td>
-                        </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     `;
-                });
-                
-                html += `
-                            </tbody>
-                        </table>
-                    </div>
-                `;
-                
-                historyList.innerHTML = html;
+                    
+                    historyList.innerHTML = html;
+                } catch (error) {
+                    console.error('Error loading document history:', error);
+                    document.getElementById('history-list').innerHTML = '<p>Error loading document history.</p>';
+                }
             }
 
             // Function to load a saved document
             function loadSavedDocument(id) {
-                const documents = JSON.parse(localStorage.getItem('kingu-documents') || '[]');
-                const doc = documents.find(d => d.id === id);
-                
-                if (!doc) {
-                    showNotification('Document not found!', 'error');
-                    return;
-                }
-                
-                // Set document type
-                if (doc.documentType === 'Quotation') {
-                    setActiveTypeButton('quotation');
-                    updateDocumentUI('Quotation');
-                    currentDocumentType = 'Quotation';
-                } else if (doc.documentType === 'Standard') {
-                    setActiveTypeButton('standard');
-                    updateDocumentUI('Standard');
-                    currentDocumentType = 'Standard';
-                } else {
-                    setActiveTypeButton('proforma');
-                    updateDocumentUI('Proforma');
-                    currentDocumentType = 'Proforma';
-                }
-                
-                // Populate form fields
-                document.getElementById('invoice-number').value = doc.documentNumber || '';
-                document.getElementById('invoice-date').value = doc.documentDate || '';
-                document.getElementById('due-date').value = doc.dueDate || '';
-                document.getElementById('currency').value = doc.currency || 'TSh';
-                document.getElementById('delivery-time').value = doc.deliveryTime || '7';
-                document.getElementById('payment-terms').value = doc.paymentTerms || '100% after delivery';
-                document.getElementById('client-name').value = doc.clientName || '';
-                document.getElementById('client-email').value = doc.clientEmail || '';
-                document.getElementById('client-phone').value = doc.clientPhone || '';
-                document.getElementById('client-address').value = doc.clientAddress || '';
-                document.getElementById('client-tin').value = doc.clientTIN || '';
-                document.getElementById('client-vat').value = doc.clientVAT || '';
-                document.getElementById('bank-details').value = doc.bankDetails || '';
-                document.getElementById('notes').value = doc.notes || '';
-                
-                // Set discount
-                document.getElementById('discount-type').value = doc.discountType || 'none';
-                if (doc.discountType !== 'none') {
-                    document.getElementById('discount-value-container').style.display = 'block';
-                    document.getElementById('discount-value').value = doc.discountValue || 0;
-                }
-                
-                // Set VAT options
-                if (doc.vatType === 'standard') {
-                    document.getElementById('vat-standard').checked = true;
-                    document.querySelector('#vat-standard').closest('.tax-option').classList.add('active');
-                } else if (doc.vatType === 'custom') {
-                    document.getElementById('vat-custom').checked = true;
-                    document.querySelector('#vat-custom').closest('.tax-option').classList.add('active');
-                    document.getElementById('vat-custom-container').style.display = 'block';
-                    document.getElementById('custom-vat-rate').value = doc.vatRate || 18;
-                }
-                
-                // Load items
-                const itemsTable = document.getElementById('invoice-items');
-                itemsTable.innerHTML = '';
-                
-                if (doc.items && doc.items.length > 0) {
-                    doc.items.forEach(item => {
+                try {
+                    const stored = localStorage.getItem('kingu-documents');
+                    if (!stored) {
+                        showNotification('No documents found!', 'error');
+                        return;
+                    }
+                    
+                    const documents = JSON.parse(stored);
+                    const doc = documents.find(d => d.id === id);
+                    
+                    if (!doc) {
+                        showNotification('Document not found!', 'error');
+                        return;
+                    }
+                    
+                    // Set document type
+                    if (doc.documentType === 'Quotation') {
+                        setActiveTypeButton('quotation');
+                        updateDocumentUI('Quotation');
+                        currentDocumentType = 'Quotation';
+                    } else if (doc.documentType === 'Standard') {
+                        setActiveTypeButton('standard');
+                        updateDocumentUI('Standard');
+                        currentDocumentType = 'Standard';
+                    } else {
+                        setActiveTypeButton('proforma');
+                        updateDocumentUI('Proforma');
+                        currentDocumentType = 'Proforma';
+                    }
+                    
+                    // Populate form fields
+                    document.getElementById('invoice-number').value = doc.documentNumber || '';
+                    document.getElementById('invoice-date').value = doc.documentDate || '';
+                    document.getElementById('due-date').value = doc.dueDate || '';
+                    document.getElementById('currency').value = doc.currency || 'TSh';
+                    document.getElementById('delivery-time').value = doc.deliveryTime || '7';
+                    document.getElementById('payment-terms').value = doc.paymentTerms || '100% after delivery';
+                    document.getElementById('client-name').value = doc.clientName || '';
+                    document.getElementById('client-email').value = doc.clientEmail || '';
+                    document.getElementById('client-phone').value = doc.clientPhone || '';
+                    document.getElementById('client-address').value = doc.clientAddress || '';
+                    document.getElementById('client-tin').value = doc.clientTIN || '';
+                    document.getElementById('client-vat').value = doc.clientVAT || '';
+                    document.getElementById('bank-details').value = doc.bankDetails || '';
+                    document.getElementById('notes').value = doc.notes || '';
+                    
+                    // Set discount
+                    const discountType = doc.discountType || 'none';
+                    document.getElementById('discount-type').value = discountType;
+                    if (discountType !== 'none') {
+                        document.getElementById('discount-value-container').style.display = 'block';
+                        document.getElementById('discount-value').value = doc.discountValue || 0;
+                    }
+                    
+                    // Set VAT options
+                    const vatType = doc.vatType || 'none';
+                    if (vatType === 'standard') {
+                        document.getElementById('vat-standard').checked = true;
+                        document.querySelectorAll('.tax-option').forEach(opt => opt.classList.remove('active'));
+                        document.querySelector('#vat-standard').closest('.tax-option').classList.add('active');
+                    } else if (vatType === 'custom') {
+                        document.getElementById('vat-custom').checked = true;
+                        document.querySelectorAll('.tax-option').forEach(opt => opt.classList.remove('active'));
+                        document.querySelector('#vat-custom').closest('.tax-option').classList.add('active');
+                        document.getElementById('vat-custom-container').style.display = 'block';
+                        document.getElementById('custom-vat-rate').value = doc.vatRate || 18;
+                    }
+                    
+                    // Load items
+                    const itemsTable = document.getElementById('invoice-items');
+                    itemsTable.innerHTML = '';
+                    
+                    if (doc.items && doc.items.length > 0) {
+                        doc.items.forEach(item => {
+                            const newRow = document.createElement('tr');
+                            newRow.innerHTML = `
+                                <td><input type="text" class="item-description" value="${item.description || ''}"></td>
+                                <td><input type="number" class="item-quantity" min="0" step="0.01" value="${item.quantity || 1}"></td>
+                                <td>
+                                    <div style="display: flex; align-items: center;">
+                                        <span class="currency-symbol" style="margin-right: 5px;">${getCurrencySymbol(doc.currency || 'TSh')}</span>
+                                        <input type="number" class="item-price" min="0" step="0.01" value="${item.price || 0}" style="flex: 1;">
+                                    </div>
+                                </td>
+                                <td class="item-total text-right">${formatCurrency(item.total || 0, doc.currency || 'TSh')}</td>
+                                <td class="text-center"><button class="delete-item"><i class="fas fa-trash"></i></button></td>
+                            `;
+                            itemsTable.appendChild(newRow);
+                        });
+                    } else {
+                        // Add default row if no items
                         const newRow = document.createElement('tr');
                         newRow.innerHTML = `
-                            <td><input type="text" class="item-description" value="${item.description}"></td>
-                            <td><input type="number" class="item-quantity" min="0" step="0.01" value="${item.quantity || 1}"></td>
+                            <td><input type="text" class="item-description" placeholder="Service description"></td>
+                            <td><input type="number" class="item-quantity" min="0" step="0.01" value="1.00"></td>
                             <td>
                                 <div style="display: flex; align-items: center;">
-                                    <span class="currency-symbol" style="margin-right: 5px;">${getCurrencySymbol(doc.currency)}</span>
-                                    <input type="number" class="item-price" min="0" step="0.01" value="${item.price || 0}" style="flex: 1;">
+                                    <span class="currency-symbol" style="margin-right: 5px;">${getCurrencySymbol(doc.currency || 'TSh')}</span>
+                                    <input type="number" class="item-price" min="0" step="0.01" value="0.00" style="flex: 1;">
                                 </div>
                             </td>
-                            <td class="item-total text-right">${formatCurrency(item.total || 0, doc.currency)}</td>
+                            <td class="item-total text-right">${getCurrencySymbol(doc.currency || 'TSh')} 0.00</td>
                             <td class="text-center"><button class="delete-item"><i class="fas fa-trash"></i></button></td>
                         `;
                         itemsTable.appendChild(newRow);
-                    });
-                } else {
-                    // Add default row if no items
-                    const newRow = document.createElement('tr');
-                    newRow.innerHTML = `
-                        <td><input type="text" class="item-description" placeholder="Service description"></td>
-                        <td><input type="number" class="item-quantity" min="0" step="0.01" value="1.00"></td>
-                        <td>
-                            <div style="display: flex; align-items: center;">
-                                <span class="currency-symbol" style="margin-right: 5px;">${getCurrencySymbol(doc.currency)}</span>
-                                <input type="number" class="item-price" min="0" step="0.01" value="0.00" style="flex: 1;">
-                            </div>
-                        </td>
-                        <td class="item-total text-right">${getCurrencySymbol(doc.currency)} 0.00</td>
-                        <td class="text-center"><button class="delete-item"><i class="fas fa-trash"></i></button></td>
-                    `;
-                    itemsTable.appendChild(newRow);
+                    }
+                    
+                    updateCurrencySymbol();
+                    updateTotals();
+                    
+                    // Navigate to create invoice page
+                    document.getElementById('nav-create').click();
+                    
+                    showNotification('Document loaded successfully!', 'success');
+                } catch (error) {
+                    console.error('Error loading saved document:', error);
+                    showNotification('Failed to load document. Please try again.', 'error');
                 }
-                
-                updateCurrencySymbol();
-                updateTotals();
-                
-                // Navigate to create invoice page
-                document.getElementById('nav-create').click();
-                
-                showNotification('Document loaded successfully!', 'success');
             }
 
             // Function to delete a saved document
             function deleteSavedDocument(id) {
                 if (confirm('Are you sure you want to delete this document?')) {
-                    let documents = JSON.parse(localStorage.getItem('kingu-documents') || '[]');
-                    documents = documents.filter(doc => doc.id !== id);
-                    localStorage.setItem('kingu-documents', JSON.stringify(documents));
-                    
-                    loadDocumentHistory();
-                    showNotification('Document deleted successfully!', 'success');
+                    try {
+                        const stored = localStorage.getItem('kingu-documents');
+                        if (!stored) return;
+                        
+                        let documents = JSON.parse(stored);
+                        documents = documents.filter(doc => doc.id !== id);
+                        localStorage.setItem('kingu-documents', JSON.stringify(documents));
+                        
+                        loadDocumentHistory();
+                        showNotification('Document deleted successfully!', 'success');
+                    } catch (error) {
+                        console.error('Error deleting document:', error);
+                        showNotification('Failed to delete document.', 'error');
+                    }
                 }
             }
 
             // Function to print a saved document
             function printSavedDocument(id) {
-                const documents = JSON.parse(localStorage.getItem('kingu-documents') || '[]');
-                const doc = documents.find(d => d.id === id);
-                
-                if (!doc) {
-                    showNotification('Document not found!', 'error');
-                    return;
-                }
-                
-                // Load the document first
-                loadSavedDocument(id);
-                
-                // Then generate and print
-                setTimeout(() => {
-                    generateDocument();
+                try {
+                    const stored = localStorage.getItem('kingu-documents');
+                    if (!stored) {
+                        showNotification('No documents found!', 'error');
+                        return;
+                    }
+                    
+                    const documents = JSON.parse(stored);
+                    const doc = documents.find(d => d.id === id);
+                    
+                    if (!doc) {
+                        showNotification('Document not found!', 'error');
+                        return;
+                    }
+                    
+                    // Load the document first
+                    loadSavedDocument(id);
+                    
+                    // Then generate and print
                     setTimeout(() => {
-                        printDocument();
-                    }, 500);
-                }, 100);
+                        generateDocument();
+                        setTimeout(() => {
+                            printDocument();
+                        }, 500);
+                    }, 100);
+                } catch (error) {
+                    console.error('Error printing saved document:', error);
+                    showNotification('Failed to print document.', 'error');
+                }
             }
 
             // Expose functions to global scope
@@ -2534,12 +2712,49 @@ Tel: +255 682 843 552
 Email: kinguelectricaltz@gmail.com
                 `);
                 
-                const mailtoLink = `mailto:${clientEmail}?from=kinguelectricaltz@gmail.com&subject=${subject}&body=${body}`;
+                const mailtoLink = `mailto:${clientEmail}?subject=${subject}&body=${body}`;
                 
                 // Open email client
                 window.open(mailtoLink, '_blank');
                 
                 showNotification('Email client opened. Please attach the PDF and send.', 'info');
+            }
+            
+            // ==================== WHATSAPP SHARE FUNCTION ====================
+            whatsappBtn.addEventListener('click', function() {
+                shareViaWhatsApp();
+            });
+            
+            function shareViaWhatsApp() {
+                const clientPhone = document.getElementById('client-phone').value;
+                const clientName = document.getElementById('client-name').value;
+                const documentNumber = document.getElementById('invoice-number').value;
+                const documentType = currentDocumentType;
+                
+                if (!clientPhone) {
+                    alert('Please enter client phone number to share via WhatsApp');
+                    document.getElementById('client-phone').focus();
+                    return;
+                }
+                
+                // Clean phone number (remove + and spaces)
+                const cleanPhone = clientPhone.replace(/[+\s]/g, '');
+                const message = encodeURIComponent(
+`Hello ${clientName},
+
+Your ${documentType} (${documentNumber}) from Kingu Electrical is ready.
+Please check your email for the PDF document.
+
+For any questions, please contact us at +255 682 843 552.
+
+Thank you,
+Kingu Electrical Company Limited`
+                );
+                
+                const whatsappLink = `https://wa.me/${cleanPhone}?text=${message}`;
+                window.open(whatsappLink, '_blank');
+                
+                showNotification('Opening WhatsApp...', 'info');
             }
             
             // ==================== LOAD SAMPLE FUNCTION ====================
@@ -2663,6 +2878,9 @@ Email: kinguelectricaltz@gmail.com
             });
             
             function generateDocument() {
+                console.log('Generating document preview...');
+                
+                // First update the preview content
                 updateEnhancedPreview();
                 
                 // Show the preview container
@@ -2672,7 +2890,7 @@ Email: kinguelectricaltz@gmail.com
                 // Show action buttons
                 printBtn.style.display = 'inline-flex';
                 pdfBtn.style.display = 'inline-flex';
-                document.getElementById('whatsapp-btn').style.display = 'inline-flex';
+                whatsappBtn.style.display = 'inline-flex';
                 
                 // Hide other sections
                 document.getElementById('type-selector').style.display = 'none';
@@ -2698,24 +2916,37 @@ Email: kinguelectricaltz@gmail.com
             }
             
             function updateEnhancedPreview() {
+                console.log('Updating enhanced preview...');
                 const isQuotation = currentDocumentType === 'Quotation';
                 const isProforma = currentDocumentType === 'Proforma';
                 const currency = document.getElementById('currency').value;
+                const currencySymbol = getCurrencySymbol(currency);
                 
                 // Update preview labels
                 updatePreviewLabels(isQuotation);
                 
                 // Update stamps visibility
-                document.querySelector('.stamp').style.display = isQuotation ? 'none' : 'block';
-                document.querySelector('.quotation-stamp').style.display = isQuotation ? 'block' : 'none';
+                const stamp = document.querySelector('.stamp');
+                const quotationStamp = document.querySelector('.quotation-stamp');
+                if (stamp) stamp.style.display = isQuotation ? 'none' : 'block';
+                if (quotationStamp) quotationStamp.style.display = isQuotation ? 'block' : 'none';
                 
                 // Update client info
-                document.getElementById('preview-client-name').innerHTML = `<strong>${document.getElementById('client-name').value || 'Client Name'}</strong>`;
+                const clientName = document.getElementById('client-name').value || 'Client Name';
+                document.getElementById('preview-client-name').innerHTML = `<strong>${clientName}</strong>`;
                 document.getElementById('preview-client-address').textContent = document.getElementById('client-address').value || 'Client Address';
-                document.getElementById('preview-client-tin').textContent = document.getElementById('client-tin').value ? `TIN Number: ${document.getElementById('client-tin').value}` : '';
-                document.getElementById('preview-client-vat').textContent = document.getElementById('client-vat').value ? `VAT: ${document.getElementById('client-vat').value}` : '';
-                document.getElementById('preview-client-phone').textContent = document.getElementById('client-phone').value ? `Phone: ${document.getElementById('client-phone').value}` : '';
-                document.getElementById('preview-client-email').textContent = document.getElementById('client-email').value ? `Email: ${document.getElementById('client-email').value}` : '';
+                
+                const clientTin = document.getElementById('client-tin').value;
+                document.getElementById('preview-client-tin').textContent = clientTin ? `TIN Number: ${clientTin}` : '';
+                
+                const clientVat = document.getElementById('client-vat').value;
+                document.getElementById('preview-client-vat').textContent = clientVat ? `VAT: ${clientVat}` : '';
+                
+                const clientPhone = document.getElementById('client-phone').value;
+                document.getElementById('preview-client-phone').textContent = clientPhone ? `Phone: ${clientPhone}` : '';
+                
+                const clientEmail = document.getElementById('client-email').value;
+                document.getElementById('preview-client-email').textContent = clientEmail ? `Email: ${clientEmail}` : '';
                 
                 // Update document details
                 document.getElementById('preview-invoice-number').textContent = document.getElementById('invoice-number').value;
@@ -2723,15 +2954,9 @@ Email: kinguelectricaltz@gmail.com
                 
                 const dueDate = document.getElementById('due-date').value;
                 if (dueDate) {
-                    // Add due date to preview if it exists
-                    const infoBox = document.getElementById('preview-info-box');
-                    let dueDateElement = infoBox.querySelector('#preview-due-date');
-                    if (!dueDateElement) {
-                        const dueDateRow = document.createElement('p');
-                        dueDateRow.innerHTML = `<strong>Due Date:</strong> <span id="preview-due-date">${formatDate(dueDate)}</span>`;
-                        infoBox.appendChild(dueDateRow);
-                    } else {
-                        dueDateElement.textContent = formatDate(dueDate);
+                    const previewDueDate = document.getElementById('preview-due-date');
+                    if (previewDueDate) {
+                        previewDueDate.textContent = formatDate(dueDate);
                     }
                 }
                 
@@ -2794,11 +3019,16 @@ Email: kinguelectricaltz@gmail.com
                     `;
                 }
                 
+                if (tax > 0) {
+                    totalsHTML += `
+                        <div class="total-row">
+                            <span class="total-label">VAT (18%):</span>
+                            <span class="total-value" id="preview-tax">${formatCurrency(tax, currency)}</span>
+                        </div>
+                    `;
+                }
+                
                 totalsHTML += `
-                    <div class="total-row">
-                        <span class="total-label">VAT (18%):</span>
-                        <span class="total-value" id="preview-tax">${formatCurrency(tax, currency)}</span>
-                    </div>
                     <div class="total-row grand-total">
                         <span class="total-label" id="preview-grand-total-label">${isQuotation ? 'TOTAL QUOTATION:' : 'GRAND TOTAL:'}</span>
                         <span class="total-value" id="preview-grand-total">${formatCurrency(grandTotal, currency)}</span>
@@ -2816,90 +3046,134 @@ Email: kinguelectricaltz@gmail.com
                 previewTotals.innerHTML = totalsHTML;
                 
                 // Update terms and bank details
-                document.getElementById('preview-bank-details').textContent = document.getElementById('bank-details').value || '';
-                document.getElementById('preview-notes').textContent = document.getElementById('notes').value || '';
+                const bankDetails = document.getElementById('bank-details').value || '';
+                document.getElementById('preview-bank-details').textContent = bankDetails;
+                
+                const notes = document.getElementById('notes').value || '';
+                document.getElementById('preview-notes').textContent = notes;
                 
                 // Update container styling
-                invoicePreview.classList.toggle('quotation-preview-container', isQuotation);
-                
-                // Update terms box styling
-                const termsBox = document.getElementById('preview-terms-box');
-                const bankBox = document.getElementById('preview-bank-box');
-                const termsTitle = document.getElementById('preview-terms-title');
-                
                 if (isQuotation) {
-                    termsBox.classList.add('quotation-terms-box');
-                    bankBox.classList.add('quotation-bank-box');
-                    termsTitle.classList.add('quotation-terms-title');
-                    termsTitle.classList.remove('preview-terms-title');
+                    invoicePreview.classList.add('quotation-preview-container');
+                    invoicePreview.classList.remove('invoice-preview-container');
                 } else {
-                    termsBox.classList.remove('quotation-terms-box');
-                    bankBox.classList.remove('quotation-bank-box');
-                    termsTitle.classList.remove('quotation-terms-title');
-                    termsTitle.classList.add('preview-terms-title');
+                    invoicePreview.classList.remove('quotation-preview-container');
+                    invoicePreview.classList.add('invoice-preview-container');
                 }
             }
             
             function updatePreviewLabels(isQuotation) {
                 // Update document type in header
                 const previewDocType = document.getElementById('preview-doc-type');
-                previewDocType.textContent = isQuotation ? 'QUOTATION' : (currentDocumentType === 'Proforma' ? 'PROFORMA INVOICE' : 'TAX INVOICE');
-                previewDocType.classList.toggle('quotation-title', isQuotation);
+                if (previewDocType) {
+                    previewDocType.textContent = isQuotation ? 'QUOTATION' : (currentDocumentType === 'Proforma' ? 'PROFORMA INVOICE' : 'TAX INVOICE');
+                    previewDocType.classList.toggle('quotation-title', isQuotation);
+                }
                 
                 // Update client title
-                document.getElementById('client-title').textContent = isQuotation ? 'TO:' : 'BILL TO:';
-                document.getElementById('client-title').classList.toggle('quotation-info-title', isQuotation);
+                const clientTitle = document.getElementById('client-title');
+                if (clientTitle) {
+                    clientTitle.textContent = isQuotation ? 'TO:' : 'BILL TO:';
+                    clientTitle.classList.toggle('quotation-info-title', isQuotation);
+                }
                 
                 // Update details title
-                document.getElementById('preview-details-title').textContent = isQuotation ? 'QUOTATION DETAILS:' : 'INVOICE DETAILS:';
-                document.getElementById('preview-details-title').classList.toggle('quotation-info-title', isQuotation);
+                const previewDetailsTitle = document.getElementById('preview-details-title');
+                if (previewDetailsTitle) {
+                    previewDetailsTitle.textContent = isQuotation ? 'QUOTATION DETAILS:' : 'INVOICE DETAILS:';
+                    previewDetailsTitle.classList.toggle('quotation-info-title', isQuotation);
+                }
                 
                 // Update document number and date labels
-                document.getElementById('preview-doc-number-label').textContent = isQuotation ? 'Quotation #:' : 'Invoice #:';
-                document.getElementById('preview-doc-date-label').textContent = isQuotation ? 'Quotation Date:' : 'Invoice Date:';
+                const previewDocNumberLabel = document.getElementById('preview-doc-number-label');
+                if (previewDocNumberLabel) {
+                    previewDocNumberLabel.textContent = isQuotation ? 'Quotation #:' : 'Invoice #:';
+                }
+                
+                const previewDocDateLabel = document.getElementById('preview-doc-date-label');
+                if (previewDocDateLabel) {
+                    previewDocDateLabel.textContent = isQuotation ? 'Quotation Date:' : 'Invoice Date:';
+                }
                 
                 // Update info box styling
-                document.getElementById('preview-info-box').classList.toggle('quotation-info-box', isQuotation);
+                const previewInfoBox = document.getElementById('preview-info-box');
+                if (previewInfoBox) {
+                    previewInfoBox.classList.toggle('quotation-info-box', isQuotation);
+                }
                 
                 // Update items table styling
-                document.getElementById('preview-items-table').classList.toggle('quotation-items-preview', isQuotation);
+                const previewItemsTable = document.getElementById('preview-items-table');
+                if (previewItemsTable) {
+                    previewItemsTable.classList.toggle('quotation-items-preview', isQuotation);
+                }
                 
                 // Update totals section styling
-                document.getElementById('preview-totals').classList.toggle('quotation-totals', isQuotation);
-                document.getElementById('preview-grand-total-label').textContent = isQuotation ? 'TOTAL QUOTATION:' : 'GRAND TOTAL:';
+                const previewTotals = document.getElementById('preview-totals');
+                if (previewTotals) {
+                    previewTotals.classList.toggle('quotation-totals', isQuotation);
+                }
+                
+                const previewGrandTotalLabel = document.getElementById('preview-grand-total-label');
+                if (previewGrandTotalLabel) {
+                    previewGrandTotalLabel.textContent = isQuotation ? 'TOTAL QUOTATION:' : 'GRAND TOTAL:';
+                }
                 
                 // Update intro box
                 const introBox = document.getElementById('preview-intro-box');
-                if (isQuotation) {
-                    introBox.style.backgroundColor = 'rgba(41, 128, 185, 0.1)';
-                    introBox.style.borderLeft = '4px solid var(--kingu-blue)';
-                    document.getElementById('preview-subject').style.color = 'var(--kingu-blue)';
-                    document.getElementById('preview-subject').textContent = 'Subject: Quotation for Electrical Services';
-                    document.getElementById('preview-quotation-text').innerHTML = `
-                        Dear Sir/Madam,<br><br>
-                        Thank you for your inquiry. We are pleased to submit our quotation for the requested electrical services. 
-                        All prices are inclusive of VAT where applicable and are valid for <span id="preview-validity-text">30 days</span>.
-                    `;
-                } else {
-                    const isProforma = currentDocumentType === 'Proforma';
-                    introBox.style.backgroundColor = 'var(--kingu-light)';
-                    introBox.style.borderLeft = '4px solid var(--kingu-green)';
-                    document.getElementById('preview-subject').style.color = 'var(--kingu-green)';
-                    document.getElementById('preview-subject').textContent = isProforma ? 'Subject: Proforma Invoice for Electrical Services' : 'Subject: Invoice for Electrical Services';
-                    document.getElementById('preview-quotation-text').innerHTML = `
-                        ${isProforma ? 'PROFORMA INVOICE' : 'TAX INVOICE'}<br><br>
-                        This ${isProforma ? 'proforma invoice' : 'invoice'} is prepared for the services rendered. 
-                        All prices are inclusive of VAT where applicable.
-                    `;
+                if (introBox) {
+                    if (isQuotation) {
+                        introBox.style.backgroundColor = 'rgba(41, 128, 185, 0.1)';
+                        introBox.style.borderLeft = '4px solid var(--kingu-blue)';
+                    } else {
+                        introBox.style.backgroundColor = 'var(--kingu-light)';
+                        introBox.style.borderLeft = '4px solid var(--kingu-green)';
+                    }
+                }
+                
+                const previewSubject = document.getElementById('preview-subject');
+                if (previewSubject) {
+                    if (isQuotation) {
+                        previewSubject.style.color = 'var(--kingu-blue)';
+                        previewSubject.textContent = 'Subject: Quotation for Electrical Services';
+                    } else {
+                        const isProforma = currentDocumentType === 'Proforma';
+                        previewSubject.style.color = 'var(--kingu-green)';
+                        previewSubject.textContent = isProforma ? 'Subject: Proforma Invoice for Electrical Services' : 'Subject: Invoice for Electrical Services';
+                    }
+                }
+                
+                const previewQuotationText = document.getElementById('preview-quotation-text');
+                if (previewQuotationText) {
+                    if (isQuotation) {
+                        previewQuotationText.innerHTML = `
+                            Dear Sir/Madam,<br><br>
+                            Thank you for your inquiry. We are pleased to submit our quotation for the requested electrical services. 
+                            All prices are inclusive of VAT where applicable and are valid for <span id="preview-validity-text">30 days</span>.
+                        `;
+                    } else {
+                        const isProforma = currentDocumentType === 'Proforma';
+                        previewQuotationText.innerHTML = `
+                            ${isProforma ? 'PROFORMA INVOICE' : 'TAX INVOICE'}<br><br>
+                            This ${isProforma ? 'proforma invoice' : 'invoice'} is prepared for the services rendered. 
+                            All prices are inclusive of VAT where applicable.
+                        `;
+                    }
                 }
                 
                 // Update footer text
-                document.getElementById('preview-thank-you').textContent = isQuotation 
-                    ? 'Thank you for considering our quotation. We look forward to the opportunity to serve you.' 
-                    : 'Thank you for your business! We value our partnership and look forward to serving you.';
-                document.getElementById('preview-footer-note').textContent = isQuotation 
-                    ? 'This is a computer-generated quotation. No signature is required.' 
-                    : 'This is a computer-generated document. No signature is required.';
+                const previewThankYou = document.getElementById('preview-thank-you');
+                if (previewThankYou) {
+                    previewThankYou.textContent = isQuotation 
+                        ? 'Thank you for considering our quotation. We look forward to the opportunity to serve you.' 
+                        : 'Thank you for your business! We value our partnership and look forward to serving you.';
+                }
+                
+                const previewFooterNote = document.getElementById('preview-footer-note');
+                if (previewFooterNote) {
+                    previewFooterNote.textContent = isQuotation 
+                        ? 'This is a computer-generated quotation. No signature is required.' 
+                        : 'This is a computer-generated document. No signature is required.';
+                }
             }
             
             // ==================== PRINT FUNCTIONALITY ====================
@@ -2908,21 +3182,27 @@ Email: kinguelectricaltz@gmail.com
             });
             
             function printDocument() {
+                console.log('Printing document...');
                 const isQuotation = currentDocumentType === 'Quotation';
                 
                 // Show appropriate stamp before printing
+                const stamp = document.querySelector('.stamp');
+                const quotationStamp = document.querySelector('.quotation-stamp');
+                
                 if (isQuotation) {
-                    document.querySelector('.quotation-stamp').style.display = 'block';
+                    if (quotationStamp) quotationStamp.style.display = 'block';
+                    if (stamp) stamp.style.display = 'none';
                 } else {
-                    document.querySelector('.stamp').style.display = 'block';
+                    if (stamp) stamp.style.display = 'block';
+                    if (quotationStamp) quotationStamp.style.display = 'none';
                 }
                 
                 setTimeout(() => {
                     window.print();
                     // Hide stamp after printing
                     setTimeout(() => {
-                        document.querySelector('.stamp').style.display = 'none';
-                        document.querySelector('.quotation-stamp').style.display = 'none';
+                        if (stamp) stamp.style.display = 'none';
+                        if (quotationStamp) quotationStamp.style.display = 'none';
                     }, 100);
                 }, 100);
             }
@@ -2934,65 +3214,119 @@ Email: kinguelectricaltz@gmail.com
             
             async function exportToPDF() {
                 try {
+                    console.log('Starting PDF export...');
+                    
                     const originalText = pdfBtn.innerHTML;
+                    const originalDisabled = pdfBtn.disabled;
+                    
                     pdfBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating PDF...';
                     pdfBtn.disabled = true;
                     
-                    // Ensure preview is generated
+                    // Ensure preview is generated and visible
                     generateDocument();
                     
+                    // Wait for preview to render
                     await new Promise(resolve => setTimeout(resolve, 500));
                     
+                    // Check if jsPDF is loaded
+                    if (typeof window.jspdf === 'undefined') {
+                        throw new Error('jsPDF library not loaded. Please check the script src.');
+                    }
+                    
                     const { jsPDF } = window.jspdf;
+                    
+                    // Create PDF document
                     const doc = new jsPDF({
                         orientation: 'portrait',
                         unit: 'mm',
-                        format: 'a4'
+                        format: 'a4',
+                        putOnlyUsedFonts: true,
+                        floatPrecision: 16
                     });
                     
-                    const printContent = document.getElementById('invoice-preview');
+                    // Get the preview element
+                    const element = document.getElementById('invoice-preview');
                     
-                    const canvas = await html2canvas(printContent, {
+                    if (!element) {
+                        throw new Error('Preview element not found');
+                    }
+                    
+                    // Show stamps for PDF
+                    const isQuotation = currentDocumentType === 'Quotation';
+                    const stamp = document.querySelector('.stamp');
+                    const quotationStamp = document.querySelector('.quotation-stamp');
+                    
+                    if (isQuotation) {
+                        if (quotationStamp) quotationStamp.style.display = 'block';
+                        if (stamp) stamp.style.display = 'none';
+                    } else {
+                        if (stamp) stamp.style.display = 'block';
+                        if (quotationStamp) quotationStamp.style.display = 'none';
+                    }
+                    
+                    // Create canvas from the element
+                    const canvas = await html2canvas(element, {
                         scale: 2,
                         useCORS: true,
-                        logging: false,
-                        backgroundColor: '#ffffff',
                         allowTaint: true,
+                        backgroundColor: '#ffffff',
+                        logging: false,
                         onclone: function(clonedDoc) {
-                            // Ensure stamps are visible in the cloned document
-                            const isQuotation = currentDocumentType === 'Quotation';
-                            if (isQuotation) {
-                                clonedDoc.querySelector('.quotation-stamp').style.display = 'block';
-                            } else {
-                                clonedDoc.querySelector('.stamp').style.display = 'block';
+                            // Fix any display issues in the cloned document
+                            const clonedElement = clonedDoc.getElementById('invoice-preview');
+                            if (clonedElement) {
+                                clonedElement.style.width = '210mm';
+                                clonedElement.style.height = 'auto';
+                                clonedElement.style.padding = '20mm';
+                                clonedElement.style.boxSizing = 'border-box';
+                                
+                                // Ensure stamps are visible
+                                const clonedStamp = clonedDoc.querySelector('.stamp');
+                                const clonedQuotationStamp = clonedDoc.querySelector('.quotation-stamp');
+                                
+                                if (isQuotation) {
+                                    if (clonedQuotationStamp) clonedQuotationStamp.style.display = 'block';
+                                    if (clonedStamp) clonedStamp.style.display = 'none';
+                                } else {
+                                    if (clonedStamp) clonedStamp.style.display = 'block';
+                                    if (clonedQuotationStamp) clonedQuotationStamp.style.display = 'none';
+                                }
                             }
                         }
                     });
                     
-                    const imgData = canvas.toDataURL('image/png');
-                    const pdfWidth = doc.internal.pageSize.getWidth();
-                    const pdfHeight = doc.internal.pageSize.getHeight();
+                    // Hide stamps again
+                    if (stamp) stamp.style.display = 'none';
+                    if (quotationStamp) quotationStamp.style.display = 'none';
                     
-                    // Calculate image dimensions to fit A4
-                    const imgWidth = canvas.width;
-                    const imgHeight = canvas.height;
-                    const ratio = Math.min(pdfWidth / imgWidth, pdfHeight / imgHeight);
-                    const imgX = (pdfWidth - imgWidth * ratio) / 2;
-                    const imgY = 5;
+                    // Calculate dimensions
+                    const imgWidth = 210; // A4 width in mm
+                    const imgHeight = (canvas.height * imgWidth) / canvas.width;
                     
                     // Add image to PDF
-                    doc.addImage(imgData, 'PNG', imgX, imgY, imgWidth * ratio, imgHeight * ratio);
+                    const imgData = canvas.toDataURL('image/jpeg', 1.0);
+                    doc.addImage(imgData, 'JPEG', 0, 0, imgWidth, imgHeight);
                     
                     // Generate filename
-                    const fileName = `Kingu_${currentDocumentType}_${document.getElementById('invoice-number').value.replace(/\//g, '-')}_${new Date().getTime()}.pdf`;
+                    const docNumber = document.getElementById('invoice-number').value;
+                    const cleanDocNumber = docNumber.replace(/[^a-zA-Z0-9]/g, '_');
+                    const fileName = `Kingu_${currentDocumentType}_${cleanDocNumber}_${new Date().getTime()}.pdf`;
+                    
+                    // Save the PDF
                     doc.save(fileName);
                     
-                    showNotification('PDF exported successfully with company email!', 'success');
+                    showNotification('PDF exported successfully!', 'success');
                     
                 } catch (error) {
                     console.error('PDF export error:', error);
-                    showNotification('Failed to export PDF. Please try again.', 'error');
+                    showNotification(`Failed to export PDF: ${error.message}`, 'error');
+                    
+                    // Fallback: Try simple print if PDF fails
+                    if (confirm('PDF export failed. Would you like to print instead?')) {
+                        printDocument();
+                    }
                 } finally {
+                    // Restore button state
                     pdfBtn.innerHTML = '<i class="fas fa-file-pdf"></i> Export PDF';
                     pdfBtn.disabled = false;
                 }
@@ -3056,51 +3390,6 @@ Email: kinguelectricaltz@gmail.com
                 };
             }
             
-            function convertNumberToWords(num) {
-                const units = ['', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine'];
-                const teens = ['ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen'];
-                const tens = ['', '', 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety'];
-                
-                if (num === 0) return 'zero';
-                
-                let words = '';
-                
-                const millions = Math.floor(num / 1000000);
-                if (millions > 0) {
-                    words += convertNumberToWords(millions) + ' million ';
-                    num %= 1000000;
-                }
-                
-                const thousands = Math.floor(num / 1000);
-                if (thousands > 0) {
-                    words += convertNumberToWords(thousands) + ' thousand ';
-                    num %= 1000;
-                }
-                
-                const hundreds = Math.floor(num / 100);
-                if (hundreds > 0) {
-                    words += units[hundreds] + ' hundred ';
-                    num %= 100;
-                }
-                
-                if (num > 0) {
-                    if (words !== '') words += 'and ';
-                    
-                    if (num < 10) {
-                        words += units[num];
-                    } else if (num < 20) {
-                        words += teens[num - 10];
-                    } else {
-                        words += tens[Math.floor(num / 10)];
-                        if (num % 10 > 0) {
-                            words += '-' + units[num % 10];
-                        }
-                    }
-                }
-                
-                return words.trim() + ' shillings';
-            }
-            
             // ==================== INITIALIZE FORM ====================
             function initializeForm() {
                 // Set current date
@@ -3152,7 +3441,7 @@ Email: kinguelectricaltz@gmail.com
                 // Initialize invoice form calculations
                 document.addEventListener('input', function(e) {
                     if (e.target.classList.contains('item-quantity') || 
-                        e.target.classList.contains('item-price')) {
+                        e.target.classList.contains('.item-price')) {
                         updateItemTotal(e.target.closest('tr'));
                         updateTotals();
                     }
@@ -3299,8 +3588,12 @@ Email: kinguelectricaltz@gmail.com
                 document.getElementById('grand-total').textContent = 
                     `${currencySymbol} ${grandTotal.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}`;
                 
-                document.getElementById('amount-words').textContent = 
-                    convertNumberToWords(grandTotal) + ' ' + currency + ' only';
+                // Update amount in words
+                const amountWordsElement = document.getElementById('amount-words');
+                if (amountWordsElement) {
+                    amountWordsElement.textContent = 
+                        convertNumberToWords(grandTotal) + ' ' + currency + ' only';
+                }
             }
             
             function updateCurrencySymbol() {
@@ -3388,33 +3681,6 @@ Email: kinguelectricaltz@gmail.com
                 updateTotals();
             }
             
-            function getCurrencySymbol(currency) {
-                switch(currency) {
-                    case 'USD': return '$';
-                    case 'EUR': return '€';
-                    case 'GBP': return '£';
-                    default: return 'TSh';
-                }
-            }
-            
-            function formatCurrency(amount, currency) {
-                const symbol = getCurrencySymbol(currency);
-                const formattedAmount = parseFloat(amount).toFixed(2)
-                    .replace(/\d(?=(\d{3})+\.)/g, '$&,');
-                
-                return symbol + (currency === 'TSh' ? '' : ' ') + formattedAmount;
-            }
-            
-            function extractCurrencyValue(formattedValue) {
-                return parseFloat(formattedValue.replace(/[^0-9.-]+/g,"")) || 0;
-            }
-            
-            function formatDate(dateString) {
-                if (!dateString) return '';
-                const options = { year: 'numeric', month: 'long', day: 'numeric' };
-                return new Date(dateString).toLocaleDateString('en-US', options);
-            }
-            
             // Initialize navigation
             function initializeNavigation() {
                 const invoiceForm = document.getElementById('invoice-form');
@@ -3460,7 +3726,7 @@ Email: kinguelectricaltz@gmail.com
                     document.getElementById('page-title').textContent = `Create ${currentDocumentType} Invoice`;
                     printBtn.style.display = 'none';
                     pdfBtn.style.display = 'inline-flex';
-                    document.getElementById('whatsapp-btn').style.display = 'inline-flex';
+                    whatsappBtn.style.display = 'inline-flex';
                 });
                 
                 navProforma.addEventListener('click', function() {
@@ -3472,7 +3738,7 @@ Email: kinguelectricaltz@gmail.com
                     document.getElementById('page-title').textContent = 'Proforma Invoices';
                     printBtn.style.display = 'none';
                     pdfBtn.style.display = 'none';
-                    document.getElementById('whatsapp-btn').style.display = 'none';
+                    whatsappBtn.style.display = 'none';
                 });
                 
                 navHistory.addEventListener('click', function() {
@@ -3484,7 +3750,7 @@ Email: kinguelectricaltz@gmail.com
                     document.getElementById('page-title').textContent = 'Document History';
                     printBtn.style.display = 'none';
                     pdfBtn.style.display = 'none';
-                    document.getElementById('whatsapp-btn').style.display = 'none';
+                    whatsappBtn.style.display = 'none';
                 });
                 
                 navClients.addEventListener('click', function() {
@@ -3496,7 +3762,7 @@ Email: kinguelectricaltz@gmail.com
                     document.getElementById('page-title').textContent = 'Client Database';
                     printBtn.style.display = 'none';
                     pdfBtn.style.display = 'none';
-                    document.getElementById('whatsapp-btn').style.display = 'none';
+                    whatsappBtn.style.display = 'none';
                 });
                 
                 navReports.addEventListener('click', function() {
@@ -3508,7 +3774,7 @@ Email: kinguelectricaltz@gmail.com
                     document.getElementById('page-title').textContent = 'Reports & Analytics';
                     printBtn.style.display = 'none';
                     pdfBtn.style.display = 'none';
-                    document.getElementById('whatsapp-btn').style.display = 'none';
+                    whatsappBtn.style.display = 'none';
                 });
                 
                 navSettings.addEventListener('click', function() {
@@ -3520,7 +3786,7 @@ Email: kinguelectricaltz@gmail.com
                     document.getElementById('page-title').textContent = 'System Settings';
                     printBtn.style.display = 'none';
                     pdfBtn.style.display = 'none';
-                    document.getElementById('whatsapp-btn').style.display = 'none';
+                    whatsappBtn.style.display = 'none';
                 });
                 
                 // New Document button
@@ -3534,7 +3800,7 @@ Email: kinguelectricaltz@gmail.com
                     document.getElementById('page-title').textContent = `Create ${currentDocumentType} Invoice`;
                     printBtn.style.display = 'none';
                     pdfBtn.style.display = 'inline-flex';
-                    document.getElementById('whatsapp-btn').style.display = 'inline-flex';
+                    whatsappBtn.style.display = 'inline-flex';
                 });
             }
             
@@ -3569,11 +3835,18 @@ Email: kinguelectricaltz@gmail.com
         function updateConnectionStatus() {
             const isOnline = navigator.onLine;
             const offlineIndicator = document.getElementById('offlineIndicator');
+            const syncNotification = document.getElementById('syncNotification');
             
             if (isOnline) {
                 offlineIndicator.style.display = 'none';
+                // Show sync notification briefly when coming back online
+                syncNotification.style.display = 'flex';
+                setTimeout(() => {
+                    syncNotification.style.display = 'none';
+                }, 3000);
             } else {
                 offlineIndicator.style.display = 'block';
+                syncNotification.style.display = 'none';
             }
         }
         
