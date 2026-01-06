@@ -1653,6 +1653,9 @@
                                 <button class="btn" style="margin-left: 10px; padding: 10px 15px; background-color: var(--kingu-light);" id="client-search-btn" title="Search Client Database">
                                     <i class="fas fa-search"></i>
                                 </button>
+                                <button class="btn btn-success" style="margin-left: 10px; padding: 10px 15px;" id="save-client-btn" title="Save Client">
+                                    <i class="fas fa-save"></i> Save Client
+                                </button>
                             </div>
                         </div>
                         <div class="form-group">
@@ -2032,11 +2035,11 @@ SWIFT CODE: SBICTZTX</textarea>
                         </div>
                         <div style="background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
                             <h3 style="color: var(--kingu-green); margin-bottom: 15px;">Quick Actions</h3>
-                            <button class="btn" style="width: 100%; margin-bottom: 10px; background-color: var(--kingu-light);">
-                                <i class="fas fa-file-export"></i> Export Monthly Report
+                            <button class="btn" style="width: 100%; margin-bottom: 10px; background-color: var(--kingu-light);" onclick="backupData()">
+                                <i class="fas fa-file-export"></i> Backup Data
                             </button>
-                            <button class="btn" style="width: 100%; margin-bottom: 10px; background-color: var(--kingu-light);">
-                                <i class="fas fa-chart-pie"></i> View Sales Chart
+                            <button class="btn" style="width: 100%; margin-bottom: 10px; background-color: var(--kingu-light);" onclick="restoreData()">
+                                <i class="fas fa-file-import"></i> Restore Data
                             </button>
                             <button class="btn" style="width: 100%; background-color: var(--kingu-light);">
                                 <i class="fas fa-file-invoice"></i> Generate Tax Report
@@ -2055,33 +2058,33 @@ SWIFT CODE: SBICTZTX</textarea>
                         <h3 style="color: var(--kingu-green); margin-bottom: 15px;">Company Settings</h3>
                         <div class="form-row">
                             <div class="form-group">
-                                <label>Default Currency</label>
-                                <select class="form-control">
-                                    <option selected>Tanzanian Shilling (TSh)</option>
-                                    <option>US Dollar ($)</option>
-                                    <option>Euro (€)</option>
+                                <label for="default-currency">Default Currency</label>
+                                <select id="default-currency" class="form-control">
+                                    <option value="TSh" selected>Tanzanian Shilling (TSh)</option>
+                                    <option value="USD">US Dollar ($)</option>
+                                    <option value="EUR">Euro (€)</option>
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label>Default VAT Rate (%)</label>
-                                <input type="number" class="form-control" value="18" min="0" max="100">
+                                <label for="default-vat-rate">Default VAT Rate (%)</label>
+                                <input type="number" id="default-vat-rate" class="form-control" value="18" min="0" max="100">
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="form-group">
-                                <label>Invoice Number Prefix</label>
-                                <input type="text" class="form-control" value="PROFORMA/GL">
+                                <label for="invoice-prefix">Invoice Number Prefix</label>
+                                <input type="text" id="invoice-prefix" class="form-control" value="PROFORMA/GL">
                             </div>
                             <div class="form-group">
-                                <label>Default Payment Terms</label>
-                                <select class="form-control">
-                                    <option selected>100% after delivery</option>
-                                    <option>50% advance, 50% after delivery</option>
-                                    <option>30 days net</option>
+                                <label for="default-payment-terms">Default Payment Terms</label>
+                                <select id="default-payment-terms" class="form-control">
+                                    <option value="100% after delivery" selected>100% after delivery</option>
+                                    <option value="50% advance, 50% after delivery">50% advance, 50% after delivery</option>
+                                    <option value="30 days net">30 days net</option>
                                 </select>
                             </div>
                         </div>
-                        <button class="btn btn-primary" style="margin-top: 20px;">
+                        <button class="btn btn-primary" style="margin-top: 20px;" onclick="saveSettings()">
                             <i class="fas fa-save"></i> Save Settings
                         </button>
                     </div>
@@ -2105,6 +2108,9 @@ SWIFT CODE: SBICTZTX</textarea>
             setTimeout(() => {
                 showNotification('Kingu Invoice System Ready!', 'success');
             }, 500);
+            
+            // Load saved settings
+            loadSettings();
             
             // Register Service Worker
             if ('serviceWorker' in navigator) {
@@ -2143,6 +2149,7 @@ SWIFT CODE: SBICTZTX</textarea>
             const sendEmailBtn = document.getElementById('send-email-btn');
             const loadSampleBtn = document.getElementById('load-sample-btn');
             const whatsappBtn = document.getElementById('whatsapp-btn');
+            const saveClientBtn = document.getElementById('save-client-btn');
             
             // Set current document type
             let currentDocumentType = 'Proforma';
@@ -2170,54 +2177,79 @@ SWIFT CODE: SBICTZTX</textarea>
             }
             
             function formatDate(dateString) {
-                if (!dateString || isNaN(new Date(dateString).getTime())) return '';
-                const options = { year: 'numeric', month: 'long', day: 'numeric' };
-                return new Date(dateString).toLocaleDateString('en-US', options);
+                if (!dateString) return 'Not specified';
+                try {
+                    const date = new Date(dateString);
+                    if (isNaN(date.getTime())) return 'Invalid date';
+                    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+                    return date.toLocaleDateString('en-US', options);
+                } catch (e) {
+                    return 'Invalid date';
+                }
             }
             
             function convertNumberToWords(num) {
+                // Convert to number if it's a string
+                num = parseFloat(num);
+                if (isNaN(num)) return 'Zero shillings';
+                if (num === 0) return 'Zero shillings';
+                
+                // Handle decimals
+                const wholePart = Math.floor(num);
+                const decimalPart = Math.round((num - wholePart) * 100);
+                
                 const units = ['', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine'];
                 const teens = ['ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen'];
                 const tens = ['', '', 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety'];
                 
-                if (num === 0) return 'zero';
-                
-                let words = '';
-                
-                const millions = Math.floor(num / 1000000);
-                if (millions > 0) {
-                    words += convertNumberToWords(millions) + ' million ';
-                    num %= 1000000;
-                }
-                
-                const thousands = Math.floor(num / 1000);
-                if (thousands > 0) {
-                    words += convertNumberToWords(thousands) + ' thousand ';
-                    num %= 1000;
-                }
-                
-                const hundreds = Math.floor(num / 100);
-                if (hundreds > 0) {
-                    words += units[hundreds] + ' hundred ';
-                    num %= 100;
-                }
-                
-                if (num > 0) {
-                    if (words !== '') words += 'and ';
+                function convertWholeNumberToWords(n) {
+                    if (n === 0) return 'zero';
                     
-                    if (num < 10) {
-                        words += units[num];
-                    } else if (num < 20) {
-                        words += teens[num - 10];
-                    } else {
-                        words += tens[Math.floor(num / 10)];
-                        if (num % 10 > 0) {
-                            words += '-' + units[num % 10];
+                    let words = '';
+                    
+                    const millions = Math.floor(n / 1000000);
+                    if (millions > 0) {
+                        words += convertWholeNumberToWords(millions) + ' million ';
+                        n %= 1000000;
+                    }
+                    
+                    const thousands = Math.floor(n / 1000);
+                    if (thousands > 0) {
+                        words += convertWholeNumberToWords(thousands) + ' thousand ';
+                        n %= 1000;
+                    }
+                    
+                    const hundreds = Math.floor(n / 100);
+                    if (hundreds > 0) {
+                        words += units[hundreds] + ' hundred ';
+                        n %= 100;
+                    }
+                    
+                    if (n > 0) {
+                        if (words !== '') words += 'and ';
+                        
+                        if (n < 10) {
+                            words += units[n];
+                        } else if (n < 20) {
+                            words += teens[n - 10];
+                        } else {
+                            words += tens[Math.floor(n / 10)];
+                            if (n % 10 > 0) {
+                                words += '-' + units[n % 10];
+                            }
                         }
                     }
+                    
+                    return words.trim();
                 }
                 
-                return words.trim() + ' shillings';
+                let words = convertWholeNumberToWords(wholePart) + ' shillings';
+                
+                if (decimalPart > 0) {
+                    words += ' and ' + convertWholeNumberToWords(decimalPart) + ' cents';
+                }
+                
+                return words + ' only';
             }
             
             // ==================== INVOICE TYPE SELECTOR ====================
@@ -2407,8 +2439,52 @@ SWIFT CODE: SBICTZTX</textarea>
             
             // ==================== SAVE FORM FUNCTION ====================
             saveBtn.addEventListener('click', function() {
-                saveDocument();
+                if (validateForm()) {
+                    saveDocument();
+                }
             });
+            
+            function validateForm() {
+                const clientName = document.getElementById('client-name').value.trim();
+                const invoiceNumber = document.getElementById('invoice-number').value.trim();
+                const items = document.querySelectorAll('#invoice-items tr');
+                
+                if (!clientName) {
+                    showNotification('Please enter client name', 'error');
+                    document.getElementById('client-name').focus();
+                    return false;
+                }
+                
+                if (!invoiceNumber) {
+                    showNotification('Please enter document number', 'error');
+                    document.getElementById('invoice-number').focus();
+                    return false;
+                }
+                
+                if (items.length === 0) {
+                    showNotification('Please add at least one item', 'error');
+                    return false;
+                }
+                
+                // Check if items have descriptions
+                let hasValidItems = false;
+                items.forEach(row => {
+                    const desc = row.querySelector('.item-description').value.trim();
+                    const quantity = parseFloat(row.querySelector('.item-quantity').value) || 0;
+                    const price = parseFloat(row.querySelector('.item-price').value) || 0;
+                    
+                    if (desc && quantity > 0 && price > 0) {
+                        hasValidItems = true;
+                    }
+                });
+                
+                if (!hasValidItems) {
+                    showNotification('Please add valid items with description, quantity, and price', 'error');
+                    return false;
+                }
+                
+                return true;
+            }
             
             function saveDocument() {
                 try {
@@ -2445,12 +2521,72 @@ SWIFT CODE: SBICTZTX</textarea>
                     
                     showNotification(`${currentDocumentType} saved successfully to history!`, 'success');
                     
+                    // Auto-save draft
+                    saveDraft();
+                    
                     // Optionally auto-load into preview
-                    generateDocument();
+                    // generateDocument();
                 } catch (error) {
                     console.error('Save document error:', error);
                     showNotification('Failed to save document. Please try again.', 'error');
                 }
+            }
+
+            function collectFormData() {
+                const type = currentDocumentType;
+                const items = [];
+                
+                document.querySelectorAll('#invoice-items tr').forEach(row => {
+                    const description = row.querySelector('.item-description')?.value || '';
+                    const quantity = parseFloat(row.querySelector('.item-quantity')?.value || 0);
+                    const price = parseFloat(row.querySelector('.item-price')?.value || 0);
+                    const total = quantity * price;
+                    
+                    if (description) {
+                        items.push({
+                            description,
+                            quantity,
+                            price,
+                            total
+                        });
+                    }
+                });
+                
+                const vatOption = document.querySelector('input[name="vat-option"]:checked');
+                const vatType = vatOption ? vatOption.value : 'none';
+                let vatRate = 0;
+                
+                if (vatType === 'standard') {
+                    vatRate = 18;
+                } else if (vatType === 'custom') {
+                    vatRate = parseFloat(document.getElementById('custom-vat-rate').value) || 0;
+                }
+                
+                return {
+                    type: type,
+                    documentNumber: document.getElementById('invoice-number').value,
+                    documentDate: document.getElementById('invoice-date').value,
+                    dueDate: document.getElementById('due-date').value,
+                    currency: document.getElementById('currency').value,
+                    deliveryTime: document.getElementById('delivery-time').value || '7',
+                    paymentTerms: document.getElementById('payment-terms').value || '100% after delivery',
+                    customPaymentTerms: document.getElementById('custom-payment-terms')?.value || '',
+                    clientName: document.getElementById('client-name').value,
+                    clientEmail: document.getElementById('client-email').value,
+                    clientPhone: document.getElementById('client-phone').value,
+                    clientAddress: document.getElementById('client-address').value,
+                    clientTIN: document.getElementById('client-tin').value,
+                    clientVAT: document.getElementById('client-vat').value,
+                    items: items,
+                    discountType: document.getElementById('discount-type').value,
+                    discountValue: parseFloat(document.getElementById('discount-value')?.value || 0),
+                    vatType: vatType,
+                    vatRate: vatRate,
+                    vatNumber: document.getElementById('vat-number-input')?.value || '',
+                    bankDetails: document.getElementById('bank-details').value,
+                    notes: document.getElementById('notes').value,
+                    grandTotal: extractCurrencyValue(document.getElementById('grand-total').textContent)
+                };
             }
 
             // Function to load document history
@@ -2483,7 +2619,7 @@ SWIFT CODE: SBICTZTX</textarea>
                     `;
                     
                     documents.forEach(doc => {
-                        const date = doc.createdAt ? new Date(doc.createdAt).toLocaleDateString() : 'N/A';
+                        const date = doc.createdAt ? formatDate(doc.createdAt) : 'N/A';
                         const amount = formatCurrency(doc.grandTotal || 0, doc.currency || 'TSh');
                         
                         html += `
@@ -2702,6 +2838,212 @@ SWIFT CODE: SBICTZTX</textarea>
             window.deleteSavedDocument = deleteSavedDocument;
             window.printSavedDocument = printSavedDocument;
             
+            // ==================== SAVE CLIENT FUNCTION ====================
+            saveClientBtn.addEventListener('click', function() {
+                saveClient();
+            });
+            
+            function saveClient() {
+                try {
+                    const clientData = {
+                        id: Date.now(),
+                        name: document.getElementById('client-name').value.trim(),
+                        email: document.getElementById('client-email').value.trim(),
+                        phone: document.getElementById('client-phone').value.trim(),
+                        address: document.getElementById('client-address').value.trim(),
+                        tin: document.getElementById('client-tin').value.trim(),
+                        vat: document.getElementById('client-vat').value.trim(),
+                        createdAt: new Date().toISOString()
+                    };
+                    
+                    if (!clientData.name) {
+                        showNotification('Please enter client name before saving', 'error');
+                        return;
+                    }
+                    
+                    let clients = [];
+                    try {
+                        const stored = localStorage.getItem('kingu-clients');
+                        if (stored) {
+                            clients = JSON.parse(stored);
+                            if (!Array.isArray(clients)) clients = [];
+                        }
+                    } catch (e) {
+                        console.error('Error parsing stored clients:', e);
+                        clients = [];
+                    }
+                    
+                    // Check if client already exists
+                    const existingClientIndex = clients.findIndex(c => 
+                        c.name.toLowerCase() === clientData.name.toLowerCase() ||
+                        (c.tin && clientData.tin && c.tin === clientData.tin)
+                    );
+                    
+                    if (existingClientIndex !== -1) {
+                        // Update existing client
+                        clients[existingClientIndex] = {
+                            ...clients[existingClientIndex],
+                            ...clientData,
+                            updatedAt: new Date().toISOString()
+                        };
+                        showNotification('Client updated successfully!', 'success');
+                    } else {
+                        // Add new client
+                        clients.unshift(clientData);
+                        showNotification('Client saved successfully!', 'success');
+                    }
+                    
+                    localStorage.setItem('kingu-clients', JSON.stringify(clients));
+                    
+                    // Update client database view
+                    loadClientDatabase();
+                    
+                } catch (error) {
+                    console.error('Save client error:', error);
+                    showNotification('Failed to save client. Please try again.', 'error');
+                }
+            }
+            
+            // Function to load client database
+            function loadClientDatabase() {
+                try {
+                    const stored = localStorage.getItem('kingu-clients');
+                    const clients = stored ? JSON.parse(stored) : [];
+                    const clientList = document.getElementById('client-list');
+                    
+                    if (!Array.isArray(clients) || clients.length === 0) {
+                        clientList.innerHTML = `
+                            <div style="text-align: center; padding: 40px;">
+                                <i class="fas fa-users fa-3x" style="color: var(--kingu-green); margin-bottom: 20px;"></i>
+                                <h3 style="color: var(--kingu-green); margin-bottom: 10px;">No Clients Yet</h3>
+                                <p>Add your first client to get started</p>
+                                <button class="btn btn-primary" onclick="showAddClientModal()" style="margin-top: 20px;">
+                                    <i class="fas fa-user-plus"></i> Add First Client
+                                </button>
+                            </div>
+                        `;
+                        return;
+                    }
+                    
+                    let html = `
+                        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px;">
+                    `;
+                    
+                    clients.forEach(client => {
+                        html += `
+                            <div style="background: white; border-radius: 8px; padding: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+                                <h3 style="color: var(--kingu-green); margin-bottom: 10px;">${client.name}</h3>
+                                <p><strong>Email:</strong> ${client.email || 'Not provided'}</p>
+                                <p><strong>Phone:</strong> ${client.phone || 'Not provided'}</p>
+                                <p><strong>TIN:</strong> ${client.tin || 'Not provided'}</p>
+                                <div style="margin-top: 15px; display: flex; gap: 10px;">
+                                    <button class="btn" style="background-color: var(--kingu-green); color: white; padding: 8px 15px;" onclick="useClient(${client.id})">
+                                        <i class="fas fa-check"></i> Use
+                                    </button>
+                                    <button class="btn" style="background-color: var(--kingu-blue); color: white; padding: 8px 15px;" onclick="editClient(${client.id})">
+                                        <i class="fas fa-edit"></i> Edit
+                                    </button>
+                                    <button class="btn" style="background-color: var(--kingu-red); color: white; padding: 8px 15px;" onclick="deleteClient(${client.id})">
+                                        <i class="fas fa-trash"></i> Delete
+                                    </button>
+                                </div>
+                            </div>
+                        `;
+                    });
+                    
+                    html += `</div>`;
+                    clientList.innerHTML = html;
+                } catch (error) {
+                    console.error('Error loading clients:', error);
+                    document.getElementById('client-list').innerHTML = '<p>Error loading client database.</p>';
+                }
+            }
+
+            // Function to use a client
+            window.useClient = function(id) {
+                try {
+                    const stored = localStorage.getItem('kingu-clients');
+                    if (!stored) return;
+                    
+                    const clients = JSON.parse(stored);
+                    const client = clients.find(c => c.id === id);
+                    
+                    if (!client) return;
+                    
+                    document.getElementById('client-name').value = client.name || '';
+                    document.getElementById('client-email').value = client.email || '';
+                    document.getElementById('client-phone').value = client.phone || '';
+                    document.getElementById('client-address').value = client.address || '';
+                    document.getElementById('client-tin').value = client.tin || '';
+                    document.getElementById('client-vat').value = client.vat || '';
+                    
+                    // Navigate to create invoice page
+                    document.getElementById('nav-create').click();
+                    
+                    showNotification('Client loaded successfully!', 'success');
+                } catch (error) {
+                    console.error('Error using client:', error);
+                    showNotification('Failed to load client.', 'error');
+                }
+            };
+
+            // Function to edit a client
+            window.editClient = function(id) {
+                // For now, just load the client into the form
+                useClient(id);
+            };
+
+            // Function to delete a client
+            window.deleteClient = function(id) {
+                if (confirm('Are you sure you want to delete this client?')) {
+                    try {
+                        const stored = localStorage.getItem('kingu-clients');
+                        if (!stored) return;
+                        
+                        let clients = JSON.parse(stored);
+                        clients = clients.filter(client => client.id !== id);
+                        localStorage.setItem('kingu-clients', JSON.stringify(clients));
+                        
+                        loadClientDatabase();
+                        showNotification('Client deleted successfully!', 'success');
+                    } catch (error) {
+                        console.error('Error deleting client:', error);
+                        showNotification('Failed to delete client.', 'error');
+                    }
+                }
+            };
+            
+            // Client search functionality
+            document.getElementById('client-search-btn').addEventListener('click', function() {
+                const clientName = document.getElementById('client-name').value;
+                if (!clientName) {
+                    alert('Please enter a client name to search');
+                    return;
+                }
+                
+                try {
+                    const stored = localStorage.getItem('kingu-clients');
+                    const clients = stored ? JSON.parse(stored) : [];
+                    const foundClient = clients.find(client => 
+                        client.name.toLowerCase().includes(clientName.toLowerCase())
+                    );
+                    
+                    if (foundClient) {
+                        document.getElementById('client-name').value = foundClient.name;
+                        document.getElementById('client-email').value = foundClient.email || '';
+                        document.getElementById('client-phone').value = foundClient.phone || '';
+                        document.getElementById('client-address').value = foundClient.address || '';
+                        document.getElementById('client-tin').value = foundClient.tin || '';
+                        document.getElementById('client-vat').value = foundClient.vat || '';
+                        showNotification('Client found and loaded!', 'success');
+                    } else {
+                        showNotification('Client not found in database', 'info');
+                    }
+                } catch (error) {
+                    showNotification('Error searching for client', 'error');
+                }
+            });
+            
             // ==================== SEND EMAIL FUNCTION ====================
             sendEmailBtn.addEventListener('click', function() {
                 sendEmail();
@@ -2787,6 +3129,7 @@ Kingu Electrical Company Limited`
             
             function loadSampleProforma() {
                 const isQuotation = currentDocumentType === 'Quotation';
+                const isStandard = currentDocumentType === 'Standard';
                 
                 if (isQuotation) {
                     // Load sample quotation data
@@ -2840,6 +3183,55 @@ Kingu Electrical Company Limited`
                     updateTotals();
                     
                     showNotification('Sample quotation loaded for TANZANIA COMMERCIAL BANK project.', 'success');
+                } else if (isStandard) {
+                    // Load sample standard invoice data
+                    const sampleItems = [
+                        { description: "Monthly Electrical Maintenance Service", quantity: "1.00", price: "450000.00" },
+                        { description: "Emergency Call-out Fee", quantity: "2.00", price: "75000.00" },
+                        { description: "Circuit Breaker Replacement", quantity: "5.00", price: "25000.00" },
+                        { description: "Electrical Safety Inspection", quantity: "1.00", price: "150000.00" }
+                    ];
+                    
+                    const invoiceItems = document.getElementById('invoice-items');
+                    invoiceItems.innerHTML = '';
+                    
+                    sampleItems.forEach(item => {
+                        const newRow = document.createElement('tr');
+                        newRow.innerHTML = `
+                            <td><input type="text" class="item-description" value="${item.description}"></td>
+                            <td><input type="number" class="item-quantity" min="0" step="0.01" value="${item.quantity}"></td>
+                            <td>
+                                <div style="display: flex; align-items: center;">
+                                    <span class="currency-symbol" style="margin-right: 5px;">TSh</span>
+                                    <input type="number" class="item-price" min="0" step="0.01" value="${item.price}" style="flex: 1;">
+                                </div>
+                            </td>
+                            <td class="item-total text-right">TSh 0.00</td>
+                            <td class="text-center"><button class="delete-item"><i class="fas fa-trash"></i></button></td>
+                        `;
+                        
+                        invoiceItems.appendChild(newRow);
+                        
+                        newRow.querySelector('.item-quantity').addEventListener('input', updateTotals);
+                        newRow.querySelector('.item-price').addEventListener('input', updateTotals);
+                    });
+                    
+                    document.getElementById('currency').value = 'TSh';
+                    updateCurrencySymbol();
+                    
+                    // Set sample client info for standard invoice
+                    document.getElementById('client-name').value = 'DAR ES SALAAM CITY COUNCIL';
+                    document.getElementById('client-address').value = 'DAR ES SALAAM, TANZANIA';
+                    document.getElementById('client-tin').value = '300-789-456';
+                    document.getElementById('client-phone').value = '+255 222 987 654';
+                    document.getElementById('client-email').value = 'finance@dcc.go.tz';
+                    document.getElementById('payment-terms').value = '30 days net';
+                    document.getElementById('bank-details').value = 'STANBIC BANK 912 000 275 9274 (KINGU ELECTRICAL COMPANY LIMITED)';
+                    document.getElementById('notes').value = 'Payment due within 30 days.\nLate payment interest: 2% per month.\nPlease quote invoice number on all payments.';
+                    
+                    updateTotals();
+                    
+                    showNotification('Sample standard invoice loaded for DAR ES SALAAM CITY COUNCIL.', 'success');
                 } else {
                     // Load sample proforma data
                     const sampleItems = [
@@ -2897,7 +3289,9 @@ Kingu Electrical Company Limited`
             
             // ==================== PREVIEW FUNCTIONALITY ====================
             previewBtn.addEventListener('click', function() {
-                generateDocument();
+                if (validateForm()) {
+                    generateDocument();
+                }
             });
             
             function generateDocument() {
@@ -2929,8 +3323,17 @@ Kingu Electrical Company Limited`
                 // Update header title
                 const isQuotation = currentDocumentType === 'Quotation';
                 const isProforma = currentDocumentType === 'Proforma';
-                pageTitle.textContent = isQuotation ? 'Preview Quotation' : 
-                               isProforma ? 'Preview Proforma' : 'Preview Invoice';
+                const isStandard = currentDocumentType === 'Standard';
+                
+                if (isQuotation) {
+                    pageTitle.textContent = 'Preview Quotation';
+                } else if (isProforma) {
+                    pageTitle.textContent = 'Preview Proforma Invoice';
+                } else if (isStandard) {
+                    pageTitle.textContent = 'Preview Tax Invoice';
+                } else {
+                    pageTitle.textContent = 'Preview Document';
+                }
                 
                 // Scroll to preview
                 invoicePreview.scrollIntoView({ behavior: 'smooth' });
@@ -2942,17 +3345,33 @@ Kingu Electrical Company Limited`
                 console.log('Updating enhanced preview...');
                 const isQuotation = currentDocumentType === 'Quotation';
                 const isProforma = currentDocumentType === 'Proforma';
+                const isStandard = currentDocumentType === 'Standard';
                 const currency = document.getElementById('currency').value;
                 const currencySymbol = getCurrencySymbol(currency);
                 
                 // Update preview labels
-                updatePreviewLabels(isQuotation);
+                updatePreviewLabels(isQuotation, isProforma, isStandard);
                 
                 // Update stamps visibility
                 const stamp = document.querySelector('.stamp');
                 const quotationStamp = document.querySelector('.quotation-stamp');
-                if (stamp) stamp.style.display = isQuotation ? 'none' : 'block';
-                if (quotationStamp) quotationStamp.style.display = isQuotation ? 'block' : 'none';
+                
+                if (stamp) {
+                    if (isQuotation) {
+                        stamp.style.display = 'none';
+                        stamp.textContent = 'QUOTATION';
+                    } else if (isProforma) {
+                        stamp.style.display = 'block';
+                        stamp.textContent = 'PROFORMA INVOICE';
+                    } else if (isStandard) {
+                        stamp.style.display = 'block';
+                        stamp.textContent = 'TAX INVOICE';
+                    }
+                }
+                
+                if (quotationStamp) {
+                    quotationStamp.style.display = isQuotation ? 'block' : 'none';
+                }
                 
                 // Update client info
                 const clientName = document.getElementById('client-name').value || 'Client Name';
@@ -2987,14 +3406,23 @@ Kingu Electrical Company Limited`
                 document.getElementById('preview-validity').textContent = `${validityDays} days`;
                 document.getElementById('preview-validity-text').textContent = `${validityDays} days`;
                 
-                const deliveryTime = document.getElementById('delivery-time').value || '7';
-                document.getElementById('preview-delivery-time').textContent = `${deliveryTime} days after PO`;
-                
-                let paymentTerms = document.getElementById('payment-terms').value || '';
-                if (paymentTerms === 'Custom') {
-                    paymentTerms = document.getElementById('custom-payment-terms').value || '';
+                // Only show delivery and payment terms for proforma and quotation
+                if (isQuotation || isProforma) {
+                    const deliveryTime = document.getElementById('delivery-time').value || '7';
+                    document.getElementById('preview-delivery-time').textContent = `${deliveryTime} days after PO`;
+                    document.getElementById('preview-delivery-time').parentElement.style.display = 'block';
+                    
+                    let paymentTerms = document.getElementById('payment-terms').value || '';
+                    if (paymentTerms === 'Custom') {
+                        paymentTerms = document.getElementById('custom-payment-terms').value || '';
+                    }
+                    document.getElementById('preview-payment-terms').textContent = paymentTerms;
+                    document.getElementById('preview-payment-terms').parentElement.style.display = 'block';
+                } else {
+                    // Hide delivery and payment terms for standard invoices
+                    document.getElementById('preview-delivery-time').parentElement.style.display = 'none';
+                    document.getElementById('preview-payment-terms').parentElement.style.display = 'none';
                 }
-                document.getElementById('preview-payment-terms').textContent = paymentTerms;
                 
                 // Update document items
                 const previewItems = document.getElementById('preview-items');
@@ -3043,9 +3471,14 @@ Kingu Electrical Company Limited`
                 }
                 
                 if (tax > 0) {
+                    const vatOption = document.querySelector('input[name="vat-option"]:checked');
+                    const vatType = vatOption ? vatOption.value : 'none';
+                    const vatRate = vatType === 'custom' ? parseFloat(document.getElementById('custom-vat-rate').value) || 0 : 18;
+                    const vatLabel = vatType === 'standard' ? 'VAT' : 'Tax';
+                    
                     totalsHTML += `
                         <div class="total-row">
-                            <span class="total-label">VAT (18%):</span>
+                            <span class="total-label">${vatLabel} (${vatRate}%):</span>
                             <span class="total-value" id="preview-tax">${formatCurrency(tax, currency)}</span>
                         </div>
                     `;
@@ -3079,18 +3512,28 @@ Kingu Electrical Company Limited`
                 if (isQuotation) {
                     invoicePreview.classList.add('quotation-preview-container');
                     invoicePreview.classList.remove('invoice-preview-container');
+                    invoicePreview.style.borderTop = '4px solid var(--kingu-blue)';
                 } else {
                     invoicePreview.classList.remove('quotation-preview-container');
                     invoicePreview.classList.add('invoice-preview-container');
+                    invoicePreview.style.borderTop = isProforma ? '4px solid var(--kingu-green)' : '4px solid var(--kingu-accent)';
                 }
             }
             
-            function updatePreviewLabels(isQuotation) {
+            function updatePreviewLabels(isQuotation, isProforma, isStandard) {
                 // Update document type in header
                 const previewDocType = document.getElementById('preview-doc-type');
                 if (previewDocType) {
-                    previewDocType.textContent = isQuotation ? 'QUOTATION' : (currentDocumentType === 'Proforma' ? 'PROFORMA INVOICE' : 'TAX INVOICE');
-                    previewDocType.classList.toggle('quotation-title', isQuotation);
+                    if (isQuotation) {
+                        previewDocType.textContent = 'QUOTATION';
+                        previewDocType.classList.add('quotation-title');
+                    } else if (isProforma) {
+                        previewDocType.textContent = 'PROFORMA INVOICE';
+                        previewDocType.classList.remove('quotation-title');
+                    } else if (isStandard) {
+                        previewDocType.textContent = 'TAX INVOICE';
+                        previewDocType.classList.remove('quotation-title');
+                    }
                 }
                 
                 // Update client title
@@ -3103,25 +3546,46 @@ Kingu Electrical Company Limited`
                 // Update details title
                 const previewDetailsTitle = document.getElementById('preview-details-title');
                 if (previewDetailsTitle) {
-                    previewDetailsTitle.textContent = isQuotation ? 'QUOTATION DETAILS:' : 'INVOICE DETAILS:';
+                    if (isQuotation) {
+                        previewDetailsTitle.textContent = 'QUOTATION DETAILS:';
+                    } else if (isProforma) {
+                        previewDetailsTitle.textContent = 'PROFORMA DETAILS:';
+                    } else if (isStandard) {
+                        previewDetailsTitle.textContent = 'INVOICE DETAILS:';
+                    }
                     previewDetailsTitle.classList.toggle('quotation-info-title', isQuotation);
                 }
                 
                 // Update document number and date labels
                 const previewDocNumberLabel = document.getElementById('preview-doc-number-label');
                 if (previewDocNumberLabel) {
-                    previewDocNumberLabel.textContent = isQuotation ? 'Quotation #:' : 'Invoice #:';
+                    if (isQuotation) {
+                        previewDocNumberLabel.textContent = 'Quotation #:';
+                    } else if (isProforma) {
+                        previewDocNumberLabel.textContent = 'Proforma #:';
+                    } else if (isStandard) {
+                        previewDocNumberLabel.textContent = 'Invoice #:';
+                    }
                 }
                 
                 const previewDocDateLabel = document.getElementById('preview-doc-date-label');
                 if (previewDocDateLabel) {
-                    previewDocDateLabel.textContent = isQuotation ? 'Quotation Date:' : 'Invoice Date:';
+                    if (isQuotation) {
+                        previewDocDateLabel.textContent = 'Quotation Date:';
+                    } else if (isProforma) {
+                        previewDocDateLabel.textContent = 'Proforma Date:';
+                    } else if (isStandard) {
+                        previewDocDateLabel.textContent = 'Invoice Date:';
+                    }
                 }
                 
                 // Update info box styling
                 const previewInfoBox = document.getElementById('preview-info-box');
                 if (previewInfoBox) {
                     previewInfoBox.classList.toggle('quotation-info-box', isQuotation);
+                    if (!isQuotation) {
+                        previewInfoBox.classList.remove('quotation-info-box');
+                    }
                 }
                 
                 // Update items table styling
@@ -3147,9 +3611,12 @@ Kingu Electrical Company Limited`
                     if (isQuotation) {
                         introBox.style.backgroundColor = 'rgba(41, 128, 185, 0.1)';
                         introBox.style.borderLeft = '4px solid var(--kingu-blue)';
-                    } else {
+                    } else if (isProforma) {
                         introBox.style.backgroundColor = 'var(--kingu-light)';
                         introBox.style.borderLeft = '4px solid var(--kingu-green)';
+                    } else if (isStandard) {
+                        introBox.style.backgroundColor = 'rgba(255, 107, 53, 0.1)';
+                        introBox.style.borderLeft = '4px solid var(--kingu-accent)';
                     }
                 }
                 
@@ -3158,10 +3625,12 @@ Kingu Electrical Company Limited`
                     if (isQuotation) {
                         previewSubject.style.color = 'var(--kingu-blue)';
                         previewSubject.textContent = 'Subject: Quotation for Electrical Services';
-                    } else {
-                        const isProforma = currentDocumentType === 'Proforma';
+                    } else if (isProforma) {
                         previewSubject.style.color = 'var(--kingu-green)';
-                        previewSubject.textContent = isProforma ? 'Subject: Proforma Invoice for Electrical Services' : 'Subject: Invoice for Electrical Services';
+                        previewSubject.textContent = 'Subject: Proforma Invoice for Electrical Services';
+                    } else if (isStandard) {
+                        previewSubject.style.color = 'var(--kingu-accent)';
+                        previewSubject.textContent = 'Subject: Invoice for Electrical Services';
                     }
                 }
                 
@@ -3173,11 +3642,16 @@ Kingu Electrical Company Limited`
                             Thank you for your inquiry. We are pleased to submit our quotation for the requested electrical services. 
                             All prices are inclusive of VAT where applicable and are valid for <span id="preview-validity-text">30 days</span>.
                         `;
-                    } else {
-                        const isProforma = currentDocumentType === 'Proforma';
+                    } else if (isProforma) {
                         previewQuotationText.innerHTML = `
-                            ${isProforma ? 'PROFORMA INVOICE' : 'TAX INVOICE'}<br><br>
-                            This ${isProforma ? 'proforma invoice' : 'invoice'} is prepared for the services rendered. 
+                            PROFORMA INVOICE<br><br>
+                            This proforma invoice is prepared for the services rendered. 
+                            All prices are inclusive of VAT where applicable and are valid for <span id="preview-validity-text">30 days</span>.
+                        `;
+                    } else if (isStandard) {
+                        previewQuotationText.innerHTML = `
+                            TAX INVOICE<br><br>
+                            This invoice is prepared for the services rendered. 
                             All prices are inclusive of VAT where applicable.
                         `;
                     }
@@ -3261,10 +3735,10 @@ Kingu Electrical Company Limited`
                     pdfBtn.disabled = true;
                     
                     // Ensure preview is generated and visible
-                    generateDocument();
-                    
-                    // Wait for preview to render
-                    await new Promise(resolve => setTimeout(resolve, 500));
+                    if (invoicePreview.style.display === 'none') {
+                        generateDocument();
+                        await new Promise(resolve => setTimeout(resolve, 1000));
+                    }
                     
                     // Check if jsPDF is loaded
                     if (typeof window.jspdf === 'undefined') {
@@ -3371,64 +3845,6 @@ Kingu Electrical Company Limited`
             }
             
             // ==================== FORM FUNCTIONS ====================
-            function collectFormData() {
-                const type = currentDocumentType;
-                const items = [];
-                
-                document.querySelectorAll('#invoice-items tr').forEach(row => {
-                    const description = row.querySelector('.item-description')?.value || '';
-                    const quantity = parseFloat(row.querySelector('.item-quantity')?.value || 0);
-                    const price = parseFloat(row.querySelector('.item-price')?.value || 0);
-                    const total = quantity * price;
-                    
-                    if (description) {
-                        items.push({
-                            description,
-                            quantity,
-                            price,
-                            total
-                        });
-                    }
-                });
-                
-                const vatOption = document.querySelector('input[name="vat-option"]:checked');
-                const vatType = vatOption ? vatOption.value : 'none';
-                let vatRate = 0;
-                
-                if (vatType === 'standard') {
-                    vatRate = 18;
-                } else if (vatType === 'custom') {
-                    vatRate = parseFloat(document.getElementById('custom-vat-rate').value) || 0;
-                }
-                
-                return {
-                    type: type,
-                    documentNumber: document.getElementById('invoice-number').value,
-                    documentDate: document.getElementById('invoice-date').value,
-                    dueDate: document.getElementById('due-date').value,
-                    currency: document.getElementById('currency').value,
-                    deliveryTime: document.getElementById('delivery-time').value,
-                    paymentTerms: document.getElementById('payment-terms').value,
-                    customPaymentTerms: document.getElementById('custom-payment-terms')?.value || '',
-                    clientName: document.getElementById('client-name').value,
-                    clientEmail: document.getElementById('client-email').value,
-                    clientPhone: document.getElementById('client-phone').value,
-                    clientAddress: document.getElementById('client-address').value,
-                    clientTIN: document.getElementById('client-tin').value,
-                    clientVAT: document.getElementById('client-vat').value,
-                    items: items,
-                    discountType: document.getElementById('discount-type').value,
-                    discountValue: parseFloat(document.getElementById('discount-value')?.value || 0),
-                    vatType: vatType,
-                    vatRate: vatRate,
-                    vatNumber: document.getElementById('vat-number-input')?.value || '',
-                    bankDetails: document.getElementById('bank-details').value,
-                    notes: document.getElementById('notes').value,
-                    grandTotal: extractCurrencyValue(document.getElementById('grand-total').textContent)
-                };
-            }
-            
-            // ==================== INITIALIZE FORM ====================
             function initializeForm() {
                 // Set current date
                 const today = new Date().toISOString().split('T')[0];
@@ -3554,6 +3970,18 @@ Kingu Electrical Company Limited`
 
                 // Initialize document history
                 loadDocumentHistory();
+                
+                // Initialize client database
+                loadClientDatabase();
+                
+                // Setup auto-save
+                setupAutoSave();
+                
+                // Load draft if exists
+                loadDraft();
+                
+                // Setup keyboard shortcuts
+                setupKeyboardShortcuts();
             }
             
             function updateItemTotal(row) {
@@ -3630,7 +4058,7 @@ Kingu Electrical Company Limited`
                 const amountWordsElement = document.getElementById('amount-words');
                 if (amountWordsElement) {
                     amountWordsElement.textContent = 
-                        convertNumberToWords(grandTotal) + ' ' + currency + ' only';
+                        convertNumberToWords(grandTotal);
                 }
             }
             
@@ -3717,6 +4145,169 @@ Kingu Electrical Company Limited`
                 newRow.querySelector('.item-price').addEventListener('input', updateTotals);
                 
                 updateTotals();
+            }
+            
+            // Auto-save functionality
+            let autoSaveTimer;
+            function setupAutoSave() {
+                const form = document.getElementById('invoice-form');
+                const inputs = form.querySelectorAll('input, textarea, select');
+                
+                inputs.forEach(input => {
+                    input.addEventListener('input', function() {
+                        clearTimeout(autoSaveTimer);
+                        autoSaveTimer = setTimeout(saveDraft, 2000);
+                    });
+                });
+            }
+            
+            function saveDraft() {
+                try {
+                    const formData = collectFormData();
+                    localStorage.setItem('kingu-draft', JSON.stringify(formData));
+                    console.log('Draft auto-saved');
+                } catch (error) {
+                    console.error('Auto-save error:', error);
+                }
+            }
+            
+            function loadDraft() {
+                try {
+                    const draft = localStorage.getItem('kingu-draft');
+                    if (draft) {
+                        const formData = JSON.parse(draft);
+                        // We'll load the draft when user clicks a button or on page load if wanted
+                        // For now, just log it
+                        console.log('Draft found:', formData);
+                    }
+                } catch (error) {
+                    console.error('Error loading draft:', error);
+                }
+            }
+            
+            // Settings functionality
+            function loadSettings() {
+                try {
+                    const settings = localStorage.getItem('kingu-settings');
+                    if (settings) {
+                        const data = JSON.parse(settings);
+                        if (data.defaultCurrency) {
+                            document.getElementById('default-currency').value = data.defaultCurrency;
+                            document.getElementById('currency').value = data.defaultCurrency;
+                        }
+                        if (data.defaultVatRate) {
+                            document.getElementById('default-vat-rate').value = data.defaultVatRate;
+                        }
+                        if (data.invoicePrefix) {
+                            document.getElementById('invoice-prefix').value = data.invoicePrefix;
+                        }
+                        if (data.defaultPaymentTerms) {
+                            document.getElementById('default-payment-terms').value = data.defaultPaymentTerms;
+                        }
+                    }
+                } catch (error) {
+                    console.error('Error loading settings:', error);
+                }
+            }
+            
+            window.saveSettings = function() {
+                try {
+                    const settings = {
+                        defaultCurrency: document.getElementById('default-currency').value,
+                        defaultVatRate: document.getElementById('default-vat-rate').value,
+                        invoicePrefix: document.getElementById('invoice-prefix').value,
+                        defaultPaymentTerms: document.getElementById('default-payment-terms').value
+                    };
+                    
+                    localStorage.setItem('kingu-settings', JSON.stringify(settings));
+                    showNotification('Settings saved successfully!', 'success');
+                } catch (error) {
+                    console.error('Error saving settings:', error);
+                    showNotification('Failed to save settings.', 'error');
+                }
+            };
+            
+            // Backup/Restore functionality
+            window.backupData = function() {
+                const data = {
+                    clients: JSON.parse(localStorage.getItem('kingu-clients') || '[]'),
+                    documents: JSON.parse(localStorage.getItem('kingu-documents') || '[]'),
+                    settings: JSON.parse(localStorage.getItem('kingu-settings') || '{}'),
+                    backupDate: new Date().toISOString()
+                };
+                
+                const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `kingu-backup-${new Date().getTime()}.json`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                
+                showNotification('Data backup created successfully!', 'success');
+            };
+            
+            window.restoreData = function() {
+                const input = document.createElement('input');
+                input.type = 'file';
+                input.accept = '.json';
+                
+                input.onchange = function(e) {
+                    const file = e.target.files[0];
+                    if (!file) return;
+                    
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        try {
+                            const data = JSON.parse(e.target.result);
+                            
+                            if (confirm('This will replace all existing data. Are you sure?')) {
+                                localStorage.setItem('kingu-clients', JSON.stringify(data.clients || []));
+                                localStorage.setItem('kingu-documents', JSON.stringify(data.documents || []));
+                                localStorage.setItem('kingu-settings', JSON.stringify(data.settings || {}));
+                                loadDocumentHistory();
+                                loadClientDatabase();
+                                loadSettings();
+                                showNotification('Data restored successfully!', 'success');
+                            }
+                        } catch (error) {
+                            showNotification('Invalid backup file', 'error');
+                        }
+                    };
+                    reader.readAsText(file);
+                };
+                
+                input.click();
+            };
+            
+            // Keyboard shortcuts
+            function setupKeyboardShortcuts() {
+                document.addEventListener('keydown', function(e) {
+                    // Ctrl+S to save
+                    if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+                        e.preventDefault();
+                        saveDocument();
+                    }
+                    
+                    // Ctrl+P to print
+                    if ((e.ctrlKey || e.metaKey) && e.key === 'p') {
+                        e.preventDefault();
+                        printDocument();
+                    }
+                    
+                    // Ctrl+N for new document
+                    if ((e.ctrlKey || e.metaKey) && e.key === 'n') {
+                        e.preventDefault();
+                        clearForm();
+                    }
+                    
+                    // Esc to exit preview
+                    if (e.key === 'Escape' && document.getElementById('invoice-preview').style.display === 'block') {
+                        document.getElementById('nav-create').click();
+                    }
+                });
             }
             
             // Initialize navigation
@@ -3839,6 +4430,25 @@ Kingu Electrical Company Limited`
                     printBtn.style.display = 'none';
                     pdfBtn.style.display = 'inline-flex';
                     whatsappBtn.style.display = 'inline-flex';
+                });
+                
+                // Add client button
+                document.getElementById('add-client-btn').addEventListener('click', function() {
+                    // Clear client form fields
+                    document.getElementById('client-name').value = '';
+                    document.getElementById('client-email').value = '';
+                    document.getElementById('client-phone').value = '';
+                    document.getElementById('client-address').value = '';
+                    document.getElementById('client-tin').value = '';
+                    document.getElementById('client-vat').value = '';
+                    
+                    // Navigate to create invoice page
+                    navCreate.click();
+                    
+                    // Focus on client name field
+                    setTimeout(() => {
+                        document.getElementById('client-name').focus();
+                    }, 100);
                 });
             }
             
