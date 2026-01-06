@@ -1314,7 +1314,9 @@
             #settings-section,
             #whatsapp-btn,
             #pdf-btn,
-            #print-btn {
+            #print-btn,
+            #new-document-btn,
+            #load-sample-btn {
                 display: none !important;
                 visibility: hidden !important;
                 opacity: 0 !important;
@@ -1327,7 +1329,7 @@
                 display: block !important;
                 visibility: visible !important;
                 opacity: 1 !important;
-                position: absolute !important;
+                position: relative !important;
                 left: 0 !important;
                 top: 0 !important;
                 width: 210mm !important;
@@ -1351,6 +1353,27 @@
             
             .btn, button {
                 display: none !important;
+            }
+            
+            /* Ensure preview content is visible */
+            #invoice-preview,
+            #invoice-preview * {
+                visibility: visible !important;
+                display: block !important;
+            }
+            
+            /* Fix for quotation stamp position */
+            .quotation-stamp {
+                position: absolute !important;
+                right: 40px !important;
+                top: 40px !important;
+            }
+            
+            /* Fix for regular stamp position */
+            .stamp {
+                position: absolute !important;
+                right: 40px !important;
+                bottom: 40px !important;
             }
         }
 
@@ -3185,6 +3208,18 @@ Kingu Electrical Company Limited`
                 console.log('Printing document...');
                 const isQuotation = currentDocumentType === 'Quotation';
                 
+                // Ensure the preview is visible
+                if (invoicePreview.style.display === 'none') {
+                    generateDocument();
+                    setTimeout(() => {
+                        performPrint(isQuotation);
+                    }, 500);
+                } else {
+                    performPrint(isQuotation);
+                }
+            }
+            
+            function performPrint(isQuotation) {
                 // Show appropriate stamp before printing
                 const stamp = document.querySelector('.stamp');
                 const quotationStamp = document.querySelector('.quotation-stamp');
@@ -3197,9 +3232,12 @@ Kingu Electrical Company Limited`
                     if (quotationStamp) quotationStamp.style.display = 'none';
                 }
                 
+                // Wait a moment for the stamps to appear
                 setTimeout(() => {
+                    // Trigger the print dialog
                     window.print();
-                    // Hide stamp after printing
+                    
+                    // Hide stamp after printing (or if print is cancelled)
                     setTimeout(() => {
                         if (stamp) stamp.style.display = 'none';
                         if (quotationStamp) quotationStamp.style.display = 'none';
@@ -3441,7 +3479,7 @@ Kingu Electrical Company Limited`
                 // Initialize invoice form calculations
                 document.addEventListener('input', function(e) {
                     if (e.target.classList.contains('item-quantity') || 
-                        e.target.classList.contains('.item-price')) {
+                        e.target.classList.contains('item-price')) {
                         updateItemTotal(e.target.closest('tr'));
                         updateTotals();
                     }
