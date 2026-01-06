@@ -632,6 +632,55 @@
             margin-right: 8px;
         }
 
+        /* VAT Section Styles */
+        .vat-section {
+            background: rgba(17, 106, 65, 0.05);
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            border-left: 3px solid var(--kingu-green);
+        }
+
+        .vat-toggle {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .tax-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .tax-option {
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+            background: white;
+        }
+
+        .tax-option:hover {
+            border-color: var(--kingu-green);
+            background: rgba(17, 106, 65, 0.05);
+        }
+
+        .tax-option.active {
+            border-color: var(--kingu-green);
+            background: var(--kingu-green);
+            color: white;
+        }
+
+        .tax-option input[type="radio"] {
+            display: none;
+        }
+
         /* Totals Section */
         .totals-section {
             background: linear-gradient(135deg, #f8fafc 0%, var(--kingu-light) 100%);
@@ -801,7 +850,7 @@
             line-height: 1.3;
         }
 
-        /* A4 Print Styles */
+        /* Print and Animation Styles */
         @media print {
             @page {
                 size: A4;
@@ -843,7 +892,6 @@
                 page-break-after: avoid !important;
             }
             
-            /* Hide non-printable elements */
             .sidebar, 
             .header, 
             .invoice-form-container, 
@@ -914,6 +962,10 @@
                 padding: 10mm;
                 zoom: 0.8;
             }
+            
+            .tax-options {
+                grid-template-columns: 1fr;
+            }
         }
 
         /* A4 specific styles for screen preview */
@@ -926,6 +978,69 @@
                 box-shadow: 0 0 20px rgba(0,0,0,0.1);
                 position: relative;
             }
+        }
+
+        /* Animation Styles */
+        @keyframes highlight {
+            0% {
+                background-color: rgba(17, 106, 65, 0.1);
+                box-shadow: 0 0 0 0 rgba(17, 106, 65, 0.7);
+            }
+            70% {
+                background-color: rgba(17, 106, 65, 0.3);
+                box-shadow: 0 0 0 10px rgba(17, 106, 65, 0);
+            }
+            100% {
+                background-color: transparent;
+                box-shadow: 0 0 0 0 rgba(17, 106, 65, 0);
+            }
+        }
+        
+        .data-table tr.highlighted {
+            animation: highlight 2s ease-in-out;
+        }
+        
+        /* Enhanced status badge styles */
+        .status-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        
+        .status-badge.paid {
+            background-color: rgba(46, 204, 113, 0.2);
+            color: #27ae60;
+        }
+        
+        .status-badge.pending {
+            background-color: rgba(241, 196, 15, 0.2);
+            color: #f39c12;
+        }
+        
+        .status-badge.overdue {
+            background-color: rgba(231, 76, 60, 0.2);
+            color: #e74c3c;
+        }
+        
+        /* Enhanced action button styles */
+        .action-btn-small {
+            border: none;
+            border-radius: 4px;
+            padding: 6px 10px;
+            cursor: pointer;
+            font-size: 12px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        
+        .action-btn-small:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
         }
     </style>
 </head>
@@ -1210,6 +1325,50 @@
                     </div>
                 </div>
                 
+                <!-- VAT/Tax Section -->
+                <div class="vat-section">
+                    <h4 style="color: var(--kingu-green); margin-bottom: 15px;">
+                        <i class="fas fa-percentage"></i> VAT/Tax Options
+                    </h4>
+                    <div class="tax-options">
+                        <label class="tax-option active" for="vat-none">
+                            <input type="radio" id="vat-none" name="vat-option" value="none" checked>
+                            <div>
+                                <strong>No VAT/Tax</strong>
+                                <div style="font-size: 12px; margin-top: 5px;">Apply no taxes</div>
+                            </div>
+                        </label>
+                        <label class="tax-option" for="vat-standard">
+                            <input type="radio" id="vat-standard" name="vat-option" value="standard">
+                            <div>
+                                <strong>Standard VAT</strong>
+                                <div style="font-size: 12px; margin-top: 5px;">18% VAT Rate</div>
+                            </div>
+                        </label>
+                        <label class="tax-option" for="vat-custom">
+                            <input type="radio" id="vat-custom" name="vat-option" value="custom">
+                            <div>
+                                <strong>Custom Rate</strong>
+                                <div style="font-size: 12px; margin-top: 5px;">Set your own rate</div>
+                            </div>
+                        </label>
+                    </div>
+                    
+                    <div id="vat-custom-container" style="margin-top: 15px; display: none;">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="custom-vat-rate">Tax Rate (%)</label>
+                                <input type="number" id="custom-vat-rate" class="form-control" min="0" max="100" step="0.1" value="18">
+                            </div>
+                            <div class="form-group">
+                                <label for="vat-number-input">VAT/Tax Number (if applicable)</label>
+                                <input type="text" id="vat-number-input" class="form-control" placeholder="Enter VAT/Tax number">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Totals Section -->
                 <div class="totals-section" id="totals-section">
                     <div class="total-row">
                         <span class="total-label">Subtotal:</span>
@@ -1219,7 +1378,7 @@
                         <span class="total-label" id="discount-label">Discount:</span>
                         <span class="total-value" id="discount-amount">TSh 0.00</span>
                     </div>
-                    <div class="total-row">
+                    <div class="total-row" id="vat-row">
                         <span class="total-label">VAT (18%):</span>
                         <span class="total-value" id="tax">TSh 108,000.00</span>
                     </div>
@@ -1478,6 +1637,23 @@ SWIFT CODE: SBICTZTX</textarea>
                         </div>
                         <div class="form-row">
                             <div class="form-group">
+                                <label for="default-vat-type">Default VAT Type</label>
+                                <select id="default-vat-type" class="form-control">
+                                    <option value="none">No VAT/Tax</option>
+                                    <option value="standard" selected>Standard VAT</option>
+                                    <option value="custom">Custom Rate</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="enable-vat-number">Require VAT Number</label>
+                                <select id="enable-vat-number" class="form-control">
+                                    <option value="no">No</option>
+                                    <option value="yes">Yes</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
                                 <label for="invoice-prefix">Invoice Number Prefix</label>
                                 <input type="text" id="invoice-prefix" class="form-control" value="PROFORMA/GL">
                             </div>
@@ -1621,11 +1797,9 @@ SWIFT CODE: SBICTZTX</textarea>
             
             // Helper functions
             function setActiveNav(activeElement) {
-                // Remove active class from all nav items
                 document.querySelectorAll('.nav-link').forEach(nav => {
                     nav.classList.remove('active');
                 });
-                // Add active class to clicked element
                 activeElement.classList.add('active');
             }
             
@@ -1638,7 +1812,6 @@ SWIFT CODE: SBICTZTX</textarea>
                 reportsSection.style.display = 'none';
                 settingsSection.style.display = 'none';
                 
-                // Hide action buttons when not in preview mode
                 document.getElementById('print-btn').style.display = 'none';
                 document.getElementById('pdf-btn').style.display = 'none';
             }
@@ -1647,18 +1820,60 @@ SWIFT CODE: SBICTZTX</textarea>
                 document.getElementById('page-title').textContent = title;
             }
             
+            // ==================== VAT OPTIONAL FUNCTIONALITY ====================
+            
+            // Initialize VAT options
+            function initializeVatOptions() {
+                // VAT option change listener
+                document.querySelectorAll('input[name="vat-option"]').forEach(radio => {
+                    radio.addEventListener('change', function() {
+                        const vatCustomContainer = document.getElementById('vat-custom-container');
+                        const vatRow = document.getElementById('vat-row');
+                        const taxOptions = document.querySelectorAll('.tax-option');
+                        
+                        // Update active state for tax options
+                        taxOptions.forEach(option => option.classList.remove('active'));
+                        this.closest('.tax-option').classList.add('active');
+                        
+                        if (this.value === 'none') {
+                            vatCustomContainer.style.display = 'none';
+                            vatRow.style.display = 'none';
+                        } else if (this.value === 'standard') {
+                            vatCustomContainer.style.display = 'none';
+                            vatRow.style.display = 'flex';
+                            // Update VAT label
+                            document.querySelector('#vat-row .total-label').textContent = 'VAT (18%):';
+                        } else if (this.value === 'custom') {
+                            vatCustomContainer.style.display = 'block';
+                            vatRow.style.display = 'flex';
+                            // Update VAT label with custom rate
+                            const customRate = document.getElementById('custom-vat-rate').value || 0;
+                            document.querySelector('#vat-row .total-label').textContent = `Tax (${customRate}%):`;
+                        }
+                        
+                        updateTotals();
+                    });
+                });
+                
+                // Custom VAT rate change listener
+                document.getElementById('custom-vat-rate').addEventListener('input', function() {
+                    if (document.querySelector('input[name="vat-option"]:checked').value === 'custom') {
+                        document.querySelector('#vat-row .total-label').textContent = `Tax (${this.value}%):`;
+                        updateTotals();
+                    }
+                });
+            }
+            
             // ==================== ENHANCED SAVE FUNCTIONALITY ====================
             
             const saveBtn = document.getElementById('save-btn');
             const pdfBtn = document.getElementById('pdf-btn');
             
-            // Enhanced Save Functionality
             saveBtn.addEventListener('click', function() {
                 const formData = collectFormData();
                 const docId = Date.now();
                 const isQuotation = formData.type === 'Quotation';
                 
-                // Create document object with complete data
                 const documentData = {
                     ...formData,
                     id: docId,
@@ -1671,42 +1886,32 @@ SWIFT CODE: SBICTZTX</textarea>
                     lastModified: new Date().toISOString()
                 };
                 
-                // Save to localStorage
                 let documents = JSON.parse(localStorage.getItem('kinguDocuments')) || [];
                 documents.push(documentData);
                 localStorage.setItem('kinguDocuments', JSON.stringify(documents));
                 
-                // Also save to separate collections for easy retrieval
                 saveToSpecificCollection(formData.type, documentData);
                 
-                // Generate PDF automatically
                 const filename = `Kingu_${formData.type}_${formData.documentNumber}_${new Date().getTime()}.pdf`;
                 
                 pdfBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating PDF...';
                 pdfBtn.disabled = true;
                 
-                // Generate PDF
                 setTimeout(() => {
                     pdfBtn.innerHTML = '<i class="fas fa-file-pdf"></i> Export PDF';
                     pdfBtn.disabled = false;
                     
-                    // Show success message with options
                     showSaveSuccess(documentData);
                 }, 1000);
             });
             
-            // Helper function to save to specific collections
             function saveToSpecificCollection(type, documentData) {
-                // Save to document type specific collections
                 const collectionKey = getCollectionKey(type);
                 let collection = JSON.parse(localStorage.getItem(collectionKey)) || [];
                 collection.push(documentData);
                 localStorage.setItem(collectionKey, JSON.stringify(collection));
                 
-                // Update client statistics
                 updateClientStatistics(documentData);
-                
-                // Update monthly statistics
                 updateMonthlyStatistics(documentData);
             }
             
@@ -1719,7 +1924,6 @@ SWIFT CODE: SBICTZTX</textarea>
                 return typeMap[type] || `${type.toLowerCase()}s`;
             }
             
-            // Update client statistics
             function updateClientStatistics(documentData) {
                 if (!documentData.clientEmail) return;
                 
@@ -1744,7 +1948,6 @@ SWIFT CODE: SBICTZTX</textarea>
                     };
                 }
                 
-                // Update client statistics
                 clientStats[clientKey].lastTransaction = new Date().toISOString();
                 clientStats[clientKey].totalTransactions++;
                 clientStats[clientKey].totalValue += (documentData.grandTotal || 0);
@@ -1757,7 +1960,6 @@ SWIFT CODE: SBICTZTX</textarea>
                     clientStats[clientKey].proformaCount++;
                 }
                 
-                // Add document reference
                 clientStats[clientKey].documents.push({
                     id: documentData.id,
                     type: documentData.type,
@@ -1766,7 +1968,6 @@ SWIFT CODE: SBICTZTX</textarea>
                     amount: documentData.grandTotal
                 });
                 
-                // Keep only last 50 documents
                 if (clientStats[clientKey].documents.length > 50) {
                     clientStats[clientKey].documents = clientStats[clientKey].documents.slice(-50);
                 }
@@ -1774,7 +1975,6 @@ SWIFT CODE: SBICTZTX</textarea>
                 localStorage.setItem(clientStatsKey, JSON.stringify(clientStats));
             }
             
-            // Update monthly statistics
             function updateMonthlyStatistics(documentData) {
                 const date = new Date();
                 const monthKey = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}`;
@@ -1794,7 +1994,6 @@ SWIFT CODE: SBICTZTX</textarea>
                     };
                 }
                 
-                // Update monthly statistics
                 monthlyStats[monthKey].totalRevenue += (documentData.grandTotal || 0);
                 monthlyStats[monthKey].documentCount++;
                 
@@ -1806,12 +2005,10 @@ SWIFT CODE: SBICTZTX</textarea>
                     monthlyStats[monthKey].proformaCount++;
                 }
                 
-                // Add client to unique clients array
                 if (documentData.clientEmail && !monthlyStats[monthKey].clients.includes(documentData.clientEmail)) {
                     monthlyStats[monthKey].clients.push(documentData.clientEmail);
                 }
                 
-                // Add document reference
                 monthlyStats[monthKey].documents.push({
                     id: documentData.id,
                     type: documentData.type,
@@ -1823,7 +2020,6 @@ SWIFT CODE: SBICTZTX</textarea>
                 localStorage.setItem(statsKey, JSON.stringify(monthlyStats));
             }
             
-            // Show save success message with options
             function showSaveSuccess(documentData) {
                 const message = `
                     <div style="padding: 20px;">
@@ -1848,7 +2044,6 @@ SWIFT CODE: SBICTZTX</textarea>
                     </div>
                 `;
                 
-                // Create and show custom alert
                 const alertDiv = document.createElement('div');
                 alertDiv.style.cssText = `
                     position: fixed;
@@ -1883,23 +2078,19 @@ SWIFT CODE: SBICTZTX</textarea>
                 document.body.appendChild(alertDiv);
             }
             
-            // Add this global function
             window.viewSavedDocument = function(id) {
                 let documents = JSON.parse(localStorage.getItem('kinguDocuments')) || [];
                 const doc = documents.find(d => d.id == id);
                 
                 if (doc) {
-                    // Close any open alerts
                     const overlays = document.querySelectorAll('div[style*="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5);"]');
                     overlays.forEach(el => el.remove());
                     
                     const alerts = document.querySelectorAll('div[style*="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);"]');
                     alerts.forEach(el => el.remove());
                     
-                    // Switch to history tab
                     navHistory.click();
                     
-                    // Highlight the document in the table
                     setTimeout(() => {
                         const rows = document.querySelectorAll('#history-table-body tr');
                         rows.forEach(row => {
@@ -1915,40 +2106,28 @@ SWIFT CODE: SBICTZTX</textarea>
             
             // ==================== ENHANCED REPORTS & ANALYTICS ====================
             
-            // Enhanced loadReports function
             function loadReports() {
                 let documents = JSON.parse(localStorage.getItem('kinguDocuments')) || [];
                 
                 if (documents.length === 0) {
-                    documents = generateSampleData(); // Optional: Generate sample data for demonstration
+                    documents = generateSampleData();
                 }
                 
-                // Clear existing content
                 const reportsContent = document.getElementById('reports-content');
                 if (reportsContent) {
                     reportsContent.innerHTML = '';
                 }
                 
-                // Calculate comprehensive statistics
                 const stats = calculateDocumentStatistics(documents);
-                
-                // Update quick stats display
                 updateQuickStatsDisplay(stats);
-                
-                // Create charts with all data
                 createRevenueChart(documents);
                 createDocumentTypesChart(documents);
                 createMonthlyComparisonChart(documents);
                 createClientDistributionChart(documents);
-                
-                // Update document breakdown
                 updateDocumentBreakdown(stats);
-                
-                // Load top clients
                 loadTopClients(documents);
             }
             
-            // Calculate comprehensive statistics
             function calculateDocumentStatistics(documents) {
                 const stats = {
                     totalRevenue: 0,
@@ -1966,10 +2145,8 @@ SWIFT CODE: SBICTZTX</textarea>
                 };
                 
                 documents.forEach(doc => {
-                    // Revenue
                     stats.totalRevenue += (doc.grandTotal || 0);
                     
-                    // Document type counts
                     if (doc.type === 'Standard') {
                         stats.invoiceCount++;
                     } else if (doc.type === 'Quotation') {
@@ -1978,20 +2155,17 @@ SWIFT CODE: SBICTZTX</textarea>
                         stats.proformaCount++;
                     }
                     
-                    // Type distribution
                     if (!stats.typeDistribution[doc.type]) {
                         stats.typeDistribution[doc.type] = 0;
                     }
                     stats.typeDistribution[doc.type]++;
                     
-                    // Status distribution
                     const status = getDocumentStatus(doc);
                     if (!stats.statusDistribution[status]) {
                         stats.statusDistribution[status] = 0;
                     }
                     stats.statusDistribution[status]++;
                     
-                    // Status amounts
                     if (status === 'paid') {
                         stats.paidAmount += (doc.grandTotal || 0);
                     } else if (status === 'pending') {
@@ -2000,12 +2174,10 @@ SWIFT CODE: SBICTZTX</textarea>
                         stats.overdueAmount += (doc.grandTotal || 0);
                     }
                     
-                    // Active clients
                     if (doc.clientEmail) {
                         stats.activeClients.add(doc.clientEmail);
                     }
                     
-                    // Monthly data
                     if (doc.savedDate) {
                         const date = new Date(doc.savedDate);
                         const monthKey = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}`;
@@ -2038,7 +2210,6 @@ SWIFT CODE: SBICTZTX</textarea>
                 return stats;
             }
             
-            // Helper function to get document status
             function getDocumentStatus(doc) {
                 if (doc.status) return doc.status;
                 
@@ -2053,7 +2224,6 @@ SWIFT CODE: SBICTZTX</textarea>
                 return 'pending';
             }
             
-            // Helper function for currency formatting
             function formatCurrency(amount, currency) {
                 if (!amount) amount = 0;
                 const formatter = new Intl.NumberFormat('en-TZ', {
@@ -2065,7 +2235,6 @@ SWIFT CODE: SBICTZTX</textarea>
                 return formatter.format(amount);
             }
             
-            // Update quick stats display
             function updateQuickStatsDisplay(stats) {
                 const reportsContent = document.getElementById('reports-content');
                 
@@ -2107,7 +2276,6 @@ SWIFT CODE: SBICTZTX</textarea>
                 reportsContent.innerHTML = quickStatsHTML;
             }
             
-            // Get current month document count
             function getCurrentMonthDocumentCount() {
                 const documents = JSON.parse(localStorage.getItem('kinguDocuments')) || [];
                 const now = new Date();
@@ -2122,7 +2290,6 @@ SWIFT CODE: SBICTZTX</textarea>
                 }).length;
             }
             
-            // Load top clients
             function loadTopClients(documents) {
                 const topClients = getTopClientsByValue(documents, 10);
                 const reportsContent = document.getElementById('reports-content');
@@ -2162,12 +2329,10 @@ SWIFT CODE: SBICTZTX</textarea>
                 
                 clientsHTML += '</tbody></table>';
                 
-                // Append to reports content
                 const existingContent = reportsContent.innerHTML;
                 reportsContent.innerHTML = existingContent + clientsHTML;
             }
             
-            // Create revenue chart
             function createRevenueChart(documents) {
                 const reportsContent = document.getElementById('reports-content');
                 
@@ -2254,7 +2419,6 @@ SWIFT CODE: SBICTZTX</textarea>
                 return { months, revenue };
             }
             
-            // Create monthly comparison chart
             function createMonthlyComparisonChart(documents) {
                 const reportsContent = document.getElementById('reports-content');
                 
@@ -2324,7 +2488,6 @@ SWIFT CODE: SBICTZTX</textarea>
                 }, 100);
             }
             
-            // Get last 6 months data
             function getLast6MonthsData(documents) {
                 const months = [];
                 const invoices = [];
@@ -2340,12 +2503,10 @@ SWIFT CODE: SBICTZTX</textarea>
                     
                     months.push(monthName);
                     
-                    // Initialize counts
                     let invoiceCount = 0;
                     let quotationCount = 0;
                     let proformaCount = 0;
                     
-                    // Count documents for this month
                     documents.forEach(doc => {
                         if (doc.savedDate) {
                             const docDate = new Date(doc.savedDate);
@@ -2371,7 +2532,6 @@ SWIFT CODE: SBICTZTX</textarea>
                 return { months, invoices, quotations, proformas };
             }
             
-            // Create client distribution chart
             function createClientDistributionChart(documents) {
                 const reportsContent = document.getElementById('reports-content');
                 
@@ -2422,7 +2582,6 @@ SWIFT CODE: SBICTZTX</textarea>
                 }, 100);
             }
             
-            // Get top clients by total value
             function getTopClientsByValue(documents, limit = 5) {
                 const clientTotals = {};
                 
@@ -2435,7 +2594,6 @@ SWIFT CODE: SBICTZTX</textarea>
                     }
                 });
                 
-                // Sort by total value (descending)
                 const sorted = Object.entries(clientTotals)
                     .sort((a, b) => b[1] - a[1])
                     .slice(0, limit);
@@ -2446,7 +2604,6 @@ SWIFT CODE: SBICTZTX</textarea>
                 };
             }
             
-            // Create document types chart
             function createDocumentTypesChart(documents) {
                 const reportsContent = document.getElementById('reports-content');
                 
@@ -2462,7 +2619,6 @@ SWIFT CODE: SBICTZTX</textarea>
                 setTimeout(() => {
                     const ctx = document.getElementById('documentTypesChart').getContext('2d');
                     
-                    // Count document types
                     const types = {
                         'Standard': 0,
                         'Quotation': 0,
@@ -2500,7 +2656,6 @@ SWIFT CODE: SBICTZTX</textarea>
                 }, 100);
             }
             
-            // Update document breakdown
             function updateDocumentBreakdown(stats) {
                 const breakdownHTML = `
                     <div style="background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); margin-top: 20px;">
@@ -2556,7 +2711,6 @@ SWIFT CODE: SBICTZTX</textarea>
                 }
             }
             
-            // Optional: Generate sample data for demonstration
             function generateSampleData() {
                 const sampleData = [];
                 const clients = [
@@ -2588,6 +2742,8 @@ SWIFT CODE: SBICTZTX</textarea>
                         clientPhone: '+255 7' + Math.floor(Math.random() * 10000000).toString().padStart(7, '0'),
                         currency: 'TSh',
                         grandTotal: amount,
+                        vatType: ['none', 'standard', 'custom'][Math.floor(Math.random() * 3)],
+                        vatRate: Math.floor(Math.random() * 20) + 5,
                         status: ['pending', 'paid', 'overdue'][Math.floor(Math.random() * 3)]
                     });
                 }
@@ -2598,7 +2754,6 @@ SWIFT CODE: SBICTZTX</textarea>
             
             // ==================== ENHANCED DOCUMENT HISTORY ====================
             
-            // Enhanced loadDocumentHistory function
             function loadDocumentHistory() {
                 const historyTableBody = document.getElementById('history-table-body');
                 if (!historyTableBody) {
@@ -2610,7 +2765,6 @@ SWIFT CODE: SBICTZTX</textarea>
                 
                 let documents = JSON.parse(localStorage.getItem('kinguDocuments')) || [];
                 
-                // Apply filter
                 if (filter !== 'all') {
                     if (filter === 'proforma') {
                         documents = documents.filter(doc => doc.type === 'Proforma');
@@ -2640,7 +2794,6 @@ SWIFT CODE: SBICTZTX</textarea>
                     return;
                 }
                 
-                // Sort by date (newest first)
                 documents.sort((a, b) => new Date(b.savedDate) - new Date(a.savedDate));
                 
                 let tableHTML = '';
@@ -2681,11 +2834,9 @@ SWIFT CODE: SBICTZTX</textarea>
                 
                 historyTableBody.innerHTML = tableHTML;
                 
-                // Update document count
                 updateDocumentCount(documents.length);
             }
             
-            // Helper function for date formatting
             function formatDate(dateString) {
                 if (!dateString) return 'N/A';
                 const date = new Date(dateString);
@@ -2697,7 +2848,6 @@ SWIFT CODE: SBICTZTX</textarea>
                 });
             }
             
-            // Get type badge
             function getTypeBadge(type) {
                 const badges = {
                     'Standard': '<span class="status-badge" style="background-color: rgba(41, 128, 185, 0.2); color: #2980b9;">INVOICE</span>',
@@ -2707,7 +2857,6 @@ SWIFT CODE: SBICTZTX</textarea>
                 return badges[type] || type;
             }
             
-            // Get status class
             function getStatusClass(status) {
                 switch(status.toLowerCase()) {
                     case 'paid': return 'status-paid';
@@ -2717,7 +2866,6 @@ SWIFT CODE: SBICTZTX</textarea>
                 }
             }
             
-            // Update document count display
             function updateDocumentCount(count) {
                 let countElement = document.getElementById('document-count');
                 if (!countElement) {
@@ -2734,7 +2882,6 @@ SWIFT CODE: SBICTZTX</textarea>
                 }
             }
             
-            // Delete document function
             window.deleteDocument = function(id) {
                 if (confirm('Are you sure you want to delete this document? This action cannot be undone.')) {
                     let documents = JSON.parse(localStorage.getItem('kinguDocuments')) || [];
@@ -2744,7 +2891,6 @@ SWIFT CODE: SBICTZTX</textarea>
                         documents = documents.filter(doc => doc.id != id);
                         localStorage.setItem('kinguDocuments', JSON.stringify(documents));
                         
-                        // Also remove from specific collections
                         ['invoices', 'quotations', 'proformas'].forEach(collection => {
                             let items = JSON.parse(localStorage.getItem(collection)) || [];
                             items = items.filter(item => item.id != id);
@@ -2752,21 +2898,21 @@ SWIFT CODE: SBICTZTX</textarea>
                         });
                         
                         alert('Document deleted successfully!');
-                        loadDocumentHistory(); // Reload the table
+                        loadDocumentHistory();
                         if (typeof loadReports === 'function') {
-                            loadReports(); // Update reports
+                            loadReports();
                         }
                     }
                 }
             };
             
-            // Share document function
             window.shareDocument = function(id) {
                 const documents = JSON.parse(localStorage.getItem('kinguDocuments')) || [];
                 const doc = documents.find(d => d.id == id);
                 
                 if (doc) {
-                    const message = `Kingu Electrical - ${doc.type}: ${doc.documentNumber}\nClient: ${doc.clientName}\nAmount: ${formatCurrency(doc.grandTotal, doc.currency)}\nDate: ${formatDate(doc.documentDate)}`;
+                    const vatInfo = doc.vatType !== 'none' ? `\nVAT (${doc.vatRate}%): ${formatCurrency(doc.vatAmount || 0, doc.currency)}` : '';
+                    const message = `Kingu Electrical - ${doc.type}: ${doc.documentNumber}\nClient: ${doc.clientName}\nAmount: ${formatCurrency(doc.grandTotal, doc.currency)}${vatInfo}\nDate: ${formatDate(doc.documentDate)}`;
                     const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
                     window.open(whatsappUrl, '_blank');
                 }
@@ -2774,16 +2920,13 @@ SWIFT CODE: SBICTZTX</textarea>
             
             // ==================== EXISTING FUNCTIONALITY ====================
             
-            // Global functions for button actions
             window.viewDocument = function(id) {
                 let documents = JSON.parse(localStorage.getItem('kinguDocuments')) || [];
                 const doc = documents.find(d => d.id == id);
                 
                 if (doc) {
-                    // Switch to create invoice tab and load document
                     navCreate.click();
                     
-                    // Load document data into form
                     document.getElementById('invoice-number').value = doc.documentNumber || '';
                     document.getElementById('invoice-date').value = doc.documentDate || '';
                     document.getElementById('due-date').value = doc.dueDate || '';
@@ -2799,7 +2942,23 @@ SWIFT CODE: SBICTZTX</textarea>
                     document.getElementById('bank-details').value = doc.bankDetails || '';
                     document.getElementById('notes').value = doc.notes || '';
                     
-                    // Load items
+                    // Load VAT data
+                    if (doc.vatType) {
+                        const vatOption = document.querySelector(`input[name="vat-option"][value="${doc.vatType}"]`);
+                        if (vatOption) {
+                            vatOption.checked = true;
+                            vatOption.dispatchEvent(new Event('change'));
+                        }
+                        
+                        if (doc.vatRate) {
+                            document.getElementById('custom-vat-rate').value = doc.vatRate;
+                        }
+                        
+                        if (doc.vatNumber) {
+                            document.getElementById('vat-number-input').value = doc.vatNumber;
+                        }
+                    }
+                    
                     const itemsTable = document.getElementById('invoice-items');
                     itemsTable.innerHTML = '';
                     
@@ -2822,7 +2981,6 @@ SWIFT CODE: SBICTZTX</textarea>
                         });
                     }
                     
-                    // Update totals
                     updateTotals();
                     
                     alert('Document loaded successfully! You can now edit and save it.');
@@ -2842,28 +3000,23 @@ SWIFT CODE: SBICTZTX</textarea>
                 alert(`Showing invoices for client: ${email}`);
             };
             
-            // History filter event listener
             document.getElementById('history-filter').addEventListener('change', function() {
                 loadDocumentHistory();
             });
             
-            // Export history button
             document.getElementById('export-history-btn').addEventListener('click', function() {
                 alert('Export functionality would be implemented here');
             });
             
-            // Generate report button
             document.getElementById('generate-report-btn').addEventListener('click', function() {
                 loadReports();
                 alert('Report generated!');
             });
             
-            // Load data functions
             function loadProformaInvoices() {
                 const proformaTableBody = document.getElementById('proforma-table-body');
                 let documents = JSON.parse(localStorage.getItem('kinguDocuments')) || [];
                 
-                // Filter for proforma invoices
                 const proformas = documents.filter(doc => doc.type === 'Proforma');
                 
                 if (proformas.length === 0) {
@@ -2907,7 +3060,6 @@ SWIFT CODE: SBICTZTX</textarea>
                 const clientTableBody = document.getElementById('client-table-body');
                 let documents = JSON.parse(localStorage.getItem('kinguDocuments')) || [];
                 
-                // Extract unique clients from documents
                 const clients = {};
                 documents.forEach(doc => {
                     if (doc.clientName && doc.clientEmail) {
@@ -2972,10 +3124,8 @@ SWIFT CODE: SBICTZTX</textarea>
             }
             
             function loadSettings() {
-                // Load saved settings or use defaults
                 const settings = JSON.parse(localStorage.getItem('kinguSettings')) || {};
                 
-                // Company Settings
                 document.getElementById('company-name').value = settings.companyName || 'KINGU ELECTRICAL COMPANY LIMITED';
                 document.getElementById('company-tin').value = settings.companyTIN || '157-024-493';
                 document.getElementById('company-address').value = settings.companyAddress || 'P.O. Box 62313, Dar Es Salaam Tanzania';
@@ -2983,25 +3133,23 @@ SWIFT CODE: SBICTZTX</textarea>
                 document.getElementById('company-email').value = settings.companyEmail || 'kinguelectricaltz@gmail.com';
                 document.getElementById('company-website').value = settings.companyWebsite || 'kingueletrical.com';
                 
-                // Document Settings
                 document.getElementById('default-currency').value = settings.defaultCurrency || 'TSh';
                 document.getElementById('vat-rate').value = settings.vatRate || '18';
+                document.getElementById('default-vat-type').value = settings.defaultVatType || 'standard';
+                document.getElementById('enable-vat-number').value = settings.enableVatNumber || 'no';
                 document.getElementById('invoice-prefix').value = settings.invoicePrefix || 'PROFORMA/GL';
                 document.getElementById('default-payment-terms').value = settings.defaultPaymentTerms || '100% after delivery';
                 document.getElementById('default-delivery').value = settings.defaultDelivery || '7';
                 document.getElementById('default-notes').value = settings.defaultNotes || '1. This Proforma shall remain valid for 30 days only.\n2. Prices are inclusive of VAT where applicable.\n3. Delivery subject to stock availability.\n4. All disputes subject to Dar es Salaam jurisdiction.';
                 
-                // Bank Settings
                 document.getElementById('bank-name').value = settings.bankName || 'STANBIC BANK TANZANIA LIMITED';
                 document.getElementById('account-name').value = settings.accountName || 'KINGU ELECTRICAL COMPANY LIMITED';
                 document.getElementById('account-number').value = settings.accountNumber || '912 000 275 9274';
                 document.getElementById('swift-code').value = settings.swiftCode || 'SBICTZTX';
             }
             
-            // Save settings button
             document.getElementById('save-settings-btn').addEventListener('click', function() {
                 const settings = {
-                    // Company Settings
                     companyName: document.getElementById('company-name').value,
                     companyTIN: document.getElementById('company-tin').value,
                     companyAddress: document.getElementById('company-address').value,
@@ -3009,15 +3157,15 @@ SWIFT CODE: SBICTZTX</textarea>
                     companyEmail: document.getElementById('company-email').value,
                     companyWebsite: document.getElementById('company-website').value,
                     
-                    // Document Settings
                     defaultCurrency: document.getElementById('default-currency').value,
                     vatRate: document.getElementById('vat-rate').value,
+                    defaultVatType: document.getElementById('default-vat-type').value,
+                    enableVatNumber: document.getElementById('enable-vat-number').value,
                     invoicePrefix: document.getElementById('invoice-prefix').value,
                     defaultPaymentTerms: document.getElementById('default-payment-terms').value,
                     defaultDelivery: document.getElementById('default-delivery').value,
                     defaultNotes: document.getElementById('default-notes').value,
                     
-                    // Bank Settings
                     bankName: document.getElementById('bank-name').value,
                     accountName: document.getElementById('account-name').value,
                     accountNumber: document.getElementById('account-number').value,
@@ -3028,7 +3176,8 @@ SWIFT CODE: SBICTZTX</textarea>
                 alert('Settings saved successfully!');
             });
             
-            // Utility function to collect form data
+            // ==================== INVOICE FORM FUNCTIONALITY ====================
+            
             function collectFormData() {
                 const type = getCurrentDocumentType();
                 const items = [];
@@ -3061,9 +3210,23 @@ SWIFT CODE: SBICTZTX</textarea>
                 }
                 
                 const taxable = subtotal - discountAmount;
-                const taxRate = 18; // Default VAT rate
-                const taxAmount = (taxable * taxRate) / 100;
-                const grandTotal = taxable + taxAmount;
+                
+                // VAT/Tax calculation
+                const vatOption = document.querySelector('input[name="vat-option"]:checked');
+                const vatType = vatOption ? vatOption.value : 'none';
+                let vatRate = 0;
+                let vatAmount = 0;
+                let grandTotal = taxable;
+                
+                if (vatType !== 'none') {
+                    if (vatType === 'standard') {
+                        vatRate = 18;
+                    } else if (vatType === 'custom') {
+                        vatRate = parseFloat(document.getElementById('custom-vat-rate').value) || 0;
+                    }
+                    vatAmount = (taxable * vatRate) / 100;
+                    grandTotal = taxable + vatAmount;
+                }
                 
                 return {
                     type: type,
@@ -3085,8 +3248,10 @@ SWIFT CODE: SBICTZTX</textarea>
                     discountType: discountType,
                     discountValue: discountValue,
                     discountAmount: discountAmount,
-                    taxRate: taxRate,
-                    taxAmount: taxAmount,
+                    vatType: vatType,
+                    vatRate: vatRate,
+                    vatAmount: vatAmount,
+                    vatNumber: document.getElementById('vat-number-input')?.value || '',
                     grandTotal: grandTotal,
                     bankDetails: document.getElementById('bank-details').value,
                     notes: document.getElementById('notes').value
@@ -3104,88 +3269,22 @@ SWIFT CODE: SBICTZTX</textarea>
                 return 'Proforma';
             }
             
-            // Add CSS for animations
-            const style = document.createElement('style');
-            style.textContent = `
-                @keyframes highlight {
-                    0% {
-                        background-color: rgba(17, 106, 65, 0.1);
-                        box-shadow: 0 0 0 0 rgba(17, 106, 65, 0.7);
-                    }
-                    70% {
-                        background-color: rgba(17, 106, 65, 0.3);
-                        box-shadow: 0 0 0 10px rgba(17, 106, 65, 0);
-                    }
-                    100% {
-                        background-color: transparent;
-                        box-shadow: 0 0 0 0 rgba(17, 106, 65, 0);
-                    }
-                }
-                
-                .data-table tr.highlighted {
-                    animation: highlight 2s ease-in-out;
-                }
-                
-                /* Status badge styles */
-                .status-badge {
-                    display: inline-block;
-                    padding: 4px 12px;
-                    border-radius: 20px;
-                    font-size: 12px;
-                    font-weight: 600;
-                    text-transform: uppercase;
-                }
-                
-                .status-badge.paid {
-                    background-color: rgba(46, 204, 113, 0.2);
-                    color: #27ae60;
-                }
-                
-                .status-badge.pending {
-                    background-color: rgba(241, 196, 15, 0.2);
-                    color: #f39c12;
-                }
-                
-                .status-badge.overdue {
-                    background-color: rgba(231, 76, 60, 0.2);
-                    color: #e74c3c;
-                }
-                
-                /* Action button styles */
-                .action-btn-small {
-                    border: none;
-                    border-radius: 4px;
-                    padding: 6px 10px;
-                    cursor: pointer;
-                    font-size: 12px;
-                    display: inline-flex;
-                    align-items: center;
-                    justify-content: center;
-                    transition: all 0.3s ease;
-                }
-                
-                .action-btn-small:hover {
-                    transform: translateY(-2px);
-                    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-                }
-            `;
-            document.head.appendChild(style);
+            // Initialize invoice form
+            initializeInvoiceForm();
+            initializeVatOptions();
             
-            // Set current date in date fields
+            // Set current date
             const today = new Date().toISOString().split('T')[0];
             document.getElementById('invoice-date').value = today;
             
             const dueDate = new Date();
             dueDate.setDate(dueDate.getDate() + 30);
             document.getElementById('due-date').value = dueDate.toISOString().split('T')[0];
-            
-            // Initialize invoice form functionality
-            initializeInvoiceForm();
         });
         
-        // Initialize invoice form functionality
+        // ==================== INVOICE FORM HELPER FUNCTIONS ====================
+        
         function initializeInvoiceForm() {
-            // Update totals when items change
             document.addEventListener('input', function(e) {
                 if (e.target.classList.contains('item-quantity') || 
                     e.target.classList.contains('item-price')) {
@@ -3194,12 +3293,10 @@ SWIFT CODE: SBICTZTX</textarea>
                 }
             });
             
-            // Add new item
             document.getElementById('add-item-btn').addEventListener('click', function() {
                 addNewItem();
             });
             
-            // Delete item
             document.addEventListener('click', function(e) {
                 if (e.target.closest('.delete-item')) {
                     e.target.closest('tr').remove();
@@ -3207,7 +3304,6 @@ SWIFT CODE: SBICTZTX</textarea>
                 }
             });
             
-            // Discount type change
             document.getElementById('discount-type').addEventListener('change', function() {
                 const discountValueContainer = document.getElementById('discount-value-container');
                 const discountRow = document.getElementById('discount-row');
@@ -3228,10 +3324,8 @@ SWIFT CODE: SBICTZTX</textarea>
                 updateTotals();
             });
             
-            // Discount value change
             document.getElementById('discount-value').addEventListener('input', updateTotals);
             
-            // Payment terms change
             document.getElementById('payment-terms').addEventListener('change', function() {
                 const customTermsContainer = document.getElementById('custom-terms-container');
                 if (this.value === 'Custom') {
@@ -3273,9 +3367,34 @@ SWIFT CODE: SBICTZTX</textarea>
             }
             
             const taxable = subtotal - discountAmount;
-            const taxRate = 18; // Default VAT rate
-            const taxAmount = (taxable * taxRate) / 100;
-            const grandTotal = taxable + taxAmount;
+            
+            // VAT calculation
+            const vatOption = document.querySelector('input[name="vat-option"]:checked');
+            const vatType = vatOption ? vatOption.value : 'none';
+            let vatRate = 0;
+            let vatAmount = 0;
+            let grandTotal = taxable;
+            
+            if (vatType !== 'none') {
+                if (vatType === 'standard') {
+                    vatRate = 18;
+                } else if (vatType === 'custom') {
+                    vatRate = parseFloat(document.getElementById('custom-vat-rate').value) || 0;
+                }
+                vatAmount = (taxable * vatRate) / 100;
+                grandTotal = taxable + vatAmount;
+                
+                // Update VAT row
+                const vatRow = document.getElementById('vat-row');
+                vatRow.style.display = 'flex';
+                const vatLabel = vatRow.querySelector('.total-label');
+                const vatTypeLabel = vatType === 'standard' ? 'VAT' : 'Tax';
+                vatLabel.textContent = `${vatTypeLabel} (${vatRate}%):`;
+                document.getElementById('tax').textContent = 
+                    `${getCurrencySymbol(document.getElementById('currency').value)} ${vatAmount.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}`;
+            } else {
+                document.getElementById('vat-row').style.display = 'none';
+            }
             
             const currency = document.getElementById('currency').value;
             const currencySymbol = getCurrencySymbol(currency);
@@ -3286,13 +3405,9 @@ SWIFT CODE: SBICTZTX</textarea>
             document.getElementById('discount-amount').textContent = 
                 `${currencySymbol} ${discountAmount.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}`;
             
-            document.getElementById('tax').textContent = 
-                `${currencySymbol} ${taxAmount.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}`;
-            
             document.getElementById('grand-total').textContent = 
                 `${currencySymbol} ${grandTotal.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}`;
             
-            // Update amount in words
             document.getElementById('amount-words').textContent = 
                 convertNumberToWords(grandTotal) + ' ' + currency + ' only';
         }
@@ -3328,8 +3443,6 @@ SWIFT CODE: SBICTZTX</textarea>
         }
         
         function convertNumberToWords(num) {
-            // Simple number to words converter for demonstration
-            // In a real application, you would use a more comprehensive converter
             const units = ['', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine'];
             const teens = ['ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen'];
             const tens = ['', '', 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety'];
@@ -3338,21 +3451,18 @@ SWIFT CODE: SBICTZTX</textarea>
             
             let words = '';
             
-            // Handle thousands
             const thousands = Math.floor(num / 1000);
             if (thousands > 0) {
                 words += convertNumberToWords(thousands) + ' thousand ';
                 num %= 1000;
             }
             
-            // Handle hundreds
             const hundreds = Math.floor(num / 100);
             if (hundreds > 0) {
                 words += units[hundreds] + ' hundred ';
                 num %= 100;
             }
             
-            // Handle tens and units
             if (num > 0) {
                 if (words !== '') words += 'and ';
                 
