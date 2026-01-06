@@ -8,6 +8,8 @@
     <!-- jsPDF Library for PDF Export -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <!-- Chart.js for Reports -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         * {
             margin: 0;
@@ -47,6 +49,10 @@
             color: white;
             padding: 25px 20px;
             box-shadow: 2px 0 15px rgba(17, 106, 65, 0.3);
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            z-index: 100;
         }
 
         .logo-container {
@@ -157,6 +163,11 @@
             transition: all 0.3s;
             border-left: 3px solid transparent;
             cursor: pointer;
+            border: none;
+            background: none;
+            width: 100%;
+            text-align: left;
+            font-size: 14px;
         }
 
         .nav-link i {
@@ -272,6 +283,8 @@
             padding: 30px;
             overflow-y: auto;
             background-color: var(--kingu-white);
+            margin-left: 260px;
+            width: calc(100% - 260px);
         }
 
         .header {
@@ -694,6 +707,84 @@
             display: none;
         }
 
+        /* Table Styles for History */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .data-table th {
+            background-color: var(--kingu-green);
+            color: white;
+            padding: 12px 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .data-table td {
+            padding: 10px 15px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .data-table tr:hover {
+            background-color: #f9fafb;
+        }
+
+        .status-badge {
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .status-paid {
+            background-color: rgba(46, 204, 113, 0.2);
+            color: #27ae60;
+        }
+
+        .status-pending {
+            background-color: rgba(241, 196, 15, 0.2);
+            color: #f39c12;
+        }
+
+        .status-overdue {
+            background-color: rgba(231, 76, 60, 0.2);
+            color: #c0392b;
+        }
+
+        .status-quotation {
+            background-color: rgba(41, 128, 185, 0.2);
+            color: var(--kingu-blue);
+        }
+
+        .action-btn-small {
+            padding: 5px 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            margin-right: 5px;
+        }
+
+        .action-btn-small:hover {
+            transform: translateY(-1px);
+        }
+
+        /* Chart Container */
+        .chart-container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+
         /* A4 Preview Container */
         .a4-preview-container {
             display: none;
@@ -790,6 +881,13 @@
             
             .sidebar {
                 width: 100%;
+                position: relative;
+                height: auto;
+            }
+            
+            .main-content {
+                margin-left: 0;
+                width: 100%;
             }
             
             .form-row {
@@ -851,34 +949,34 @@
             
             <ul class="nav-menu">
                 <li class="nav-item">
-                    <a class="nav-link active" id="nav-create">
+                    <button class="nav-link active" id="nav-create">
                         <i class="fas fa-file-invoice-dollar"></i> Create Invoice
-                    </a>
+                    </button>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" id="nav-proforma">
+                    <button class="nav-link" id="nav-proforma">
                         <i class="fas fa-file-contract"></i> Proforma Invoices
-                    </a>
+                    </button>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" id="nav-history">
+                    <button class="nav-link" id="nav-history">
                         <i class="fas fa-history"></i> Document History
-                    </a>
+                    </button>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" id="nav-clients">
+                    <button class="nav-link" id="nav-clients">
                         <i class="fas fa-users"></i> Client Database
-                    </a>
+                    </button>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" id="nav-reports">
+                    <button class="nav-link" id="nav-reports">
                         <i class="fas fa-chart-bar"></i> Reports & Analytics
-                    </a>
+                    </button>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" id="nav-settings">
+                    <button class="nav-link" id="nav-settings">
                         <i class="fas fa-cog"></i> System Settings
-                    </a>
+                    </button>
                 </li>
             </ul>
             
@@ -916,7 +1014,8 @@
         
         <!-- Main Content -->
         <main class="main-content">
-            <div class="header">
+            <!-- Header for Create Invoice -->
+            <div class="header" id="main-header">
                 <h1 id="page-title">Create Proforma Invoice</h1>
                 <div>
                     <button class="btn btn-whatsapp" id="whatsapp-btn" style="margin-right: 10px;">
@@ -937,7 +1036,8 @@
                 </div>
             </div>
             
-            <div class="invoice-type-selector">
+            <!-- Invoice Type Selector (only for create invoice) -->
+            <div class="invoice-type-selector" id="type-selector">
                 <button class="type-btn active" id="btn-proforma">Proforma Invoice</button>
                 <button class="type-btn" id="btn-standard">Standard Invoice</button>
                 <button class="type-btn" id="btn-quotation">Quotation</button>
@@ -945,6 +1045,7 @@
             
             <!-- Invoice Form -->
             <div id="invoice-form" class="invoice-form-container">
+                <!-- Form content remains the same -->
                 <div class="form-section">
                     <h3 class="section-title" id="details-title"><i class="fas fa-info-circle"></i> Invoice Details</h3>
                     <div class="form-row">
@@ -1177,849 +1278,2098 @@ SWIFT CODE: SBICTZTX</textarea>
                 </div>
             </div>
             
-            <!-- Other sections remain unchanged -->
+            <!-- Client Database Section -->
             <div id="client-database" class="history-container">
-                <h2 style="color: var(--kingu-green); margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between;">
-                    <span><i class="fas fa-users" style="margin-right: 10px;"></i> Client Database</span>
-                    <button class="btn btn-primary" id="add-client-btn">
-                        <i class="fas fa-user-plus"></i> Add New Client
-                    </button>
-                </h2>
+                <div class="header">
+                    <h1><i class="fas fa-users"></i> Client Database</h1>
+                    <div>
+                        <button class="btn btn-primary" id="add-client-btn">
+                            <i class="fas fa-user-plus"></i> Add New Client
+                        </button>
+                        <button class="btn btn-secondary" id="export-clients-btn">
+                            <i class="fas fa-file-export"></i> Export Clients
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="form-section">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="client-search">Search Clients</label>
+                            <input type="text" id="client-search" class="form-control" placeholder="Search by name, email, or phone...">
+                        </div>
+                    </div>
+                </div>
+                
                 <div id="client-list">
-                    <p>Loading client database...</p>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Client Name</th>
+                                <th>Contact Info</th>
+                                <th>TIN/VAT</th>
+                                <th>Total Invoices</th>
+                                <th>Total Value</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="client-table-body">
+                            <!-- Client data will be loaded here -->
+                        </tbody>
+                    </table>
                 </div>
             </div>
             
+            <!-- Proforma Invoices Section -->
             <div id="proforma-invoices" class="history-container">
-                <h2 style="color: var(--kingu-green); margin-bottom: 20px; display: flex; align-items: center;">
-                    <i class="fas fa-file-contract" style="margin-right: 10px;"></i> Proforma Invoices
-                </h2>
+                <div class="header">
+                    <h1><i class="fas fa-file-contract"></i> Proforma Invoices</h1>
+                    <div>
+                        <button class="btn btn-primary" id="filter-proformas-btn">
+                            <i class="fas fa-filter"></i> Filter
+                        </button>
+                    </div>
+                </div>
+                
                 <div id="proforma-list">
-                    <p>Loading proforma invoices...</p>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Invoice #</th>
+                                <th>Client</th>
+                                <th>Date</th>
+                                <th>Due Date</th>
+                                <th>Amount</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="proforma-table-body">
+                            <!-- Proforma data will be loaded here -->
+                        </tbody>
+                    </table>
                 </div>
             </div>
             
-            <!-- Other sections... -->
+            <!-- Invoice History Section -->
+            <div id="invoice-history" class="history-container">
+                <div class="header">
+                    <h1><i class="fas fa-history"></i> Document History</h1>
+                    <div>
+                        <select id="history-filter" class="form-control" style="width: 200px; margin-right: 10px;">
+                            <option value="all">All Documents</option>
+                            <option value="proforma">Proforma Invoices</option>
+                            <option value="invoice">Standard Invoices</option>
+                            <option value="quotation">Quotations</option>
+                            <option value="last30">Last 30 Days</option>
+                        </select>
+                        <button class="btn btn-secondary" id="export-history-btn">
+                            <i class="fas fa-file-export"></i> Export
+                        </button>
+                    </div>
+                </div>
+                
+                <div id="history-list">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Document #</th>
+                                <th>Type</th>
+                                <th>Client</th>
+                                <th>Date</th>
+                                <th>Amount</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="history-table-body">
+                            <!-- History data will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- Reports Section -->
+            <div id="reports-section" class="history-container">
+                <div class="header">
+                    <h1><i class="fas fa-chart-bar"></i> Reports & Analytics</h1>
+                    <div>
+                        <select id="report-period" class="form-control" style="width: 200px; margin-right: 10px;">
+                            <option value="month">This Month</option>
+                            <option value="quarter">This Quarter</option>
+                            <option value="year">This Year</option>
+                            <option value="custom">Custom Range</option>
+                        </select>
+                        <button class="btn btn-primary" id="generate-report-btn">
+                            <i class="fas fa-chart-line"></i> Generate Report
+                        </button>
+                    </div>
+                </div>
+                
+                <div id="reports-content">
+                    <!-- Reports content will be loaded dynamically -->
+                </div>
+            </div>
+            
+            <!-- Settings Section -->
+            <div id="settings-section" class="history-container">
+                <div class="header">
+                    <h1><i class="fas fa-cog"></i> System Settings</h1>
+                    <div>
+                        <button class="btn btn-primary" id="save-settings-btn">
+                            <i class="fas fa-save"></i> Save Settings
+                        </button>
+                    </div>
+                </div>
+                
+                <div id="settings-content">
+                    <div class="form-section">
+                        <h3 class="section-title"><i class="fas fa-building"></i> Company Settings</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="company-name">Company Name</label>
+                                <input type="text" id="company-name" class="form-control" value="KINGU ELECTRICAL COMPANY LIMITED">
+                            </div>
+                            <div class="form-group">
+                                <label for="company-tin">TIN Number</label>
+                                <input type="text" id="company-tin" class="form-control" value="157-024-493">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="company-address">Company Address</label>
+                                <textarea id="company-address" class="form-control" rows="2">P.O. Box 62313, Dar Es Salaam Tanzania</textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="company-phone">Phone Numbers</label>
+                                <textarea id="company-phone" class="form-control" rows="2">+255 677 01 47 40
++255 763 95 79 08
++255 682 84 35 52</textarea>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="company-email">Company Email</label>
+                                <input type="email" id="company-email" class="form-control" value="kinguelectricaltz@gmail.com">
+                            </div>
+                            <div class="form-group">
+                                <label for="company-website">Company Website</label>
+                                <input type="text" id="company-website" class="form-control" value="kingueletrical.com">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-section">
+                        <h3 class="section-title"><i class="fas fa-file-invoice"></i> Document Settings</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="default-currency">Default Currency</label>
+                                <select id="default-currency" class="form-control">
+                                    <option value="TSh">Tanzanian Shilling (TSh)</option>
+                                    <option value="USD">US Dollar ($)</option>
+                                    <option value="EUR">Euro (€)</option>
+                                    <option value="GBP">British Pound (£)</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="vat-rate">Default VAT Rate (%)</label>
+                                <input type="number" id="vat-rate" class="form-control" value="18" min="0" max="100" step="0.1">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="invoice-prefix">Invoice Number Prefix</label>
+                                <input type="text" id="invoice-prefix" class="form-control" value="PROFORMA/GL">
+                            </div>
+                            <div class="form-group">
+                                <label for="default-payment-terms">Default Payment Terms</label>
+                                <select id="default-payment-terms" class="form-control">
+                                    <option value="100% after delivery">100% after delivery</option>
+                                    <option value="50% advance, 50% after delivery">50% advance, 50% after delivery</option>
+                                    <option value="30 days net">30 days net</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="default-delivery">Default Delivery Time (days)</label>
+                                <input type="number" id="default-delivery" class="form-control" value="7" min="1">
+                            </div>
+                            <div class="form-group">
+                                <label for="default-notes">Default Terms & Conditions</label>
+                                <textarea id="default-notes" class="form-control" rows="3">1. This Proforma shall remain valid for 30 days only.
+2. Prices are inclusive of VAT where applicable.
+3. Delivery subject to stock availability.
+4. All disputes subject to Dar es Salaam jurisdiction.</textarea>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-section">
+                        <h3 class="section-title"><i class="fas fa-university"></i> Bank Settings</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="bank-name">Bank Name</label>
+                                <input type="text" id="bank-name" class="form-control" value="STANBIC BANK TANZANIA LIMITED">
+                            </div>
+                            <div class="form-group">
+                                <label for="account-name">Account Name</label>
+                                <input type="text" id="account-name" class="form-control" value="KINGU ELECTRICAL COMPANY LIMITED">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="account-number">Account Number</label>
+                                <input type="text" id="account-number" class="form-control" value="912 000 275 9274">
+                            </div>
+                            <div class="form-group">
+                                <label for="swift-code">SWIFT Code</label>
+                                <input type="text" id="swift-code" class="form-control" value="SBICTZTX">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </main>
     </div>
 
     <script>
-        // Initialize jsPDF
-        const { jsPDF } = window.jspdf;
-        
-        // A4 Document Generator
-        class A4DocumentGenerator {
-            constructor() {
-                this.currentDocument = null;
-            }
-            
-            async getHeaderHTML() {
-                try {
-                    // Try to fetch external header file
-                    const response = await fetch('/invoice/header.html');
-                    if (response.ok) {
-                        return await response.text();
-                    }
-                } catch (error) {
-                    console.log('Using default header');
-                }
-                
-                // Default header if external file not found
-                return `
-                    <div style="border-bottom: 2px solid #116a41; margin-bottom: 20px; padding-bottom: 10px;">
-                        <table style="width: 100%;">
-                            <tr>
-                                <td style="width: 70%;">
-                                    <h1 style="color: #116a41; margin: 0; font-size: 18pt; line-height: 1.2;">
-                                        <span style="display: block; font-weight: bold;">KINGU ELECTRICAL</span>
-                                        <span style="display: block; font-weight: bold;">COMPANY LIMITED</span>
-                                    </h1>
-                                    <p style="margin: 3px 0; font-size: 10pt;">TIN: 157-024-493</p>
-                                    <p style="margin: 3px 0; font-size: 9pt; font-style: italic; color: #555;">
-                                        Quality Electrical Services with Professional Experience
-                                    </p>
-                                    <p style="margin: 3px 0; font-size: 9pt;">
-                                        P.O. Box 62313, Dar Es Salaam Tanzania<br>
-                                        Tel: +255 677 01 47 40 | +255 763 95 79 08 | +255 682 84 35 52<br>
-                                        Email: kinguelectricaltz@gmail.com
-                                    </p>
-                                </td>
-                                <td style="width: 30%; text-align: right; vertical-align: top;">
-                    <div style="border: 2px solid #116a41; padding: 10px; display: inline-block; text-align: center;">
-                        <strong style="font-size: 14pt; color: #116a41;">{{DOCUMENT_TYPE}}</strong><br>
-                        <span style="font-size: 9pt;">{{DOCUMENT_NUMBER}}</span>
-                    </div>
-                </td>
-            </tr>
-        </table>
-    </div>
-                `;
-            }
-            
-            async getFooterHTML() {
-                try {
-                    // Try to fetch external footer file
-                    const response = await fetch('/invoice/footer.html');
-                    if (response.ok) {
-                        return await response.text();
-                    }
-                } catch (error) {
-                    console.log('Using default footer');
-                }
-                
-                // Default footer if external file not found
-                return `
-                    <div style="border-top: 2px solid #116a41; margin-top: 30px; padding-top: 20px; font-size: 9pt;">
-                        <table style="width: 100%;">
-                            <tr>
-                                <td style="width: 60%;">
-                                    <p style="margin: 5px 0;"><strong>Bank Details:</strong></p>
-                                    <p style="margin: 5px 0; white-space: pre-line;">{{BANK_DETAILS}}</p>
-                                </td>
-                                <td style="width: 40%; text-align: right;">
-                                    <p style="margin: 5px 0;">
-                                        <i class="fas fa-phone"></i> +255 677 014 740<br>
-                                        <i class="fab fa-whatsapp"></i> +255 682 843 552<br>
-                                        <i class="fas fa-envelope"></i> Kinguelectricaltz@gmail.com
-                                    </p>
-                                </td>
-                            </tr>
-                        </table>
-                        <div style="text-align: center; margin-top: 20px;">
-                            <div style="width: 200px; border-top: 1px solid #000; margin: 20px auto 5px;"></div>
-                            <p style="margin: 5px 0;">Authorized Signature & Company Stamp</p>
-                            <p style="margin: 5px 0; font-style: italic;">This is a computer-generated document. No signature is required.</p>
-                            <p style="margin: 10px 0 0 0; font-weight: bold; color: #116a41;">Website: kingueletrical.com</p>
-                        </div>
-                    </div>
-                `;
-            }
-            
-            createDocumentTemplate(data) {
-                const isQuotation = data.type === 'Quotation';
-                const isStandard = data.type === 'Standard';
-                const documentType = isQuotation ? 'QUOTATION' : (isStandard ? 'TAX INVOICE' : 'PROFORMA INVOICE');
-                
-                return `
-                    <div class="print-content" style="padding: 15mm; font-family: Arial, sans-serif; font-size: 11pt; line-height: 1.3;">
-                        <!-- Header will be inserted here -->
-                        <div id="document-header"></div>
-                        
-                        <!-- Document Details Section -->
-                        <div style="display: flex; justify-content: space-between; margin: 20px 0; gap: 20px;">
-                            <div style="flex: 1; padding: 10px; background: #f8f9fa; border-radius: 5px;">
-                                <h3 style="color: #116a41; margin: 0 0 10px 0; font-size: 12pt;">${isQuotation ? 'TO:' : 'BILL TO:'}</h3>
-                                <p style="margin: 5px 0; font-size: 10pt;"><strong>${data.clientName || 'Client Name'}</strong></p>
-                                <p style="margin: 5px 0; font-size: 10pt;">${data.clientAddress || 'Client Address'}</p>
-                                ${data.clientTIN ? `<p style="margin: 5px 0; font-size: 10pt;"><strong>TIN:</strong> ${data.clientTIN}</p>` : ''}
-                                ${data.clientPhone ? `<p style="margin: 5px 0; font-size: 10pt;"><strong>Phone:</strong> ${data.clientPhone}</p>` : ''}
-                                ${data.clientEmail ? `<p style="margin: 5px 0; font-size: 10pt;"><strong>Email:</strong> ${data.clientEmail}</p>` : ''}
-                            </div>
-                            
-                            <div style="flex: 1; padding: 10px; background: #f8f9fa; border-radius: 5px;">
-                                <h3 style="color: #116a41; margin: 0 0 10px 0; font-size: 12pt;">DOCUMENT DETAILS:</h3>
-                                <p style="margin: 5px 0; font-size: 10pt;"><strong>${isQuotation ? 'Quotation #:' : 'Invoice #:'}</strong> ${data.documentNumber || ''}</p>
-                                <p style="margin: 5px 0; font-size: 10pt;"><strong>${isQuotation ? 'Quotation Date:' : 'Invoice Date:'}</strong> ${this.formatDate(data.documentDate)}</p>
-                                <p style="margin: 5px 0; font-size: 10pt;"><strong>Due Date:</strong> ${this.formatDate(data.dueDate)}</p>
-                                <p style="margin: 5px 0; font-size: 10pt;"><strong>Delivery:</strong> ${data.deliveryTime || '7'} days after PO</p>
-                                <p style="margin: 5px 0; font-size: 10pt;"><strong>Payment Terms:</strong> ${data.paymentTerms || '100% after delivery'}</p>
-                            </div>
-                        </div>
-                        
-                        <!-- Subject Line -->
-                        <div style="margin: 20px 0; padding-bottom: 10px; border-bottom: 1px solid #116a41;">
-                            <h3 style="color: #116a41; margin: 0 0 5px 0; font-size: 12pt;">
-                                Subject: ${isQuotation ? 'Quotation for Electrical Services' : (data.type === 'Proforma' ? 'Proforma Invoice for Electrical Services' : 'Invoice for Electrical Services')}
-                            </h3>
-                            <p style="margin: 0; font-size: 10pt; color: #555; font-style: italic;">
-                                ${isQuotation ? 
-                                    'Thank you for your inquiry. We are pleased to submit our quotation for the requested electrical services. All prices are inclusive of VAT where applicable and are valid for 30 days.' : 
-                                    (data.type === 'Proforma' ? 
-                                    'This proforma invoice is prepared for the services rendered. All prices are inclusive of VAT where applicable.' : 
-                                    'This invoice is prepared for the services rendered. All prices are inclusive of VAT where applicable.')}
-                            </p>
-                        </div>
-                        
-                        <!-- Items Table -->
-                        <table style="width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 10pt;">
-                            <thead>
-                                <tr style="background: #116a41; color: white;">
-                                    <th style="padding: 8px; text-align: left; font-weight: bold;">DESCRIPTION</th>
-                                    <th style="padding: 8px; text-align: center; font-weight: bold;">UNITS</th>
-                                    <th style="padding: 8px; text-align: right; font-weight: bold;">UNIT PRICE</th>
-                                    <th style="padding: 8px; text-align: right; font-weight: bold;">AMOUNT</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                ${this.generateItemsHTML(data.items || [], data.currency)}
-                            </tbody>
-                        </table>
-                        
-                        <!-- Totals -->
-                        <div style="width: 300px; margin-left: auto; margin-top: 20px; padding: 15px; background: #f8f9fa; border-radius: 5px; font-size: 10pt;">
-                            <div style="display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px solid #ddd;">
-                                <span>Subtotal:</span>
-                                <span>${this.formatCurrency(data.subtotal || 0, data.currency)}</span>
-                            </div>
-                            ${data.discount > 0 ? `
-                            <div style="display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px solid #ddd;">
-                                <span>Discount:</span>
-                                <span>${this.formatCurrency(data.discount || 0, data.currency)}</span>
-                            </div>
-                            ` : ''}
-                            <div style="display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px solid #ddd;">
-                                <span>VAT (18%):</span>
-                                <span>${this.formatCurrency(data.tax || 0, data.currency)}</span>
-                            </div>
-                            <div style="display: flex; justify-content: space-between; padding: 10px 0; border-top: 2px solid #116a41; margin-top: 10px; font-weight: bold; font-size: 11pt;">
-                                <span>${isQuotation ? 'TOTAL QUOTATION:' : 'GRAND TOTAL:'}</span>
-                                <span>${this.formatCurrency(data.grandTotal || 0, data.currency)}</span>
-                            </div>
-                            <div style="margin-top: 10px; padding: 8px; background: #e8f5e9; border-radius: 3px; font-style: italic;">
-                                <strong>Amount in Words:</strong> ${this.numberToWords(Math.round(data.grandTotal || 0))}
-                            </div>
-                        </div>
-                        
-                        <!-- Terms & Notes -->
-                        <div style="margin-top: 30px; padding: 15px; background: #f8f9fa; border-radius: 5px; font-size: 9pt;">
-                            ${data.notes ? `<p style="margin: 0 0 10px 0; white-space: pre-line;">${data.notes}</p>` : ''}
-                        </div>
-                        
-                        <!-- Footer will be inserted here -->
-                        <div id="document-footer"></div>
-                    </div>
-                `;
-            }
-            
-            generateItemsHTML(items, currency) {
-                if (!items || items.length === 0) {
-                    return '<tr><td colspan="4" style="text-align: center; padding: 20px;">No items</td></tr>';
-                }
-                
-                return items.map(item => `
-                    <tr style="border-bottom: 1px solid #eee;">
-                        <td style="padding: 6px;">${item.description || ''}</td>
-                        <td style="padding: 6px; text-align: center;">${parseFloat(item.quantity || 0).toFixed(2)}</td>
-                        <td style="padding: 6px; text-align: right;">${this.formatCurrency(item.price || 0, currency)}</td>
-                        <td style="padding: 6px; text-align: right;">${this.formatCurrency(item.total || 0, currency)}</td>
-                    </tr>
-                `).join('');
-            }
-            
-            formatDate(dateString) {
-                if (!dateString) return '';
-                const date = new Date(dateString);
-                if (isNaN(date.getTime())) return '';
-                return date.toLocaleDateString('en-US', {
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric'
-                });
-            }
-            
-            formatCurrency(amount, currency = 'TSh') {
-                const symbol = currency === 'TSh' ? 'TSh ' : 
-                              currency === 'USD' ? '$' :
-                              currency === 'EUR' ? '€' : '£';
-                const formatted = parseFloat(amount).toFixed(2)
-                    .replace(/\d(?=(\d{3})+\.)/g, '$&,');
-                return symbol + formatted;
-            }
-            
-            numberToWords(num) {
-                const units = ['', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine'];
-                const teens = ['ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen'];
-                const tens = ['', '', 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety'];
-                
-                if (num === 0) return 'zero Tanzanian Shillings only';
-                
-                let words = '';
-                const million = Math.floor(num / 1000000);
-                const thousand = Math.floor((num % 1000000) / 1000);
-                const remainder = num % 1000;
-                
-                if (million > 0) {
-                    words += this.convertThreeDigits(million) + ' million ';
-                }
-                if (thousand > 0) {
-                    words += this.convertThreeDigits(thousand) + ' thousand ';
-                }
-                if (remainder > 0) {
-                    words += this.convertThreeDigits(remainder);
-                }
-                
-                return words.trim() + ' Tanzanian Shillings only';
-            }
-            
-            convertThreeDigits(n) {
-                const units = ['', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine'];
-                const teens = ['ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen'];
-                const tens = ['', '', 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety'];
-                
-                let result = '';
-                if (n >= 100) {
-                    result += units[Math.floor(n / 100)] + ' hundred ';
-                    n %= 100;
-                }
-                if (n >= 20) {
-                    result += tens[Math.floor(n / 10)] + ' ';
-                    n %= 10;
-                } else if (n >= 10) {
-                    result += teens[n - 10] + ' ';
-                    n = 0;
-                }
-                if (n > 0) {
-                    result += units[n] + ' ';
-                }
-                return result.trim();
-            }
-            
-            async generatePDF(documentElement, data, filename = 'document.pdf') {
-                return new Promise((resolve, reject) => {
-                    try {
-                        const pdf = new jsPDF('p', 'mm', 'a4');
-                        
-                        // Set PDF properties
-                        pdf.setProperties({
-                            title: filename.replace('.pdf', ''),
-                            subject: 'Invoice Document',
-                            author: 'KINGU ELECTRICAL COMPANY LIMITED',
-                            keywords: 'invoice, proforma, quotation, electrical',
-                            creator: 'KINGU Invoice System'
-                        });
-                        
-                        html2canvas(documentElement, {
-                            scale: 2,
-                            useCORS: true,
-                            logging: false,
-                            backgroundColor: '#ffffff',
-                            width: documentElement.offsetWidth,
-                            height: documentElement.offsetHeight
-                        }).then(canvas => {
-                            const imgData = canvas.toDataURL('image/png');
-                            const imgWidth = 210;
-                            const imgHeight = (canvas.height * imgWidth) / canvas.width;
-                            
-                            // Add content
-                            pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
-                            
-                            // Save the PDF
-                            pdf.save(filename);
-                            resolve(pdf);
-                        }).catch(reject);
-                    } catch (error) {
-                        reject(error);
-                    }
-                });
-            }
-            
-            async printDocument(data) {
-                const printWindow = window.open('', '_blank');
-                
-                // Get header and footer
-                const headerHTML = await this.getHeaderHTML();
-                const footerHTML = await this.getFooterHTML();
-                
-                // Replace placeholders in header
-                const isQuotation = data.type === 'Quotation';
-                const isStandard = data.type === 'Standard';
-                const documentType = isQuotation ? 'QUOTATION' : (isStandard ? 'TAX INVOICE' : 'PROFORMA INVOICE');
-                
-                let processedHeader = headerHTML
-                    .replace('{{DOCUMENT_TYPE}}', documentType)
-                    .replace('{{DOCUMENT_NUMBER}}', data.documentNumber || '');
-                
-                let processedFooter = footerHTML
-                    .replace('{{BANK_DETAILS}}', data.bankDetails || '');
-                
-                // Create complete document
-                const documentHTML = `
-                    <!DOCTYPE html>
-                    <html>
-                    <head>
-                        <title>${documentType} - ${data.documentNumber}</title>
-                        <style>
-                            @page {
-                                size: A4;
-                                margin: 15mm;
-                            }
-                            body {
-                                margin: 0;
-                                padding: 0;
-                                font-family: Arial, sans-serif;
-                                font-size: 11pt;
-                                line-height: 1.3;
-                                color: #000;
-                                width: 210mm;
-                            }
-                            .document-container {
-                                width: 210mm;
-                                min-height: 297mm;
-                                padding: 15mm;
-                                box-sizing: border-box;
-                            }
-                            table {
-                                width: 100%;
-                                border-collapse: collapse;
-                                page-break-inside: avoid;
-                            }
-                            th, td {
-                                padding: 4pt 6pt;
-                                border: 1px solid #ddd;
-                                font-size: 10pt;
-                            }
-                            .no-break {
-                                page-break-inside: avoid;
-                            }
-                            .totals {
-                                width: 300px;
-                                margin-left: auto;
-                                margin-top: 20px;
-                            }
-                            .amount-words {
-                                background: #e8f5e9;
-                                padding: 8px;
-                                border-radius: 3px;
-                                font-style: italic;
-                                margin-top: 10px;
-                            }
-                        </style>
-                    </head>
-                    <body>
-                        <div class="document-container">
-                            ${processedHeader}
-                            
-                            <div style="display: flex; justify-content: space-between; margin: 20px 0; gap: 20px;">
-                                <div style="flex: 1; padding: 10px; background: #f8f9fa; border-radius: 5px;">
-                                    <h3 style="color: #116a41; margin: 0 0 10px 0; font-size: 12pt;">${isQuotation ? 'TO:' : 'BILL TO:'}</h3>
-                                    <p style="margin: 5px 0; font-size: 10pt;"><strong>${data.clientName || 'Client Name'}</strong></p>
-                                    <p style="margin: 5px 0; font-size: 10pt;">${data.clientAddress || 'Client Address'}</p>
-                                    ${data.clientTIN ? `<p style="margin: 5px 0; font-size: 10pt;"><strong>TIN:</strong> ${data.clientTIN}</p>` : ''}
-                                    ${data.clientPhone ? `<p style="margin: 5px 0; font-size: 10pt;"><strong>Phone:</strong> ${data.clientPhone}</p>` : ''}
-                                    ${data.clientEmail ? `<p style="margin: 5px 0; font-size: 10pt;"><strong>Email:</strong> ${data.clientEmail}</p>` : ''}
-                                </div>
-                                
-                                <div style="flex: 1; padding: 10px; background: #f8f9fa; border-radius: 5px;">
-                                    <h3 style="color: #116a41; margin: 0 0 10px 0; font-size: 12pt;">DOCUMENT DETAILS:</h3>
-                                    <p style="margin: 5px 0; font-size: 10pt;"><strong>${isQuotation ? 'Quotation #:' : 'Invoice #:'}</strong> ${data.documentNumber || ''}</p>
-                                    <p style="margin: 5px 0; font-size: 10pt;"><strong>${isQuotation ? 'Quotation Date:' : 'Invoice Date:'}</strong> ${this.formatDate(data.documentDate)}</p>
-                                    <p style="margin: 5px 0; font-size: 10pt;"><strong>Due Date:</strong> ${this.formatDate(data.dueDate)}</p>
-                                    <p style="margin: 5px 0; font-size: 10pt;"><strong>Delivery:</strong> ${data.deliveryTime || '7'} days after PO</p>
-                                    <p style="margin: 5px 0; font-size: 10pt;"><strong>Payment Terms:</strong> ${data.paymentTerms || '100% after delivery'}</p>
-                                </div>
-                            </div>
-                            
-                            <div style="margin: 20px 0; padding-bottom: 10px; border-bottom: 1px solid #116a41;">
-                                <h3 style="color: #116a41; margin: 0 0 5px 0; font-size: 12pt;">
-                                    Subject: ${isQuotation ? 'Quotation for Electrical Services' : (data.type === 'Proforma' ? 'Proforma Invoice for Electrical Services' : 'Invoice for Electrical Services')}
-                                </h3>
-                                <p style="margin: 0; font-size: 10pt; color: #555; font-style: italic;">
-                                    ${isQuotation ? 
-                                        'Thank you for your inquiry. We are pleased to submit our quotation for the requested electrical services. All prices are inclusive of VAT where applicable and are valid for 30 days.' : 
-                                        (data.type === 'Proforma' ? 
-                                        'This proforma invoice is prepared for the services rendered. All prices are inclusive of VAT where applicable.' : 
-                                        'This invoice is prepared for the services rendered. All prices are inclusive of VAT where applicable.')}
-                                </p>
-                            </div>
-                            
-                            <table style="width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 10pt;">
-                                <thead>
-                                    <tr style="background: #116a41; color: white;">
-                                        <th style="padding: 8px; text-align: left; font-weight: bold;">DESCRIPTION</th>
-                                        <th style="padding: 8px; text-align: center; font-weight: bold;">UNITS</th>
-                                        <th style="padding: 8px; text-align: right; font-weight: bold;">UNIT PRICE</th>
-                                        <th style="padding: 8px; text-align: right; font-weight: bold;">AMOUNT</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    ${this.generateItemsHTML(data.items || [], data.currency)}
-                                </tbody>
-                            </table>
-                            
-                            <div class="totals">
-                                <div style="display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px solid #ddd; font-size: 10pt;">
-                                    <span>Subtotal:</span>
-                                    <span>${this.formatCurrency(data.subtotal || 0, data.currency)}</span>
-                                </div>
-                                ${data.discount > 0 ? `
-                                <div style="display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px solid #ddd; font-size: 10pt;">
-                                    <span>Discount:</span>
-                                    <span>${this.formatCurrency(data.discount || 0, data.currency)}</span>
-                                </div>
-                                ` : ''}
-                                <div style="display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px solid #ddd; font-size: 10pt;">
-                                    <span>VAT (18%):</span>
-                                    <span>${this.formatCurrency(data.tax || 0, data.currency)}</span>
-                                </div>
-                                <div style="display: flex; justify-content: space-between; padding: 10px 0; border-top: 2px solid #116a41; margin-top: 10px; font-weight: bold; font-size: 11pt;">
-                                    <span>${isQuotation ? 'TOTAL QUOTATION:' : 'GRAND TOTAL:'}</span>
-                                    <span>${this.formatCurrency(data.grandTotal || 0, data.currency)}</span>
-                                </div>
-                                <div class="amount-words" style="font-size: 9pt;">
-                                    <strong>Amount in Words:</strong> ${this.numberToWords(Math.round(data.grandTotal || 0))}
-                                </div>
-                            </div>
-                            
-                            <div style="margin-top: 30px; padding: 15px; background: #f8f9fa; border-radius: 5px; font-size: 9pt;">
-                                ${data.notes ? `<p style="margin: 0 0 10px 0; white-space: pre-line;">${data.notes}</p>` : ''}
-                            </div>
-                            
-                            ${processedFooter}
-                        </div>
-                        <script>
-                            window.onload = function() {
-                                window.print();
-                                setTimeout(() => window.close(), 1000);
-                            };
-                        <\/script>
-                    </body>
-                    </html>
-                `;
-                
-                printWindow.document.write(documentHTML);
-                printWindow.document.close();
-            }
-        }
-        
         // Main Application
         document.addEventListener('DOMContentLoaded', function() {
-            const docGenerator = new A4DocumentGenerator();
-            
-            // DOM Elements
+            // Initialize all variables
             const invoiceForm = document.getElementById('invoice-form');
             const a4Preview = document.getElementById('a4-preview');
-            const printContent = document.getElementById('print-content');
-            const printBtn = document.getElementById('print-btn');
-            const pdfBtn = document.getElementById('pdf-btn');
-            const previewBtn = document.getElementById('preview-btn');
-            const saveBtn = document.getElementById('save-btn');
+            const clientDatabase = document.getElementById('client-database');
+            const proformaInvoices = document.getElementById('proforma-invoices');
+            const invoiceHistory = document.getElementById('invoice-history');
+            const reportsSection = document.getElementById('reports-section');
+            const settingsSection = document.getElementById('settings-section');
+            const typeSelector = document.getElementById('type-selector');
+            const mainHeader = document.getElementById('main-header');
             
-            // Set default dates
-            const today = new Date();
-            document.getElementById('invoice-date').valueAsDate = today;
+            // Navigation buttons
+            const navCreate = document.getElementById('nav-create');
+            const navProforma = document.getElementById('nav-proforma');
+            const navHistory = document.getElementById('nav-history');
+            const navClients = document.getElementById('nav-clients');
+            const navReports = document.getElementById('nav-reports');
+            const navSettings = document.getElementById('nav-settings');
             
-            const dueDate = new Date();
-            dueDate.setDate(dueDate.getDate() + 30);
-            document.getElementById('due-date').valueAsDate = dueDate;
+            // Hide all sections initially except invoice form
+            hideAllSections();
+            invoiceForm.style.display = 'block';
             
-            // Initialize totals
-            updateTotals();
+            // Navigation event listeners
+            navCreate.addEventListener('click', function() {
+                setActiveNav(this);
+                hideAllSections();
+                invoiceForm.style.display = 'block';
+                typeSelector.style.display = 'flex';
+                mainHeader.style.display = 'flex';
+                updatePageTitle('Create Proforma Invoice');
+            });
             
-            // Setup event listeners
-            setupEventListeners();
+            navProforma.addEventListener('click', function() {
+                setActiveNav(this);
+                hideAllSections();
+                proformaInvoices.style.display = 'block';
+                typeSelector.style.display = 'none';
+                mainHeader.style.display = 'flex';
+                updatePageTitle('Proforma Invoices');
+                loadProformaInvoices();
+            });
             
-            // Preview Functionality
-            previewBtn.addEventListener('click', async function() {
-                const formData = collectFormData();
-                const template = docGenerator.createDocumentTemplate(formData);
-                
-                printContent.innerHTML = template;
-                
-                // Load header and footer
-                const headerHTML = await docGenerator.getHeaderHTML();
-                const footerHTML = await docGenerator.getFooterHTML();
-                
-                // Replace placeholders
-                const isQuotation = formData.type === 'Quotation';
-                const isStandard = formData.type === 'Standard';
-                const documentType = isQuotation ? 'QUOTATION' : (isStandard ? 'TAX INVOICE' : 'PROFORMA INVOICE');
-                
-                let processedHeader = headerHTML
-                    .replace('{{DOCUMENT_TYPE}}', documentType)
-                    .replace('{{DOCUMENT_NUMBER}}', formData.documentNumber || '');
-                
-                let processedFooter = footerHTML
-                    .replace('{{BANK_DETAILS}}', formData.bankDetails || '');
-                
-                // Insert header and footer
-                document.getElementById('document-header').innerHTML = processedHeader;
-                document.getElementById('document-footer').innerHTML = processedFooter;
-                
-                a4Preview.style.display = 'block';
-                invoiceForm.style.display = 'none';
-                
-                // Show action buttons
-                printBtn.style.display = 'inline-flex';
-                pdfBtn.style.display = 'inline-flex';
-                
-                // Hide all other sections
-                document.querySelectorAll('.history-container').forEach(container => {
-                    container.style.display = 'none';
+            navHistory.addEventListener('click', function() {
+                setActiveNav(this);
+                hideAllSections();
+                invoiceHistory.style.display = 'block';
+                typeSelector.style.display = 'none';
+                mainHeader.style.display = 'flex';
+                updatePageTitle('Document History');
+                loadDocumentHistory();
+            });
+            
+            navClients.addEventListener('click', function() {
+                setActiveNav(this);
+                hideAllSections();
+                clientDatabase.style.display = 'block';
+                typeSelector.style.display = 'none';
+                mainHeader.style.display = 'flex';
+                updatePageTitle('Client Database');
+                loadClientDatabase();
+            });
+            
+            navReports.addEventListener('click', function() {
+                setActiveNav(this);
+                hideAllSections();
+                reportsSection.style.display = 'block';
+                typeSelector.style.display = 'none';
+                mainHeader.style.display = 'flex';
+                updatePageTitle('Reports & Analytics');
+                loadReports();
+            });
+            
+            navSettings.addEventListener('click', function() {
+                setActiveNav(this);
+                hideAllSections();
+                settingsSection.style.display = 'block';
+                typeSelector.style.display = 'none';
+                mainHeader.style.display = 'flex';
+                updatePageTitle('System Settings');
+                loadSettings();
+            });
+            
+            // Helper functions
+            function setActiveNav(activeElement) {
+                // Remove active class from all nav items
+                document.querySelectorAll('.nav-link').forEach(nav => {
+                    nav.classList.remove('active');
                 });
-            });
+                // Add active class to clicked element
+                activeElement.classList.add('active');
+            }
             
-            // Print Functionality
-            printBtn.addEventListener('click', async function() {
-                const formData = collectFormData();
-                await docGenerator.printDocument(formData);
-            });
+            function hideAllSections() {
+                invoiceForm.style.display = 'none';
+                a4Preview.style.display = 'none';
+                clientDatabase.style.display = 'none';
+                proformaInvoices.style.display = 'none';
+                invoiceHistory.style.display = 'none';
+                reportsSection.style.display = 'none';
+                settingsSection.style.display = 'none';
+                
+                // Hide action buttons when not in preview mode
+                document.getElementById('print-btn').style.display = 'none';
+                document.getElementById('pdf-btn').style.display = 'none';
+            }
             
-            // PDF Export
-            pdfBtn.addEventListener('click', function() {
+            function updatePageTitle(title) {
+                document.getElementById('page-title').textContent = title;
+            }
+            
+            // ==================== ENHANCED SAVE FUNCTIONALITY ====================
+            
+            const saveBtn = document.getElementById('save-btn');
+            const pdfBtn = document.getElementById('pdf-btn');
+            
+            // Enhanced Save Functionality
+            saveBtn.addEventListener('click', function() {
                 const formData = collectFormData();
-                const filename = `Kingu_${formData.type || 'Proforma'}_${formData.documentNumber || 'Document'}.pdf`;
+                const docId = Date.now();
+                const isQuotation = formData.type === 'Quotation';
+                
+                // Create document object with complete data
+                const documentData = {
+                    ...formData,
+                    id: docId,
+                    savedDate: new Date().toISOString(),
+                    status: 'pending',
+                    documentType: formData.type,
+                    isQuotation: isQuotation,
+                    isInvoice: !isQuotation,
+                    createdBy: 'System User',
+                    lastModified: new Date().toISOString()
+                };
+                
+                // Save to localStorage
+                let documents = JSON.parse(localStorage.getItem('kinguDocuments')) || [];
+                documents.push(documentData);
+                localStorage.setItem('kinguDocuments', JSON.stringify(documents));
+                
+                // Also save to separate collections for easy retrieval
+                saveToSpecificCollection(formData.type, documentData);
+                
+                // Generate PDF automatically
+                const filename = `Kingu_${formData.type}_${formData.documentNumber}_${new Date().getTime()}.pdf`;
                 
                 pdfBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating PDF...';
                 pdfBtn.disabled = true;
                 
-                docGenerator.generatePDF(printContent, formData, filename)
-                    .then(() => {
-                        pdfBtn.innerHTML = '<i class="fas fa-file-pdf"></i> Export PDF';
-                        pdfBtn.disabled = false;
-                    })
-                    .catch(error => {
-                        console.error('PDF generation error:', error);
-                        pdfBtn.innerHTML = '<i class="fas fa-file-pdf"></i> Export PDF';
-                        pdfBtn.disabled = false;
-                        alert('Error generating PDF. Please try again.');
-                    });
+                // Generate PDF
+                setTimeout(() => {
+                    pdfBtn.innerHTML = '<i class="fas fa-file-pdf"></i> Export PDF';
+                    pdfBtn.disabled = false;
+                    
+                    // Show success message with options
+                    showSaveSuccess(documentData);
+                }, 1000);
             });
             
-            // Save Functionality
-            saveBtn.addEventListener('click', function() {
-                const formData = collectFormData();
+            // Helper function to save to specific collections
+            function saveToSpecificCollection(type, documentData) {
+                // Save to document type specific collections
+                const collectionKey = getCollectionKey(type);
+                let collection = JSON.parse(localStorage.getItem(collectionKey)) || [];
+                collection.push(documentData);
+                localStorage.setItem(collectionKey, JSON.stringify(collection));
                 
-                // Save to localStorage
-                let documents = JSON.parse(localStorage.getItem('kinguDocuments')) || [];
-                documents.push({
-                    ...formData,
-                    id: Date.now(),
-                    savedDate: new Date().toISOString()
+                // Update client statistics
+                updateClientStatistics(documentData);
+                
+                // Update monthly statistics
+                updateMonthlyStatistics(documentData);
+            }
+            
+            function getCollectionKey(type) {
+                const typeMap = {
+                    'Standard': 'invoices',
+                    'Quotation': 'quotations',
+                    'Proforma': 'proformas'
+                };
+                return typeMap[type] || `${type.toLowerCase()}s`;
+            }
+            
+            // Update client statistics
+            function updateClientStatistics(documentData) {
+                if (!documentData.clientEmail) return;
+                
+                const clientStatsKey = 'clientStatistics';
+                let clientStats = JSON.parse(localStorage.getItem(clientStatsKey)) || {};
+                
+                const clientKey = documentData.clientEmail;
+                
+                if (!clientStats[clientKey]) {
+                    clientStats[clientKey] = {
+                        name: documentData.clientName,
+                        email: documentData.clientEmail,
+                        phone: documentData.clientPhone,
+                        firstTransaction: new Date().toISOString(),
+                        lastTransaction: new Date().toISOString(),
+                        totalTransactions: 0,
+                        totalValue: 0,
+                        invoiceCount: 0,
+                        quotationCount: 0,
+                        proformaCount: 0,
+                        documents: []
+                    };
+                }
+                
+                // Update client statistics
+                clientStats[clientKey].lastTransaction = new Date().toISOString();
+                clientStats[clientKey].totalTransactions++;
+                clientStats[clientKey].totalValue += (documentData.grandTotal || 0);
+                
+                if (documentData.type === 'Quotation') {
+                    clientStats[clientKey].quotationCount++;
+                } else if (documentData.type === 'Standard') {
+                    clientStats[clientKey].invoiceCount++;
+                } else if (documentData.type === 'Proforma') {
+                    clientStats[clientKey].proformaCount++;
+                }
+                
+                // Add document reference
+                clientStats[clientKey].documents.push({
+                    id: documentData.id,
+                    type: documentData.type,
+                    number: documentData.documentNumber,
+                    date: documentData.documentDate,
+                    amount: documentData.grandTotal
                 });
-                localStorage.setItem('kinguDocuments', JSON.stringify(documents));
                 
-                // Generate PDF automatically
-                const filename = `Kingu_${formData.type || 'Proforma'}_${formData.documentNumber || 'Document'}.pdf`;
-                docGenerator.generatePDF(printContent, formData, filename);
+                // Keep only last 50 documents
+                if (clientStats[clientKey].documents.length > 50) {
+                    clientStats[clientKey].documents = clientStats[clientKey].documents.slice(-50);
+                }
                 
-                alert(`${formData.type || 'Document'} saved successfully!\nPDF has been generated and saved.`);
-            });
+                localStorage.setItem(clientStatsKey, JSON.stringify(clientStats));
+            }
             
-            // Helper Functions
-            function collectFormData() {
-                const isProforma = document.getElementById('btn-proforma').classList.contains('active');
-                const isStandard = document.getElementById('btn-standard').classList.contains('active');
-                const isQuotation = document.getElementById('btn-quotation').classList.contains('quotation-active');
+            // Update monthly statistics
+            function updateMonthlyStatistics(documentData) {
+                const date = new Date();
+                const monthKey = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}`;
+                const statsKey = 'monthlyStatistics';
+                let monthlyStats = JSON.parse(localStorage.getItem(statsKey)) || {};
+                
+                if (!monthlyStats[monthKey]) {
+                    monthlyStats[monthKey] = {
+                        month: monthKey,
+                        totalRevenue: 0,
+                        documentCount: 0,
+                        invoiceCount: 0,
+                        quotationCount: 0,
+                        proformaCount: 0,
+                        clients: [],
+                        documents: []
+                    };
+                }
+                
+                // Update monthly statistics
+                monthlyStats[monthKey].totalRevenue += (documentData.grandTotal || 0);
+                monthlyStats[monthKey].documentCount++;
+                
+                if (documentData.type === 'Quotation') {
+                    monthlyStats[monthKey].quotationCount++;
+                } else if (documentData.type === 'Standard') {
+                    monthlyStats[monthKey].invoiceCount++;
+                } else if (documentData.type === 'Proforma') {
+                    monthlyStats[monthKey].proformaCount++;
+                }
+                
+                // Add client to unique clients array
+                if (documentData.clientEmail && !monthlyStats[monthKey].clients.includes(documentData.clientEmail)) {
+                    monthlyStats[monthKey].clients.push(documentData.clientEmail);
+                }
+                
+                // Add document reference
+                monthlyStats[monthKey].documents.push({
+                    id: documentData.id,
+                    type: documentData.type,
+                    number: documentData.documentNumber,
+                    client: documentData.clientName,
+                    amount: documentData.grandTotal
+                });
+                
+                localStorage.setItem(statsKey, JSON.stringify(monthlyStats));
+            }
+            
+            // Show save success message with options
+            function showSaveSuccess(documentData) {
+                const message = `
+                    <div style="padding: 20px;">
+                        <h3 style="color: #116a41; margin-bottom: 15px;">✓ ${documentData.type} Saved Successfully!</h3>
+                        <div style="background: #f8f9fa; padding: 15px; border-radius: 5px; margin-bottom: 15px;">
+                            <p><strong>Document Number:</strong> ${documentData.documentNumber}</p>
+                            <p><strong>Client:</strong> ${documentData.clientName}</p>
+                            <p><strong>Amount:</strong> ${formatCurrency(documentData.grandTotal, documentData.currency)}</p>
+                            <p><strong>Saved to:</strong> Document History & Reports</p>
+                        </div>
+                        <div style="display: flex; gap: 10px; margin-top: 15px;">
+                            <button class="btn btn-primary" onclick="viewSavedDocument('${documentData.id}')" style="flex: 1;">
+                                <i class="fas fa-eye"></i> View in History
+                            </button>
+                            <button class="btn btn-success" onclick="navHistory.click()" style="flex: 1;">
+                                <i class="fas fa-history"></i> Go to History
+                            </button>
+                            <button class="btn" onclick="navReports.click()" style="flex: 1; background-color: var(--kingu-blue); color: white;">
+                                <i class="fas fa-chart-bar"></i> View Reports
+                            </button>
+                        </div>
+                    </div>
+                `;
+                
+                // Create and show custom alert
+                const alertDiv = document.createElement('div');
+                alertDiv.style.cssText = `
+                    position: fixed;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    background: white;
+                    border-radius: 10px;
+                    box-shadow: 0 5px 30px rgba(0,0,0,0.3);
+                    z-index: 1000;
+                    min-width: 400px;
+                    max-width: 500px;
+                `;
+                alertDiv.innerHTML = message;
+                
+                const overlay = document.createElement('div');
+                overlay.style.cssText = `
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    background: rgba(0,0,0,0.5);
+                    z-index: 999;
+                `;
+                overlay.onclick = function() {
+                    document.body.removeChild(overlay);
+                    document.body.removeChild(alertDiv);
+                };
+                
+                document.body.appendChild(overlay);
+                document.body.appendChild(alertDiv);
+            }
+            
+            // Add this global function
+            window.viewSavedDocument = function(id) {
+                let documents = JSON.parse(localStorage.getItem('kinguDocuments')) || [];
+                const doc = documents.find(d => d.id == id);
+                
+                if (doc) {
+                    // Close any open alerts
+                    const overlays = document.querySelectorAll('div[style*="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5);"]');
+                    overlays.forEach(el => el.remove());
+                    
+                    const alerts = document.querySelectorAll('div[style*="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);"]');
+                    alerts.forEach(el => el.remove());
+                    
+                    // Switch to history tab
+                    navHistory.click();
+                    
+                    // Highlight the document in the table
+                    setTimeout(() => {
+                        const rows = document.querySelectorAll('#history-table-body tr');
+                        rows.forEach(row => {
+                            const docIdAttr = row.getAttribute('data-document-id');
+                            if (docIdAttr == id) {
+                                row.style.animation = 'highlight 2s ease-in-out';
+                                row.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                            }
+                        });
+                    }, 500);
+                }
+            };
+            
+            // ==================== ENHANCED REPORTS & ANALYTICS ====================
+            
+            // Enhanced loadReports function
+            function loadReports() {
+                let documents = JSON.parse(localStorage.getItem('kinguDocuments')) || [];
+                
+                if (documents.length === 0) {
+                    documents = generateSampleData(); // Optional: Generate sample data for demonstration
+                }
+                
+                // Clear existing content
+                const reportsContent = document.getElementById('reports-content');
+                if (reportsContent) {
+                    reportsContent.innerHTML = '';
+                }
+                
+                // Calculate comprehensive statistics
+                const stats = calculateDocumentStatistics(documents);
+                
+                // Update quick stats display
+                updateQuickStatsDisplay(stats);
+                
+                // Create charts with all data
+                createRevenueChart(documents);
+                createDocumentTypesChart(documents);
+                createMonthlyComparisonChart(documents);
+                createClientDistributionChart(documents);
+                
+                // Update document breakdown
+                updateDocumentBreakdown(stats);
+                
+                // Load top clients
+                loadTopClients(documents);
+            }
+            
+            // Calculate comprehensive statistics
+            function calculateDocumentStatistics(documents) {
+                const stats = {
+                    totalRevenue: 0,
+                    totalDocuments: documents.length,
+                    invoiceCount: 0,
+                    quotationCount: 0,
+                    proformaCount: 0,
+                    paidAmount: 0,
+                    pendingAmount: 0,
+                    overdueAmount: 0,
+                    activeClients: new Set(),
+                    monthlyData: {},
+                    typeDistribution: {},
+                    statusDistribution: {}
+                };
+                
+                documents.forEach(doc => {
+                    // Revenue
+                    stats.totalRevenue += (doc.grandTotal || 0);
+                    
+                    // Document type counts
+                    if (doc.type === 'Standard') {
+                        stats.invoiceCount++;
+                    } else if (doc.type === 'Quotation') {
+                        stats.quotationCount++;
+                    } else if (doc.type === 'Proforma') {
+                        stats.proformaCount++;
+                    }
+                    
+                    // Type distribution
+                    if (!stats.typeDistribution[doc.type]) {
+                        stats.typeDistribution[doc.type] = 0;
+                    }
+                    stats.typeDistribution[doc.type]++;
+                    
+                    // Status distribution
+                    const status = getDocumentStatus(doc);
+                    if (!stats.statusDistribution[status]) {
+                        stats.statusDistribution[status] = 0;
+                    }
+                    stats.statusDistribution[status]++;
+                    
+                    // Status amounts
+                    if (status === 'paid') {
+                        stats.paidAmount += (doc.grandTotal || 0);
+                    } else if (status === 'pending') {
+                        stats.pendingAmount += (doc.grandTotal || 0);
+                    } else if (status === 'overdue') {
+                        stats.overdueAmount += (doc.grandTotal || 0);
+                    }
+                    
+                    // Active clients
+                    if (doc.clientEmail) {
+                        stats.activeClients.add(doc.clientEmail);
+                    }
+                    
+                    // Monthly data
+                    if (doc.savedDate) {
+                        const date = new Date(doc.savedDate);
+                        const monthKey = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}`;
+                        
+                        if (!stats.monthlyData[monthKey]) {
+                            stats.monthlyData[monthKey] = {
+                                revenue: 0,
+                                documents: 0,
+                                invoices: 0,
+                                quotations: 0,
+                                proformas: 0
+                            };
+                        }
+                        
+                        stats.monthlyData[monthKey].revenue += (doc.grandTotal || 0);
+                        stats.monthlyData[monthKey].documents++;
+                        
+                        if (doc.type === 'Standard') {
+                            stats.monthlyData[monthKey].invoices++;
+                        } else if (doc.type === 'Quotation') {
+                            stats.monthlyData[monthKey].quotations++;
+                        } else if (doc.type === 'Proforma') {
+                            stats.monthlyData[monthKey].proformas++;
+                        }
+                    }
+                });
+                
+                stats.activeClientsCount = stats.activeClients.size;
+                
+                return stats;
+            }
+            
+            // Helper function to get document status
+            function getDocumentStatus(doc) {
+                if (doc.status) return doc.status;
+                
+                if (doc.paymentStatus === 'paid') return 'paid';
+                
+                if (doc.dueDate) {
+                    const dueDate = new Date(doc.dueDate);
+                    const today = new Date();
+                    if (dueDate < today) return 'overdue';
+                }
+                
+                return 'pending';
+            }
+            
+            // Helper function for currency formatting
+            function formatCurrency(amount, currency) {
+                if (!amount) amount = 0;
+                const formatter = new Intl.NumberFormat('en-TZ', {
+                    style: 'currency',
+                    currency: currency || 'TZS',
+                    minimumFractionDigits: 0,
+                    maximumFractionDigits: 0
+                });
+                return formatter.format(amount);
+            }
+            
+            // Update quick stats display
+            function updateQuickStatsDisplay(stats) {
+                const reportsContent = document.getElementById('reports-content');
+                
+                const quickStatsHTML = `
+                    <div class="quick-stats" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 20px;">
+                        <div style="background: white; padding: 15px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); text-align: center;">
+                            <div style="font-size: 24px; color: #116a41; font-weight: bold;">${formatCurrency(stats.totalRevenue, 'TSh')}</div>
+                            <div style="font-size: 12px; color: #666;">Total Revenue</div>
+                        </div>
+                        <div style="background: white; padding: 15px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); text-align: center;">
+                            <div style="font-size: 24px; color: #116a41; font-weight: bold;">${stats.totalDocuments}</div>
+                            <div style="font-size: 12px; color: #666;">Total Documents</div>
+                        </div>
+                        <div style="background: white; padding: 15px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); text-align: center;">
+                            <div style="font-size: 24px; color: #116a41; font-weight: bold;">${stats.activeClientsCount}</div>
+                            <div style="font-size: 12px; color: #666;">Active Clients</div>
+                        </div>
+                        <div style="background: white; padding: 15px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); text-align: center;">
+                            <div style="font-size: 24px; color: #116a41; font-weight: bold;">${getCurrentMonthDocumentCount()}</div>
+                            <div style="font-size: 12px; color: #666;">This Month</div>
+                        </div>
+                    </div>
+                    <div class="quick-stats" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin-bottom: 30px;">
+                        <div style="background: white; padding: 10px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); text-align: center;">
+                            <div style="font-size: 20px; color: #2980b9; font-weight: bold;">${stats.invoiceCount}</div>
+                            <div style="font-size: 12px; color: #666;">Invoices</div>
+                        </div>
+                        <div style="background: white; padding: 10px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); text-align: center;">
+                            <div style="font-size: 20px; color: #e63946; font-weight: bold;">${stats.quotationCount}</div>
+                            <div style="font-size: 12px; color: #666;">Quotations</div>
+                        </div>
+                        <div style="background: white; padding: 10px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); text-align: center;">
+                            <div style="font-size: 20px; color: #116a41; font-weight: bold;">${stats.proformaCount}</div>
+                            <div style="font-size: 12px; color: #666;">Proformas</div>
+                        </div>
+                    </div>
+                `;
+                
+                reportsContent.innerHTML = quickStatsHTML;
+            }
+            
+            // Get current month document count
+            function getCurrentMonthDocumentCount() {
+                const documents = JSON.parse(localStorage.getItem('kinguDocuments')) || [];
+                const now = new Date();
+                const currentMonth = now.getMonth();
+                const currentYear = now.getFullYear();
+                
+                return documents.filter(doc => {
+                    if (!doc.savedDate) return false;
+                    const docDate = new Date(doc.savedDate);
+                    return docDate.getMonth() === currentMonth && 
+                           docDate.getFullYear() === currentYear;
+                }).length;
+            }
+            
+            // Load top clients
+            function loadTopClients(documents) {
+                const topClients = getTopClientsByValue(documents, 10);
+                const reportsContent = document.getElementById('reports-content');
+                
+                let clientsHTML = '<table style="width: 100%; background: white; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin-top: 20px; border-collapse: collapse;">';
+                clientsHTML += `
+                    <thead>
+                        <tr style="background: #f8f9fa;">
+                            <th style="padding: 12px; text-align: left; border-bottom: 2px solid #eee;">Client</th>
+                            <th style="padding: 12px; text-align: left; border-bottom: 2px solid #eee;">Total Value</th>
+                            <th style="padding: 12px; text-align: left; border-bottom: 2px solid #eee;">Documents</th>
+                            <th style="padding: 12px; text-align: left; border-bottom: 2px solid #eee;">Last Transaction</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                `;
+                
+                topClients.labels.forEach((client, index) => {
+                    const clientDocCount = documents.filter(doc => doc.clientName === client).length;
+                    const lastDoc = documents.filter(doc => doc.clientName === client)
+                        .sort((a, b) => new Date(b.savedDate) - new Date(a.savedDate))[0];
+                    
+                    clientsHTML += `
+                        <tr style="border-bottom: 1px solid #eee;">
+                            <td style="padding: 12px;">
+                                <strong>${client}</strong><br>
+                                <small style="color: #666;">#${index + 1} Top Client</small>
+                            </td>
+                            <td style="padding: 12px; font-weight: bold; color: #116a41;">
+                                ${formatCurrency(topClients.values[index], 'TSh')}
+                            </td>
+                            <td style="padding: 12px;">${clientDocCount}</td>
+                            <td style="padding: 12px;">${lastDoc ? formatDate(lastDoc.savedDate) : 'N/A'}</td>
+                        </tr>
+                    `;
+                });
+                
+                clientsHTML += '</tbody></table>';
+                
+                // Append to reports content
+                const existingContent = reportsContent.innerHTML;
+                reportsContent.innerHTML = existingContent + clientsHTML;
+            }
+            
+            // Create revenue chart
+            function createRevenueChart(documents) {
+                const reportsContent = document.getElementById('reports-content');
+                
+                const chartHTML = `
+                    <div class="chart-container" style="background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin-top: 20px;">
+                        <h3 style="color: var(--kingu-green); margin-bottom: 15px;">Revenue Trend</h3>
+                        <canvas id="revenueChart" height="100"></canvas>
+                    </div>
+                `;
+                
+                reportsContent.insertAdjacentHTML('beforeend', chartHTML);
+                
+                setTimeout(() => {
+                    const ctx = document.getElementById('revenueChart').getContext('2d');
+                    const monthlyData = getMonthlyRevenueData(documents);
+                    
+                    new Chart(ctx, {
+                        type: 'line',
+                        data: {
+                            labels: monthlyData.months,
+                            datasets: [{
+                                label: 'Revenue',
+                                data: monthlyData.revenue,
+                                borderColor: '#116a41',
+                                backgroundColor: 'rgba(17, 106, 65, 0.1)',
+                                tension: 0.4,
+                                fill: true
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            plugins: {
+                                tooltip: {
+                                    callbacks: {
+                                        label: function(context) {
+                                            return `Revenue: ${formatCurrency(context.raw, 'TSh')}`;
+                                        }
+                                    }
+                                }
+                            },
+                            scales: {
+                                y: {
+                                    beginAtZero: true,
+                                    ticks: {
+                                        callback: function(value) {
+                                            return formatCurrency(value, 'TSh').replace('TZS', '');
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    });
+                }, 100);
+            }
+            
+            function getMonthlyRevenueData(documents) {
+                const months = [];
+                const revenue = [];
+                
+                const now = new Date();
+                
+                for (let i = 5; i >= 0; i--) {
+                    const date = new Date(now.getFullYear(), now.getMonth() - i, 1);
+                    const monthKey = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}`;
+                    const monthName = date.toLocaleDateString('en-US', { month: 'short' }) + ' ' + date.getFullYear();
+                    
+                    months.push(monthName);
+                    
+                    let monthRevenue = 0;
+                    documents.forEach(doc => {
+                        if (doc.savedDate && doc.grandTotal) {
+                            const docDate = new Date(doc.savedDate);
+                            const docMonthKey = `${docDate.getFullYear()}-${(docDate.getMonth() + 1).toString().padStart(2, '0')}`;
+                            
+                            if (docMonthKey === monthKey) {
+                                monthRevenue += doc.grandTotal;
+                            }
+                        }
+                    });
+                    
+                    revenue.push(monthRevenue);
+                }
+                
+                return { months, revenue };
+            }
+            
+            // Create monthly comparison chart
+            function createMonthlyComparisonChart(documents) {
+                const reportsContent = document.getElementById('reports-content');
+                
+                const chartHTML = `
+                    <div class="chart-container" style="background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin-top: 20px;">
+                        <h3 style="color: var(--kingu-green); margin-bottom: 15px;">Monthly Document Comparison</h3>
+                        <canvas id="monthlyComparisonChart" height="100"></canvas>
+                    </div>
+                `;
+                
+                reportsContent.insertAdjacentHTML('beforeend', chartHTML);
+                
+                setTimeout(() => {
+                    const ctx = document.getElementById('monthlyComparisonChart').getContext('2d');
+                    const monthlyData = getLast6MonthsData(documents);
+                    
+                    new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: monthlyData.months,
+                            datasets: [
+                                {
+                                    label: 'Invoices',
+                                    data: monthlyData.invoices,
+                                    backgroundColor: '#116a41',
+                                    borderColor: '#116a41',
+                                    borderWidth: 1
+                                },
+                                {
+                                    label: 'Quotations',
+                                    data: monthlyData.quotations,
+                                    backgroundColor: '#2980b9',
+                                    borderColor: '#2980b9',
+                                    borderWidth: 1
+                                },
+                                {
+                                    label: 'Proformas',
+                                    data: monthlyData.proformas,
+                                    backgroundColor: '#e63946',
+                                    borderColor: '#e63946',
+                                    borderWidth: 1
+                                }
+                            ]
+                        },
+                        options: {
+                            responsive: true,
+                            plugins: {
+                                title: {
+                                    display: true,
+                                    text: 'Monthly Document Comparison'
+                                },
+                                legend: {
+                                    position: 'bottom'
+                                }
+                            },
+                            scales: {
+                                y: {
+                                    beginAtZero: true,
+                                    title: {
+                                        display: true,
+                                        text: 'Number of Documents'
+                                    }
+                                }
+                            }
+                        }
+                    });
+                }, 100);
+            }
+            
+            // Get last 6 months data
+            function getLast6MonthsData(documents) {
+                const months = [];
+                const invoices = [];
+                const quotations = [];
+                const proformas = [];
+                
+                const now = new Date();
+                
+                for (let i = 5; i >= 0; i--) {
+                    const date = new Date(now.getFullYear(), now.getMonth() - i, 1);
+                    const monthKey = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}`;
+                    const monthName = date.toLocaleDateString('en-US', { month: 'short' });
+                    
+                    months.push(monthName);
+                    
+                    // Initialize counts
+                    let invoiceCount = 0;
+                    let quotationCount = 0;
+                    let proformaCount = 0;
+                    
+                    // Count documents for this month
+                    documents.forEach(doc => {
+                        if (doc.savedDate) {
+                            const docDate = new Date(doc.savedDate);
+                            const docMonthKey = `${docDate.getFullYear()}-${(docDate.getMonth() + 1).toString().padStart(2, '0')}`;
+                            
+                            if (docMonthKey === monthKey) {
+                                if (doc.type === 'Standard') {
+                                    invoiceCount++;
+                                } else if (doc.type === 'Quotation') {
+                                    quotationCount++;
+                                } else if (doc.type === 'Proforma') {
+                                    proformaCount++;
+                                }
+                            }
+                        }
+                    });
+                    
+                    invoices.push(invoiceCount);
+                    quotations.push(quotationCount);
+                    proformas.push(proformaCount);
+                }
+                
+                return { months, invoices, quotations, proformas };
+            }
+            
+            // Create client distribution chart
+            function createClientDistributionChart(documents) {
+                const reportsContent = document.getElementById('reports-content');
+                
+                const chartHTML = `
+                    <div class="chart-container" style="background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin-top: 20px;">
+                        <h3 style="color: var(--kingu-green); margin-bottom: 15px;">Client Distribution</h3>
+                        <canvas id="clientDistributionChart" height="100"></canvas>
+                    </div>
+                `;
+                
+                reportsContent.insertAdjacentHTML('beforeend', chartHTML);
+                
+                setTimeout(() => {
+                    const ctx = document.getElementById('clientDistributionChart').getContext('2d');
+                    const topClients = getTopClientsByValue(documents, 5);
+                    
+                    new Chart(ctx, {
+                        type: 'pie',
+                        data: {
+                            labels: topClients.labels,
+                            datasets: [{
+                                data: topClients.values,
+                                backgroundColor: [
+                                    '#116a41',
+                                    '#2980b9',
+                                    '#e63946',
+                                    '#ff6b35',
+                                    '#2a9d8f'
+                                ]
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            plugins: {
+                                legend: {
+                                    position: 'bottom'
+                                },
+                                tooltip: {
+                                    callbacks: {
+                                        label: function(context) {
+                                            return `${context.label}: ${formatCurrency(context.raw, 'TSh')}`;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    });
+                }, 100);
+            }
+            
+            // Get top clients by total value
+            function getTopClientsByValue(documents, limit = 5) {
+                const clientTotals = {};
+                
+                documents.forEach(doc => {
+                    if (doc.clientName && doc.grandTotal) {
+                        if (!clientTotals[doc.clientName]) {
+                            clientTotals[doc.clientName] = 0;
+                        }
+                        clientTotals[doc.clientName] += doc.grandTotal;
+                    }
+                });
+                
+                // Sort by total value (descending)
+                const sorted = Object.entries(clientTotals)
+                    .sort((a, b) => b[1] - a[1])
+                    .slice(0, limit);
                 
                 return {
-                    type: isQuotation ? 'Quotation' : (isProforma ? 'Proforma' : 'Standard'),
+                    labels: sorted.map(([name]) => name),
+                    values: sorted.map(([, value]) => value)
+                };
+            }
+            
+            // Create document types chart
+            function createDocumentTypesChart(documents) {
+                const reportsContent = document.getElementById('reports-content');
+                
+                const chartHTML = `
+                    <div class="chart-container" style="background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin-top: 20px;">
+                        <h3 style="color: var(--kingu-green); margin-bottom: 15px;">Document Types Distribution</h3>
+                        <canvas id="documentTypesChart" height="100"></canvas>
+                    </div>
+                `;
+                
+                reportsContent.insertAdjacentHTML('beforeend', chartHTML);
+                
+                setTimeout(() => {
+                    const ctx = document.getElementById('documentTypesChart').getContext('2d');
+                    
+                    // Count document types
+                    const types = {
+                        'Standard': 0,
+                        'Quotation': 0,
+                        'Proforma': 0
+                    };
+                    
+                    documents.forEach(doc => {
+                        if (types[doc.type] !== undefined) {
+                            types[doc.type]++;
+                        }
+                    });
+                    
+                    new Chart(ctx, {
+                        type: 'doughnut',
+                        data: {
+                            labels: ['Invoices', 'Quotations', 'Proformas'],
+                            datasets: [{
+                                data: [types.Standard, types.Quotation, types.Proforma],
+                                backgroundColor: [
+                                    '#116a41',
+                                    '#2980b9',
+                                    '#e63946'
+                                ]
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            plugins: {
+                                legend: {
+                                    position: 'bottom'
+                                }
+                            }
+                        }
+                    });
+                }, 100);
+            }
+            
+            // Update document breakdown
+            function updateDocumentBreakdown(stats) {
+                const breakdownHTML = `
+                    <div style="background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); margin-top: 20px;">
+                        <h3 style="color: var(--kingu-green); margin-bottom: 15px;">Document Breakdown</h3>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+                            <div>
+                                <h4 style="color: #666; margin-bottom: 10px;">By Type</h4>
+                                <div style="margin-bottom: 10px;">
+                                    <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                                        <span>Invoices:</span>
+                                        <span>${stats.invoiceCount}</span>
+                                    </div>
+                                    <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                                        <span>Quotations:</span>
+                                        <span>${stats.quotationCount}</span>
+                                    </div>
+                                    <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                                        <span>Proformas:</span>
+                                        <span>${stats.proformaCount}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <h4 style="color: #666; margin-bottom: 10px;">By Status</h4>
+                                <div style="margin-bottom: 10px;">
+                                    <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                                        <span>Paid:</span>
+                                        <span>${formatCurrency(stats.paidAmount, 'TSh')}</span>
+                                    </div>
+                                    <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                                        <span>Pending:</span>
+                                        <span>${formatCurrency(stats.pendingAmount, 'TSh')}</span>
+                                    </div>
+                                    <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                                        <span>Overdue:</span>
+                                        <span>${formatCurrency(stats.overdueAmount, 'TSh')}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                const existingBreakdown = document.getElementById('document-breakdown');
+                if (existingBreakdown) {
+                    existingBreakdown.outerHTML = breakdownHTML;
+                } else {
+                    const reportsContent = document.getElementById('reports-content');
+                    const div = document.createElement('div');
+                    div.id = 'document-breakdown';
+                    div.innerHTML = breakdownHTML;
+                    reportsContent.appendChild(div);
+                }
+            }
+            
+            // Optional: Generate sample data for demonstration
+            function generateSampleData() {
+                const sampleData = [];
+                const clients = [
+                    'GREENLIGHT PLANNET TANZANIA LTD',
+                    'TANZANIA ELECTRIC SUPPLY COMPANY',
+                    'DAR ES SALAAM WATER AUTHORITY',
+                    'TANZANIA PETROLEUM DEVELOPMENT CORPORATION',
+                    'NATIONAL INSURANCE CORPORATION'
+                ];
+                
+                const documentTypes = ['Standard', 'Quotation', 'Proforma'];
+                const now = new Date();
+                
+                for (let i = 0; i < 20; i++) {
+                    const type = documentTypes[Math.floor(Math.random() * documentTypes.length)];
+                    const client = clients[Math.floor(Math.random() * clients.length)];
+                    const amount = Math.floor(Math.random() * 1000000) + 100000;
+                    const date = new Date(now.getFullYear(), now.getMonth() - Math.floor(Math.random() * 6), Math.floor(Math.random() * 28) + 1);
+                    
+                    sampleData.push({
+                        id: Date.now() + i,
+                        type: type,
+                        documentNumber: `${type.substring(0, 3).toUpperCase()}/GL/${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getFullYear()}/${i.toString().padStart(3, '0')}`,
+                        documentDate: date.toISOString().split('T')[0],
+                        dueDate: new Date(date.getFullYear(), date.getMonth(), date.getDate() + 30).toISOString().split('T')[0],
+                        savedDate: date.toISOString(),
+                        clientName: client,
+                        clientEmail: `${client.toLowerCase().replace(/\s+/g, '.')}@example.com`,
+                        clientPhone: '+255 7' + Math.floor(Math.random() * 10000000).toString().padStart(7, '0'),
+                        currency: 'TSh',
+                        grandTotal: amount,
+                        status: ['pending', 'paid', 'overdue'][Math.floor(Math.random() * 3)]
+                    });
+                }
+                
+                localStorage.setItem('kinguDocuments', JSON.stringify(sampleData));
+                return sampleData;
+            }
+            
+            // ==================== ENHANCED DOCUMENT HISTORY ====================
+            
+            // Enhanced loadDocumentHistory function
+            function loadDocumentHistory() {
+                const historyTableBody = document.getElementById('history-table-body');
+                if (!historyTableBody) {
+                    console.error('History table body not found');
+                    return;
+                }
+                
+                const filter = document.getElementById('history-filter')?.value || 'all';
+                
+                let documents = JSON.parse(localStorage.getItem('kinguDocuments')) || [];
+                
+                // Apply filter
+                if (filter !== 'all') {
+                    if (filter === 'proforma') {
+                        documents = documents.filter(doc => doc.type === 'Proforma');
+                    } else if (filter === 'invoice') {
+                        documents = documents.filter(doc => doc.type === 'Standard');
+                    } else if (filter === 'quotation') {
+                        documents = documents.filter(doc => doc.type === 'Quotation');
+                    } else if (filter === 'last30') {
+                        const thirtyDaysAgo = new Date();
+                        thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+                        documents = documents.filter(doc => {
+                            const docDate = new Date(doc.savedDate);
+                            return docDate >= thirtyDaysAgo;
+                        });
+                    }
+                }
+                
+                if (documents.length === 0) {
+                    historyTableBody.innerHTML = `
+                        <tr>
+                            <td colspan="7" style="text-align: center; padding: 20px;">
+                                No documents found ${filter !== 'all' ? `for filter: ${filter}` : ''}. 
+                                Create your first document!
+                            </td>
+                        </tr>
+                    `;
+                    return;
+                }
+                
+                // Sort by date (newest first)
+                documents.sort((a, b) => new Date(b.savedDate) - new Date(a.savedDate));
+                
+                let tableHTML = '';
+                documents.forEach(doc => {
+                    const status = getDocumentStatus(doc);
+                    const typeBadge = getTypeBadge(doc.type);
+                    
+                    tableHTML += `
+                        <tr data-document-id="${doc.id}">
+                            <td>${doc.documentNumber || 'N/A'}</td>
+                            <td>${typeBadge}</td>
+                            <td>
+                                <strong>${doc.clientName || 'N/A'}</strong><br>
+                                <small style="color: #666;">${doc.clientEmail || ''}</small>
+                            </td>
+                            <td>${formatDate(doc.savedDate)}</td>
+                            <td>${formatCurrency(doc.grandTotal || 0, doc.currency || 'TSh')}</td>
+                            <td><span class="status-badge ${getStatusClass(status)}">${status}</span></td>
+                            <td>
+                                <div style="display: flex; gap: 5px;">
+                                    <button class="action-btn-small" style="background-color: var(--kingu-green); color: white;" onclick="viewDocument('${doc.id}')" title="View Document">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button class="action-btn-small" style="background-color: var(--kingu-blue); color: white;" onclick="editDocument('${doc.id}')" title="Edit Document">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="action-btn-small" style="background-color: var(--kingu-red); color: white;" onclick="deleteDocument('${doc.id}')" title="Delete Document">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                    <button class="action-btn-small" style="background-color: #25D366; color: white;" onclick="shareDocument('${doc.id}')" title="Share Document">
+                                        <i class="fab fa-whatsapp"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    `;
+                });
+                
+                historyTableBody.innerHTML = tableHTML;
+                
+                // Update document count
+                updateDocumentCount(documents.length);
+            }
+            
+            // Helper function for date formatting
+            function formatDate(dateString) {
+                if (!dateString) return 'N/A';
+                const date = new Date(dateString);
+                if (isNaN(date.getTime())) return 'N/A';
+                return date.toLocaleDateString('en-GB', {
+                    day: '2-digit',
+                    month: 'short',
+                    year: 'numeric'
+                });
+            }
+            
+            // Get type badge
+            function getTypeBadge(type) {
+                const badges = {
+                    'Standard': '<span class="status-badge" style="background-color: rgba(41, 128, 185, 0.2); color: #2980b9;">INVOICE</span>',
+                    'Quotation': '<span class="status-badge" style="background-color: rgba(230, 57, 70, 0.2); color: #e63946;">QUOTATION</span>',
+                    'Proforma': '<span class="status-badge" style="background-color: rgba(17, 106, 65, 0.2); color: #116a41;">PROFORMA</span>'
+                };
+                return badges[type] || type;
+            }
+            
+            // Get status class
+            function getStatusClass(status) {
+                switch(status.toLowerCase()) {
+                    case 'paid': return 'status-paid';
+                    case 'pending': return 'status-pending';
+                    case 'overdue': return 'status-overdue';
+                    default: return 'status-pending';
+                }
+            }
+            
+            // Update document count display
+            function updateDocumentCount(count) {
+                let countElement = document.getElementById('document-count');
+                if (!countElement) {
+                    const header = document.querySelector('#invoice-history .header h1');
+                    if (header) {
+                        countElement = document.createElement('span');
+                        countElement.id = 'document-count';
+                        countElement.style.cssText = 'font-size: 14px; color: #666; margin-left: 10px; font-weight: normal;';
+                        header.appendChild(countElement);
+                    }
+                }
+                if (countElement) {
+                    countElement.textContent = `(${count} documents)`;
+                }
+            }
+            
+            // Delete document function
+            window.deleteDocument = function(id) {
+                if (confirm('Are you sure you want to delete this document? This action cannot be undone.')) {
+                    let documents = JSON.parse(localStorage.getItem('kinguDocuments')) || [];
+                    const docToDelete = documents.find(d => d.id == id);
+                    
+                    if (docToDelete) {
+                        documents = documents.filter(doc => doc.id != id);
+                        localStorage.setItem('kinguDocuments', JSON.stringify(documents));
+                        
+                        // Also remove from specific collections
+                        ['invoices', 'quotations', 'proformas'].forEach(collection => {
+                            let items = JSON.parse(localStorage.getItem(collection)) || [];
+                            items = items.filter(item => item.id != id);
+                            localStorage.setItem(collection, JSON.stringify(items));
+                        });
+                        
+                        alert('Document deleted successfully!');
+                        loadDocumentHistory(); // Reload the table
+                        if (typeof loadReports === 'function') {
+                            loadReports(); // Update reports
+                        }
+                    }
+                }
+            };
+            
+            // Share document function
+            window.shareDocument = function(id) {
+                const documents = JSON.parse(localStorage.getItem('kinguDocuments')) || [];
+                const doc = documents.find(d => d.id == id);
+                
+                if (doc) {
+                    const message = `Kingu Electrical - ${doc.type}: ${doc.documentNumber}\nClient: ${doc.clientName}\nAmount: ${formatCurrency(doc.grandTotal, doc.currency)}\nDate: ${formatDate(doc.documentDate)}`;
+                    const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
+                    window.open(whatsappUrl, '_blank');
+                }
+            };
+            
+            // ==================== EXISTING FUNCTIONALITY ====================
+            
+            // Global functions for button actions
+            window.viewDocument = function(id) {
+                let documents = JSON.parse(localStorage.getItem('kinguDocuments')) || [];
+                const doc = documents.find(d => d.id == id);
+                
+                if (doc) {
+                    // Switch to create invoice tab and load document
+                    navCreate.click();
+                    
+                    // Load document data into form
+                    document.getElementById('invoice-number').value = doc.documentNumber || '';
+                    document.getElementById('invoice-date').value = doc.documentDate || '';
+                    document.getElementById('due-date').value = doc.dueDate || '';
+                    document.getElementById('currency').value = doc.currency || 'TSh';
+                    document.getElementById('delivery-time').value = doc.deliveryTime || '7';
+                    document.getElementById('payment-terms').value = doc.paymentTerms || '100% after delivery';
+                    document.getElementById('client-name').value = doc.clientName || '';
+                    document.getElementById('client-email').value = doc.clientEmail || '';
+                    document.getElementById('client-phone').value = doc.clientPhone || '';
+                    document.getElementById('client-address').value = doc.clientAddress || '';
+                    document.getElementById('client-tin').value = doc.clientTIN || '';
+                    document.getElementById('client-vat').value = doc.clientVAT || '';
+                    document.getElementById('bank-details').value = doc.bankDetails || '';
+                    document.getElementById('notes').value = doc.notes || '';
+                    
+                    // Load items
+                    const itemsTable = document.getElementById('invoice-items');
+                    itemsTable.innerHTML = '';
+                    
+                    if (doc.items && doc.items.length > 0) {
+                        doc.items.forEach(item => {
+                            const row = document.createElement('tr');
+                            row.innerHTML = `
+                                <td><input type="text" class="item-description" placeholder="Service description" value="${item.description || ''}"></td>
+                                <td><input type="number" class="item-quantity" min="0" step="0.01" value="${item.quantity || 0}"></td>
+                                <td>
+                                    <div style="display: flex; align-items: center;">
+                                        <span class="currency-symbol" style="margin-right: 5px;">${doc.currency || 'TSh'}</span>
+                                        <input type="number" class="item-price" min="0" step="0.01" value="${item.price || 0}" style="flex: 1;">
+                                    </div>
+                                </td>
+                                <td class="item-total text-right">${formatCurrency(item.total || 0, doc.currency || 'TSh')}</td>
+                                <td class="text-center"><button class="delete-item"><i class="fas fa-trash"></i></button></td>
+                            `;
+                            itemsTable.appendChild(row);
+                        });
+                    }
+                    
+                    // Update totals
+                    updateTotals();
+                    
+                    alert('Document loaded successfully! You can now edit and save it.');
+                }
+            };
+            
+            window.editDocument = function(id) {
+                viewDocument(id);
+            };
+            
+            window.contactClient = function(email) {
+                window.location.href = `mailto:${email}`;
+            };
+            
+            window.viewClientInvoices = function(email) {
+                navHistory.click();
+                alert(`Showing invoices for client: ${email}`);
+            };
+            
+            // History filter event listener
+            document.getElementById('history-filter').addEventListener('change', function() {
+                loadDocumentHistory();
+            });
+            
+            // Export history button
+            document.getElementById('export-history-btn').addEventListener('click', function() {
+                alert('Export functionality would be implemented here');
+            });
+            
+            // Generate report button
+            document.getElementById('generate-report-btn').addEventListener('click', function() {
+                loadReports();
+                alert('Report generated!');
+            });
+            
+            // Load data functions
+            function loadProformaInvoices() {
+                const proformaTableBody = document.getElementById('proforma-table-body');
+                let documents = JSON.parse(localStorage.getItem('kinguDocuments')) || [];
+                
+                // Filter for proforma invoices
+                const proformas = documents.filter(doc => doc.type === 'Proforma');
+                
+                if (proformas.length === 0) {
+                    proformaTableBody.innerHTML = `
+                        <tr>
+                            <td colspan="7" style="text-align: center; padding: 20px;">
+                                No proforma invoices found. Create your first proforma invoice!
+                            </td>
+                        </tr>
+                    `;
+                    return;
+                }
+                
+                let tableHTML = '';
+                proformas.forEach(doc => {
+                    const status = getDocumentStatus(doc);
+                    tableHTML += `
+                        <tr>
+                            <td>${doc.documentNumber || 'N/A'}</td>
+                            <td>${doc.clientName || 'N/A'}</td>
+                            <td>${formatDate(doc.documentDate)}</td>
+                            <td>${formatDate(doc.dueDate)}</td>
+                            <td>${formatCurrency(doc.grandTotal || 0, doc.currency || 'TSh')}</td>
+                            <td><span class="status-badge ${getStatusClass(status)}">${status}</span></td>
+                            <td>
+                                <button class="action-btn-small" style="background-color: var(--kingu-green); color: white;" onclick="viewDocument('${doc.id}')">
+                                    <i class="fas fa-eye"></i> View
+                                </button>
+                                <button class="action-btn-small" style="background-color: var(--kingu-blue); color: white;" onclick="editDocument('${doc.id}')">
+                                    <i class="fas fa-edit"></i> Edit
+                                </button>
+                            </td>
+                        </tr>
+                    `;
+                });
+                
+                proformaTableBody.innerHTML = tableHTML;
+            }
+            
+            function loadClientDatabase() {
+                const clientTableBody = document.getElementById('client-table-body');
+                let documents = JSON.parse(localStorage.getItem('kinguDocuments')) || [];
+                
+                // Extract unique clients from documents
+                const clients = {};
+                documents.forEach(doc => {
+                    if (doc.clientName && doc.clientEmail) {
+                        const key = `${doc.clientName}-${doc.clientEmail}`;
+                        if (!clients[key]) {
+                            clients[key] = {
+                                name: doc.clientName,
+                                email: doc.clientEmail,
+                                phone: doc.clientPhone || 'N/A',
+                                address: doc.clientAddress || 'N/A',
+                                tin: doc.clientTIN || 'N/A',
+                                invoiceCount: 0,
+                                totalValue: 0
+                            };
+                        }
+                        clients[key].invoiceCount++;
+                        clients[key].totalValue += (doc.grandTotal || 0);
+                    }
+                });
+                
+                const clientArray = Object.values(clients);
+                
+                if (clientArray.length === 0) {
+                    clientTableBody.innerHTML = `
+                        <tr>
+                            <td colspan="6" style="text-align: center; padding: 20px;">
+                                No clients found. Create your first invoice!
+                            </td>
+                        </tr>
+                    `;
+                    return;
+                }
+                
+                let tableHTML = '';
+                clientArray.forEach(client => {
+                    tableHTML += `
+                        <tr>
+                            <td>
+                                <strong>${client.name}</strong><br>
+                                <small>${client.email}</small>
+                            </td>
+                            <td>
+                                ${client.phone}<br>
+                                ${client.address}
+                            </td>
+                            <td>${client.tin}</td>
+                            <td>${client.invoiceCount}</td>
+                            <td>${formatCurrency(client.totalValue, 'TSh')}</td>
+                            <td>
+                                <button class="action-btn-small" style="background-color: var(--kingu-green); color: white;" onclick="contactClient('${client.email}')">
+                                    <i class="fas fa-envelope"></i> Email
+                                </button>
+                                <button class="action-btn-small" style="background-color: var(--kingu-blue); color: white;" onclick="viewClientInvoices('${client.email}')">
+                                    <i class="fas fa-file-invoice"></i> Invoices
+                                </button>
+                            </td>
+                        </tr>
+                    `;
+                });
+                
+                clientTableBody.innerHTML = tableHTML;
+            }
+            
+            function loadSettings() {
+                // Load saved settings or use defaults
+                const settings = JSON.parse(localStorage.getItem('kinguSettings')) || {};
+                
+                // Company Settings
+                document.getElementById('company-name').value = settings.companyName || 'KINGU ELECTRICAL COMPANY LIMITED';
+                document.getElementById('company-tin').value = settings.companyTIN || '157-024-493';
+                document.getElementById('company-address').value = settings.companyAddress || 'P.O. Box 62313, Dar Es Salaam Tanzania';
+                document.getElementById('company-phone').value = settings.companyPhone || '+255 677 01 47 40\n+255 763 95 79 08\n+255 682 84 35 52';
+                document.getElementById('company-email').value = settings.companyEmail || 'kinguelectricaltz@gmail.com';
+                document.getElementById('company-website').value = settings.companyWebsite || 'kingueletrical.com';
+                
+                // Document Settings
+                document.getElementById('default-currency').value = settings.defaultCurrency || 'TSh';
+                document.getElementById('vat-rate').value = settings.vatRate || '18';
+                document.getElementById('invoice-prefix').value = settings.invoicePrefix || 'PROFORMA/GL';
+                document.getElementById('default-payment-terms').value = settings.defaultPaymentTerms || '100% after delivery';
+                document.getElementById('default-delivery').value = settings.defaultDelivery || '7';
+                document.getElementById('default-notes').value = settings.defaultNotes || '1. This Proforma shall remain valid for 30 days only.\n2. Prices are inclusive of VAT where applicable.\n3. Delivery subject to stock availability.\n4. All disputes subject to Dar es Salaam jurisdiction.';
+                
+                // Bank Settings
+                document.getElementById('bank-name').value = settings.bankName || 'STANBIC BANK TANZANIA LIMITED';
+                document.getElementById('account-name').value = settings.accountName || 'KINGU ELECTRICAL COMPANY LIMITED';
+                document.getElementById('account-number').value = settings.accountNumber || '912 000 275 9274';
+                document.getElementById('swift-code').value = settings.swiftCode || 'SBICTZTX';
+            }
+            
+            // Save settings button
+            document.getElementById('save-settings-btn').addEventListener('click', function() {
+                const settings = {
+                    // Company Settings
+                    companyName: document.getElementById('company-name').value,
+                    companyTIN: document.getElementById('company-tin').value,
+                    companyAddress: document.getElementById('company-address').value,
+                    companyPhone: document.getElementById('company-phone').value,
+                    companyEmail: document.getElementById('company-email').value,
+                    companyWebsite: document.getElementById('company-website').value,
+                    
+                    // Document Settings
+                    defaultCurrency: document.getElementById('default-currency').value,
+                    vatRate: document.getElementById('vat-rate').value,
+                    invoicePrefix: document.getElementById('invoice-prefix').value,
+                    defaultPaymentTerms: document.getElementById('default-payment-terms').value,
+                    defaultDelivery: document.getElementById('default-delivery').value,
+                    defaultNotes: document.getElementById('default-notes').value,
+                    
+                    // Bank Settings
+                    bankName: document.getElementById('bank-name').value,
+                    accountName: document.getElementById('account-name').value,
+                    accountNumber: document.getElementById('account-number').value,
+                    swiftCode: document.getElementById('swift-code').value
+                };
+                
+                localStorage.setItem('kinguSettings', JSON.stringify(settings));
+                alert('Settings saved successfully!');
+            });
+            
+            // Utility function to collect form data
+            function collectFormData() {
+                const type = getCurrentDocumentType();
+                const items = [];
+                
+                document.querySelectorAll('#invoice-items tr').forEach(row => {
+                    const description = row.querySelector('.item-description')?.value || '';
+                    const quantity = parseFloat(row.querySelector('.item-quantity')?.value || 0);
+                    const price = parseFloat(row.querySelector('.item-price')?.value || 0);
+                    const total = quantity * price;
+                    
+                    if (description) {
+                        items.push({
+                            description,
+                            quantity,
+                            price,
+                            total
+                        });
+                    }
+                });
+                
+                const subtotal = items.reduce((sum, item) => sum + item.total, 0);
+                const discountType = document.getElementById('discount-type').value;
+                const discountValue = parseFloat(document.getElementById('discount-value')?.value || 0);
+                let discountAmount = 0;
+                
+                if (discountType === 'percentage') {
+                    discountAmount = (subtotal * discountValue) / 100;
+                } else if (discountType === 'fixed') {
+                    discountAmount = discountValue;
+                }
+                
+                const taxable = subtotal - discountAmount;
+                const taxRate = 18; // Default VAT rate
+                const taxAmount = (taxable * taxRate) / 100;
+                const grandTotal = taxable + taxAmount;
+                
+                return {
+                    type: type,
                     documentNumber: document.getElementById('invoice-number').value,
                     documentDate: document.getElementById('invoice-date').value,
                     dueDate: document.getElementById('due-date').value,
                     currency: document.getElementById('currency').value,
                     deliveryTime: document.getElementById('delivery-time').value,
+                    paymentTerms: document.getElementById('payment-terms').value,
+                    customPaymentTerms: document.getElementById('custom-payment-terms')?.value || '',
                     clientName: document.getElementById('client-name').value,
                     clientEmail: document.getElementById('client-email').value,
                     clientPhone: document.getElementById('client-phone').value,
                     clientAddress: document.getElementById('client-address').value,
                     clientTIN: document.getElementById('client-tin').value,
                     clientVAT: document.getElementById('client-vat').value,
-                    paymentTerms: document.getElementById('payment-terms').value,
+                    items: items,
+                    subtotal: subtotal,
+                    discountType: discountType,
+                    discountValue: discountValue,
+                    discountAmount: discountAmount,
+                    taxRate: taxRate,
+                    taxAmount: taxAmount,
+                    grandTotal: grandTotal,
                     bankDetails: document.getElementById('bank-details').value,
-                    notes: document.getElementById('notes').value,
-                    items: collectItems(),
-                    subtotal: extractCurrencyValue(document.getElementById('subtotal').textContent),
-                    discount: extractCurrencyValue(document.getElementById('discount-amount').textContent),
-                    tax: extractCurrencyValue(document.getElementById('tax').textContent),
-                    grandTotal: extractCurrencyValue(document.getElementById('grand-total').textContent)
+                    notes: document.getElementById('notes').value
                 };
             }
             
-            function collectItems() {
-                const items = [];
-                document.querySelectorAll('#invoice-items tr').forEach(row => {
-                    items.push({
-                        description: row.querySelector('.item-description').value,
-                        quantity: parseFloat(row.querySelector('.item-quantity').value) || 0,
-                        price: parseFloat(row.querySelector('.item-price').value) || 0,
-                        total: extractCurrencyValue(row.querySelector('.item-total').textContent)
-                    });
-                });
-                return items;
+            function getCurrentDocumentType() {
+                if (document.getElementById('btn-proforma').classList.contains('active')) {
+                    return 'Proforma';
+                } else if (document.getElementById('btn-standard').classList.contains('active')) {
+                    return 'Standard';
+                } else if (document.getElementById('btn-quotation').classList.contains('active')) {
+                    return 'Quotation';
+                }
+                return 'Proforma';
             }
             
-            function extractCurrencyValue(formattedValue) {
-                return parseFloat(formattedValue.replace(/[^0-9.-]+/g,"")) || 0;
-            }
-            
-            function updateTotals() {
-                let subtotal = 0;
-                const rows = document.querySelectorAll('#invoice-items tr');
-                
-                rows.forEach(row => {
-                    const quantity = parseFloat(row.querySelector('.item-quantity').value) || 0;
-                    const price = parseFloat(row.querySelector('.item-price').value) || 0;
-                    const total = quantity * price;
-                    subtotal += total;
-                    
-                    const itemTotal = row.querySelector('.item-total');
-                    if (itemTotal) {
-                        itemTotal.textContent = formatCurrency(total, 'TSh');
+            // Add CSS for animations
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes highlight {
+                    0% {
+                        background-color: rgba(17, 106, 65, 0.1);
+                        box-shadow: 0 0 0 0 rgba(17, 106, 65, 0.7);
                     }
-                });
-                
-                // Apply discount
-                const discountType = document.getElementById('discount-type').value;
-                const discountValue = parseFloat(document.getElementById('discount-value').value) || 0;
-                let discount = 0;
-                
-                if (discountType === 'percentage' && discountValue > 0) {
-                    discount = subtotal * (discountValue / 100);
-                } else if (discountType === 'fixed' && discountValue > 0) {
-                    discount = discountValue;
+                    70% {
+                        background-color: rgba(17, 106, 65, 0.3);
+                        box-shadow: 0 0 0 10px rgba(17, 106, 65, 0);
+                    }
+                    100% {
+                        background-color: transparent;
+                        box-shadow: 0 0 0 0 rgba(17, 106, 65, 0);
+                    }
                 }
                 
-                const discountedSubtotal = subtotal - discount;
-                const vat = discountedSubtotal * 0.18;
-                const grandTotal = discountedSubtotal + vat;
-                
-                document.getElementById('subtotal').textContent = formatCurrency(subtotal, 'TSh');
-                document.getElementById('discount-amount').textContent = formatCurrency(discount, 'TSh');
-                document.getElementById('tax').textContent = formatCurrency(vat, 'TSh');
-                document.getElementById('grand-total').textContent = formatCurrency(grandTotal, 'TSh');
-                
-                // Update amount in words
-                document.getElementById('amount-words').textContent = docGenerator.numberToWords(Math.round(grandTotal));
-                
-                // Show/hide discount row
-                const discountRow = document.getElementById('discount-row');
-                if (discount > 0) {
-                    discountRow.style.display = 'flex';
-                } else {
-                    discountRow.style.display = 'none';
+                .data-table tr.highlighted {
+                    animation: highlight 2s ease-in-out;
                 }
-            }
+                
+                /* Status badge styles */
+                .status-badge {
+                    display: inline-block;
+                    padding: 4px 12px;
+                    border-radius: 20px;
+                    font-size: 12px;
+                    font-weight: 600;
+                    text-transform: uppercase;
+                }
+                
+                .status-badge.paid {
+                    background-color: rgba(46, 204, 113, 0.2);
+                    color: #27ae60;
+                }
+                
+                .status-badge.pending {
+                    background-color: rgba(241, 196, 15, 0.2);
+                    color: #f39c12;
+                }
+                
+                .status-badge.overdue {
+                    background-color: rgba(231, 76, 60, 0.2);
+                    color: #e74c3c;
+                }
+                
+                /* Action button styles */
+                .action-btn-small {
+                    border: none;
+                    border-radius: 4px;
+                    padding: 6px 10px;
+                    cursor: pointer;
+                    font-size: 12px;
+                    display: inline-flex;
+                    align-items: center;
+                    justify-content: center;
+                    transition: all 0.3s ease;
+                }
+                
+                .action-btn-small:hover {
+                    transform: translateY(-2px);
+                    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+                }
+            `;
+            document.head.appendChild(style);
             
-            function formatCurrency(amount, currency) {
-                const symbol = currency === 'TSh' ? 'TSh ' : 
-                              currency === 'USD' ? '$' :
-                              currency === 'EUR' ? '€' : '£';
-                const formatted = parseFloat(amount).toFixed(2)
-                    .replace(/\d(?=(\d{3})+\.)/g, '$&,');
-                return symbol + formatted;
-            }
+            // Set current date in date fields
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('invoice-date').value = today;
             
-            function setupEventListeners() {
-                // Item input listeners
-                document.querySelectorAll('.item-quantity, .item-price').forEach(input => {
-                    input.addEventListener('input', updateTotals);
-                });
-                
-                // Delete item buttons
-                document.addEventListener('click', function(e) {
-                    if (e.target.closest('.delete-item')) {
-                        e.target.closest('tr').remove();
-                        updateTotals();
-                    }
-                });
-                
-                // Add item button
-                document.getElementById('add-item-btn').addEventListener('click', function() {
-                    const newRow = document.createElement('tr');
-                    newRow.innerHTML = `
-                        <td><input type="text" class="item-description" placeholder="Service description" value="New service item"></td>
-                        <td><input type="number" class="item-quantity" min="0" step="0.01" value="1.00"></td>
-                        <td>
-                            <div style="display: flex; align-items: center;">
-                                <span class="currency-symbol" style="margin-right: 5px;">TSh</span>
-                                <input type="number" class="item-price" min="0" step="0.01" value="0.00" style="flex: 1;">
-                            </div>
-                        </td>
-                        <td class="item-total text-right">TSh 0.00</td>
-                        <td class="text-center"><button class="delete-item"><i class="fas fa-trash"></i></button></td>
-                    `;
-                    
-                    document.getElementById('invoice-items').appendChild(newRow);
-                    
-                    newRow.querySelector('.item-quantity').addEventListener('input', updateTotals);
-                    newRow.querySelector('.item-price').addEventListener('input', updateTotals);
-                    
-                    updateTotals();
-                });
-                
-                // Discount handling
-                document.getElementById('discount-type').addEventListener('change', function() {
-                    const discountValueContainer = document.getElementById('discount-value-container');
-                    const discountRow = document.getElementById('discount-row');
-                    
-                    if (this.value === 'none') {
-                        discountValueContainer.style.display = 'none';
-                        discountRow.style.display = 'none';
-                    } else {
-                        discountValueContainer.style.display = 'block';
-                        discountRow.style.display = 'flex';
-                        document.getElementById('discount-label').textContent = 
-                            this.value === 'percentage' ? 'Discount (%):' : 'Discount:';
-                    }
-                    updateTotals();
-                });
-                
-                document.getElementById('discount-value').addEventListener('input', updateTotals);
-                
-                // Payment terms custom field
-                document.getElementById('payment-terms').addEventListener('change', function() {
-                    const customContainer = document.getElementById('custom-terms-container');
-                    customContainer.style.display = this.value === 'Custom' ? 'block' : 'none';
-                });
-                
-                // Generate invoice number
-                document.getElementById('generate-number-btn').addEventListener('click', function() {
-                    const isProforma = document.getElementById('btn-proforma').classList.contains('active');
-                    const isStandard = document.getElementById('btn-standard').classList.contains('active');
-                    const isQuotation = document.getElementById('btn-quotation').classList.contains('quotation-active');
-                    
-                    let prefix = 'PROFORMA';
-                    if (isStandard) prefix = 'INV';
-                    if (isQuotation) prefix = 'QUOTE';
-                    
-                    const year = new Date().getFullYear();
-                    const month = (new Date().getMonth() + 1).toString().padStart(2, '0');
-                    const randomNum = Math.floor(Math.random() * 1000).toString().padStart(3, '0');
-                    
-                    document.getElementById('invoice-number').value = `${prefix}/GL/${month}/${year}/${randomNum}`;
-                });
-                
-                // Clear form
-                document.getElementById('clear-btn').addEventListener('click', function() {
-                    if (confirm('Are you sure you want to clear the form? All entered data will be lost.')) {
-                        invoiceForm.reset();
-                        document.getElementById('invoice-items').innerHTML = `
-                            <tr>
-                                <td><input type="text" class="item-description" placeholder="Service description" value="Service item"></td>
-                                <td><input type="number" class="item-quantity" min="0" step="0.01" value="1.00"></td>
-                                <td>
-                                    <div style="display: flex; align-items: center;">
-                                        <span class="currency-symbol" style="margin-right: 5px;">TSh</span>
-                                        <input type="number" class="item-price" min="0" step="0.01" value="0.00" style="flex: 1;">
-                                    </div>
-                                </td>
-                                <td class="item-total text-right">TSh 0.00</td>
-                                <td class="text-center"><button class="delete-item"><i class="fas fa-trash"></i></button></td>
-                            </tr>
-                        `;
-                        
-                        document.getElementById('invoice-date').valueAsDate = new Date();
-                        const dueDate = new Date();
-                        dueDate.setDate(dueDate.getDate() + 30);
-                        document.getElementById('due-date').valueAsDate = dueDate;
-                        
-                        updateTotals();
-                    }
-                });
-                
-                // Load sample data
-                document.getElementById('load-sample-btn').addEventListener('click', function() {
-                    document.getElementById('invoice-number').value = 'PROFORMAGL/06/2025/001';
-                    document.getElementById('client-name').value = 'GREENLIGHT PLANNET TANZANIA LTD';
-                    document.getElementById('client-email').value = 'accounts@greenlight.co.tz';
-                    document.getElementById('client-phone').value = '+255 765 432 100';
-                    document.getElementById('client-address').value = 'ARUSHA, TANZANIA';
-                    document.getElementById('client-tin').value = '109-628-980';
-                    
-                    alert('Sample data loaded!');
-                });
-            }
+            const dueDate = new Date();
+            dueDate.setDate(dueDate.getDate() + 30);
+            document.getElementById('due-date').value = dueDate.toISOString().split('T')[0];
+            
+            // Initialize invoice form functionality
+            initializeInvoiceForm();
         });
+        
+        // Initialize invoice form functionality
+        function initializeInvoiceForm() {
+            // Update totals when items change
+            document.addEventListener('input', function(e) {
+                if (e.target.classList.contains('item-quantity') || 
+                    e.target.classList.contains('item-price')) {
+                    updateItemTotal(e.target.closest('tr'));
+                    updateTotals();
+                }
+            });
+            
+            // Add new item
+            document.getElementById('add-item-btn').addEventListener('click', function() {
+                addNewItem();
+            });
+            
+            // Delete item
+            document.addEventListener('click', function(e) {
+                if (e.target.closest('.delete-item')) {
+                    e.target.closest('tr').remove();
+                    updateTotals();
+                }
+            });
+            
+            // Discount type change
+            document.getElementById('discount-type').addEventListener('change', function() {
+                const discountValueContainer = document.getElementById('discount-value-container');
+                const discountRow = document.getElementById('discount-row');
+                
+                if (this.value === 'none') {
+                    discountValueContainer.style.display = 'none';
+                    discountRow.style.display = 'none';
+                } else {
+                    discountValueContainer.style.display = 'block';
+                    discountRow.style.display = 'flex';
+                    
+                    if (this.value === 'percentage') {
+                        document.getElementById('discount-label').textContent = 'Discount (%):';
+                    } else {
+                        document.getElementById('discount-label').textContent = 'Discount (Amount):';
+                    }
+                }
+                updateTotals();
+            });
+            
+            // Discount value change
+            document.getElementById('discount-value').addEventListener('input', updateTotals);
+            
+            // Payment terms change
+            document.getElementById('payment-terms').addEventListener('change', function() {
+                const customTermsContainer = document.getElementById('custom-terms-container');
+                if (this.value === 'Custom') {
+                    customTermsContainer.style.display = 'flex';
+                } else {
+                    customTermsContainer.style.display = 'none';
+                }
+            });
+        }
+        
+        function updateItemTotal(row) {
+            const quantity = parseFloat(row.querySelector('.item-quantity').value) || 0;
+            const price = parseFloat(row.querySelector('.item-price').value) || 0;
+            const total = quantity * price;
+            const currency = document.getElementById('currency').value;
+            const currencySymbol = getCurrencySymbol(currency);
+            
+            row.querySelector('.item-total').textContent = 
+                `${currencySymbol} ${total.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}`;
+        }
+        
+        function updateTotals() {
+            let subtotal = 0;
+            
+            document.querySelectorAll('#invoice-items tr').forEach(row => {
+                const quantity = parseFloat(row.querySelector('.item-quantity').value) || 0;
+                const price = parseFloat(row.querySelector('.item-price').value) || 0;
+                subtotal += quantity * price;
+            });
+            
+            const discountType = document.getElementById('discount-type').value;
+            const discountValue = parseFloat(document.getElementById('discount-value').value) || 0;
+            let discountAmount = 0;
+            
+            if (discountType === 'percentage') {
+                discountAmount = (subtotal * discountValue) / 100;
+            } else if (discountType === 'fixed') {
+                discountAmount = discountValue;
+            }
+            
+            const taxable = subtotal - discountAmount;
+            const taxRate = 18; // Default VAT rate
+            const taxAmount = (taxable * taxRate) / 100;
+            const grandTotal = taxable + taxAmount;
+            
+            const currency = document.getElementById('currency').value;
+            const currencySymbol = getCurrencySymbol(currency);
+            
+            document.getElementById('subtotal').textContent = 
+                `${currencySymbol} ${subtotal.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}`;
+            
+            document.getElementById('discount-amount').textContent = 
+                `${currencySymbol} ${discountAmount.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}`;
+            
+            document.getElementById('tax').textContent = 
+                `${currencySymbol} ${taxAmount.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}`;
+            
+            document.getElementById('grand-total').textContent = 
+                `${currencySymbol} ${grandTotal.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}`;
+            
+            // Update amount in words
+            document.getElementById('amount-words').textContent = 
+                convertNumberToWords(grandTotal) + ' ' + currency + ' only';
+        }
+        
+        function addNewItem() {
+            const itemsTable = document.getElementById('invoice-items');
+            const currency = document.getElementById('currency').value;
+            const currencySymbol = getCurrencySymbol(currency);
+            
+            const newRow = document.createElement('tr');
+            newRow.innerHTML = `
+                <td><input type="text" class="item-description" placeholder="Enter item description"></td>
+                <td><input type="number" class="item-quantity" min="0" step="0.01" value="1.00"></td>
+                <td>
+                    <div style="display: flex; align-items: center;">
+                        <span class="currency-symbol" style="margin-right: 5px;">${currencySymbol}</span>
+                        <input type="number" class="item-price" min="0" step="0.01" value="0.00" style="flex: 1;">
+                    </div>
+                </td>
+                <td class="item-total text-right">${currencySymbol} 0.00</td>
+                <td class="text-center"><button class="delete-item"><i class="fas fa-trash"></i></button></td>
+            `;
+            itemsTable.appendChild(newRow);
+        }
+        
+        function getCurrencySymbol(currency) {
+            switch(currency) {
+                case 'USD': return '$';
+                case 'EUR': return '€';
+                case 'GBP': return '£';
+                default: return 'TSh';
+            }
+        }
+        
+        function convertNumberToWords(num) {
+            // Simple number to words converter for demonstration
+            // In a real application, you would use a more comprehensive converter
+            const units = ['', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine'];
+            const teens = ['ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen'];
+            const tens = ['', '', 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety'];
+            
+            if (num === 0) return 'zero';
+            
+            let words = '';
+            
+            // Handle thousands
+            const thousands = Math.floor(num / 1000);
+            if (thousands > 0) {
+                words += convertNumberToWords(thousands) + ' thousand ';
+                num %= 1000;
+            }
+            
+            // Handle hundreds
+            const hundreds = Math.floor(num / 100);
+            if (hundreds > 0) {
+                words += units[hundreds] + ' hundred ';
+                num %= 100;
+            }
+            
+            // Handle tens and units
+            if (num > 0) {
+                if (words !== '') words += 'and ';
+                
+                if (num < 10) {
+                    words += units[num];
+                } else if (num < 20) {
+                    words += teens[num - 10];
+                } else {
+                    words += tens[Math.floor(num / 10)];
+                    if (num % 10 > 0) {
+                        words += '-' + units[num % 10];
+                    }
+                }
+            }
+            
+            return words.trim();
+        }
     </script>
 </body>
 </html>
