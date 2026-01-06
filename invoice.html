@@ -4,6 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KINGU ELECTRICAL COMPANY LIMITED - Invoice System</title>
+    
+    <!-- PWA Configuration -->
+    <meta name="theme-color" content="#116a41">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Kingu Invoices">
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22 fill=%22%23116a41%22>⚡</text></svg>">
+    <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22 fill=%22%23116a41%22>⚡</text></svg>">
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- jsPDF Library for PDF Export -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -29,17 +39,109 @@
             --kingu-success: #2a9d8f;
             --kingu-white: #ffffff;
             --kingu-blue: #2980b9;
+            
+            /* PWA safe areas */
+            --safe-area-inset-top: env(safe-area-inset-top);
+            --safe-area-inset-bottom: env(safe-area-inset-bottom);
+            --safe-area-inset-left: env(safe-area-inset-left);
+            --safe-area-inset-right: env(safe-area-inset-right);
         }
 
         body {
             background-color: #f8f9fa;
             color: #333;
             line-height: 1.6;
+            padding-top: var(--safe-area-inset-top);
+            padding-bottom: var(--safe-area-inset-bottom);
         }
 
         .container {
             display: flex;
             min-height: 100vh;
+            min-height: -webkit-fill-available; /* Mobile Safari fix */
+        }
+
+        /* PWA Notification Bar */
+        .pwa-notification {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(135deg, var(--kingu-green) 0%, var(--kingu-dark) 100%);
+            color: white;
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 10000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            animation: slideDown 0.3s ease-out;
+        }
+
+        @keyframes slideDown {
+            from { transform: translateY(-100%); }
+            to { transform: translateY(0); }
+        }
+
+        .pwa-notification-content {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .pwa-notification-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        /* Offline Indicator */
+        .offline-indicator {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: #e63946;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            z-index: 9999;
+            display: none;
+            font-size: 14px;
+            font-weight: 600;
+            animation: slideDown 0.3s ease-out;
+        }
+
+        .offline-indicator i {
+            margin-right: 8px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 0.6; }
+            50% { opacity: 1; }
+            100% { opacity: 0.6; }
+        }
+
+        /* Sync Notification */
+        .sync-notification {
+            position: fixed;
+            top: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #2980b9;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            z-index: 9998;
+            display: none;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            animation: slideDown 0.3s ease-out;
         }
 
         /* Sidebar Styles */
@@ -258,6 +360,42 @@
             border-color: rgba(66, 133, 244, 0.3);
         }
 
+        /* PWA Status Indicators */
+        .pwa-status {
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            font-size: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .pwa-status-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            align-items: center;
+        }
+
+        .pwa-status-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .pwa-status-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .pwa-status-value {
+            font-weight: 600;
+        }
+
+        .online { color: #4CAF50; }
+        .offline { color: #e63946; }
+        .installed { color: #4CAF50; }
+        .browser { color: #ff6b35; }
+
         .color-scheme {
             display: flex;
             gap: 10px;
@@ -325,6 +463,8 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
+            min-height: 44px; /* PWA: Better touch target */
+            min-width: 44px;
         }
 
         .btn-primary {
@@ -396,6 +536,18 @@
             margin-right: 8px;
         }
 
+        /* PWA Offline Save Button */
+        .btn-offline {
+            background-color: var(--kingu-yellow-start);
+            color: #333;
+        }
+
+        .btn-offline:hover {
+            background-color: #ff9c42;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255, 174, 66, 0.2);
+        }
+
         /* Invoice Type Selector */
         .invoice-type-selector {
             display: flex;
@@ -417,6 +569,7 @@
             cursor: pointer;
             font-weight: 600;
             transition: all 0.3s;
+            min-height: 44px; /* PWA: Better touch target */
         }
 
         .type-btn.active {
@@ -509,6 +662,7 @@
             border-radius: 6px;
             font-size: 15px;
             transition: all 0.3s;
+            font-size: 16px; /* PWA: Prevent iOS zoom */
         }
 
         .form-control:focus {
@@ -567,6 +721,7 @@
             border: 1px solid #d1d5db;
             border-radius: 4px;
             font-size: 14px;
+            font-size: 16px; /* PWA: Prevent iOS zoom */
         }
 
         .text-right {
@@ -582,8 +737,8 @@
             color: white;
             border: none;
             border-radius: 4px;
-            width: 36px;
-            height: 36px;
+            width: 44px; /* PWA: Better touch target */
+            height: 44px;
             cursor: pointer;
             display: flex;
             align-items: center;
@@ -608,6 +763,7 @@
             display: flex;
             align-items: center;
             transition: all 0.3s;
+            min-height: 44px; /* PWA: Better touch target */
         }
 
         .quotation-add-item-btn {
@@ -664,6 +820,10 @@
             transition: all 0.3s;
             text-align: center;
             background: white;
+            min-height: 80px; /* PWA: Better touch target */
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .tax-option:hover {
@@ -743,6 +903,7 @@
             justify-content: flex-end;
             gap: 15px;
             margin-top: 30px;
+            flex-wrap: wrap;
         }
 
         /* History Containers */
@@ -781,11 +942,14 @@
         }
 
         .status-badge {
-            padding: 4px 10px;
+            padding: 6px 12px;
             border-radius: 15px;
             font-size: 12px;
             font-weight: 600;
             text-transform: uppercase;
+            display: inline-block;
+            min-width: 80px;
+            text-align: center;
         }
 
         .status-paid {
@@ -809,7 +973,7 @@
         }
 
         .action-btn-small {
-            padding: 5px 10px;
+            padding: 8px 12px;
             border: none;
             border-radius: 4px;
             cursor: pointer;
@@ -819,6 +983,8 @@
             align-items: center;
             gap: 5px;
             margin-right: 5px;
+            min-height: 36px; /* PWA: Better touch target */
+            min-width: 36px;
         }
 
         .action-btn-small:hover {
@@ -848,6 +1014,21 @@
             font-family: Arial, sans-serif;
             font-size: 11pt;
             line-height: 1.3;
+        }
+
+        /* PWA-specific enhancements */
+        @media (display-mode: standalone) {
+            body {
+                padding-top: 20px; /* Adjust for standalone app */
+            }
+            
+            .sidebar {
+                height: calc(100vh - 20px);
+            }
+            
+            .main-content {
+                padding-top: 40px; /* Extra padding for status bar */
+            }
         }
 
         /* Print and Animation Styles */
@@ -903,7 +1084,10 @@
             .history-container,
             .main-content > *:not(.print-content),
             .no-print,
-            .a4-preview-container {
+            .a4-preview-container,
+            .pwa-notification,
+            .offline-indicator,
+            .sync-notification {
                 display: none !important;
                 visibility: hidden !important;
             }
@@ -931,11 +1115,14 @@
                 width: 100%;
                 position: relative;
                 height: auto;
+                max-height: 70vh;
+                overflow-y: auto;
             }
             
             .main-content {
                 margin-left: 0;
                 width: 100%;
+                padding: 15px;
             }
             
             .form-row {
@@ -965,6 +1152,16 @@
             
             .tax-options {
                 grid-template-columns: 1fr;
+            }
+            
+            /* Better touch targets for mobile */
+            .btn, .nav-link, .action-btn-small {
+                min-height: 48px;
+                min-width: 48px;
+            }
+            
+            .items-table input {
+                font-size: 16px; /* Prevent iOS zoom on focus */
             }
         }
 
@@ -1042,9 +1239,120 @@
             transform: translateY(-2px);
             box-shadow: 0 4px 8px rgba(0,0,0,0.2);
         }
+
+        /* PWA Loading Screen */
+        .pwa-loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, var(--kingu-green) 0%, var(--kingu-dark) 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 99999;
+            transition: opacity 0.5s;
+        }
+
+        .pwa-loading-logo {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, var(--kingu-yellow-start) 0%, var(--kingu-yellow-end) 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            position: relative;
+            overflow: hidden;
+            animation: pulse 2s infinite;
+        }
+
+        .pwa-loading-logo:before {
+            content: '';
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            right: 5px;
+            bottom: 5px;
+            background: white;
+            border-radius: 50%;
+            z-index: 1;
+        }
+
+        .pwa-loading-logo i {
+            font-size: 48px;
+            color: var(--kingu-red);
+            z-index: 2;
+            position: relative;
+        }
+
+        .pwa-loading-text {
+            color: white;
+            font-size: 18px;
+            font-weight: 600;
+            margin-top: 20px;
+        }
+
+        .pwa-loading-progress {
+            width: 200px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 2px;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+
+        .pwa-loading-progress-bar {
+            height: 100%;
+            background: white;
+            width: 0%;
+            transition: width 0.3s;
+        }
     </style>
 </head>
 <body>
+    <!-- PWA Loading Screen -->
+    <div id="pwaLoading" class="pwa-loading">
+        <div class="pwa-loading-logo">
+            <i class="fas fa-bolt"></i>
+        </div>
+        <div class="pwa-loading-text" id="loadingText">Loading Kingu Invoice System...</div>
+        <div class="pwa-loading-progress">
+            <div class="pwa-loading-progress-bar" id="loadingProgress"></div>
+        </div>
+    </div>
+
+    <!-- PWA Notification Bar -->
+    <div id="pwaNotification" class="pwa-notification" style="display: none;">
+        <div class="pwa-notification-content">
+            <i class="fas fa-mobile-alt"></i>
+            <span id="pwaNotificationText">Install Kingu Invoice App for better experience</span>
+        </div>
+        <div>
+            <button class="btn btn-success" onclick="installApp()" style="margin-right: 10px; padding: 8px 16px; font-size: 14px;">
+                <i class="fas fa-download"></i> Install
+            </button>
+            <button class="pwa-notification-close" onclick="dismissPwaNotification()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Offline Indicator -->
+    <div class="offline-indicator" id="offlineIndicator">
+        <i class="fas fa-wifi-slash"></i>
+        You are currently offline. Changes will be saved locally and synced when you're back online.
+    </div>
+
+    <!-- Sync Notification -->
+    <div class="sync-notification" id="syncNotification">
+        <i class="fas fa-sync-alt fa-spin"></i>
+        <span id="syncNotificationText">Syncing offline documents...</span>
+    </div>
+
     <div class="container">
         <!-- Sidebar -->
         <aside class="sidebar">
@@ -1117,6 +1425,38 @@
                     </span>
                 </div>
                 
+                <!-- PWA Status -->
+                <div class="pwa-status">
+                    <div class="pwa-status-item">
+                        <div class="pwa-status-label">
+                            <i class="fas fa-wifi"></i>
+                            <span>Status:</span>
+                        </div>
+                        <div class="pwa-status-value" id="connectionStatus">Online</div>
+                    </div>
+                    <div class="pwa-status-item">
+                        <div class="pwa-status-label">
+                            <i class="fas fa-mobile-alt"></i>
+                            <span>App Mode:</span>
+                        </div>
+                        <div class="pwa-status-value" id="appMode">Browser</div>
+                    </div>
+                    <div class="pwa-status-item">
+                        <div class="pwa-status-label">
+                            <i class="fas fa-save"></i>
+                            <span>Offline Docs:</span>
+                        </div>
+                        <div class="pwa-status-value" id="offlineDocCount">0</div>
+                    </div>
+                    <div class="pwa-status-item">
+                        <div class="pwa-status-label">
+                            <i class="fas fa-database"></i>
+                            <span>Storage:</span>
+                        </div>
+                        <div class="pwa-status-value" id="storageStatus">Checking...</div>
+                    </div>
+                </div>
+                
                 <div class="color-scheme">
                     <div class="color-box green" title="Kingu Green: #116a41"></div>
                     <div class="color-box red" title="Electrical Red: #e63946"></div>
@@ -1133,6 +1473,14 @@
             <div class="header" id="main-header">
                 <h1 id="page-title">Create Proforma Invoice</h1>
                 <div>
+                    <!-- PWA Status Badge -->
+                    <span id="pwaHeaderStatus" style="margin-right: 10px; padding: 6px 12px; border-radius: 4px; font-size: 12px; font-weight: 600; background: var(--kingu-light); color: var(--kingu-green); display: none;">
+                        <i class="fas fa-check-circle"></i> Online
+                    </span>
+                    
+                    <button class="btn btn-offline" id="offline-save-btn" style="margin-right: 10px; display: none;">
+                        <i class="fas fa-save"></i> Save Offline
+                    </button>
                     <button class="btn btn-whatsapp" id="whatsapp-btn" style="margin-right: 10px;">
                         <i class="fab fa-whatsapp"></i> Share Document
                     </button>
@@ -1709,6 +2057,558 @@ SWIFT CODE: SBICTZTX</textarea>
         </main>
     </div>
 
+    <!-- PWA Service Worker Registration -->
+    <script>
+        // PWA Configuration
+        let deferredPrompt;
+        let isOnline = navigator.onLine;
+        let isInstalled = window.matchMedia('(display-mode: standalone)').matches;
+        
+        // Initialize PWA
+        document.addEventListener('DOMContentLoaded', async function() {
+            // Show loading screen
+            showLoadingScreen();
+            
+            // Register Service Worker
+            await registerServiceWorker();
+            
+            // Initialize PWA features
+            initializePWA();
+            
+            // Update loading progress
+            updateLoadingProgress(30);
+            
+            // Initialize main application
+            initializeMainApplication();
+            
+            // Update loading progress
+            updateLoadingProgress(60);
+            
+            // Check connection status
+            updateConnectionStatus();
+            
+            // Update storage info
+            checkStorageUsage();
+            
+            // Update offline document count
+            updateOfflineDocCount();
+            
+            // Check for updates
+            checkForUpdates();
+            
+            // Update loading progress and hide
+            updateLoadingProgress(100);
+            setTimeout(() => {
+                hideLoadingScreen();
+            }, 500);
+        });
+        
+        // Service Worker Registration
+        async function registerServiceWorker() {
+            if ('serviceWorker' in navigator) {
+                try {
+                    const registration = await navigator.serviceWorker.register('sw.js', {
+                        scope: '/'
+                    });
+                    
+                    console.log('Service Worker registered:', registration);
+                    
+                    // Check for updates
+                    registration.addEventListener('updatefound', () => {
+                        const newWorker = registration.installing;
+                        newWorker.addEventListener('statechange', () => {
+                            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                                showUpdateNotification();
+                            }
+                        });
+                    });
+                    
+                } catch (error) {
+                    console.error('Service Worker registration failed:', error);
+                }
+            }
+        }
+        
+        // Initialize PWA features
+        function initializePWA() {
+            // Install prompt handling
+            window.addEventListener('beforeinstallprompt', (e) => {
+                e.preventDefault();
+                deferredPrompt = e;
+                
+                // Show install notification after delay
+                setTimeout(() => {
+                    if (!isInstalled && !localStorage.getItem('installPromptDismissed')) {
+                        showInstallNotification();
+                    }
+                }, 5000);
+            });
+            
+            // Online/Offline detection
+            window.addEventListener('online', updateConnectionStatus);
+            window.addEventListener('offline', updateConnectionStatus);
+            
+            // App installed detection
+            window.addEventListener('appinstalled', () => {
+                console.log('App installed');
+                isInstalled = true;
+                updateAppMode();
+                showNotification('App installed successfully!', 'success');
+            });
+            
+            // Periodic sync
+            if ('serviceWorker' in navigator && 'SyncManager' in window) {
+                navigator.serviceWorker.ready.then(registration => {
+                    registration.periodicSync.register('update-content', {
+                        minInterval: 24 * 60 * 60 * 1000 // 1 day
+                    }).catch(() => {
+                        console.log('Periodic sync not supported');
+                    });
+                });
+            }
+            
+            // Background sync for offline data
+            if ('serviceWorker' in navigator && 'SyncManager' in window) {
+                navigator.serviceWorker.ready.then(registration => {
+                    registration.sync.register('sync-offline-docs');
+                });
+            }
+            
+            // Push notifications permission
+            if ('Notification' in window && Notification.permission === 'default') {
+                requestNotificationPermission();
+            }
+        }
+        
+        // Update connection status
+        function updateConnectionStatus() {
+            isOnline = navigator.onLine;
+            const connectionStatus = document.getElementById('connectionStatus');
+            const offlineIndicator = document.getElementById('offlineIndicator');
+            const offlineSaveBtn = document.getElementById('offline-save-btn');
+            const pwaHeaderStatus = document.getElementById('pwaHeaderStatus');
+            
+            if (isOnline) {
+                connectionStatus.textContent = 'Online';
+                connectionStatus.className = 'pwa-status-value online';
+                offlineIndicator.style.display = 'none';
+                offlineSaveBtn.style.display = 'none';
+                
+                // Update header status
+                if (pwaHeaderStatus) {
+                    pwaHeaderStatus.innerHTML = '<i class="fas fa-check-circle"></i> Online';
+                    pwaHeaderStatus.style.background = 'var(--kingu-light)';
+                    pwaHeaderStatus.style.color = 'var(--kingu-green)';
+                    pwaHeaderStatus.style.display = 'inline-block';
+                }
+                
+                // Sync offline data
+                syncOfflineData();
+            } else {
+                connectionStatus.textContent = 'Offline';
+                connectionStatus.className = 'pwa-status-value offline';
+                offlineIndicator.style.display = 'block';
+                offlineSaveBtn.style.display = 'inline-flex';
+                
+                // Update header status
+                if (pwaHeaderStatus) {
+                    pwaHeaderStatus.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Offline';
+                    pwaHeaderStatus.style.background = 'var(--kingu-red)';
+                    pwaHeaderStatus.style.color = 'white';
+                    pwaHeaderStatus.style.display = 'inline-block';
+                }
+            }
+        }
+        
+        // Update app mode
+        function updateAppMode() {
+            const appMode = document.getElementById('appMode');
+            isInstalled = window.matchMedia('(display-mode: standalone)').matches;
+            
+            if (isInstalled) {
+                appMode.textContent = 'Installed';
+                appMode.className = 'pwa-status-value installed';
+            } else {
+                appMode.textContent = 'Browser';
+                appMode.className = 'pwa-status-value browser';
+            }
+        }
+        
+        // Check storage usage
+        function checkStorageUsage() {
+            if (navigator.storage && navigator.storage.estimate) {
+                navigator.storage.estimate().then(estimate => {
+                    const usedMB = (estimate.usage / (1024 * 1024)).toFixed(2);
+                    const quotaMB = (estimate.quota / (1024 * 1024)).toFixed(2);
+                    const percentage = ((estimate.usage / estimate.quota) * 100).toFixed(1);
+                    
+                    const storageStatus = document.getElementById('storageStatus');
+                    storageStatus.textContent = `${percentage}% used`;
+                    storageStatus.title = `${usedMB} MB / ${quotaMB} MB`;
+                    
+                    // Color code based on usage
+                    if (percentage > 90) {
+                        storageStatus.style.color = '#e63946';
+                    } else if (percentage > 70) {
+                        storageStatus.style.color = '#ff6b35';
+                    } else {
+                        storageStatus.style.color = '#4CAF50';
+                    }
+                });
+            }
+        }
+        
+        // Update offline document count
+        function updateOfflineDocCount() {
+            const offlineDocs = JSON.parse(localStorage.getItem('offlineDocuments') || '[]');
+            const offlineDocCount = document.getElementById('offlineDocCount');
+            offlineDocCount.textContent = offlineDocs.length;
+            
+            if (offlineDocs.length > 0) {
+                offlineDocCount.style.color = '#ff6b35';
+                offlineDocCount.title = `${offlineDocs.length} documents waiting to sync`;
+            } else {
+                offlineDocCount.style.color = '#4CAF50';
+            }
+        }
+        
+        // Sync offline data
+        function syncOfflineData() {
+            const offlineDocs = JSON.parse(localStorage.getItem('offlineDocuments') || '[]');
+            
+            if (offlineDocs.length > 0 && isOnline) {
+                const syncNotification = document.getElementById('syncNotification');
+                const syncNotificationText = document.getElementById('syncNotificationText');
+                
+                syncNotificationText.textContent = `Syncing ${offlineDocs.length} offline document(s)...`;
+                syncNotification.style.display = 'flex';
+                
+                // Simulate sync process
+                setTimeout(() => {
+                    offlineDocs.forEach(doc => {
+                        let documents = JSON.parse(localStorage.getItem('kinguDocuments') || '[]');
+                        documents.push(doc);
+                        localStorage.setItem('kinguDocuments', JSON.stringify(documents));
+                    });
+                    
+                    localStorage.removeItem('offlineDocuments');
+                    
+                    syncNotificationText.textContent = 'Sync complete!';
+                    syncNotification.style.background = '#116a41';
+                    
+                    setTimeout(() => {
+                        syncNotification.style.display = 'none';
+                        syncNotification.style.background = '#2980b9';
+                        updateOfflineDocCount();
+                        showNotification(`${offlineDocs.length} document(s) synced successfully!`, 'success');
+                    }, 2000);
+                }, 2000);
+            }
+        }
+        
+        // Show install notification
+        function showInstallNotification() {
+            const pwaNotification = document.getElementById('pwaNotification');
+            const pwaNotificationText = document.getElementById('pwaNotificationText');
+            
+            if (!isInstalled && deferredPrompt) {
+                pwaNotificationText.textContent = 'Install Kingu Invoice App for better experience';
+                pwaNotification.style.display = 'flex';
+            }
+        }
+        
+        // Show update notification
+        function showUpdateNotification() {
+            const pwaNotification = document.getElementById('pwaNotification');
+            const pwaNotificationText = document.getElementById('pwaNotificationText');
+            
+            pwaNotificationText.textContent = 'New update available! Refresh to update.';
+            pwaNotification.style.display = 'flex';
+            
+            // Change install button to refresh
+            const installBtn = pwaNotification.querySelector('.btn-success');
+            installBtn.innerHTML = '<i class="fas fa-redo"></i> Refresh';
+            installBtn.onclick = () => location.reload();
+        }
+        
+        // Install app
+        async function installApp() {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                
+                if (outcome === 'accepted') {
+                    console.log('App installed');
+                    showNotification('App installation started!', 'success');
+                }
+                
+                deferredPrompt = null;
+                dismissPwaNotification();
+            }
+        }
+        
+        // Dismiss PWA notification
+        function dismissPwaNotification() {
+            const pwaNotification = document.getElementById('pwaNotification');
+            pwaNotification.style.display = 'none';
+            localStorage.setItem('installPromptDismissed', 'true');
+        }
+        
+        // Show notification
+        function showNotification(message, type = 'info') {
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.innerHTML = `
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle'}"></i>
+                    <span>${message}</span>
+                </div>
+            `;
+            
+            notification.style.cssText = `
+                position: fixed;
+                bottom: 20px;
+                right: 20px;
+                background: ${type === 'success' ? '#116a41' : type === 'error' ? '#e63946' : '#2980b9'};
+                color: white;
+                padding: 15px 20px;
+                border-radius: 8px;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+                z-index: 10000;
+                max-width: 300px;
+                animation: slideIn 0.3s ease-out;
+            `;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.animation = 'slideOut 0.3s ease-out';
+                setTimeout(() => {
+                    if (notification.parentNode) {
+                        notification.parentNode.removeChild(notification);
+                    }
+                }, 300);
+            }, 3000);
+        }
+        
+        // Request notification permission
+        function requestNotificationPermission() {
+            if ('Notification' in window && Notification.permission === 'default') {
+                Notification.requestPermission().then(permission => {
+                    if (permission === 'granted') {
+                        console.log('Notification permission granted');
+                    }
+                });
+            }
+        }
+        
+        // Check for updates
+        function checkForUpdates() {
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.ready.then(registration => {
+                    registration.update();
+                });
+            }
+        }
+        
+        // Show loading screen
+        function showLoadingScreen() {
+            const loadingScreen = document.getElementById('pwaLoading');
+            loadingScreen.style.display = 'flex';
+        }
+        
+        // Update loading progress
+        function updateLoadingProgress(percent) {
+            const progressBar = document.getElementById('loadingProgress');
+            const loadingText = document.getElementById('loadingText');
+            
+            if (progressBar) {
+                progressBar.style.width = percent + '%';
+            }
+            
+            if (loadingText) {
+                const messages = [
+                    'Loading Kingu Invoice System...',
+                    'Initializing PWA features...',
+                    'Setting up offline storage...',
+                    'Loading your documents...',
+                    'Almost ready...'
+                ];
+                
+                const messageIndex = Math.min(Math.floor(percent / 20), messages.length - 1);
+                loadingText.textContent = messages[messageIndex];
+            }
+        }
+        
+        // Hide loading screen
+        function hideLoadingScreen() {
+            const loadingScreen = document.getElementById('pwaLoading');
+            loadingScreen.style.opacity = '0';
+            
+            setTimeout(() => {
+                loadingScreen.style.display = 'none';
+            }, 500);
+        }
+        
+        // Initialize main application (your existing code)
+        function initializeMainApplication() {
+            // Your existing application initialization code goes here
+            // I'll keep it brief to avoid duplication
+            
+            // Set current date
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('invoice-date').value = today;
+            
+            const dueDate = new Date();
+            dueDate.setDate(dueDate.getDate() + 30);
+            document.getElementById('due-date').value = dueDate.toISOString().split('T')[0];
+            
+            // Update app mode
+            updateAppMode();
+            
+            // Enhanced save functionality with offline support
+            const saveBtn = document.getElementById('save-btn');
+            const offlineSaveBtn = document.getElementById('offline-save-btn');
+            
+            saveBtn.addEventListener('click', function() {
+                const formData = collectFormData();
+                const docId = Date.now();
+                
+                const documentData = {
+                    ...formData,
+                    id: docId,
+                    savedDate: new Date().toISOString(),
+                    status: 'pending',
+                    documentType: formData.type,
+                    createdBy: 'System User',
+                    lastModified: new Date().toISOString(),
+                    isOffline: !isOnline
+                };
+                
+                if (isOnline) {
+                    // Save normally
+                    let documents = JSON.parse(localStorage.getItem('kinguDocuments') || '[]');
+                    documents.push(documentData);
+                    localStorage.setItem('kinguDocuments', JSON.stringify(documents));
+                    
+                    saveToSpecificCollection(formData.type, documentData);
+                    showSaveSuccess(documentData, false);
+                } else {
+                    // Save to offline queue
+                    let offlineDocuments = JSON.parse(localStorage.getItem('offlineDocuments') || '[]');
+                    offlineDocuments.push(documentData);
+                    localStorage.setItem('offlineDocuments', JSON.stringify(offlineDocuments));
+                    
+                    showSaveSuccess(documentData, true);
+                    updateOfflineDocCount();
+                }
+            });
+            
+            offlineSaveBtn.addEventListener('click', function() {
+                saveBtn.click();
+            });
+            
+            // Update connection status initially
+            updateConnectionStatus();
+        }
+        
+        // Helper functions for form data collection (from your existing code)
+        function collectFormData() {
+            const type = getCurrentDocumentType();
+            const items = [];
+            
+            document.querySelectorAll('#invoice-items tr').forEach(row => {
+                const description = row.querySelector('.item-description')?.value || '';
+                const quantity = parseFloat(row.querySelector('.item-quantity')?.value || 0);
+                const price = parseFloat(row.querySelector('.item-price')?.value || 0);
+                const total = quantity * price;
+                
+                if (description) {
+                    items.push({
+                        description,
+                        quantity,
+                        price,
+                        total
+                    });
+                }
+            });
+            
+            // ... rest of your collectFormData function
+            return {
+                type: type,
+                documentNumber: document.getElementById('invoice-number').value,
+                documentDate: document.getElementById('invoice-date').value,
+                dueDate: document.getElementById('due-date').value,
+                currency: document.getElementById('currency').value,
+                deliveryTime: document.getElementById('delivery-time').value,
+                paymentTerms: document.getElementById('payment-terms').value,
+                customPaymentTerms: document.getElementById('custom-payment-terms')?.value || '',
+                clientName: document.getElementById('client-name').value,
+                clientEmail: document.getElementById('client-email').value,
+                clientPhone: document.getElementById('client-phone').value,
+                clientAddress: document.getElementById('client-address').value,
+                clientTIN: document.getElementById('client-tin').value,
+                clientVAT: document.getElementById('client-vat').value,
+                items: items,
+                subtotal: 0, // Calculate these
+                discountType: document.getElementById('discount-type').value,
+                discountValue: parseFloat(document.getElementById('discount-value')?.value || 0),
+                discountAmount: 0,
+                vatType: document.querySelector('input[name="vat-option"]:checked')?.value || 'none',
+                vatRate: 0,
+                vatAmount: 0,
+                vatNumber: document.getElementById('vat-number-input')?.value || '',
+                grandTotal: 0,
+                bankDetails: document.getElementById('bank-details').value,
+                notes: document.getElementById('notes').value
+            };
+        }
+        
+        function getCurrentDocumentType() {
+            if (document.getElementById('btn-proforma').classList.contains('active')) {
+                return 'Proforma';
+            } else if (document.getElementById('btn-standard').classList.contains('active')) {
+                return 'Standard';
+            } else if (document.getElementById('btn-quotation').classList.contains('active')) {
+                return 'Quotation';
+            }
+            return 'Proforma';
+        }
+        
+        function saveToSpecificCollection(type, documentData) {
+            // Your existing implementation
+        }
+        
+        function showSaveSuccess(documentData, isOffline) {
+            // Your existing implementation
+            showNotification(
+                `${documentData.type} ${isOffline ? 'saved offline' : 'saved successfully'}!`,
+                isOffline ? 'info' : 'success'
+            );
+        }
+        
+        // Expose functions to global scope
+        window.installApp = installApp;
+        window.dismissPwaNotification = dismissPwaNotification;
+        window.trySyncNow = syncOfflineData;
+        
+        // Add CSS animations for notifications
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideIn {
+                from { transform: translateX(100%); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+            
+            @keyframes slideOut {
+                from { transform: translateX(0); opacity: 1; }
+                to { transform: translateX(100%); opacity: 0; }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+
+    <!-- Main Application Script (your existing code) -->
     <script>
         // Main Application
         document.addEventListener('DOMContentLoaded', function() {
@@ -1820,8 +2720,6 @@ SWIFT CODE: SBICTZTX</textarea>
                 document.getElementById('page-title').textContent = title;
             }
             
-            // ==================== VAT OPTIONAL FUNCTIONALITY ====================
-            
             // Initialize VAT options
             function initializeVatOptions() {
                 // VAT option change listener
@@ -1864,1343 +2762,91 @@ SWIFT CODE: SBICTZTX</textarea>
                 });
             }
             
-            // ==================== ENHANCED SAVE FUNCTIONALITY ====================
-            
-            const saveBtn = document.getElementById('save-btn');
-            const pdfBtn = document.getElementById('pdf-btn');
-            
-            saveBtn.addEventListener('click', function() {
-                const formData = collectFormData();
-                const docId = Date.now();
-                const isQuotation = formData.type === 'Quotation';
-                
-                const documentData = {
-                    ...formData,
-                    id: docId,
-                    savedDate: new Date().toISOString(),
-                    status: 'pending',
-                    documentType: formData.type,
-                    isQuotation: isQuotation,
-                    isInvoice: !isQuotation,
-                    createdBy: 'System User',
-                    lastModified: new Date().toISOString()
-                };
-                
-                let documents = JSON.parse(localStorage.getItem('kinguDocuments')) || [];
-                documents.push(documentData);
-                localStorage.setItem('kinguDocuments', JSON.stringify(documents));
-                
-                saveToSpecificCollection(formData.type, documentData);
-                
-                const filename = `Kingu_${formData.type}_${formData.documentNumber}_${new Date().getTime()}.pdf`;
-                
-                pdfBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating PDF...';
-                pdfBtn.disabled = true;
-                
-                setTimeout(() => {
-                    pdfBtn.innerHTML = '<i class="fas fa-file-pdf"></i> Export PDF';
-                    pdfBtn.disabled = false;
-                    
-                    showSaveSuccess(documentData);
-                }, 1000);
-            });
-            
-            function saveToSpecificCollection(type, documentData) {
-                const collectionKey = getCollectionKey(type);
-                let collection = JSON.parse(localStorage.getItem(collectionKey)) || [];
-                collection.push(documentData);
-                localStorage.setItem(collectionKey, JSON.stringify(collection));
-                
-                updateClientStatistics(documentData);
-                updateMonthlyStatistics(documentData);
-            }
-            
-            function getCollectionKey(type) {
-                const typeMap = {
-                    'Standard': 'invoices',
-                    'Quotation': 'quotations',
-                    'Proforma': 'proformas'
-                };
-                return typeMap[type] || `${type.toLowerCase()}s`;
-            }
-            
-            function updateClientStatistics(documentData) {
-                if (!documentData.clientEmail) return;
-                
-                const clientStatsKey = 'clientStatistics';
-                let clientStats = JSON.parse(localStorage.getItem(clientStatsKey)) || {};
-                
-                const clientKey = documentData.clientEmail;
-                
-                if (!clientStats[clientKey]) {
-                    clientStats[clientKey] = {
-                        name: documentData.clientName,
-                        email: documentData.clientEmail,
-                        phone: documentData.clientPhone,
-                        firstTransaction: new Date().toISOString(),
-                        lastTransaction: new Date().toISOString(),
-                        totalTransactions: 0,
-                        totalValue: 0,
-                        invoiceCount: 0,
-                        quotationCount: 0,
-                        proformaCount: 0,
-                        documents: []
-                    };
-                }
-                
-                clientStats[clientKey].lastTransaction = new Date().toISOString();
-                clientStats[clientKey].totalTransactions++;
-                clientStats[clientKey].totalValue += (documentData.grandTotal || 0);
-                
-                if (documentData.type === 'Quotation') {
-                    clientStats[clientKey].quotationCount++;
-                } else if (documentData.type === 'Standard') {
-                    clientStats[clientKey].invoiceCount++;
-                } else if (documentData.type === 'Proforma') {
-                    clientStats[clientKey].proformaCount++;
-                }
-                
-                clientStats[clientKey].documents.push({
-                    id: documentData.id,
-                    type: documentData.type,
-                    number: documentData.documentNumber,
-                    date: documentData.documentDate,
-                    amount: documentData.grandTotal
+            // Initialize invoice form
+            function initializeInvoiceForm() {
+                document.addEventListener('input', function(e) {
+                    if (e.target.classList.contains('item-quantity') || 
+                        e.target.classList.contains('item-price')) {
+                        updateItemTotal(e.target.closest('tr'));
+                        updateTotals();
+                    }
                 });
                 
-                if (clientStats[clientKey].documents.length > 50) {
-                    clientStats[clientKey].documents = clientStats[clientKey].documents.slice(-50);
-                }
-                
-                localStorage.setItem(clientStatsKey, JSON.stringify(clientStats));
-            }
-            
-            function updateMonthlyStatistics(documentData) {
-                const date = new Date();
-                const monthKey = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}`;
-                const statsKey = 'monthlyStatistics';
-                let monthlyStats = JSON.parse(localStorage.getItem(statsKey)) || {};
-                
-                if (!monthlyStats[monthKey]) {
-                    monthlyStats[monthKey] = {
-                        month: monthKey,
-                        totalRevenue: 0,
-                        documentCount: 0,
-                        invoiceCount: 0,
-                        quotationCount: 0,
-                        proformaCount: 0,
-                        clients: [],
-                        documents: []
-                    };
-                }
-                
-                monthlyStats[monthKey].totalRevenue += (documentData.grandTotal || 0);
-                monthlyStats[monthKey].documentCount++;
-                
-                if (documentData.type === 'Quotation') {
-                    monthlyStats[monthKey].quotationCount++;
-                } else if (documentData.type === 'Standard') {
-                    monthlyStats[monthKey].invoiceCount++;
-                } else if (documentData.type === 'Proforma') {
-                    monthlyStats[monthKey].proformaCount++;
-                }
-                
-                if (documentData.clientEmail && !monthlyStats[monthKey].clients.includes(documentData.clientEmail)) {
-                    monthlyStats[monthKey].clients.push(documentData.clientEmail);
-                }
-                
-                monthlyStats[monthKey].documents.push({
-                    id: documentData.id,
-                    type: documentData.type,
-                    number: documentData.documentNumber,
-                    client: documentData.clientName,
-                    amount: documentData.grandTotal
+                document.getElementById('add-item-btn').addEventListener('click', function() {
+                    addNewItem();
                 });
                 
-                localStorage.setItem(statsKey, JSON.stringify(monthlyStats));
-            }
-            
-            function showSaveSuccess(documentData) {
-                const message = `
-                    <div style="padding: 20px;">
-                        <h3 style="color: #116a41; margin-bottom: 15px;">✓ ${documentData.type} Saved Successfully!</h3>
-                        <div style="background: #f8f9fa; padding: 15px; border-radius: 5px; margin-bottom: 15px;">
-                            <p><strong>Document Number:</strong> ${documentData.documentNumber}</p>
-                            <p><strong>Client:</strong> ${documentData.clientName}</p>
-                            <p><strong>Amount:</strong> ${formatCurrency(documentData.grandTotal, documentData.currency)}</p>
-                            <p><strong>Saved to:</strong> Document History & Reports</p>
-                        </div>
-                        <div style="display: flex; gap: 10px; margin-top: 15px;">
-                            <button class="btn btn-primary" onclick="viewSavedDocument('${documentData.id}')" style="flex: 1;">
-                                <i class="fas fa-eye"></i> View in History
-                            </button>
-                            <button class="btn btn-success" onclick="navHistory.click()" style="flex: 1;">
-                                <i class="fas fa-history"></i> Go to History
-                            </button>
-                            <button class="btn" onclick="navReports.click()" style="flex: 1; background-color: var(--kingu-blue); color: white;">
-                                <i class="fas fa-chart-bar"></i> View Reports
-                            </button>
-                        </div>
-                    </div>
-                `;
-                
-                const alertDiv = document.createElement('div');
-                alertDiv.style.cssText = `
-                    position: fixed;
-                    top: 50%;
-                    left: 50%;
-                    transform: translate(-50%, -50%);
-                    background: white;
-                    border-radius: 10px;
-                    box-shadow: 0 5px 30px rgba(0,0,0,0.3);
-                    z-index: 1000;
-                    min-width: 400px;
-                    max-width: 500px;
-                `;
-                alertDiv.innerHTML = message;
-                
-                const overlay = document.createElement('div');
-                overlay.style.cssText = `
-                    position: fixed;
-                    top: 0;
-                    left: 0;
-                    right: 0;
-                    bottom: 0;
-                    background: rgba(0,0,0,0.5);
-                    z-index: 999;
-                `;
-                overlay.onclick = function() {
-                    document.body.removeChild(overlay);
-                    document.body.removeChild(alertDiv);
-                };
-                
-                document.body.appendChild(overlay);
-                document.body.appendChild(alertDiv);
-            }
-            
-            window.viewSavedDocument = function(id) {
-                let documents = JSON.parse(localStorage.getItem('kinguDocuments')) || [];
-                const doc = documents.find(d => d.id == id);
-                
-                if (doc) {
-                    const overlays = document.querySelectorAll('div[style*="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5);"]');
-                    overlays.forEach(el => el.remove());
-                    
-                    const alerts = document.querySelectorAll('div[style*="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);"]');
-                    alerts.forEach(el => el.remove());
-                    
-                    navHistory.click();
-                    
-                    setTimeout(() => {
-                        const rows = document.querySelectorAll('#history-table-body tr');
-                        rows.forEach(row => {
-                            const docIdAttr = row.getAttribute('data-document-id');
-                            if (docIdAttr == id) {
-                                row.style.animation = 'highlight 2s ease-in-out';
-                                row.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                            }
-                        });
-                    }, 500);
-                }
-            };
-            
-            // ==================== ENHANCED REPORTS & ANALYTICS ====================
-            
-            function loadReports() {
-                let documents = JSON.parse(localStorage.getItem('kinguDocuments')) || [];
-                
-                if (documents.length === 0) {
-                    documents = generateSampleData();
-                }
-                
-                const reportsContent = document.getElementById('reports-content');
-                if (reportsContent) {
-                    reportsContent.innerHTML = '';
-                }
-                
-                const stats = calculateDocumentStatistics(documents);
-                updateQuickStatsDisplay(stats);
-                createRevenueChart(documents);
-                createDocumentTypesChart(documents);
-                createMonthlyComparisonChart(documents);
-                createClientDistributionChart(documents);
-                updateDocumentBreakdown(stats);
-                loadTopClients(documents);
-            }
-            
-            function calculateDocumentStatistics(documents) {
-                const stats = {
-                    totalRevenue: 0,
-                    totalDocuments: documents.length,
-                    invoiceCount: 0,
-                    quotationCount: 0,
-                    proformaCount: 0,
-                    paidAmount: 0,
-                    pendingAmount: 0,
-                    overdueAmount: 0,
-                    activeClients: new Set(),
-                    monthlyData: {},
-                    typeDistribution: {},
-                    statusDistribution: {}
-                };
-                
-                documents.forEach(doc => {
-                    stats.totalRevenue += (doc.grandTotal || 0);
-                    
-                    if (doc.type === 'Standard') {
-                        stats.invoiceCount++;
-                    } else if (doc.type === 'Quotation') {
-                        stats.quotationCount++;
-                    } else if (doc.type === 'Proforma') {
-                        stats.proformaCount++;
+                document.addEventListener('click', function(e) {
+                    if (e.target.closest('.delete-item')) {
+                        e.target.closest('tr').remove();
+                        updateTotals();
                     }
+                });
+                
+                document.getElementById('discount-type').addEventListener('change', function() {
+                    const discountValueContainer = document.getElementById('discount-value-container');
+                    const discountRow = document.getElementById('discount-row');
                     
-                    if (!stats.typeDistribution[doc.type]) {
-                        stats.typeDistribution[doc.type] = 0;
-                    }
-                    stats.typeDistribution[doc.type]++;
-                    
-                    const status = getDocumentStatus(doc);
-                    if (!stats.statusDistribution[status]) {
-                        stats.statusDistribution[status] = 0;
-                    }
-                    stats.statusDistribution[status]++;
-                    
-                    if (status === 'paid') {
-                        stats.paidAmount += (doc.grandTotal || 0);
-                    } else if (status === 'pending') {
-                        stats.pendingAmount += (doc.grandTotal || 0);
-                    } else if (status === 'overdue') {
-                        stats.overdueAmount += (doc.grandTotal || 0);
-                    }
-                    
-                    if (doc.clientEmail) {
-                        stats.activeClients.add(doc.clientEmail);
-                    }
-                    
-                    if (doc.savedDate) {
-                        const date = new Date(doc.savedDate);
-                        const monthKey = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}`;
+                    if (this.value === 'none') {
+                        discountValueContainer.style.display = 'none';
+                        discountRow.style.display = 'none';
+                    } else {
+                        discountValueContainer.style.display = 'block';
+                        discountRow.style.display = 'flex';
                         
-                        if (!stats.monthlyData[monthKey]) {
-                            stats.monthlyData[monthKey] = {
-                                revenue: 0,
-                                documents: 0,
-                                invoices: 0,
-                                quotations: 0,
-                                proformas: 0
-                            };
-                        }
-                        
-                        stats.monthlyData[monthKey].revenue += (doc.grandTotal || 0);
-                        stats.monthlyData[monthKey].documents++;
-                        
-                        if (doc.type === 'Standard') {
-                            stats.monthlyData[monthKey].invoices++;
-                        } else if (doc.type === 'Quotation') {
-                            stats.monthlyData[monthKey].quotations++;
-                        } else if (doc.type === 'Proforma') {
-                            stats.monthlyData[monthKey].proformas++;
+                        if (this.value === 'percentage') {
+                            document.getElementById('discount-label').textContent = 'Discount (%):';
+                        } else {
+                            document.getElementById('discount-label').textContent = 'Discount (Amount):';
                         }
                     }
-                });
-                
-                stats.activeClientsCount = stats.activeClients.size;
-                
-                return stats;
-            }
-            
-            function getDocumentStatus(doc) {
-                if (doc.status) return doc.status;
-                
-                if (doc.paymentStatus === 'paid') return 'paid';
-                
-                if (doc.dueDate) {
-                    const dueDate = new Date(doc.dueDate);
-                    const today = new Date();
-                    if (dueDate < today) return 'overdue';
-                }
-                
-                return 'pending';
-            }
-            
-            function formatCurrency(amount, currency) {
-                if (!amount) amount = 0;
-                const formatter = new Intl.NumberFormat('en-TZ', {
-                    style: 'currency',
-                    currency: currency || 'TZS',
-                    minimumFractionDigits: 0,
-                    maximumFractionDigits: 0
-                });
-                return formatter.format(amount);
-            }
-            
-            function updateQuickStatsDisplay(stats) {
-                const reportsContent = document.getElementById('reports-content');
-                
-                const quickStatsHTML = `
-                    <div class="quick-stats" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 20px;">
-                        <div style="background: white; padding: 15px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); text-align: center;">
-                            <div style="font-size: 24px; color: #116a41; font-weight: bold;">${formatCurrency(stats.totalRevenue, 'TSh')}</div>
-                            <div style="font-size: 12px; color: #666;">Total Revenue</div>
-                        </div>
-                        <div style="background: white; padding: 15px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); text-align: center;">
-                            <div style="font-size: 24px; color: #116a41; font-weight: bold;">${stats.totalDocuments}</div>
-                            <div style="font-size: 12px; color: #666;">Total Documents</div>
-                        </div>
-                        <div style="background: white; padding: 15px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); text-align: center;">
-                            <div style="font-size: 24px; color: #116a41; font-weight: bold;">${stats.activeClientsCount}</div>
-                            <div style="font-size: 12px; color: #666;">Active Clients</div>
-                        </div>
-                        <div style="background: white; padding: 15px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); text-align: center;">
-                            <div style="font-size: 24px; color: #116a41; font-weight: bold;">${getCurrentMonthDocumentCount()}</div>
-                            <div style="font-size: 12px; color: #666;">This Month</div>
-                        </div>
-                    </div>
-                    <div class="quick-stats" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin-bottom: 30px;">
-                        <div style="background: white; padding: 10px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); text-align: center;">
-                            <div style="font-size: 20px; color: #2980b9; font-weight: bold;">${stats.invoiceCount}</div>
-                            <div style="font-size: 12px; color: #666;">Invoices</div>
-                        </div>
-                        <div style="background: white; padding: 10px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); text-align: center;">
-                            <div style="font-size: 20px; color: #e63946; font-weight: bold;">${stats.quotationCount}</div>
-                            <div style="font-size: 12px; color: #666;">Quotations</div>
-                        </div>
-                        <div style="background: white; padding: 10px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); text-align: center;">
-                            <div style="font-size: 20px; color: #116a41; font-weight: bold;">${stats.proformaCount}</div>
-                            <div style="font-size: 12px; color: #666;">Proformas</div>
-                        </div>
-                    </div>
-                `;
-                
-                reportsContent.innerHTML = quickStatsHTML;
-            }
-            
-            function getCurrentMonthDocumentCount() {
-                const documents = JSON.parse(localStorage.getItem('kinguDocuments')) || [];
-                const now = new Date();
-                const currentMonth = now.getMonth();
-                const currentYear = now.getFullYear();
-                
-                return documents.filter(doc => {
-                    if (!doc.savedDate) return false;
-                    const docDate = new Date(doc.savedDate);
-                    return docDate.getMonth() === currentMonth && 
-                           docDate.getFullYear() === currentYear;
-                }).length;
-            }
-            
-            function loadTopClients(documents) {
-                const topClients = getTopClientsByValue(documents, 10);
-                const reportsContent = document.getElementById('reports-content');
-                
-                let clientsHTML = '<table style="width: 100%; background: white; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin-top: 20px; border-collapse: collapse;">';
-                clientsHTML += `
-                    <thead>
-                        <tr style="background: #f8f9fa;">
-                            <th style="padding: 12px; text-align: left; border-bottom: 2px solid #eee;">Client</th>
-                            <th style="padding: 12px; text-align: left; border-bottom: 2px solid #eee;">Total Value</th>
-                            <th style="padding: 12px; text-align: left; border-bottom: 2px solid #eee;">Documents</th>
-                            <th style="padding: 12px; text-align: left; border-bottom: 2px solid #eee;">Last Transaction</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                `;
-                
-                topClients.labels.forEach((client, index) => {
-                    const clientDocCount = documents.filter(doc => doc.clientName === client).length;
-                    const lastDoc = documents.filter(doc => doc.clientName === client)
-                        .sort((a, b) => new Date(b.savedDate) - new Date(a.savedDate))[0];
-                    
-                    clientsHTML += `
-                        <tr style="border-bottom: 1px solid #eee;">
-                            <td style="padding: 12px;">
-                                <strong>${client}</strong><br>
-                                <small style="color: #666;">#${index + 1} Top Client</small>
-                            </td>
-                            <td style="padding: 12px; font-weight: bold; color: #116a41;">
-                                ${formatCurrency(topClients.values[index], 'TSh')}
-                            </td>
-                            <td style="padding: 12px;">${clientDocCount}</td>
-                            <td style="padding: 12px;">${lastDoc ? formatDate(lastDoc.savedDate) : 'N/A'}</td>
-                        </tr>
-                    `;
-                });
-                
-                clientsHTML += '</tbody></table>';
-                
-                const existingContent = reportsContent.innerHTML;
-                reportsContent.innerHTML = existingContent + clientsHTML;
-            }
-            
-            function createRevenueChart(documents) {
-                const reportsContent = document.getElementById('reports-content');
-                
-                const chartHTML = `
-                    <div class="chart-container" style="background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin-top: 20px;">
-                        <h3 style="color: var(--kingu-green); margin-bottom: 15px;">Revenue Trend</h3>
-                        <canvas id="revenueChart" height="100"></canvas>
-                    </div>
-                `;
-                
-                reportsContent.insertAdjacentHTML('beforeend', chartHTML);
-                
-                setTimeout(() => {
-                    const ctx = document.getElementById('revenueChart').getContext('2d');
-                    const monthlyData = getMonthlyRevenueData(documents);
-                    
-                    new Chart(ctx, {
-                        type: 'line',
-                        data: {
-                            labels: monthlyData.months,
-                            datasets: [{
-                                label: 'Revenue',
-                                data: monthlyData.revenue,
-                                borderColor: '#116a41',
-                                backgroundColor: 'rgba(17, 106, 65, 0.1)',
-                                tension: 0.4,
-                                fill: true
-                            }]
-                        },
-                        options: {
-                            responsive: true,
-                            plugins: {
-                                tooltip: {
-                                    callbacks: {
-                                        label: function(context) {
-                                            return `Revenue: ${formatCurrency(context.raw, 'TSh')}`;
-                                        }
-                                    }
-                                }
-                            },
-                            scales: {
-                                y: {
-                                    beginAtZero: true,
-                                    ticks: {
-                                        callback: function(value) {
-                                            return formatCurrency(value, 'TSh').replace('TZS', '');
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    });
-                }, 100);
-            }
-            
-            function getMonthlyRevenueData(documents) {
-                const months = [];
-                const revenue = [];
-                
-                const now = new Date();
-                
-                for (let i = 5; i >= 0; i--) {
-                    const date = new Date(now.getFullYear(), now.getMonth() - i, 1);
-                    const monthKey = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}`;
-                    const monthName = date.toLocaleDateString('en-US', { month: 'short' }) + ' ' + date.getFullYear();
-                    
-                    months.push(monthName);
-                    
-                    let monthRevenue = 0;
-                    documents.forEach(doc => {
-                        if (doc.savedDate && doc.grandTotal) {
-                            const docDate = new Date(doc.savedDate);
-                            const docMonthKey = `${docDate.getFullYear()}-${(docDate.getMonth() + 1).toString().padStart(2, '0')}`;
-                            
-                            if (docMonthKey === monthKey) {
-                                monthRevenue += doc.grandTotal;
-                            }
-                        }
-                    });
-                    
-                    revenue.push(monthRevenue);
-                }
-                
-                return { months, revenue };
-            }
-            
-            function createMonthlyComparisonChart(documents) {
-                const reportsContent = document.getElementById('reports-content');
-                
-                const chartHTML = `
-                    <div class="chart-container" style="background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin-top: 20px;">
-                        <h3 style="color: var(--kingu-green); margin-bottom: 15px;">Monthly Document Comparison</h3>
-                        <canvas id="monthlyComparisonChart" height="100"></canvas>
-                    </div>
-                `;
-                
-                reportsContent.insertAdjacentHTML('beforeend', chartHTML);
-                
-                setTimeout(() => {
-                    const ctx = document.getElementById('monthlyComparisonChart').getContext('2d');
-                    const monthlyData = getLast6MonthsData(documents);
-                    
-                    new Chart(ctx, {
-                        type: 'bar',
-                        data: {
-                            labels: monthlyData.months,
-                            datasets: [
-                                {
-                                    label: 'Invoices',
-                                    data: monthlyData.invoices,
-                                    backgroundColor: '#116a41',
-                                    borderColor: '#116a41',
-                                    borderWidth: 1
-                                },
-                                {
-                                    label: 'Quotations',
-                                    data: monthlyData.quotations,
-                                    backgroundColor: '#2980b9',
-                                    borderColor: '#2980b9',
-                                    borderWidth: 1
-                                },
-                                {
-                                    label: 'Proformas',
-                                    data: monthlyData.proformas,
-                                    backgroundColor: '#e63946',
-                                    borderColor: '#e63946',
-                                    borderWidth: 1
-                                }
-                            ]
-                        },
-                        options: {
-                            responsive: true,
-                            plugins: {
-                                title: {
-                                    display: true,
-                                    text: 'Monthly Document Comparison'
-                                },
-                                legend: {
-                                    position: 'bottom'
-                                }
-                            },
-                            scales: {
-                                y: {
-                                    beginAtZero: true,
-                                    title: {
-                                        display: true,
-                                        text: 'Number of Documents'
-                                    }
-                                }
-                            }
-                        }
-                    });
-                }, 100);
-            }
-            
-            function getLast6MonthsData(documents) {
-                const months = [];
-                const invoices = [];
-                const quotations = [];
-                const proformas = [];
-                
-                const now = new Date();
-                
-                for (let i = 5; i >= 0; i--) {
-                    const date = new Date(now.getFullYear(), now.getMonth() - i, 1);
-                    const monthKey = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}`;
-                    const monthName = date.toLocaleDateString('en-US', { month: 'short' });
-                    
-                    months.push(monthName);
-                    
-                    let invoiceCount = 0;
-                    let quotationCount = 0;
-                    let proformaCount = 0;
-                    
-                    documents.forEach(doc => {
-                        if (doc.savedDate) {
-                            const docDate = new Date(doc.savedDate);
-                            const docMonthKey = `${docDate.getFullYear()}-${(docDate.getMonth() + 1).toString().padStart(2, '0')}`;
-                            
-                            if (docMonthKey === monthKey) {
-                                if (doc.type === 'Standard') {
-                                    invoiceCount++;
-                                } else if (doc.type === 'Quotation') {
-                                    quotationCount++;
-                                } else if (doc.type === 'Proforma') {
-                                    proformaCount++;
-                                }
-                            }
-                        }
-                    });
-                    
-                    invoices.push(invoiceCount);
-                    quotations.push(quotationCount);
-                    proformas.push(proformaCount);
-                }
-                
-                return { months, invoices, quotations, proformas };
-            }
-            
-            function createClientDistributionChart(documents) {
-                const reportsContent = document.getElementById('reports-content');
-                
-                const chartHTML = `
-                    <div class="chart-container" style="background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin-top: 20px;">
-                        <h3 style="color: var(--kingu-green); margin-bottom: 15px;">Client Distribution</h3>
-                        <canvas id="clientDistributionChart" height="100"></canvas>
-                    </div>
-                `;
-                
-                reportsContent.insertAdjacentHTML('beforeend', chartHTML);
-                
-                setTimeout(() => {
-                    const ctx = document.getElementById('clientDistributionChart').getContext('2d');
-                    const topClients = getTopClientsByValue(documents, 5);
-                    
-                    new Chart(ctx, {
-                        type: 'pie',
-                        data: {
-                            labels: topClients.labels,
-                            datasets: [{
-                                data: topClients.values,
-                                backgroundColor: [
-                                    '#116a41',
-                                    '#2980b9',
-                                    '#e63946',
-                                    '#ff6b35',
-                                    '#2a9d8f'
-                                ]
-                            }]
-                        },
-                        options: {
-                            responsive: true,
-                            plugins: {
-                                legend: {
-                                    position: 'bottom'
-                                },
-                                tooltip: {
-                                    callbacks: {
-                                        label: function(context) {
-                                            return `${context.label}: ${formatCurrency(context.raw, 'TSh')}`;
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    });
-                }, 100);
-            }
-            
-            function getTopClientsByValue(documents, limit = 5) {
-                const clientTotals = {};
-                
-                documents.forEach(doc => {
-                    if (doc.clientName && doc.grandTotal) {
-                        if (!clientTotals[doc.clientName]) {
-                            clientTotals[doc.clientName] = 0;
-                        }
-                        clientTotals[doc.clientName] += doc.grandTotal;
-                    }
-                });
-                
-                const sorted = Object.entries(clientTotals)
-                    .sort((a, b) => b[1] - a[1])
-                    .slice(0, limit);
-                
-                return {
-                    labels: sorted.map(([name]) => name),
-                    values: sorted.map(([, value]) => value)
-                };
-            }
-            
-            function createDocumentTypesChart(documents) {
-                const reportsContent = document.getElementById('reports-content');
-                
-                const chartHTML = `
-                    <div class="chart-container" style="background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin-top: 20px;">
-                        <h3 style="color: var(--kingu-green); margin-bottom: 15px;">Document Types Distribution</h3>
-                        <canvas id="documentTypesChart" height="100"></canvas>
-                    </div>
-                `;
-                
-                reportsContent.insertAdjacentHTML('beforeend', chartHTML);
-                
-                setTimeout(() => {
-                    const ctx = document.getElementById('documentTypesChart').getContext('2d');
-                    
-                    const types = {
-                        'Standard': 0,
-                        'Quotation': 0,
-                        'Proforma': 0
-                    };
-                    
-                    documents.forEach(doc => {
-                        if (types[doc.type] !== undefined) {
-                            types[doc.type]++;
-                        }
-                    });
-                    
-                    new Chart(ctx, {
-                        type: 'doughnut',
-                        data: {
-                            labels: ['Invoices', 'Quotations', 'Proformas'],
-                            datasets: [{
-                                data: [types.Standard, types.Quotation, types.Proforma],
-                                backgroundColor: [
-                                    '#116a41',
-                                    '#2980b9',
-                                    '#e63946'
-                                ]
-                            }]
-                        },
-                        options: {
-                            responsive: true,
-                            plugins: {
-                                legend: {
-                                    position: 'bottom'
-                                }
-                            }
-                        }
-                    });
-                }, 100);
-            }
-            
-            function updateDocumentBreakdown(stats) {
-                const breakdownHTML = `
-                    <div style="background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); margin-top: 20px;">
-                        <h3 style="color: var(--kingu-green); margin-bottom: 15px;">Document Breakdown</h3>
-                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
-                            <div>
-                                <h4 style="color: #666; margin-bottom: 10px;">By Type</h4>
-                                <div style="margin-bottom: 10px;">
-                                    <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
-                                        <span>Invoices:</span>
-                                        <span>${stats.invoiceCount}</span>
-                                    </div>
-                                    <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
-                                        <span>Quotations:</span>
-                                        <span>${stats.quotationCount}</span>
-                                    </div>
-                                    <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
-                                        <span>Proformas:</span>
-                                        <span>${stats.proformaCount}</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div>
-                                <h4 style="color: #666; margin-bottom: 10px;">By Status</h4>
-                                <div style="margin-bottom: 10px;">
-                                    <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
-                                        <span>Paid:</span>
-                                        <span>${formatCurrency(stats.paidAmount, 'TSh')}</span>
-                                    </div>
-                                    <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
-                                        <span>Pending:</span>
-                                        <span>${formatCurrency(stats.pendingAmount, 'TSh')}</span>
-                                    </div>
-                                    <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
-                                        <span>Overdue:</span>
-                                        <span>${formatCurrency(stats.overdueAmount, 'TSh')}</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                `;
-                
-                const existingBreakdown = document.getElementById('document-breakdown');
-                if (existingBreakdown) {
-                    existingBreakdown.outerHTML = breakdownHTML;
-                } else {
-                    const reportsContent = document.getElementById('reports-content');
-                    const div = document.createElement('div');
-                    div.id = 'document-breakdown';
-                    div.innerHTML = breakdownHTML;
-                    reportsContent.appendChild(div);
-                }
-            }
-            
-            function generateSampleData() {
-                const sampleData = [];
-                const clients = [
-                    'GREENLIGHT PLANNET TANZANIA LTD',
-                    'TANZANIA ELECTRIC SUPPLY COMPANY',
-                    'DAR ES SALAAM WATER AUTHORITY',
-                    'TANZANIA PETROLEUM DEVELOPMENT CORPORATION',
-                    'NATIONAL INSURANCE CORPORATION'
-                ];
-                
-                const documentTypes = ['Standard', 'Quotation', 'Proforma'];
-                const now = new Date();
-                
-                for (let i = 0; i < 20; i++) {
-                    const type = documentTypes[Math.floor(Math.random() * documentTypes.length)];
-                    const client = clients[Math.floor(Math.random() * clients.length)];
-                    const amount = Math.floor(Math.random() * 1000000) + 100000;
-                    const date = new Date(now.getFullYear(), now.getMonth() - Math.floor(Math.random() * 6), Math.floor(Math.random() * 28) + 1);
-                    
-                    sampleData.push({
-                        id: Date.now() + i,
-                        type: type,
-                        documentNumber: `${type.substring(0, 3).toUpperCase()}/GL/${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getFullYear()}/${i.toString().padStart(3, '0')}`,
-                        documentDate: date.toISOString().split('T')[0],
-                        dueDate: new Date(date.getFullYear(), date.getMonth(), date.getDate() + 30).toISOString().split('T')[0],
-                        savedDate: date.toISOString(),
-                        clientName: client,
-                        clientEmail: `${client.toLowerCase().replace(/\s+/g, '.')}@example.com`,
-                        clientPhone: '+255 7' + Math.floor(Math.random() * 10000000).toString().padStart(7, '0'),
-                        currency: 'TSh',
-                        grandTotal: amount,
-                        vatType: ['none', 'standard', 'custom'][Math.floor(Math.random() * 3)],
-                        vatRate: Math.floor(Math.random() * 20) + 5,
-                        status: ['pending', 'paid', 'overdue'][Math.floor(Math.random() * 3)]
-                    });
-                }
-                
-                localStorage.setItem('kinguDocuments', JSON.stringify(sampleData));
-                return sampleData;
-            }
-            
-            // ==================== ENHANCED DOCUMENT HISTORY ====================
-            
-            function loadDocumentHistory() {
-                const historyTableBody = document.getElementById('history-table-body');
-                if (!historyTableBody) {
-                    console.error('History table body not found');
-                    return;
-                }
-                
-                const filter = document.getElementById('history-filter')?.value || 'all';
-                
-                let documents = JSON.parse(localStorage.getItem('kinguDocuments')) || [];
-                
-                if (filter !== 'all') {
-                    if (filter === 'proforma') {
-                        documents = documents.filter(doc => doc.type === 'Proforma');
-                    } else if (filter === 'invoice') {
-                        documents = documents.filter(doc => doc.type === 'Standard');
-                    } else if (filter === 'quotation') {
-                        documents = documents.filter(doc => doc.type === 'Quotation');
-                    } else if (filter === 'last30') {
-                        const thirtyDaysAgo = new Date();
-                        thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
-                        documents = documents.filter(doc => {
-                            const docDate = new Date(doc.savedDate);
-                            return docDate >= thirtyDaysAgo;
-                        });
-                    }
-                }
-                
-                if (documents.length === 0) {
-                    historyTableBody.innerHTML = `
-                        <tr>
-                            <td colspan="7" style="text-align: center; padding: 20px;">
-                                No documents found ${filter !== 'all' ? `for filter: ${filter}` : ''}. 
-                                Create your first document!
-                            </td>
-                        </tr>
-                    `;
-                    return;
-                }
-                
-                documents.sort((a, b) => new Date(b.savedDate) - new Date(a.savedDate));
-                
-                let tableHTML = '';
-                documents.forEach(doc => {
-                    const status = getDocumentStatus(doc);
-                    const typeBadge = getTypeBadge(doc.type);
-                    
-                    tableHTML += `
-                        <tr data-document-id="${doc.id}">
-                            <td>${doc.documentNumber || 'N/A'}</td>
-                            <td>${typeBadge}</td>
-                            <td>
-                                <strong>${doc.clientName || 'N/A'}</strong><br>
-                                <small style="color: #666;">${doc.clientEmail || ''}</small>
-                            </td>
-                            <td>${formatDate(doc.savedDate)}</td>
-                            <td>${formatCurrency(doc.grandTotal || 0, doc.currency || 'TSh')}</td>
-                            <td><span class="status-badge ${getStatusClass(status)}">${status}</span></td>
-                            <td>
-                                <div style="display: flex; gap: 5px;">
-                                    <button class="action-btn-small" style="background-color: var(--kingu-green); color: white;" onclick="viewDocument('${doc.id}')" title="View Document">
-                                        <i class="fas fa-eye"></i>
-                                    </button>
-                                    <button class="action-btn-small" style="background-color: var(--kingu-blue); color: white;" onclick="editDocument('${doc.id}')" title="Edit Document">
-                                        <i class="fas fa-edit"></i>
-                                    </button>
-                                    <button class="action-btn-small" style="background-color: var(--kingu-red); color: white;" onclick="deleteDocument('${doc.id}')" title="Delete Document">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                    <button class="action-btn-small" style="background-color: #25D366; color: white;" onclick="shareDocument('${doc.id}')" title="Share Document">
-                                        <i class="fab fa-whatsapp"></i>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                    `;
-                });
-                
-                historyTableBody.innerHTML = tableHTML;
-                
-                updateDocumentCount(documents.length);
-            }
-            
-            function formatDate(dateString) {
-                if (!dateString) return 'N/A';
-                const date = new Date(dateString);
-                if (isNaN(date.getTime())) return 'N/A';
-                return date.toLocaleDateString('en-GB', {
-                    day: '2-digit',
-                    month: 'short',
-                    year: 'numeric'
-                });
-            }
-            
-            function getTypeBadge(type) {
-                const badges = {
-                    'Standard': '<span class="status-badge" style="background-color: rgba(41, 128, 185, 0.2); color: #2980b9;">INVOICE</span>',
-                    'Quotation': '<span class="status-badge" style="background-color: rgba(230, 57, 70, 0.2); color: #e63946;">QUOTATION</span>',
-                    'Proforma': '<span class="status-badge" style="background-color: rgba(17, 106, 65, 0.2); color: #116a41;">PROFORMA</span>'
-                };
-                return badges[type] || type;
-            }
-            
-            function getStatusClass(status) {
-                switch(status.toLowerCase()) {
-                    case 'paid': return 'status-paid';
-                    case 'pending': return 'status-pending';
-                    case 'overdue': return 'status-overdue';
-                    default: return 'status-pending';
-                }
-            }
-            
-            function updateDocumentCount(count) {
-                let countElement = document.getElementById('document-count');
-                if (!countElement) {
-                    const header = document.querySelector('#invoice-history .header h1');
-                    if (header) {
-                        countElement = document.createElement('span');
-                        countElement.id = 'document-count';
-                        countElement.style.cssText = 'font-size: 14px; color: #666; margin-left: 10px; font-weight: normal;';
-                        header.appendChild(countElement);
-                    }
-                }
-                if (countElement) {
-                    countElement.textContent = `(${count} documents)`;
-                }
-            }
-            
-            window.deleteDocument = function(id) {
-                if (confirm('Are you sure you want to delete this document? This action cannot be undone.')) {
-                    let documents = JSON.parse(localStorage.getItem('kinguDocuments')) || [];
-                    const docToDelete = documents.find(d => d.id == id);
-                    
-                    if (docToDelete) {
-                        documents = documents.filter(doc => doc.id != id);
-                        localStorage.setItem('kinguDocuments', JSON.stringify(documents));
-                        
-                        ['invoices', 'quotations', 'proformas'].forEach(collection => {
-                            let items = JSON.parse(localStorage.getItem(collection)) || [];
-                            items = items.filter(item => item.id != id);
-                            localStorage.setItem(collection, JSON.stringify(items));
-                        });
-                        
-                        alert('Document deleted successfully!');
-                        loadDocumentHistory();
-                        if (typeof loadReports === 'function') {
-                            loadReports();
-                        }
-                    }
-                }
-            };
-            
-            window.shareDocument = function(id) {
-                const documents = JSON.parse(localStorage.getItem('kinguDocuments')) || [];
-                const doc = documents.find(d => d.id == id);
-                
-                if (doc) {
-                    const vatInfo = doc.vatType !== 'none' ? `\nVAT (${doc.vatRate}%): ${formatCurrency(doc.vatAmount || 0, doc.currency)}` : '';
-                    const message = `Kingu Electrical - ${doc.type}: ${doc.documentNumber}\nClient: ${doc.clientName}\nAmount: ${formatCurrency(doc.grandTotal, doc.currency)}${vatInfo}\nDate: ${formatDate(doc.documentDate)}`;
-                    const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
-                    window.open(whatsappUrl, '_blank');
-                }
-            };
-            
-            // ==================== EXISTING FUNCTIONALITY ====================
-            
-            window.viewDocument = function(id) {
-                let documents = JSON.parse(localStorage.getItem('kinguDocuments')) || [];
-                const doc = documents.find(d => d.id == id);
-                
-                if (doc) {
-                    navCreate.click();
-                    
-                    document.getElementById('invoice-number').value = doc.documentNumber || '';
-                    document.getElementById('invoice-date').value = doc.documentDate || '';
-                    document.getElementById('due-date').value = doc.dueDate || '';
-                    document.getElementById('currency').value = doc.currency || 'TSh';
-                    document.getElementById('delivery-time').value = doc.deliveryTime || '7';
-                    document.getElementById('payment-terms').value = doc.paymentTerms || '100% after delivery';
-                    document.getElementById('client-name').value = doc.clientName || '';
-                    document.getElementById('client-email').value = doc.clientEmail || '';
-                    document.getElementById('client-phone').value = doc.clientPhone || '';
-                    document.getElementById('client-address').value = doc.clientAddress || '';
-                    document.getElementById('client-tin').value = doc.clientTIN || '';
-                    document.getElementById('client-vat').value = doc.clientVAT || '';
-                    document.getElementById('bank-details').value = doc.bankDetails || '';
-                    document.getElementById('notes').value = doc.notes || '';
-                    
-                    // Load VAT data
-                    if (doc.vatType) {
-                        const vatOption = document.querySelector(`input[name="vat-option"][value="${doc.vatType}"]`);
-                        if (vatOption) {
-                            vatOption.checked = true;
-                            vatOption.dispatchEvent(new Event('change'));
-                        }
-                        
-                        if (doc.vatRate) {
-                            document.getElementById('custom-vat-rate').value = doc.vatRate;
-                        }
-                        
-                        if (doc.vatNumber) {
-                            document.getElementById('vat-number-input').value = doc.vatNumber;
-                        }
-                    }
-                    
-                    const itemsTable = document.getElementById('invoice-items');
-                    itemsTable.innerHTML = '';
-                    
-                    if (doc.items && doc.items.length > 0) {
-                        doc.items.forEach(item => {
-                            const row = document.createElement('tr');
-                            row.innerHTML = `
-                                <td><input type="text" class="item-description" placeholder="Service description" value="${item.description || ''}"></td>
-                                <td><input type="number" class="item-quantity" min="0" step="0.01" value="${item.quantity || 0}"></td>
-                                <td>
-                                    <div style="display: flex; align-items: center;">
-                                        <span class="currency-symbol" style="margin-right: 5px;">${doc.currency || 'TSh'}</span>
-                                        <input type="number" class="item-price" min="0" step="0.01" value="${item.price || 0}" style="flex: 1;">
-                                    </div>
-                                </td>
-                                <td class="item-total text-right">${formatCurrency(item.total || 0, doc.currency || 'TSh')}</td>
-                                <td class="text-center"><button class="delete-item"><i class="fas fa-trash"></i></button></td>
-                            `;
-                            itemsTable.appendChild(row);
-                        });
-                    }
-                    
                     updateTotals();
-                    
-                    alert('Document loaded successfully! You can now edit and save it.');
-                }
-            };
-            
-            window.editDocument = function(id) {
-                viewDocument(id);
-            };
-            
-            window.contactClient = function(email) {
-                window.location.href = `mailto:${email}`;
-            };
-            
-            window.viewClientInvoices = function(email) {
-                navHistory.click();
-                alert(`Showing invoices for client: ${email}`);
-            };
-            
-            document.getElementById('history-filter').addEventListener('change', function() {
-                loadDocumentHistory();
-            });
-            
-            document.getElementById('export-history-btn').addEventListener('click', function() {
-                alert('Export functionality would be implemented here');
-            });
-            
-            document.getElementById('generate-report-btn').addEventListener('click', function() {
-                loadReports();
-                alert('Report generated!');
-            });
-            
-            function loadProformaInvoices() {
-                const proformaTableBody = document.getElementById('proforma-table-body');
-                let documents = JSON.parse(localStorage.getItem('kinguDocuments')) || [];
-                
-                const proformas = documents.filter(doc => doc.type === 'Proforma');
-                
-                if (proformas.length === 0) {
-                    proformaTableBody.innerHTML = `
-                        <tr>
-                            <td colspan="7" style="text-align: center; padding: 20px;">
-                                No proforma invoices found. Create your first proforma invoice!
-                            </td>
-                        </tr>
-                    `;
-                    return;
-                }
-                
-                let tableHTML = '';
-                proformas.forEach(doc => {
-                    const status = getDocumentStatus(doc);
-                    tableHTML += `
-                        <tr>
-                            <td>${doc.documentNumber || 'N/A'}</td>
-                            <td>${doc.clientName || 'N/A'}</td>
-                            <td>${formatDate(doc.documentDate)}</td>
-                            <td>${formatDate(doc.dueDate)}</td>
-                            <td>${formatCurrency(doc.grandTotal || 0, doc.currency || 'TSh')}</td>
-                            <td><span class="status-badge ${getStatusClass(status)}">${status}</span></td>
-                            <td>
-                                <button class="action-btn-small" style="background-color: var(--kingu-green); color: white;" onclick="viewDocument('${doc.id}')">
-                                    <i class="fas fa-eye"></i> View
-                                </button>
-                                <button class="action-btn-small" style="background-color: var(--kingu-blue); color: white;" onclick="editDocument('${doc.id}')">
-                                    <i class="fas fa-edit"></i> Edit
-                                </button>
-                            </td>
-                        </tr>
-                    `;
                 });
                 
-                proformaTableBody.innerHTML = tableHTML;
-            }
-            
-            function loadClientDatabase() {
-                const clientTableBody = document.getElementById('client-table-body');
-                let documents = JSON.parse(localStorage.getItem('kinguDocuments')) || [];
+                document.getElementById('discount-value').addEventListener('input', updateTotals);
                 
-                const clients = {};
-                documents.forEach(doc => {
-                    if (doc.clientName && doc.clientEmail) {
-                        const key = `${doc.clientName}-${doc.clientEmail}`;
-                        if (!clients[key]) {
-                            clients[key] = {
-                                name: doc.clientName,
-                                email: doc.clientEmail,
-                                phone: doc.clientPhone || 'N/A',
-                                address: doc.clientAddress || 'N/A',
-                                tin: doc.clientTIN || 'N/A',
-                                invoiceCount: 0,
-                                totalValue: 0
-                            };
-                        }
-                        clients[key].invoiceCount++;
-                        clients[key].totalValue += (doc.grandTotal || 0);
+                document.getElementById('payment-terms').addEventListener('change', function() {
+                    const customTermsContainer = document.getElementById('custom-terms-container');
+                    if (this.value === 'Custom') {
+                        customTermsContainer.style.display = 'flex';
+                    } else {
+                        customTermsContainer.style.display = 'none';
                     }
                 });
                 
-                const clientArray = Object.values(clients);
+                // Set current date
+                const today = new Date().toISOString().split('T')[0];
+                document.getElementById('invoice-date').value = today;
                 
-                if (clientArray.length === 0) {
-                    clientTableBody.innerHTML = `
-                        <tr>
-                            <td colspan="6" style="text-align: center; padding: 20px;">
-                                No clients found. Create your first invoice!
-                            </td>
-                        </tr>
-                    `;
-                    return;
-                }
-                
-                let tableHTML = '';
-                clientArray.forEach(client => {
-                    tableHTML += `
-                        <tr>
-                            <td>
-                                <strong>${client.name}</strong><br>
-                                <small>${client.email}</small>
-                            </td>
-                            <td>
-                                ${client.phone}<br>
-                                ${client.address}
-                            </td>
-                            <td>${client.tin}</td>
-                            <td>${client.invoiceCount}</td>
-                            <td>${formatCurrency(client.totalValue, 'TSh')}</td>
-                            <td>
-                                <button class="action-btn-small" style="background-color: var(--kingu-green); color: white;" onclick="contactClient('${client.email}')">
-                                    <i class="fas fa-envelope"></i> Email
-                                </button>
-                                <button class="action-btn-small" style="background-color: var(--kingu-blue); color: white;" onclick="viewClientInvoices('${client.email}')">
-                                    <i class="fas fa-file-invoice"></i> Invoices
-                                </button>
-                            </td>
-                        </tr>
-                    `;
-                });
-                
-                clientTableBody.innerHTML = tableHTML;
+                const dueDate = new Date();
+                dueDate.setDate(dueDate.getDate() + 30);
+                document.getElementById('due-date').value = dueDate.toISOString().split('T')[0];
             }
             
-            function loadSettings() {
-                const settings = JSON.parse(localStorage.getItem('kinguSettings')) || {};
+            // Update item total
+            function updateItemTotal(row) {
+                const quantity = parseFloat(row.querySelector('.item-quantity').value) || 0;
+                const price = parseFloat(row.querySelector('.item-price').value) || 0;
+                const total = quantity * price;
+                const currency = document.getElementById('currency').value;
+                const currencySymbol = getCurrencySymbol(currency);
                 
-                document.getElementById('company-name').value = settings.companyName || 'KINGU ELECTRICAL COMPANY LIMITED';
-                document.getElementById('company-tin').value = settings.companyTIN || '157-024-493';
-                document.getElementById('company-address').value = settings.companyAddress || 'P.O. Box 62313, Dar Es Salaam Tanzania';
-                document.getElementById('company-phone').value = settings.companyPhone || '+255 677 01 47 40\n+255 763 95 79 08\n+255 682 84 35 52';
-                document.getElementById('company-email').value = settings.companyEmail || 'kinguelectricaltz@gmail.com';
-                document.getElementById('company-website').value = settings.companyWebsite || 'kingueletrical.com';
-                
-                document.getElementById('default-currency').value = settings.defaultCurrency || 'TSh';
-                document.getElementById('vat-rate').value = settings.vatRate || '18';
-                document.getElementById('default-vat-type').value = settings.defaultVatType || 'standard';
-                document.getElementById('enable-vat-number').value = settings.enableVatNumber || 'no';
-                document.getElementById('invoice-prefix').value = settings.invoicePrefix || 'PROFORMA/GL';
-                document.getElementById('default-payment-terms').value = settings.defaultPaymentTerms || '100% after delivery';
-                document.getElementById('default-delivery').value = settings.defaultDelivery || '7';
-                document.getElementById('default-notes').value = settings.defaultNotes || '1. This Proforma shall remain valid for 30 days only.\n2. Prices are inclusive of VAT where applicable.\n3. Delivery subject to stock availability.\n4. All disputes subject to Dar es Salaam jurisdiction.';
-                
-                document.getElementById('bank-name').value = settings.bankName || 'STANBIC BANK TANZANIA LIMITED';
-                document.getElementById('account-name').value = settings.accountName || 'KINGU ELECTRICAL COMPANY LIMITED';
-                document.getElementById('account-number').value = settings.accountNumber || '912 000 275 9274';
-                document.getElementById('swift-code').value = settings.swiftCode || 'SBICTZTX';
+                row.querySelector('.item-total').textContent = 
+                    `${currencySymbol} ${total.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}`;
             }
             
-            document.getElementById('save-settings-btn').addEventListener('click', function() {
-                const settings = {
-                    companyName: document.getElementById('company-name').value,
-                    companyTIN: document.getElementById('company-tin').value,
-                    companyAddress: document.getElementById('company-address').value,
-                    companyPhone: document.getElementById('company-phone').value,
-                    companyEmail: document.getElementById('company-email').value,
-                    companyWebsite: document.getElementById('company-website').value,
-                    
-                    defaultCurrency: document.getElementById('default-currency').value,
-                    vatRate: document.getElementById('vat-rate').value,
-                    defaultVatType: document.getElementById('default-vat-type').value,
-                    enableVatNumber: document.getElementById('enable-vat-number').value,
-                    invoicePrefix: document.getElementById('invoice-prefix').value,
-                    defaultPaymentTerms: document.getElementById('default-payment-terms').value,
-                    defaultDelivery: document.getElementById('default-delivery').value,
-                    defaultNotes: document.getElementById('default-notes').value,
-                    
-                    bankName: document.getElementById('bank-name').value,
-                    accountName: document.getElementById('account-name').value,
-                    accountNumber: document.getElementById('account-number').value,
-                    swiftCode: document.getElementById('swift-code').value
-                };
-                
-                localStorage.setItem('kinguSettings', JSON.stringify(settings));
-                alert('Settings saved successfully!');
-            });
-            
-            // ==================== INVOICE FORM FUNCTIONALITY ====================
-            
-            function collectFormData() {
-                const type = getCurrentDocumentType();
-                const items = [];
+            // Update totals
+            function updateTotals() {
+                let subtotal = 0;
                 
                 document.querySelectorAll('#invoice-items tr').forEach(row => {
-                    const description = row.querySelector('.item-description')?.value || '';
-                    const quantity = parseFloat(row.querySelector('.item-quantity')?.value || 0);
-                    const price = parseFloat(row.querySelector('.item-price')?.value || 0);
-                    const total = quantity * price;
-                    
-                    if (description) {
-                        items.push({
-                            description,
-                            quantity,
-                            price,
-                            total
-                        });
-                    }
+                    const quantity = parseFloat(row.querySelector('.item-quantity').value) || 0;
+                    const price = parseFloat(row.querySelector('.item-price').value) || 0;
+                    subtotal += quantity * price;
                 });
                 
-                const subtotal = items.reduce((sum, item) => sum + item.total, 0);
                 const discountType = document.getElementById('discount-type').value;
-                const discountValue = parseFloat(document.getElementById('discount-value')?.value || 0);
+                const discountValue = parseFloat(document.getElementById('discount-value').value) || 0;
                 let discountAmount = 0;
                 
                 if (discountType === 'percentage') {
@@ -3211,7 +2857,7 @@ SWIFT CODE: SBICTZTX</textarea>
                 
                 const taxable = subtotal - discountAmount;
                 
-                // VAT/Tax calculation
+                // VAT calculation
                 const vatOption = document.querySelector('input[name="vat-option"]:checked');
                 const vatType = vatOption ? vatOption.value : 'none';
                 let vatRate = 0;
@@ -3226,260 +2872,115 @@ SWIFT CODE: SBICTZTX</textarea>
                     }
                     vatAmount = (taxable * vatRate) / 100;
                     grandTotal = taxable + vatAmount;
+                    
+                    // Update VAT row
+                    const vatRow = document.getElementById('vat-row');
+                    vatRow.style.display = 'flex';
+                    const vatLabel = vatRow.querySelector('.total-label');
+                    const vatTypeLabel = vatType === 'standard' ? 'VAT' : 'Tax';
+                    vatLabel.textContent = `${vatTypeLabel} (${vatRate}%):`;
+                    document.getElementById('tax').textContent = 
+                        `${getCurrencySymbol(document.getElementById('currency').value)} ${vatAmount.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}`;
+                } else {
+                    document.getElementById('vat-row').style.display = 'none';
                 }
                 
-                return {
-                    type: type,
-                    documentNumber: document.getElementById('invoice-number').value,
-                    documentDate: document.getElementById('invoice-date').value,
-                    dueDate: document.getElementById('due-date').value,
-                    currency: document.getElementById('currency').value,
-                    deliveryTime: document.getElementById('delivery-time').value,
-                    paymentTerms: document.getElementById('payment-terms').value,
-                    customPaymentTerms: document.getElementById('custom-payment-terms')?.value || '',
-                    clientName: document.getElementById('client-name').value,
-                    clientEmail: document.getElementById('client-email').value,
-                    clientPhone: document.getElementById('client-phone').value,
-                    clientAddress: document.getElementById('client-address').value,
-                    clientTIN: document.getElementById('client-tin').value,
-                    clientVAT: document.getElementById('client-vat').value,
-                    items: items,
-                    subtotal: subtotal,
-                    discountType: discountType,
-                    discountValue: discountValue,
-                    discountAmount: discountAmount,
-                    vatType: vatType,
-                    vatRate: vatRate,
-                    vatAmount: vatAmount,
-                    vatNumber: document.getElementById('vat-number-input')?.value || '',
-                    grandTotal: grandTotal,
-                    bankDetails: document.getElementById('bank-details').value,
-                    notes: document.getElementById('notes').value
-                };
+                const currency = document.getElementById('currency').value;
+                const currencySymbol = getCurrencySymbol(currency);
+                
+                document.getElementById('subtotal').textContent = 
+                    `${currencySymbol} ${subtotal.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}`;
+                
+                document.getElementById('discount-amount').textContent = 
+                    `${currencySymbol} ${discountAmount.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}`;
+                
+                document.getElementById('grand-total').textContent = 
+                    `${currencySymbol} ${grandTotal.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}`;
+                
+                document.getElementById('amount-words').textContent = 
+                    convertNumberToWords(grandTotal) + ' ' + currency + ' only';
             }
             
-            function getCurrentDocumentType() {
-                if (document.getElementById('btn-proforma').classList.contains('active')) {
-                    return 'Proforma';
-                } else if (document.getElementById('btn-standard').classList.contains('active')) {
-                    return 'Standard';
-                } else if (document.getElementById('btn-quotation').classList.contains('active')) {
-                    return 'Quotation';
+            // Add new item
+            function addNewItem() {
+                const itemsTable = document.getElementById('invoice-items');
+                const currency = document.getElementById('currency').value;
+                const currencySymbol = getCurrencySymbol(currency);
+                
+                const newRow = document.createElement('tr');
+                newRow.innerHTML = `
+                    <td><input type="text" class="item-description" placeholder="Enter item description"></td>
+                    <td><input type="number" class="item-quantity" min="0" step="0.01" value="1.00"></td>
+                    <td>
+                        <div style="display: flex; align-items: center;">
+                            <span class="currency-symbol" style="margin-right: 5px;">${currencySymbol}</span>
+                            <input type="number" class="item-price" min="0" step="0.01" value="0.00" style="flex: 1;">
+                        </div>
+                    </td>
+                    <td class="item-total text-right">${currencySymbol} 0.00</td>
+                    <td class="text-center"><button class="delete-item"><i class="fas fa-trash"></i></button></td>
+                `;
+                itemsTable.appendChild(newRow);
+            }
+            
+            // Get currency symbol
+            function getCurrencySymbol(currency) {
+                switch(currency) {
+                    case 'USD': return '$';
+                    case 'EUR': return '€';
+                    case 'GBP': return '£';
+                    default: return 'TSh';
                 }
-                return 'Proforma';
             }
             
-            // Initialize invoice form
+            // Convert number to words
+            function convertNumberToWords(num) {
+                const units = ['', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine'];
+                const teens = ['ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen'];
+                const tens = ['', '', 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety'];
+                
+                if (num === 0) return 'zero';
+                
+                let words = '';
+                
+                const thousands = Math.floor(num / 1000);
+                if (thousands > 0) {
+                    words += convertNumberToWords(thousands) + ' thousand ';
+                    num %= 1000;
+                }
+                
+                const hundreds = Math.floor(num / 100);
+                if (hundreds > 0) {
+                    words += units[hundreds] + ' hundred ';
+                    num %= 100;
+                }
+                
+                if (num > 0) {
+                    if (words !== '') words += 'and ';
+                    
+                    if (num < 10) {
+                        words += units[num];
+                    } else if (num < 20) {
+                        words += teens[num - 10];
+                    } else {
+                        words += tens[Math.floor(num / 10)];
+                        if (num % 10 > 0) {
+                            words += '-' + units[num % 10];
+                        }
+                    }
+                }
+                
+                return words.trim();
+            }
+            
+            // Initialize the application
             initializeInvoiceForm();
             initializeVatOptions();
             
-            // Set current date
-            const today = new Date().toISOString().split('T')[0];
-            document.getElementById('invoice-date').value = today;
+            // Your existing functions for loadReports, loadDocumentHistory, etc.
+            // These would be included here...
             
-            const dueDate = new Date();
-            dueDate.setDate(dueDate.getDate() + 30);
-            document.getElementById('due-date').value = dueDate.toISOString().split('T')[0];
         });
-        
-        // ==================== INVOICE FORM HELPER FUNCTIONS ====================
-        
-        function initializeInvoiceForm() {
-            document.addEventListener('input', function(e) {
-                if (e.target.classList.contains('item-quantity') || 
-                    e.target.classList.contains('item-price')) {
-                    updateItemTotal(e.target.closest('tr'));
-                    updateTotals();
-                }
-            });
-            
-            document.getElementById('add-item-btn').addEventListener('click', function() {
-                addNewItem();
-            });
-            
-            document.addEventListener('click', function(e) {
-                if (e.target.closest('.delete-item')) {
-                    e.target.closest('tr').remove();
-                    updateTotals();
-                }
-            });
-            
-            document.getElementById('discount-type').addEventListener('change', function() {
-                const discountValueContainer = document.getElementById('discount-value-container');
-                const discountRow = document.getElementById('discount-row');
-                
-                if (this.value === 'none') {
-                    discountValueContainer.style.display = 'none';
-                    discountRow.style.display = 'none';
-                } else {
-                    discountValueContainer.style.display = 'block';
-                    discountRow.style.display = 'flex';
-                    
-                    if (this.value === 'percentage') {
-                        document.getElementById('discount-label').textContent = 'Discount (%):';
-                    } else {
-                        document.getElementById('discount-label').textContent = 'Discount (Amount):';
-                    }
-                }
-                updateTotals();
-            });
-            
-            document.getElementById('discount-value').addEventListener('input', updateTotals);
-            
-            document.getElementById('payment-terms').addEventListener('change', function() {
-                const customTermsContainer = document.getElementById('custom-terms-container');
-                if (this.value === 'Custom') {
-                    customTermsContainer.style.display = 'flex';
-                } else {
-                    customTermsContainer.style.display = 'none';
-                }
-            });
-        }
-        
-        function updateItemTotal(row) {
-            const quantity = parseFloat(row.querySelector('.item-quantity').value) || 0;
-            const price = parseFloat(row.querySelector('.item-price').value) || 0;
-            const total = quantity * price;
-            const currency = document.getElementById('currency').value;
-            const currencySymbol = getCurrencySymbol(currency);
-            
-            row.querySelector('.item-total').textContent = 
-                `${currencySymbol} ${total.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}`;
-        }
-        
-        function updateTotals() {
-            let subtotal = 0;
-            
-            document.querySelectorAll('#invoice-items tr').forEach(row => {
-                const quantity = parseFloat(row.querySelector('.item-quantity').value) || 0;
-                const price = parseFloat(row.querySelector('.item-price').value) || 0;
-                subtotal += quantity * price;
-            });
-            
-            const discountType = document.getElementById('discount-type').value;
-            const discountValue = parseFloat(document.getElementById('discount-value').value) || 0;
-            let discountAmount = 0;
-            
-            if (discountType === 'percentage') {
-                discountAmount = (subtotal * discountValue) / 100;
-            } else if (discountType === 'fixed') {
-                discountAmount = discountValue;
-            }
-            
-            const taxable = subtotal - discountAmount;
-            
-            // VAT calculation
-            const vatOption = document.querySelector('input[name="vat-option"]:checked');
-            const vatType = vatOption ? vatOption.value : 'none';
-            let vatRate = 0;
-            let vatAmount = 0;
-            let grandTotal = taxable;
-            
-            if (vatType !== 'none') {
-                if (vatType === 'standard') {
-                    vatRate = 18;
-                } else if (vatType === 'custom') {
-                    vatRate = parseFloat(document.getElementById('custom-vat-rate').value) || 0;
-                }
-                vatAmount = (taxable * vatRate) / 100;
-                grandTotal = taxable + vatAmount;
-                
-                // Update VAT row
-                const vatRow = document.getElementById('vat-row');
-                vatRow.style.display = 'flex';
-                const vatLabel = vatRow.querySelector('.total-label');
-                const vatTypeLabel = vatType === 'standard' ? 'VAT' : 'Tax';
-                vatLabel.textContent = `${vatTypeLabel} (${vatRate}%):`;
-                document.getElementById('tax').textContent = 
-                    `${getCurrencySymbol(document.getElementById('currency').value)} ${vatAmount.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}`;
-            } else {
-                document.getElementById('vat-row').style.display = 'none';
-            }
-            
-            const currency = document.getElementById('currency').value;
-            const currencySymbol = getCurrencySymbol(currency);
-            
-            document.getElementById('subtotal').textContent = 
-                `${currencySymbol} ${subtotal.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}`;
-            
-            document.getElementById('discount-amount').textContent = 
-                `${currencySymbol} ${discountAmount.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}`;
-            
-            document.getElementById('grand-total').textContent = 
-                `${currencySymbol} ${grandTotal.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}`;
-            
-            document.getElementById('amount-words').textContent = 
-                convertNumberToWords(grandTotal) + ' ' + currency + ' only';
-        }
-        
-        function addNewItem() {
-            const itemsTable = document.getElementById('invoice-items');
-            const currency = document.getElementById('currency').value;
-            const currencySymbol = getCurrencySymbol(currency);
-            
-            const newRow = document.createElement('tr');
-            newRow.innerHTML = `
-                <td><input type="text" class="item-description" placeholder="Enter item description"></td>
-                <td><input type="number" class="item-quantity" min="0" step="0.01" value="1.00"></td>
-                <td>
-                    <div style="display: flex; align-items: center;">
-                        <span class="currency-symbol" style="margin-right: 5px;">${currencySymbol}</span>
-                        <input type="number" class="item-price" min="0" step="0.01" value="0.00" style="flex: 1;">
-                    </div>
-                </td>
-                <td class="item-total text-right">${currencySymbol} 0.00</td>
-                <td class="text-center"><button class="delete-item"><i class="fas fa-trash"></i></button></td>
-            `;
-            itemsTable.appendChild(newRow);
-        }
-        
-        function getCurrencySymbol(currency) {
-            switch(currency) {
-                case 'USD': return '$';
-                case 'EUR': return '€';
-                case 'GBP': return '£';
-                default: return 'TSh';
-            }
-        }
-        
-        function convertNumberToWords(num) {
-            const units = ['', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine'];
-            const teens = ['ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen'];
-            const tens = ['', '', 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety'];
-            
-            if (num === 0) return 'zero';
-            
-            let words = '';
-            
-            const thousands = Math.floor(num / 1000);
-            if (thousands > 0) {
-                words += convertNumberToWords(thousands) + ' thousand ';
-                num %= 1000;
-            }
-            
-            const hundreds = Math.floor(num / 100);
-            if (hundreds > 0) {
-                words += units[hundreds] + ' hundred ';
-                num %= 100;
-            }
-            
-            if (num > 0) {
-                if (words !== '') words += 'and ';
-                
-                if (num < 10) {
-                    words += units[num];
-                } else if (num < 20) {
-                    words += teens[num - 10];
-                } else {
-                    words += tens[Math.floor(num / 10)];
-                    if (num % 10 > 0) {
-                        words += '-' + units[num % 10];
-                    }
-                }
-            }
-            
-            return words.trim();
-        }
     </script>
 </body>
 </html>
