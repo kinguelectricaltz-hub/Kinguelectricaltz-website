@@ -527,7 +527,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: url(Background.jpg);
+            background-image: url('Background.jpg');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
@@ -566,31 +566,36 @@
             border: 1px solid rgba(255, 255, 255, 0.3);
         }
         
-        /* Header with stronger overlay */
+        /* ===== HEADER STYLES - FIXED VERSION ===== */
         header {
-            background: linear-gradient(rgba(13, 59, 31, 0.92), rgba(26, 86, 50, 0.92));
-        }
-        
-        /* ===== HEADER STYLES ===== */
-        header {
+            background: 
+                linear-gradient(
+                    rgba(26, 86, 50, 0.85), 
+                    rgba(13, 59, 31, 0.95)
+                ),
+                url('Background.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-blend-mode: overlay;
+            color: var(--white);
+            padding: 100px 20px;
+            text-align: center;
             position: relative;
-            width: 100%;
-            min-height: 100vh;
-            color: white;
+            overflow: hidden;
+            min-height: 90vh;
             display: flex;
             align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 2rem 1rem;
         }
-        
+
+        /* REMOVED the problematic ::before pseudo-element */
+        /* This was the main issue - the gradient overlay was covering the image */
+
         .header-content {
-            max-width: 1200px;
-            width: 100%;
-            margin: 0 auto;
-            padding: 2rem;
             position: relative;
-            z-index: 2;
+            z-index: 1;
+            max-width: 900px;
+            margin: 0 auto;
         }
         
         .logo-container {
@@ -1626,6 +1631,11 @@
             /* Adjust background opacity for mobile */
             body::before {
                 opacity: 0.15;
+            }
+            
+            /* Mobile header - remove fixed background */
+            header {
+                background-attachment: scroll;
             }
         }
         
