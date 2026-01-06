@@ -141,13 +141,18 @@ h1, h2, h3, h4, .nav-logo, .btn {
     transform: scale(1.2);
 }
 
-/* ===== Header ===== */
+/* ===== HEADER - FIXED VERSION ===== */
 header {
-    background: linear-gradient(rgba(26, 86, 50, 0.9), rgba(13, 59, 31, 0.9)),
-                url(Background.jpg);
+    background: 
+        linear-gradient(
+            rgba(26, 86, 50, 0.85), 
+            rgba(13, 59, 31, 0.95)
+        ),
+        url('Background.jpg');
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
+    background-blend-mode: overlay;
     color: var(--white);
     padding: 100px 20px;
     text-align: center;
@@ -158,20 +163,11 @@ header {
     align-items: center;
 }
 
-header::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(45deg, rgba(26, 86, 50, 0.8), rgba(13, 59, 31, 0.9));
-    z-index: 1;
-}
+/* Removed the problematic ::before pseudo-element */
 
 .header-content {
     position: relative;
-    z-index: 2;
+    z-index: 1;
     max-width: 900px;
     margin: 0 auto;
 }
