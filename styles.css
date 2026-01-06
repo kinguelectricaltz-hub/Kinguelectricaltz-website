@@ -144,7 +144,7 @@ h1, h2, h3, h4, .nav-logo, .btn {
 /* ===== Header ===== */
 header {
     background: linear-gradient(rgba(26, 86, 50, 0.9), rgba(13, 59, 31, 0.9)),
-                url(background.jpg);
+                url(Background.jpg);
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
