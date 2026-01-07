@@ -118,9 +118,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: url(Background.jpg);
-            background-size: cover;
-            background-position: center;
+            background: linear-gradient(135deg, #0d3b1f 0%, #1a5632 100%);
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -138,15 +136,12 @@
             justify-content: center;
             width: 100%;
             height: 100%;
-            background: url(Background.jpg);
             position: absolute;
             top: 0;
             left: 0;
             opacity: 1;
             transition: opacity 1s ease;
             padding: 2rem;
-            background: rgba(13, 59, 31, 0.85);
-            backdrop-filter: blur(5px);
         }
         
         .loading-welcome.hidden {
@@ -157,24 +152,22 @@
         .welcome-logo {
             width: 250px;
             height: auto;
-            background: url(Background.jpg);
             margin-bottom: 3rem;
             opacity: 0;
             animation: logoFloatIn 2s ease-out 0.5s forwards;
-            filter: drop-shadow(0 8px 16px rgba(0,0,0,0.3));
+            filter: drop-shadow(0 8px 16px rgba(0,0,0,0.4));
         }
         
         .welcome-title {
             font-family: 'Poppins', sans-serif;
             font-size: 3.5rem;
             font-weight: 700;
-            background: url(Background.jpg);
             color: white;
             text-align: center;
             margin-bottom: 1rem;
             opacity: 0;
             animation: fadeInUp 1.5s ease-out 1.5s forwards;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            text-shadow: 0 4px 8px rgba(0,0,0,0.3);
             line-height: 1.2;
         }
         
@@ -184,7 +177,6 @@
             color: #64ffda;
             text-align: center;
             max-width: 800px;
-            background: url(Background.jpg);
             margin: 0 auto 4rem;
             opacity: 0;
             animation: fadeInUp 1.5s ease-out 2s forwards;
@@ -226,7 +218,6 @@
             justify-content: center;
             width: 100%;
             height: 100%;
-            background: url(Background.jpg);
             position: absolute;
             top: 0;
             left: 0;
@@ -234,8 +225,6 @@
             transition: opacity 1s ease;
             padding: 2rem;
             overflow-y: auto;
-            background: rgba(13, 59, 31, 0.9);
-            backdrop-filter: blur(10px);
         }
         
         .loading-about.visible {
@@ -266,7 +255,7 @@
         .about-content {
             max-width: 900px;
             width: 100%;
-            background: url(Background.jpg);
+            background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(15px);
             border-radius: 20px;
             padding: 3rem;
@@ -287,8 +276,7 @@
             left: -100%;
             width: 100%;
             height: 2px;
-            background: url(Background.jpg);
-            background: linear-gradient(135deg, #1a5632, #0d3b1f);
+            background: linear-gradient(90deg, transparent, #64ffda, transparent);
             animation: contentGlow 3s ease-in-out 2.5s infinite;
         }
         
@@ -322,7 +310,6 @@
             width: 100%;
             height: 2px;
             background: #64ffda;
-            background: url(Background.jpg);
             transform: scaleX(0);
             animation: highlightPulse 3s ease-in-out 3s infinite;
         }
@@ -357,7 +344,7 @@
         
         .progress-bar {
             height: 100%;
-            background: linear-gradient(135deg, #1a5632, #0d3b1f);
+            background: linear-gradient(90deg, #4fc3f7, #64ffda, #1a5632);
             width: 0%;
             transition: width 1s ease;
             border-radius: 3px;
@@ -479,8 +466,7 @@
             all: unset !important;
             width: 100% !important;
             height: auto !important;
-            background: url(Background.jpg);
-            background: rgba(13, 59, 31, 0.9) !important;
+            background: linear-gradient(135deg, #1a5632, #0d3b1f) !important;
             color: white !important;
             padding: 4rem 0 !important;
             text-align: center !important;
@@ -525,11 +511,7 @@
             line-height: 1.6;
             color: #333;
             overflow-x: hidden;
-            background: url(Background.jpg);
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            background-repeat: no-repeat;
+            background: #fff;
             width: 100%;
             position: relative;
             min-height: 100vh;
@@ -537,7 +519,25 @@
             transition: opacity 0.5s ease;
         }
         
-        /* Make sure content is readable over background */
+        /* ===== FIXED BACKGROUND IMAGE ===== */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('Background.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            opacity: 0.8; /* CHANGED from 0.2 to 0.8 */
+            z-index: -1;
+            filter: brightness(1) contrast(1.1) saturate(1.2); /* ADDED */
+        }
+        
+        /* Ensure content is readable over background */
         .container, 
         header,
         nav,
@@ -551,25 +551,80 @@
             z-index: 1;
         }
         
-        /* Semi-transparent overlays for sections */
-        main {
-            padding: 2rem 0;
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(5px);
+        /* Make ALL content sections have white background for readability */
+        .container,
+        header .header-content,
+        nav,
+        section,
+        footer,
+        .promo-banner,
+        .Kingu-shop-cta,
+        .emergency-cta,
+        .cta,
+        #stats-section,
+        .loading-about .about-content,
+        form,
+        .booking-widget,
+        .Kingu-shop-section,
+        .card,
+        .team-card,
+        .product-card,
+        .testimonial,
+        .project-item,
+        .certificate-item,
+        .service-card,
+        .resource-horizontal-card,
+        .testimonial-slider .testimonial,
+        .service-card .service-content,
+        [style*="background:"], 
+        [class*="card"],
+        [class*="section"]:not(#resources) {
+            background: rgba(255, 255, 255, 0.95) !important;
+            backdrop-filter: blur(8px) !important;
+            border-radius: 12px !important;
+            border: 1px solid rgba(255, 255, 255, 0.3) !important;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1) !important;
         }
         
-        section {
-            padding: 4rem 0;
-            position: relative;
+        /* Ensure text contrast on all elements */
+        h1, h2, h3, h4, h5, h6,
+        p, span, li, td, label,
+        .nav-menu a,
+        .footer-column a,
+        .footer-column p,
+        .team-name,
+        .team-title,
+        .service-content h3,
+        .card h3,
+        .product-card h3,
+        .project-item h3,
+        .certificate-item h4 {
+            color: #333 !important;
+            text-shadow: 0 1px 2px rgba(255, 255, 255, 0.7) !important;
         }
         
-        /* Alternate section backgrounds for better readability */
-        section:nth-child(even) {
-            background: rgba(248, 249, 250, 0.8);
-        }
-        
-        section:nth-child(odd):not(#home) {
-            background: rgba(255, 255, 255, 0.8);
+        /* Special colored text that should remain visible */
+        #resources h2,
+        #resources p,
+        #resources h3,
+        #resources a,
+        .emergency-cta h3,
+        .emergency-cta p,
+        .Kingu-shop-cta h3,
+        .Kingu-shop-cta p,
+        .promo-banner h3,
+        .promo-banner p,
+        .cta h2,
+        .cta p,
+        #stats-section h2,
+        #stats-section div,
+        footer h3,
+        footer p,
+        footer a,
+        nav .nav-logo,
+        nav .nav-menu a {
+            color: white !important;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5) !important;
         }
         
         /* Make cards and forms more opaque for better readability */
@@ -583,19 +638,23 @@
         .Kingu-shop-section,
         .booking-widget {
             background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(5px);
             border: 1px solid rgba(255, 255, 255, 0.3);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
         }
         
-        /* ===== HEADER STYLES - WITH BACKGROUND OVERLAY ===== */
+        /* ===== HEADER STYLES - FIXED VERSION ===== */
         header {
             background: 
                 linear-gradient(
-                    rgba(26, 86, 50, 0.9), 
-                    rgba(13, 59, 31, 0.95)
-                );
-            color: white;
+                    rgba(26, 86, 50, 0.7), /* CHANGED from 0.85 to 0.7 */
+                    rgba(13, 59, 31, 0.8) /* CHANGED from 0.95 to 0.8 */
+                ),
+                url('Background.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-blend-mode: overlay;
+            color: var(--white);
             padding: 100px 20px;
             text-align: center;
             position: relative;
@@ -604,6 +663,9 @@
             display: flex;
             align-items: center;
         }
+
+        /* REMOVED the problematic ::before pseudo-element */
+        /* This was the main issue - the gradient overlay was covering the image */
 
         .header-content {
             position: relative;
@@ -674,11 +736,13 @@
         
         /* ===== PROMO BANNER ===== */
         .promo-banner {
-            background: linear-gradient(135deg, #1a5632, #0d3b1f);
+            background: linear-gradient(135deg, rgba(255, 107, 53, 0.9), rgba(255, 142, 83, 0.85)) !important; /* CHANGED opacity */
             color: white;
             padding: 1rem 0;
             text-align: center;
             position: relative;
+            backdrop-filter: blur(10px) !important; /* ADDED */
+            border: 1px solid rgba(255, 255, 255, 0.2) !important; /* ADDED */
         }
         
         .promo-content {
@@ -700,10 +764,12 @@
         
         /* ===== KINGU SHOP CTA ===== */
         .Kingu-shop-cta {
-            background: linear-gradient(135deg, #1a5632, #0d3b1f);
+            background: linear-gradient(135deg, rgba(26, 86, 50, 0.9), rgba(13, 61, 33, 0.85)) !important; /* CHANGED opacity */
             color: white;
             padding: 1.5rem 0;
             text-align: center;
+            backdrop-filter: blur(10px) !important; /* ADDED */
+            border: 1px solid rgba(255, 255, 255, 0.2) !important; /* ADDED */
         }
         
         .btn-Kingu-shop {
@@ -725,19 +791,18 @@
         .btn-Kingu-shop:hover {
             transform: translateY(-3px);
             box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-            background: url(Background.jpg);
             background: #f8f9fa;
         }
         
         /* ===== NAVIGATION ===== */
         nav {
-            background: rgba(13, 59, 31, 0.98);
+            background: rgba(13, 59, 31, 0.9) !important; /* CHANGED from 0.98 to 0.9 */
             position: sticky;
             top: 0;
             z-index: 1000;
             padding: 0;
             border-bottom: 1px solid rgba(255,255,255,0.2);
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(15px) !important; /* ADDED */
         }
         
         .nav-container {
@@ -815,6 +880,24 @@
             padding: 0 1rem;
         }
         
+        main {
+            padding: 2rem 0;
+        }
+        
+        section {
+            padding: 4rem 0;
+            position: relative;
+        }
+        
+        /* Alternate section backgrounds for better readability */
+        section:nth-child(even) {
+            background: rgba(248, 249, 250, 0.7);
+        }
+        
+        section:nth-child(odd):not(#home) {
+            background: rgba(255, 255, 255, 0.7);
+        }
+        
         h2 {
             font-family: 'Poppins', sans-serif;
             font-size: 2.5rem;
@@ -833,7 +916,7 @@
             transform: translateX(-50%);
             width: 100px;
             height: 4px;
-            background: linear-gradient(135deg, #1a5632, #0d3b1f));
+            background: linear-gradient(90deg, #1a5632, #0d3b1f);
             border-radius: 2px;
         }
         
@@ -849,13 +932,13 @@
             background: rgba(255, 255, 255, 0.95);
             border-radius: 12px;
             padding: 2.5rem;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 6px 25px rgba(0,0,0,0.1);
             transition: all 0.3s ease;
             height: 100%;
             display: flex;
             flex-direction: column;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(5px);
             overflow: hidden;
         }
         
@@ -885,13 +968,13 @@
             background: rgba(255, 255, 255, 0.95);
             border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 6px 25px rgba(0,0,0,0.1);
             transition: all 0.3s ease;
             height: 100%;
             display: flex;
             flex-direction: column;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(5px);
         }
         
         .service-card:hover {
@@ -924,7 +1007,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(135deg, #1a5632, #0d3b1f);
+            background: linear-gradient(45deg, rgba(0,0,0,0.1), rgba(0,0,0,0.05));
             z-index: 1;
         }
         
@@ -967,11 +1050,11 @@
             background: rgba(255, 255, 255, 0.95);
             border-radius: 12px;
             padding: 2rem;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 6px 25px rgba(0,0,0,0.1);
             text-align: center;
             transition: all 0.3s ease;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(5px);
         }
         
         .team-card:hover {
@@ -994,19 +1077,19 @@
         }
         
         .team-avatar.director {
-            background: linear-gradient(135deg, #1a5632, #0d3b1f);
+            background: linear-gradient(135deg, #FF6B35, #FF8E53);
         }
         
         .team-avatar.technician {
-            background: linear-gradient(135deg, #1a5632, #0d3b1f);
+            background: linear-gradient(135deg, #0d6efd, #0b5ed7);
         }
         
         .team-avatar.engineer {
-            background: linear-gradient(135deg, #1a5632, #0d3b1f);
+            background: linear-gradient(135deg, #6f42c1, #59359a);
         }
         
         .team-avatar.lawyer {
-            background: linear-gradient(135deg, #1a5632, #0d3b1f));
+            background: linear-gradient(135deg, #20c997, #199d76);
         }
         
         .team-name {
@@ -1081,11 +1164,13 @@
         
         /* ===== EMERGENCY CTA ===== */
         .emergency-cta {
-            background: linear-gradient(135deg, #1a5632, #0d3b1f));
+            background: linear-gradient(135deg, rgba(220, 53, 69, 0.9), rgba(200, 35, 51, 0.85)) !important; /* CHANGED opacity */
             color: white;
             padding: 3rem 0;
             text-align: center;
             position: relative;
+            backdrop-filter: blur(10px) !important; /* ADDED */
+            border: 1px solid rgba(255, 255, 255, 0.2) !important; /* ADDED */
         }
         
         .emergency-btn {
@@ -1120,10 +1205,10 @@
             background: rgba(255, 255, 255, 0.95);
             border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 6px 25px rgba(0,0,0,0.1);
             transition: all 0.3s ease;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(5px);
         }
         
         .product-card:hover {
@@ -1133,14 +1218,14 @@
         
         /* ===== KINGU SHOP SECTION ===== */
         .Kingu-shop-section {
-            background: rgba(248, 249, 250, 0.95);
+            background: linear-gradient(135deg, rgba(248, 249, 250, 0.95), rgba(233, 236, 239, 0.95)) !important;
             border-radius: 15px;
             padding: 2rem;
             margin: 3rem 0;
             text-align: center;
             border: 2px solid #1a5632;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(5px) !important;
+            box-shadow: 0 6px 25px rgba(0,0,0,0.1);
         }
         
         /* ===== TESTIMONIALS ===== */
@@ -1157,17 +1242,19 @@
             background: rgba(255, 255, 255, 0.95);
             border-radius: 12px;
             padding: 2rem;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 6px 25px rgba(0,0,0,0.1);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
         }
         
         /* ===== RESOURCES SECTION ===== */
         #resources {
-            background: linear-gradient(135deg, #1a5632, #0d3b1f);
+            background: linear-gradient(135deg, rgba(13, 61, 33, 0.85), rgba(26, 86, 50, 0.9)) !important; /* CHANGED opacity */
             color: white;
             padding: 3rem 0;
             position: relative;
+            backdrop-filter: blur(10px) !important; /* ADDED */
+            border: 1px solid rgba(255, 255, 255, 0.2) !important; /* ADDED */
         }
         
         #resources h2 {
@@ -1224,9 +1311,9 @@
             background: rgba(255, 255, 255, 0.95);
             border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 6px 25px rgba(0,0,0,0.1);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
         }
         
         /* ===== CERTIFICATES ===== */
@@ -1242,7 +1329,7 @@
         
         /* ===== CTA SECTION ===== */
         .cta {
-            background: linear-gradient(135deg, #1a5632, #0d3b1f);
+            background: linear-gradient(135deg, rgba(26, 86, 50, 0.9), rgba(13, 59, 31, 0.85)) !important; /* CHANGED opacity */
             color: white;
             padding: 4rem 0;
             text-align: center;
@@ -1250,6 +1337,8 @@
             margin: 4rem 0;
             position: relative;
             overflow: hidden;
+            backdrop-filter: blur(10px) !important; /* ADDED */
+            border: 1px solid rgba(255, 255, 255, 0.2) !important; /* ADDED */
         }
         
         /* ===== BUTTON STYLES ===== */
@@ -1283,9 +1372,9 @@
             background: rgba(255, 255, 255, 0.95);
             padding: 2rem;
             border-radius: 12px;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(5px);
+            box-shadow: 0 6px 25px rgba(0,0,0,0.1);
+            border: 1px solid rgba(255, 255, 255, 0.5);
         }
         
         input, textarea, select {
@@ -1324,10 +1413,11 @@
         
         /* ===== FOOTER ===== */
         footer {
-            background: linear-gradient(135deg, rgba(13, 59, 31, 0.98), rgba(26, 86, 50, 0.98));
+            background: linear-gradient(135deg, rgba(13, 59, 31, 0.9), rgba(26, 86, 50, 0.85)) !important; /* CHANGED opacity */
             color: white;
             padding: 4rem 0 2rem;
             position: relative;
+            backdrop-filter: blur(15px) !important; /* ADDED */
         }
         
         .footer-content {
@@ -1435,6 +1525,15 @@
                 font-size: 2.2rem;
             }
             
+            .loading-content {
+                width: 95%;
+                padding: 0 10px;
+            }
+            
+            .loading-section {
+                padding: 25px;
+            }
+            
             .loading-progress {
                 width: 350px;
             }
@@ -1442,14 +1541,6 @@
             .service-icon {
                 height: 180px;
                 font-size: 4rem;
-            }
-            
-            /* Adjust opacity for better readability on tablets */
-            .card,
-            .team-card,
-            .product-card,
-            .testimonial {
-                background: rgba(255, 255, 255, 0.97);
             }
         }
         
@@ -1621,18 +1712,15 @@
             .team-card,
             .product-card,
             .testimonial {
-                background: rgba(255, 255, 255, 0.98);
+                background: rgba(255, 255, 255, 0.98) !important;
             }
             
-            main {
-                background: rgba(255, 255, 255, 0.92);
+            /* Adjust background opacity for mobile */
+            body::before {
+                opacity: 0.9; /* CHANGED from 0.15 to 0.9 */
             }
             
-            /* Mobile background adjustments */
-            body {
-                background-attachment: scroll;
-            }
-            
+            /* Mobile header - remove fixed background */
             header {
                 background-attachment: scroll;
             }
@@ -1744,16 +1832,10 @@
                 padding: 1.5rem;
             }
             
-            /* Further increase opacity for small screens */
-            .card,
-            .team-card,
-            .product-card,
-            .testimonial {
-                background: rgba(255, 255, 255, 0.99);
-            }
-            
-            main {
-                background: rgba(255, 255, 255, 0.95);
+            /* Reduce background opacity further for small screens */
+            body::before {
+                opacity: 0.95; /* CHANGED from 0.1 to 0.95 */
+                filter: brightness(1.1) contrast(1.2); /* ADDED */
             }
         }
         
@@ -1810,6 +1892,21 @@
             h2 {
                 font-size: 1.6rem;
             }
+            
+            body::before {
+                opacity: 0.95; /* CHANGED */
+            }
+            
+            /* Remove blur on very small devices for performance */
+            .container,
+            header .header-content,
+            section,
+            .card,
+            .team-card,
+            .product-card {
+                backdrop-filter: none !important;
+                background: rgba(255, 255, 255, 0.99) !important;
+            }
         }
     </style>
 </head>
@@ -1821,10 +1918,7 @@
             <img src="/assets/icons/company-logo.svg" alt="Kingu Electrical Company Limited" class="welcome-logo">
             
             <h1 class="welcome-title">
-                Welcome to<br>
-                <span style="color: white;">Kingu</span>
-                <span style="color: #dc3545;"> Electrical</span><br>
-                <span style="color: white;">Company Limited</span>
+                Welcome to<br>Kingu Electrical<br>Company Limited
             </h1>
             
             <p class="welcome-tagline">
@@ -1842,10 +1936,7 @@
         <div class="loading-about" id="aboutPage">
             <img src="/assets/icons/company-logo.svg" alt="Kingu Electrical Company Limited" class="about-logo">
             
-            <h2 class="about-title">
-                <span style="color: #64ffda;">Kingu</span>
-                <span style="color: white;"> Electrical</span>
-            </h2>
+            <h2 class="about-title">About Kingu Electrical</h2>
             
             <div class="about-content">
                 <p class="about-text">
@@ -1912,18 +2003,14 @@
         </div>
     </div>
 
-    <!-- Header with Background Overlay -->
+    <!-- Header -->
     <header id="home">
         <div class="header-content">
             <div class="logo-container">
                 <img src="/assets/icons/company-logo.svg" alt="Kingu Electrical Company Limited" class="logo">
             </div>
 
-            <h1>
-                <span style="color: white;">Kingu</span>
-                <span style="color: #dc3545;"> Electrical</span>
-                <span style="color: white;"> Company Limited</span>
-            </h1>
+            <h1>Kingu Electrical Company Limited</h1>
             <p class="tagline">Quality Electrical Services with Professional Experience</p>
 
             <div class="contact-header">
@@ -1946,10 +2033,7 @@
     <!-- Navigation -->
     <nav>
         <div class="nav-container">
-            <a href="#home" class="nav-logo">
-                <span style="color: white;">KINGU</span>
-                <span style="color: #dc3545;"> ELECTRICAL</span>
-            </a>
+            <a href="#home" class="nav-logo">KINGU ELECTRICAL</a>
             <button class="hamburger" id="hamburger" aria-label="Toggle navigation">
                 ☰
             </button>
@@ -1968,8 +2052,21 @@
         </div>
     </nav>
 
-    <!-- Stats Section -->
-    <div id="stats-section">
+    <!-- NUCLEAR OPTION - CANNOT BE HIDDEN STATS SECTION -->
+    <div id="stats-section" style="
+        width: 100% !important;
+        height: auto !important;
+        background: linear-gradient(135deg, #1a5632, #0d3b1f) !important;
+        color: white !important;
+        padding: 4rem 0 !important;
+        text-align: center !important;
+        position: relative !important;
+        z-index: 99999 !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        display: block !important;
+        pointer-events: auto !important;
+    ">
         <div style="max-width: 1200px; margin: 0 auto; padding: 0 1rem;">
             <h2 style="color: white !important; margin-bottom: 3rem; font-size: 2.5rem;">
                 Trusted Electrical Experts in Tanzania
@@ -2184,7 +2281,7 @@
             <div class="grid">
                 <div class="card">
                     <h3>Our Story</h3>
-                    <p>Founded in 2017 by highly Experienced Electrical Engineers, <span style="color: #1a5632; font-weight: 600;">Kingu</span> <span style="color: #dc3545; font-weight: 600;">Electrical</span> <span style="color: #1a5632; font-weight: 600;">Company Limited</span> has grown to become a leading Electrical Engineering and Product trading company in Tanzania, serving clients across East Africa with headquarters in Arusha and Dar-es-salaam.</p>
+                    <p>Founded in 2017 by highly Experienced Electrical Engineers, Kingu Electrical Company Limited has grown to become a leading Electrical Engineering and Product trading company in Tanzania, serving clients across East Africa with headquarters in Arusha and Dar-es-salaam.</p>
                 </div>
 
                 <div class="card">
@@ -2217,7 +2314,7 @@
 
                 <!-- Solar Systems -->
                 <div class="service-card">
-                    <div class="service-icon" style="background: linear-gradient(135deg, #1a5632, #0d3b1f);">
+                    <div class="service-icon" style="background: linear-gradient(135deg, #FF6B35, #FF8E53);">
                         <i class="fas fa-solar-panel"></i>
                     </div>
                     <div class="service-content">
@@ -2229,7 +2326,7 @@
 
                 <!-- Generator Spare Parts -->
                 <div class="service-card">
-                    <div class="service-icon" style="background: linear-gradient(135deg, #1a5632, #0d3b1f);">
+                    <div class="service-icon" style="background: linear-gradient(135deg, #0d6efd, #0b5ed7);">
                         <i class="fas fa-cogs"></i>
                     </div>
                     <div class="service-content">
@@ -2241,7 +2338,7 @@
 
                 <!-- Air Conditioning -->
                 <div class="service-card">
-                    <div class="service-icon" style="background: linear-gradient(135deg, #1a5632, #0d3b1f);">
+                    <div class="service-icon" style="background: linear-gradient(135deg, #20c997, #199d76);">
                         <i class="fas fa-wind"></i>
                     </div>
                     <div class="service-content">
@@ -2253,7 +2350,7 @@
 
                 <!-- PLC & Automation -->
                 <div class="service-card">
-                    <div class="service-icon" style="background: linear-gradient(135deg, #1a5632, #0d3b1f);">
+                    <div class="service-icon" style="background: linear-gradient(135deg, #6f42c1, #59359a);">
                         <i class="fas fa-microchip"></i>
                     </div>
                     <div class="service-content">
@@ -2265,7 +2362,7 @@
 
                 <!-- ATS Systems -->
                 <div class="service-card">
-                    <div class="service-icon" style="background: linear-gradient(135deg, #1a5632, #0d3b1f);">
+                    <div class="service-icon" style="background: linear-gradient(135deg, #fd7e14, #e8590c);">
                         <i class="fas fa-exchange-alt"></i>
                     </div>
                     <div class="service-content">
@@ -2277,7 +2374,7 @@
 
                 <!-- HPU Conversion -->
                 <div class="service-card">
-                    <div class="service-icon" style="background: linear-gradient(135deg, #1a5632, #0d3b1f);">
+                    <div class="service-icon" style="background: linear-gradient(135deg, #dc3545, #c82333);">
                         <i class="fas fa-tools"></i>
                     </div>
                     <div class="service-content">
@@ -2289,7 +2386,7 @@
 
                 <!-- Technical Training -->
                 <div class="service-card">
-                    <div class="service-icon" style="background: linear-gradient(1135deg, #1a5632, #0d3b1f);">
+                    <div class="service-icon" style="background: linear-gradient(135deg, #17a2b8, #138496);">
                         <i class="fas fa-chalkboard-teacher"></i>
                     </div>
                     <div class="service-content">
@@ -2301,7 +2398,7 @@
 
                 <!-- Electrical Installations -->
                 <div class="service-card">
-                    <div class="service-icon" style="background: linear-gradient(135deg, #1a5632, #0d3b1f);">
+                    <div class="service-icon" style="background: linear-gradient(135deg, #343a40, #212529);">
                         <i class="fas fa-bolt"></i>
                     </div>
                     <div class="service-content">
@@ -2313,7 +2410,7 @@
 
                 <!-- Security & ICT Systems -->
                 <div class="service-card">
-                    <div class="service-icon" style="background: linear-gradient(135deg, #1a5632, #0d3b1f);">
+                    <div class="service-icon" style="background: linear-gradient(135deg, #6610f2, #520dc2);">
                         <i class="fas fa-shield-alt"></i>
                     </div>
                     <div class="service-content">
@@ -2330,7 +2427,7 @@
             <h2>Featured Products</h2>
             <div class="product-grid">
                 <div class="product-card">
-                    <div style="height: 200px; background: linear-gradient(135deg, #1a5632, #0d3b1f)); display: flex; align-items: center; justify-content: center; color: white; font-size: 4rem;">
+                    <div style="height: 200px; background: linear-gradient(45deg, #1a5632, #0d3b1f); display: flex; align-items: center; justify-content: center; color: white; font-size: 4rem;">
                         ⚡
                     </div>
                     <div style="padding: 1.5rem;">
@@ -2342,7 +2439,7 @@
                 </div>
                 
                 <div class="product-card">
-                    <div style="height: 200px; background: linear-gradient(135deg, #1a5632, #0d3b1f); display: flex; align-items: center; justify-content: center; color: white; font-size: 4rem;">
+                    <div style="height: 200px; background: linear-gradient(45deg, #FF6B35, #FF8E53); display: flex; align-items: center; justify-content: center; color: white; font-size: 4rem;">
                         ☀️
                     </div>
                     <div style="padding: 1.5rem;">
@@ -2354,7 +2451,7 @@
                 </div>
                 
                 <div class="product-card">
-                    <div style="height: 200px; background: linear-gradient(135deg, #1a5632, #0d3b1f)); display: flex; align-items: center; justify-content: center; color: white; font-size: 4rem;">
+                    <div style="height: 200px; background: linear-gradient(45deg, #0d6efd, #0b5ed7); display: flex; align-items: center; justify-content: center; color: white; font-size: 4rem;">
                         🔧
                     </div>
                     <div style="padding: 1.5rem;">
@@ -2433,7 +2530,7 @@
         </section>
 
         <!-- Booking Widget -->
-        <div style="background: rgba(255, 255, 255, 0.95); padding: 2rem; border-radius: 12px; margin: 3rem 0; box-shadow: 0 8px 32px rgba(0,0,0,0.1); border: 1px solid rgba(255, 255, 255, 0.3); backdrop-filter: blur(10px);">
+        <div style="background: rgba(255, 255, 255, 0.95); padding: 2rem; border-radius: 12px; margin: 3rem 0; box-shadow: 0 6px 25px rgba(0,0,0,0.1); border: 1px solid rgba(255, 255, 255, 0.5);">
             <h3 style="text-align: center;">📅 Book a Free Site Inspection</h3>
             <form>
                 <input type="text" placeholder="Your Name" required>
@@ -2461,7 +2558,7 @@
             <h2>Projects & Achievements</h2>
             <div class="project-gallery">
                 <div class="project-item">
-                    <div style="height: 250px; background: linear-gradient(135deg, #1a5632, #0d3b1f); display: flex; align-items: center; justify-content: center; color: white; font-size: 3rem;">
+                    <div style="height: 250px; background: linear-gradient(45deg, #1a5632, #0d3b1f); display: flex; align-items: center; justify-content: center; color: white; font-size: 3rem;">
                         🏗️
                     </div>
                     <div style="padding: 1.5rem;">
@@ -2472,7 +2569,7 @@
                 </div>
 
                 <div class="project-item">
-                    <div style="height: 250px; background: linear-gradient(135deg, #1a5632, #0d3b1f); display: flex; align-items: center; justify-content: center; color: white; font-size: 3rem;">
+                    <div style="height: 250px; background: linear-gradient(45deg, #FF6B35, #FF8E53); display: flex; align-items: center; justify-content: center; color: white; font-size: 3rem;">
                         ⚡
                     </div>
                     <div style="padding: 1.5rem;">
@@ -2483,7 +2580,7 @@
                 </div>
 
                 <div class="project-item">
-                    <div style="height: 250px; background: linear-gradient(135deg, #1a5632, #0d3b1f); display: flex; align-items: center; justify-content: center; color: white; font-size: 3rem;">
+                    <div style="height: 250px; background: linear-gradient(45deg, #0d6efd, #0b5ed7); display: flex; align-items: center; justify-content: center; color: white; font-size: 3rem;">
                         💻
                     </div>
                     <div style="padding: 1.5rem;">
@@ -2494,7 +2591,7 @@
                 </div>
 
                 <div class="project-item">
-                    <div style="height: 250px; background: linear-gradient(135deg, #1a5632, #0d3b1f); display: flex; align-items: center; justify-content: center; color: white; font-size: 3rem;">
+                    <div style="height: 250px; background: linear-gradient(45deg, #20c997, #199d76); display: flex; align-items: center; justify-content: center; color: white; font-size: 3rem;">
                         👨‍🏫
                     </div>
                     <div style="padding: 1.5rem;">
@@ -2507,7 +2604,7 @@
         </section>
 
         <!-- WhatsApp Features -->
-        <div style="background: linear-gradient(135deg, #1a5632, #0d3b1f); color: white; padding: 2rem; border-radius: 12px; text-align: center; margin: 3rem 0; box-shadow: 0 6px 25px rgba(37, 211, 102, 0.3);">
+        <div style="background: linear-gradient(135deg, rgba(37, 211, 102, 0.95), rgba(33, 196, 95, 0.95)); color: white; padding: 2rem; border-radius: 12px; text-align: center; margin: 3rem 0; box-shadow: 0 6px 25px rgba(37, 211, 102, 0.3);">
             <h3>📱 Instant Support via WhatsApp</h3>
             <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-top: 1.5rem;">
                 <a href="https://wa.me/255682843552?text=Hi! I need a quote for electrical services" target="_blank" style="background: white; color: #25D366; padding: 1rem 2rem; border-radius: 25px; text-decoration: none; font-weight: 600; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">
@@ -2548,7 +2645,7 @@
                     <a href="tel:+255682843552" class="btn">Check If We Cover Your Area</a>
                 </div>
                 <div>
-                    <div style="height: 300px; background: linear-gradient(135deg, #1a5632, #0d3b1f); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: white; font-size: 4rem; box-shadow: 0 6px 25px rgba(0,0,0,0.2);">
+                    <div style="height: 300px; background: linear-gradient(45deg, #1a5632, #0d3b1f); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: white; font-size: 4rem; box-shadow: 0 6px 25px rgba(0,0,0,0.2);">
                         🗺️
                     </div>
                 </div>
@@ -2589,7 +2686,7 @@
         <section id="videos">
             <h2>Generator Installation Process</h2>
             <div style="max-width: 800px; margin: 0 auto;">
-                <div style="width: 100%; height: 400px; background: linear-gradient(135deg, #1a5632, #0d3b1f)); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: white; font-size: 4rem; box-shadow: 0 6px 25px rgba(0,0,0,0.2);">
+                <div style="width: 100%; height: 400px; background: linear-gradient(45deg, #1a5632, #0d3b1f); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: white; font-size: 4rem; box-shadow: 0 6px 25px rgba(0,0,0,0.2);">
                     ▶
                 </div>
                 <p style="text-align: center; margin-top: 1rem; font-size: 1.1rem; color: #555;">Watch: Generator Installation Process - Time-lapse</p>
@@ -2601,25 +2698,25 @@
             <h2>Certificates & Compliance</h2>
             <div class="certificate-grid">
                 <div class="certificate-item">
-                    <div style="height: 200px; background: linear-gradient(135deg, #1a5632, #0d3b1f); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-size: 3rem; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">📄</div>
+                    <div style="height: 200px; background: linear-gradient(45deg, #1a5632, #0d3b1f); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-size: 3rem; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">📄</div>
                     <h4>Certificate of Incorporation</h4>
                     <p><strong>BRELA Registration</strong><br>No: 157024493</p>
                 </div>
 
                 <div class="certificate-item">
-                    <div style="height: 200px; background: linear-gradient(135deg, #1a5632, #0d3b1f); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-size: 3rem; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">🏢</div>
+                    <div style="height: 200px; background: linear-gradient(45deg, #FF6B35, #FF8E53); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-size: 3rem; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">🏢</div>
                     <h4>TIN Certificate</h4>
                     <p><strong>Tanzania Revenue Authority</strong><br>TIN: 157-024-493</p>
                 </div>
 
                 <div class="certificate-item">
-                    <div style="height: 200px; background: linear-gradient(135deg, #1a5632, #0d3b1f); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-size: 3rem; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">⚡</div>
+                    <div style="height: 200px; background: linear-gradient(45deg, #0d6efd, #0b5ed7); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-size: 3rem; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">⚡</div>
                     <h4>EWURA License</h4>
                     <p><strong>Class A Electrical License</strong><br>No: ELA-2022-008</p>
                 </div>
 
                 <div class="certificate-item">
-                    <div style="height: 200px; background: linear-gradient(135deg, #1a5632, #0d3b1f)); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-size: 3rem; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">👨‍🔧</div>
+                    <div style="height: 200px; background: linear-gradient(45deg, #20c997, #199d76); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-size: 3rem; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">👨‍🔧</div>
                     <h4>ERB Registration</h4>
                     <p><strong>Professional Engineer</strong><br>Registered Practitioner</p>
                 </div>
@@ -2680,8 +2777,8 @@
         <div class="container">
             <div class="footer-content">
                 <div class="footer-column">
-                    <h3><span style="color: white;">Kingu</span> <span style="color: #dc3545;">Electrical</span></h3>
-                    <p>Leading electrical engineering company in Tanzania providing professional power solutions and electrical products since 2017.</p>
+                    <h3>Kingu Electrical</h3>
+                    <p>Leading electrical engineering company in Tanzania providing professional power solutions and electrical products since 2022.</p>
                 </div>
 
                 <div class="footer-column">
@@ -2706,7 +2803,7 @@
             </div>
 
             <div class="copyright">
-                <p>&copy; <span id="year">2024</span> <span style="color: white;">Kingu</span> <span style="color: #dc3545;">Electrical</span> <span style="color: white;">Company Limited</span>. All Rights Reserved.</p>
+                <p>&copy; <span id="year">2024</span> Kingu Electrical Company Limited. All Rights Reserved.</p>
                 <p>TIN: 157-024-493 | EWURA License: ELA-2022-008 | BRELA Registered</p>
             </div>
         </div>
@@ -2847,7 +2944,7 @@
                     statsSection.style.cssText = `
                         width: 100% !important;
                         height: auto !important;
-                        background: rgba(13, 59, 31, 0.9) !important;
+                        background: linear-gradient(135deg, #1a5632, #0d3b1f) !important;
                         color: white !important;
                         padding: 4rem 0 !important;
                         text-align: center !important;
