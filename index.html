@@ -532,9 +532,9 @@
             background-position: center;
             background-repeat: no-repeat;
             background-attachment: fixed;
-            opacity: 0.8; /* CHANGED from 0.2 to 0.8 */
+            opacity: 0.2;
             z-index: -1;
-            filter: brightness(1) contrast(1.1) saturate(1.2); /* ADDED */
+            filter: brightness(1.1);
         }
         
         /* Ensure content is readable over background */
@@ -549,82 +549,6 @@
         .cta {
             position: relative;
             z-index: 1;
-        }
-        
-        /* Make ALL content sections have white background for readability */
-        .container,
-        header .header-content,
-        nav,
-        section,
-        footer,
-        .promo-banner,
-        .Kingu-shop-cta,
-        .emergency-cta,
-        .cta,
-        #stats-section,
-        .loading-about .about-content,
-        form,
-        .booking-widget,
-        .Kingu-shop-section,
-        .card,
-        .team-card,
-        .product-card,
-        .testimonial,
-        .project-item,
-        .certificate-item,
-        .service-card,
-        .resource-horizontal-card,
-        .testimonial-slider .testimonial,
-        .service-card .service-content,
-        [style*="background:"], 
-        [class*="card"],
-        [class*="section"]:not(#resources) {
-            background: rgba(255, 255, 255, 0.95) !important;
-            backdrop-filter: blur(8px) !important;
-            border-radius: 12px !important;
-            border: 1px solid rgba(255, 255, 255, 0.3) !important;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1) !important;
-        }
-        
-        /* Ensure text contrast on all elements */
-        h1, h2, h3, h4, h5, h6,
-        p, span, li, td, label,
-        .nav-menu a,
-        .footer-column a,
-        .footer-column p,
-        .team-name,
-        .team-title,
-        .service-content h3,
-        .card h3,
-        .product-card h3,
-        .project-item h3,
-        .certificate-item h4 {
-            color: #333 !important;
-            text-shadow: 0 1px 2px rgba(255, 255, 255, 0.7) !important;
-        }
-        
-        /* Special colored text that should remain visible */
-        #resources h2,
-        #resources p,
-        #resources h3,
-        #resources a,
-        .emergency-cta h3,
-        .emergency-cta p,
-        .Kingu-shop-cta h3,
-        .Kingu-shop-cta p,
-        .promo-banner h3,
-        .promo-banner p,
-        .cta h2,
-        .cta p,
-        #stats-section h2,
-        #stats-section div,
-        footer h3,
-        footer p,
-        footer a,
-        nav .nav-logo,
-        nav .nav-menu a {
-            color: white !important;
-            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5) !important;
         }
         
         /* Make cards and forms more opaque for better readability */
@@ -646,8 +570,8 @@
         header {
             background: 
                 linear-gradient(
-                    rgba(26, 86, 50, 0.7), /* CHANGED from 0.85 to 0.7 */
-                    rgba(13, 59, 31, 0.8) /* CHANGED from 0.95 to 0.8 */
+                    rgba(26, 86, 50, 0.85), 
+                    rgba(13, 59, 31, 0.95)
                 ),
                 url('Background.jpg');
             background-size: cover;
@@ -736,13 +660,11 @@
         
         /* ===== PROMO BANNER ===== */
         .promo-banner {
-            background: linear-gradient(135deg, rgba(255, 107, 53, 0.9), rgba(255, 142, 83, 0.85)) !important; /* CHANGED opacity */
+            background: linear-gradient(135deg, rgba(255, 107, 53, 0.95), rgba(255, 142, 83, 0.95));
             color: white;
             padding: 1rem 0;
             text-align: center;
             position: relative;
-            backdrop-filter: blur(10px) !important; /* ADDED */
-            border: 1px solid rgba(255, 255, 255, 0.2) !important; /* ADDED */
         }
         
         .promo-content {
@@ -764,12 +686,10 @@
         
         /* ===== KINGU SHOP CTA ===== */
         .Kingu-shop-cta {
-            background: linear-gradient(135deg, rgba(26, 86, 50, 0.9), rgba(13, 61, 33, 0.85)) !important; /* CHANGED opacity */
+            background: linear-gradient(135deg, rgba(26, 86, 50, 0.95), rgba(13, 61, 33, 0.95));
             color: white;
             padding: 1.5rem 0;
             text-align: center;
-            backdrop-filter: blur(10px) !important; /* ADDED */
-            border: 1px solid rgba(255, 255, 255, 0.2) !important; /* ADDED */
         }
         
         .btn-Kingu-shop {
@@ -796,13 +716,13 @@
         
         /* ===== NAVIGATION ===== */
         nav {
-            background: rgba(13, 59, 31, 0.9) !important; /* CHANGED from 0.98 to 0.9 */
+            background: rgba(13, 59, 31, 0.98);
             position: sticky;
             top: 0;
             z-index: 1000;
             padding: 0;
             border-bottom: 1px solid rgba(255,255,255,0.2);
-            backdrop-filter: blur(15px) !important; /* ADDED */
+            backdrop-filter: blur(10px);
         }
         
         .nav-container {
@@ -1164,13 +1084,11 @@
         
         /* ===== EMERGENCY CTA ===== */
         .emergency-cta {
-            background: linear-gradient(135deg, rgba(220, 53, 69, 0.9), rgba(200, 35, 51, 0.85)) !important; /* CHANGED opacity */
+            background: linear-gradient(135deg, rgba(220, 53, 69, 0.95), rgba(200, 35, 51, 0.95));
             color: white;
             padding: 3rem 0;
             text-align: center;
             position: relative;
-            backdrop-filter: blur(10px) !important; /* ADDED */
-            border: 1px solid rgba(255, 255, 255, 0.2) !important; /* ADDED */
         }
         
         .emergency-btn {
@@ -1218,13 +1136,13 @@
         
         /* ===== KINGU SHOP SECTION ===== */
         .Kingu-shop-section {
-            background: linear-gradient(135deg, rgba(248, 249, 250, 0.95), rgba(233, 236, 239, 0.95)) !important;
+            background: linear-gradient(135deg, rgba(248, 249, 250, 0.95), rgba(233, 236, 239, 0.95));
             border-radius: 15px;
             padding: 2rem;
             margin: 3rem 0;
             text-align: center;
             border: 2px solid #1a5632;
-            backdrop-filter: blur(5px) !important;
+            backdrop-filter: blur(5px);
             box-shadow: 0 6px 25px rgba(0,0,0,0.1);
         }
         
@@ -1249,12 +1167,10 @@
         
         /* ===== RESOURCES SECTION ===== */
         #resources {
-            background: linear-gradient(135deg, rgba(13, 61, 33, 0.85), rgba(26, 86, 50, 0.9)) !important; /* CHANGED opacity */
+            background: linear-gradient(135deg, rgba(13, 61, 33, 0.95), rgba(26, 86, 50, 0.95));
             color: white;
             padding: 3rem 0;
             position: relative;
-            backdrop-filter: blur(10px) !important; /* ADDED */
-            border: 1px solid rgba(255, 255, 255, 0.2) !important; /* ADDED */
         }
         
         #resources h2 {
@@ -1329,7 +1245,7 @@
         
         /* ===== CTA SECTION ===== */
         .cta {
-            background: linear-gradient(135deg, rgba(26, 86, 50, 0.9), rgba(13, 59, 31, 0.85)) !important; /* CHANGED opacity */
+            background: linear-gradient(135deg, rgba(26, 86, 50, 0.95), rgba(13, 59, 31, 0.95));
             color: white;
             padding: 4rem 0;
             text-align: center;
@@ -1337,8 +1253,6 @@
             margin: 4rem 0;
             position: relative;
             overflow: hidden;
-            backdrop-filter: blur(10px) !important; /* ADDED */
-            border: 1px solid rgba(255, 255, 255, 0.2) !important; /* ADDED */
         }
         
         /* ===== BUTTON STYLES ===== */
@@ -1413,11 +1327,10 @@
         
         /* ===== FOOTER ===== */
         footer {
-            background: linear-gradient(135deg, rgba(13, 59, 31, 0.9), rgba(26, 86, 50, 0.85)) !important; /* CHANGED opacity */
+            background: linear-gradient(135deg, rgba(13, 59, 31, 0.98), rgba(26, 86, 50, 0.98));
             color: white;
             padding: 4rem 0 2rem;
             position: relative;
-            backdrop-filter: blur(15px) !important; /* ADDED */
         }
         
         .footer-content {
@@ -1712,12 +1625,12 @@
             .team-card,
             .product-card,
             .testimonial {
-                background: rgba(255, 255, 255, 0.98) !important;
+                background: rgba(255, 255, 255, 0.98);
             }
             
             /* Adjust background opacity for mobile */
             body::before {
-                opacity: 0.9; /* CHANGED from 0.15 to 0.9 */
+                opacity: 0.15;
             }
             
             /* Mobile header - remove fixed background */
@@ -1834,8 +1747,7 @@
             
             /* Reduce background opacity further for small screens */
             body::before {
-                opacity: 0.95; /* CHANGED from 0.1 to 0.95 */
-                filter: brightness(1.1) contrast(1.2); /* ADDED */
+                opacity: 0.1;
             }
         }
         
@@ -1891,21 +1803,6 @@
             
             h2 {
                 font-size: 1.6rem;
-            }
-            
-            body::before {
-                opacity: 0.95; /* CHANGED */
-            }
-            
-            /* Remove blur on very small devices for performance */
-            .container,
-            header .header-content,
-            section,
-            .card,
-            .team-card,
-            .product-card {
-                backdrop-filter: none !important;
-                background: rgba(255, 255, 255, 0.99) !important;
             }
         }
     </style>
