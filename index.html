@@ -118,7 +118,2974 @@
             left: 0;
             width: 100%;
             height: 100%;
+            <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kingu Electrical Company Ltd | Electrical Engineering Experts in Tanzania</title>
+    <meta name="description" content="Leading Tanzanian Electrical Engineering Company providing Generator services, PLC programming, HPU conversion, ATS systems, CCTV, and Industrial Electrical Installations.">
+    <meta name="keywords" content="Kingu Electrical, Electrical Company Tanzania, Generator Installation, PLC Programming, HPU Conversion, ATS Design, Electrical Engineers Arusha, EWURA Licensed, BRELA Registered">
+    <meta name="mobile-web-app-capable" content="yes">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://kingueletrical.com/">
+    <meta property="og:title" content="Kingu Electrical Co. Ltd | Electrical Engineering Experts">
+    <meta property="og:description" content="Quality Electrical Services with a Professional Experience">
+    <meta property="og:image" content="https://kingueletrical.com/assets/icons/company-logo.png">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://kingueletrical.com/">
+    <meta property="twitter:title" content="Kingu Electrical Co. Ltd | Electrical Engineering Experts">
+    <meta property="twitter:description" content="Quality Electrical Services with a Professional Experience">
+    <meta property="twitter:image" content="https://kingueletrical.com/assets/icons/company-logo.png">
+    
+    <!-- PWA Configuration -->
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#1a5632">
+    <meta name="application-name" content="Kingu Electrical">
+    
+    <!-- iOS PWA Support -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Kingu Electrical">
+    <link rel="apple-touch-icon" href="/assets/icons/icon-192.png">
+    
+    <!-- Windows PWA Support -->
+    <meta name="msapplication-TileColor" content="#1a5632">
+    <meta name="msapplication-TileImage" content="/assets/icons/icon-144.png">
+    <meta name="msapplication-config" content="/browserconfig.xml">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/assets/icons/favicon.svg">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Schema.org Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@graph": [
+            {
+                "@type": "ElectricalContractor",
+                "@id": "https://kingueletrical.com/#organization",
+                "name": "Kingu Electrical Company Limited",
+                "url": "https://kingueletrical.com",
+                "logo": "https://kingueletrical.com/assets/icons/company-logo.svg",
+                "description": "Leading Tanzanian Electrical Engineering Company providing Generator Services, PLC automation, HPU conversion, ATS systems, and Industrial Electrical Installations with professional Experience.",
+                "foundingDate": "2017-07-30",
+                "foundingLocation": {
+                    "@type": "Place",
+                    "address": {
+                        "@type": "PostalAddress",
+                        "addressLocality": "Arusha",
+                        "addressCountry": "TZ"
+                    }
+                },
+                "contactPoint": {
+                    "@type": "ContactPoint",
+                    "contactType": "Customer Service",
+                    "email": "Kinguelectricaltz@gmail.com",
+                    "telephone": ["+255677014740", "+255682843552"], 
+                    "availableLanguage": ["English", "Swahili"]
+                },
+                "address": {
+                    "@type": "PostalAddress",
+                    "streetAddress": "Plot No. 485, Block 43, Nzasa",
+                    "addressLocality": "Dar-es-salaam",
+                    "addressCountry": "TZ",
+                    "postalCode": "255"
+                },
+                "areaServed": {
+                    "@type": "Country",
+                    "name": "Tanzania"
+                },
+                "vatID": "157-024-493",
+                "taxID": "157-024-493",
+                "knowsAbout": [
+                    "Electrical Engineering Services",
+                    "Generator supply & Installation",
+                    "Electrical spares & Equipment supply",
+                    "Diesel Generator Spare supply",
+                    "Solar Power Systems",
+                    "Air Conditioning Systems Installation & Maintanance",
+                    "PLC Programming & Configuration Services",
+                    "ATS Systems Design,Installation & Maintanance Services",
+                    "HPU Conversion",
+                    "Power Distribution",
+                    "Industrial Automation",
+                    "Telecom Infrastructure Maintanance",
+                    "Technical Training"
+                ]
+            }
+        ]
+    }
+    </script>
+    
+    <style>
+        /* ===== LOADING ANIMATION STYLES (TWO-PAGE STRUCTURE) ===== */
+        #loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             background: linear-gradient(135deg, #0d3b1f 0%, #1a5632 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 1.5s ease-out;
+            overflow: hidden;
+        }
+        
+        /* First Page - Welcome Screen */
+        .loading-welcome {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 1;
+            transition: opacity 1s ease;
+            padding: 2rem;
+        }
+        
+        .loading-welcome.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        .welcome-logo {
+            width: 250px;
+            height: auto;
+            margin-bottom: 3rem;
+            opacity: 0;
+            animation: logoFloatIn 2s ease-out 0.5s forwards;
+            filter: drop-shadow(0 8px 16px rgba(0,0,0,0.4));
+        }
+        
+        .welcome-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: white;
+            text-align: center;
+            margin-bottom: 1rem;
+            opacity: 0;
+            animation: fadeInUp 1.5s ease-out 1.5s forwards;
+            text-shadow: 0 4px 8px rgba(0,0,0,0.3);
+            line-height: 1.2;
+        }
+        
+        .welcome-tagline {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.8rem;
+            color: #64ffda;
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 4rem;
+            opacity: 0;
+            animation: fadeInUp 1.5s ease-out 2s forwards;
+            font-weight: 300;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            line-height: 1.4;
+            padding: 0 2rem;
+        }
+        
+        .welcome-subtitle {
+            font-family: 'Roboto', sans-serif;
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.9);
+            text-align: center;
+            opacity: 0;
+            animation: fadeIn 2s ease-out 3s forwards;
+            margin-top: 2rem;
+            font-style: italic;
+        }
+        
+        .welcome-spinner {
+            width: 70px;
+            height: 70px;
+            border: 4px solid rgba(255, 255, 255, 0.2);
+            border-top-color: #4fc3f7;
+            border-radius: 50%;
+            animation: spin 2s linear infinite;
+            margin-top: 3rem;
+            opacity: 0;
+            animation: spin 2s linear infinite, fadeIn 1s ease-out 3.5s forwards;
+            box-shadow: 0 0 25px rgba(79, 195, 247, 0.4);
+        }
+        
+        /* Second Page - About Us Screen */
+        .loading-about {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            transition: opacity 1s ease;
+            padding: 2rem;
+            overflow-y: auto;
+        }
+        
+        .loading-about.visible {
+            opacity: 1;
+        }
+        
+        .about-logo {
+            width: 180px;
+            height: auto;
+            margin-bottom: 2rem;
+            opacity: 0;
+            animation: fadeIn 1s ease-out 0.5s forwards;
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));
+        }
+        
+        .about-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #64ffda;
+            text-align: center;
+            margin-bottom: 2rem;
+            opacity: 0;
+            animation: fadeInUp 1s ease-out 1s forwards;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .about-content {
+            max-width: 900px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 3rem;
+            margin: 0 auto 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+            opacity: 0;
+            transform: translateY(30px);
+            animation: contentSlideUp 1.5s ease-out 1.5s forwards;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .about-content::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #64ffda, transparent);
+            animation: contentGlow 3s ease-in-out 2.5s infinite;
+        }
+        
+        .about-text {
+            font-family: 'Roboto', sans-serif;
+            font-size: 1.2rem;
+            line-height: 1.8;
+            color: rgba(255, 255, 255, 0.95);
+            text-align: justify;
+            margin-bottom: 1.8rem;
+            text-align-last: left;
+        }
+        
+        .about-text:last-child {
+            margin-bottom: 0;
+        }
+        
+        .about-highlight {
+            color: #64ffda;
+            font-weight: 700;
+            position: relative;
+            display: inline-block;
+            padding: 0 2px;
+        }
+        
+        .about-highlight::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: #64ffda;
+            transform: scaleX(0);
+            animation: highlightPulse 3s ease-in-out 3s infinite;
+        }
+        
+        .about-footer {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #64ffda;
+            text-align: center;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(100, 255, 218, 0.3);
+            opacity: 0;
+            animation: fadeIn 1.5s ease-out 2.5s forwards;
+            font-style: italic;
+            line-height: 1.6;
+            max-width: 800px;
+        }
+        
+        .loading-progress {
+            width: 400px;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 3px;
+            overflow: hidden;
+            margin-top: 2rem;
+            position: relative;
+            opacity: 0;
+            animation: fadeIn 1s ease-out 2s forwards;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #4fc3f7, #64ffda, #1a5632);
+            width: 0%;
+            transition: width 1s ease;
+            border-radius: 3px;
+            box-shadow: 0 0 10px rgba(100, 255, 218, 0.5);
+        }
+        
+        .progress-text {
+            position: absolute;
+            top: -25px;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.9);
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+        
+        /* Animations */
+        @keyframes logoFloatIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.5) translateY(50px);
+            }
+            60% {
+                opacity: 0.8;
+                transform: scale(1.1) translateY(-10px);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+                border-top-color: #4fc3f7;
+            }
+            25% {
+                border-top-color: #64ffda;
+            }
+            50% {
+                border-top-color: #1a5632;
+            }
+            75% {
+                border-top-color: #0d3b1f;
+            }
+            100% {
+                transform: rotate(360deg);
+                border-top-color: #4fc3f7;
+            }
+        }
+        
+        @keyframes contentSlideUp {
+            0% {
+                opacity: 0;
+                transform: translateY(50px) scale(0.95);
+            }
+            70% {
+                opacity: 0.7;
+                transform: translateY(-5px) scale(1.02);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+        
+        @keyframes highlightPulse {
+            0%, 100% {
+                transform: scaleX(0);
+            }
+            50% {
+                transform: scaleX(1);
+            }
+        }
+        
+        @keyframes contentGlow {
+            0% {
+                left: -100%;
+            }
+            50% {
+                left: 100%;
+            }
+            100% {
+                left: 100%;
+            }
+        }
+        
+        /* Hide all other content until loading is complete */
+        body.loading {
+            overflow: hidden;
+        }
+        
+        body.loading > *:not(#loading-screen) {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        /* ===== STATS SECTION - REMOVED GREEN BACKGROUND ===== */
+        #stats-section {
+            all: unset !important;
+            width: 100% !important;
+            height: auto !important;
+            background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.95), 
+                rgba(240, 240, 240, 0.95)
+            ) !important;
+            color: #333 !important;
+            padding: 5rem 0 !important;
+            text-align: center !important;
+            position: relative !important;
+            z-index: 99999 !important;
+            opacity: 1 !important;
+            visibility: visible !important;
+            display: block !important;
+            pointer-events: auto !important;
+        }
+
+        #stats-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, 
+                #1a5632, #dc3545, #1a5632
+            );
+        }
+
+        /* Override any loading animation hiding */
+        body.loading #stats-section,
+        body #stats-section {
+            opacity: 1 !important;
+            visibility: visible !important;
+            display: block !important;
+        }
+
+        /* Make sure loading animation doesn't affect this section */
+        #loading-screen + #stats-section,
+        nav + #stats-section {
+            opacity: 1 !important;
+            visibility: visible !important;
+            display: block !important;
+        }
+
+        /* ===== GLOBAL STYLES ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 80px;
+        }
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            overflow-x: hidden;
+            background: #fff;
+            width: 100%;
+            position: relative;
+            min-height: 100vh;
+            opacity: 1;
+            transition: opacity 0.5s ease;
+        }
+        
+        /* ===== FIXED BACKGROUND IMAGE ===== */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('Background.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            opacity: 9.0;
+            z-index: -1;
+            filter: brightness(1.1);
+        }
+        
+        /* Ensure content is readable over background */
+        .container, 
+        header,
+        nav,
+        section,
+        footer,
+        .promo-banner,
+        .Kingu-shop-cta,
+        .emergency-cta,
+        .cta {
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* Make cards and forms more opaque for better readability */
+        .card,
+        .team-card,
+        .product-card,
+        .testimonial,
+        .project-item,
+        .certificate-item,
+        form,
+        .Kingu-shop-section,
+        .booking-widget {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        /* ===== HEADER STYLES - REMOVED GREEN BACKGROUND ===== */
+        header {
+            background: rgba(255, 255, 255, 0.95) !important;
+            color: #333 !important;
+            padding: 100px 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            min-height: 90vh;
+            display: flex;
+            align-items: center;
+            border-bottom: 5px solid #1a5632;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 1;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .logo-container {
+            margin-bottom: 2rem;
+        }
+        
+        .logo {
+            max-width: 300px;
+            width: 100%;
+            height: auto;
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1));
+        }
+        
+        h1 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+            line-height: 1.2;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .tagline {
+            font-size: 1.5rem;
+            margin-bottom: 3rem;
+            opacity: 0.95;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            font-weight: 300;
+            color: #dc3545 !important;
+            font-style: italic;
+            font-weight: 500;
+        }
+        
+        .contact-header {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+        
+        .contact-header a {
+            background: rgba(26, 86, 50, 0.1) !important;
+            color: #1a5632 !important;
+            padding: 1rem 1.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            border: 2px solid rgba(26, 86, 50, 0.3) !important;
+            min-width: 250px;
+            justify-content: center;
+            backdrop-filter: blur(10px);
+            font-weight: 500;
+        }
+        
+        .contact-header a:hover {
+            background: rgba(26, 86, 50, 0.2) !important;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+            border-color: #1a5632 !important;
+        }
+        
+        /* ===== PROMO BANNER ===== */
+        .promo-banner {
+            background: linear-gradient(135deg, rgba(255, 107, 53, 0.95), rgba(255, 142, 83, 0.95));
+            color: white;
+            padding: 1rem 0;
+            text-align: center;
+            position: relative;
+        }
+        
+        .promo-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+        
+        .promo-badge {
+            background: white;
+            color: #FF6B35;
+            padding: 0.25rem 1rem;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.8rem;
+            margin-bottom: 0.5rem;
+            display: inline-block;
+        }
+        
+        /* ===== KINGU SHOP CTA ===== */
+        .Kingu-shop-cta {
+            background: linear-gradient(135deg, rgba(26, 86, 50, 0.95), rgba(13, 61, 33, 0.95));
+            color: white;
+            padding: 1.5rem 0;
+            text-align: center;
+        }
+        
+        .btn-Kingu-shop {
+            background: white;
+            color: #1a5632;
+            font-weight: 600;
+            padding: 0.75rem 2rem;
+            border-radius: 50px;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 1rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .btn-Kingu-shop:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            background: #f8f9fa;
+        }
+        
+        /* ===== NAVIGATION ===== */
+        nav {
+            background: rgba(13, 59, 31, 0.98);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            padding: 0;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+        }
+        
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 1rem;
+            height: 70px;
+        }
+        
+        .nav-logo {
+            color: white;
+            font-weight: 700;
+            font-size: 1.5rem;
+            text-decoration: none;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 0.5rem;
+        }
+        
+        .nav-menu li {
+            display: inline-block;
+        }
+        
+        .nav-menu a {
+            color: white;
+            text-decoration: none;
+            padding: 0.75rem 1.25rem;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+        
+        .nav-menu a:hover,
+        .nav-menu a:focus {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+        }
+        
+        .nav-menu a[href*="Kinguelectrical-shop"] {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid rgba(255,255,255,0.4);
+        }
+        
+        .nav-menu a[href*="Kinguelectrical-shop"]:hover {
+            background: white;
+            color: #1a5632;
+            border-color: white;
+        }
+        
+        /* ===== HAMBURGER MENU ===== */
+        .hamburger {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+        
+        /* ===== MAIN CONTENT CONTAINERS ===== */
+        .container {
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+        
+        main {
+            padding: 2rem 0;
+        }
+        
+        section {
+            padding: 4rem 0;
+            position: relative;
+        }
+        
+        /* Alternate section backgrounds for better readability */
+        section:nth-child(even) {
+            background: rgba(248, 249, 250, 0.7);
+        }
+        
+        section:nth-child(odd):not(#home) {
+            background: rgba(255, 255, 255, 0.7);
+        }
+        
+        h2 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #0d3b1f;
+            text-align: center;
+            position: relative;
+            padding-bottom: 1rem;
+        }
+        
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, #1a5632, #0d3b1f);
+            border-radius: 2px;
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        /* ===== CARD STYLES ===== */
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 12px;
+            padding: 2.5rem;
+            box-shadow: 0 6px 25px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(5px);
+            overflow: hidden;
+        }
+        
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        }
+        
+        .card h3 {
+            color: #1a5632;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .card p {
+            color: #444;
+            line-height: 1.7;
+            flex-grow: 1;
+            margin-bottom: 1rem;
+            text-align: justify;
+            text-align-last: left;
+        }
+        
+        /* ===== SERVICE CARD WITH IMAGES ===== */
+        .service-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 6px 25px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(5px);
+        }
+        
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        }
+        
+        .service-icon {
+            width: 100%;
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 5rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .service-icon i {
+            position: relative;
+            z-index: 2;
+            text-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        }
+        
+        .service-icon::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(0,0,0,0.1), rgba(0,0,0,0.05));
+            z-index: 1;
+        }
+        
+        .service-content {
+            padding: 2rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .service-content h3 {
+            color: #1a5632;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .service-content p {
+            color: #444;
+            line-height: 1.7;
+            flex-grow: 1;
+            margin-bottom: 1.5rem;
+            text-align: justify;
+            text-align-last: left;
+        }
+        
+        /* ===== TEAM SECTION ===== */
+        .team-section {
+            padding: 4rem 0;
+        }
+        
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .team-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 6px 25px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(5px);
+        }
+        
+        .team-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+        
+        .team-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin: 0 auto 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2.5rem;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        
+        .team-avatar.director {
+            background: linear-gradient(135deg, #FF6B35, #FF8E53);
+        }
+        
+        .team-avatar.technician {
+            background: linear-gradient(135deg, #0d6efd, #0b5ed7);
+        }
+        
+        .team-avatar.engineer {
+            background: linear-gradient(135deg, #6f42c1, #59359a);
+        }
+        
+        .team-avatar.lawyer {
+            background: linear-gradient(135deg, #20c997, #199d76);
+        }
+        
+        .team-name {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #0d3b1f;
+            margin-bottom: 0.5rem;
+        }
+        
+        .team-title {
+            color: #1a5632;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+        
+        .team-experience {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        
+        .team-experience::before {
+            content: '⏳';
+        }
+        
+        .team-skills {
+            margin-top: 1rem;
+        }
+        
+        .skill-tag {
+            display: inline-block;
+            background: rgba(26, 86, 50, 0.15);
+            color: #1a5632;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin: 0.25rem;
+            border: 1px solid rgba(26, 86, 50, 0.2);
+        }
+        
+        /* ===== PACKAGES SECTION ===== */
+        .popular {
+            border: 3px solid #FF6B35;
+            position: relative;
+        }
+        
+        .popular-badge {
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #FF6B35;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.8rem;
+            box-shadow: 0 4px 10px rgba(255, 107, 53, 0.3);
+        }
+        
+        .price {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #1a5632;
+            margin: 1rem 0;
+        }
+        
+        /* ===== EMERGENCY CTA ===== */
+        .emergency-cta {
+            background: linear-gradient(135deg, rgba(220, 53, 69, 0.95), rgba(200, 35, 51, 0.95));
+            color: white;
+            padding: 3rem 0;
+            text-align: center;
+            position: relative;
+        }
+        
+        .emergency-btn {
+            background: white;
+            color: #dc3545;
+            font-weight: bold;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin: 1rem 0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .emergency-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+        
+        /* ===== PRODUCTS SECTION ===== */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .product-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 6px 25px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(5px);
+        }
+        
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        }
+        
+        /* ===== KINGU SHOP SECTION ===== */
+        .Kingu-shop-section {
+            background: linear-gradient(135deg, rgba(248, 249, 250, 0.95), rgba(233, 236, 239, 0.95));
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 3rem 0;
+            text-align: center;
+            border: 2px solid #1a5632;
+            backdrop-filter: blur(5px);
+            box-shadow: 0 6px 25px rgba(0,0,0,0.1);
+        }
+        
+        /* ===== TESTIMONIALS ===== */
+        .testimonial-slider {
+            display: flex;
+            gap: 2rem;
+            overflow-x: auto;
+            padding: 1rem 0;
+            scrollbar-width: none;
+        }
+        
+        .testimonial {
+            min-width: 300px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 6px 25px rgba(0,0,0,0.1);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+        
+        /* ===== RESOURCES SECTION - REMOVED GREEN BACKGROUND ===== */
+        #resources {
+            background: rgba(255, 255, 255, 0.95) !important;
+            color: #333 !important;
+            padding: 3rem 0 !important;
+            position: relative !important;
+            border-radius: 15px;
+            margin: 3rem 0;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 6px 25px rgba(0,0,0,0.1);
+        }
+        
+        #resources h2 {
+            color: #0d3b1f !important;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .resources-horizontal {
+            display: flex;
+            gap: 2rem;
+            overflow-x: auto;
+            padding: 1rem 0;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .resource-horizontal-card {
+            min-width: 300px;
+            background: rgba(26, 86, 50, 0.08) !important;
+            border-radius: 12px;
+            padding: 2rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(26, 86, 50, 0.2) !important;
+            color: #333 !important;
+        }
+        
+        .resource-horizontal-card h3 {
+            color: #1a5632 !important;
+        }
+        
+        .resource-horizontal-card p {
+            color: #444 !important;
+        }
+        
+        .btn-horizontal {
+            background: #1a5632 !important;
+            color: white !important;
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 1rem;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-horizontal:hover {
+            background: #0d3b1f !important;
+            transform: translateY(-2px);
+        }
+        
+        /* ===== PROJECTS ===== */
+        .project-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .project-item {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 6px 25px rgba(0,0,0,0.1);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+        
+        /* ===== CERTIFICATES ===== */
+        .certificate-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+        
+        .certificate-item {
+            text-align: center;
+        }
+        
+        /* ===== CTA SECTION - REMOVED GREEN BACKGROUND ===== */
+        .cta {
+            background: rgba(255, 255, 255, 0.95) !important;
+            color: #333 !important;
+            padding: 4rem 0;
+            text-align: center;
+            border-radius: 15px;
+            margin: 4rem 0;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 6px 25px rgba(0,0,0,0.1);
+        }
+        
+        .cta h2 {
+            color: #0d3b1f !important;
+        }
+        
+        .cta p {
+            color: #444 !important;
+        }
+        
+        /* ===== BUTTON STYLES ===== */
+        .btn {
+            background: #1a5632;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            text-decoration: none;
+            display: inline-block;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+            box-shadow: 0 4px 15px rgba(26, 86, 50, 0.3);
+        }
+        
+        .btn:hover {
+            background: #0d3b1f;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(13, 59, 31, 0.4);
+        }
+        
+        /* ===== FORM STYLES ===== */
+        form {
+            display: grid;
+            gap: 1rem;
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 2rem;
+            border-radius: 12px;
+            backdrop-filter: blur(5px);
+            box-shadow: 0 6px 25px rgba(0,0,0,0.1);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+        
+        input, textarea, select {
+            padding: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-family: 'Roboto', sans-serif;
+            background: rgba(255, 255, 255, 0.9);
+            transition: all 0.3s ease;
+        }
+        
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: #1a5632;
+            box-shadow: 0 0 0 3px rgba(26, 86, 50, 0.1);
+        }
+        
+        button[type="submit"] {
+            background: #1a5632;
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+        }
+        
+        button[type="submit"]:hover {
+            background: #0d3b1f;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(13, 59, 31, 0.3);
+        }
+        
+        /* ===== FOOTER ===== */
+        footer {
+            background: linear-gradient(135deg, rgba(13, 59, 31, 0.98), rgba(26, 86, 50, 0.98));
+            color: white;
+            padding: 4rem 0 2rem;
+            position: relative;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+        
+        .footer-column h3 {
+            color: white;
+            margin-bottom: 1.5rem;
+            font-size: 1.3rem;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .footer-column a {
+            color: rgba(255, 255, 255, 0.85);
+            text-decoration: none;
+            display: block;
+            margin-bottom: 0.5rem;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-column a:hover {
+            color: white;
+            transform: translateX(5px);
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        /* ===== WHATSAPP BUTTON ===== */
+        .whatsapp {
+            position: fixed;
+            bottom: 90px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: #25D366;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4);
+            z-index: 999;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: white;
+            font-size: 1.5rem;
+        }
+        
+        .whatsapp:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 25px rgba(37, 211, 102, 0.6);
+        }
+        
+        /* ===== PWA INSTALL PROMPT ===== */
+        .install-prompt {
+            display: none;
+        }
+        
+        /* ===== MOBILE RESPONSIVE ===== */
+        @media (max-width: 1024px) {
+            .welcome-title {
+                font-size: 3rem;
+            }
+            
+            .welcome-tagline {
+                font-size: 1.5rem;
+            }
+            
+            .about-title {
+                font-size: 2.2rem;
+            }
+            
+            .about-content {
+                padding: 2.5rem;
+            }
+            
+            .about-text {
+                font-size: 1.1rem;
+            }
+            
+            .about-footer {
+                font-size: 1.3rem;
+            }
+            
+            h1 {
+                font-size: 2.5rem;
+            }
+            
+            .tagline {
+                font-size: 1.3rem;
+            }
+            
+            .team-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            h2 {
+                font-size: 2.2rem;
+            }
+            
+            .loading-content {
+                width: 95%;
+                padding: 0 10px;
+            }
+            
+            .loading-section {
+                padding: 25px;
+            }
+            
+            .loading-progress {
+                width: 350px;
+            }
+            
+            .service-icon {
+                height: 180px;
+                font-size: 4rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            /* Loading animation mobile */
+            .welcome-logo {
+                width: 200px;
+                margin-bottom: 2rem;
+            }
+            
+            .welcome-title {
+                font-size: 2.5rem;
+                line-height: 1.1;
+            }
+            
+            .welcome-tagline {
+                font-size: 1.3rem;
+                margin-bottom: 3rem;
+            }
+            
+            .welcome-spinner {
+                width: 60px;
+                height: 60px;
+                margin-top: 2rem;
+            }
+            
+            .about-logo {
+                width: 150px;
+            }
+            
+            .about-title {
+                font-size: 2rem;
+            }
+            
+            .about-content {
+                padding: 2rem;
+            }
+            
+            .about-text {
+                font-size: 1rem;
+                text-align: left;
+                text-align-last: left;
+            }
+            
+            .about-footer {
+                font-size: 1.2rem;
+                margin-top: 2rem;
+                padding-top: 1.5rem;
+            }
+            
+            .loading-progress {
+                width: 300px;
+                height: 5px;
+            }
+            
+            .progress-text {
+                font-size: 0.9rem;
+                top: -22px;
+            }
+            
+            /* Header */
+            header {
+                min-height: 90vh;
+                padding: 1rem;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .tagline {
+                font-size: 1.1rem;
+            }
+            
+            .logo {
+                max-width: 200px;
+            }
+            
+            .contact-header {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .contact-header a {
+                width: 100%;
+                max-width: 300px;
+                font-size: 0.9rem;
+                padding: 0.8rem 1.2rem;
+            }
+            
+            /* Navigation */
+            .hamburger {
+                display: block;
+            }
+            
+            .nav-menu {
+                position: fixed;
+                top: 70px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 70px);
+                background: rgba(13, 59, 31, 0.98);
+                flex-direction: column;
+                align-items: center;
+                padding: 2rem 0;
+                transition: left 0.3s ease;
+                z-index: 999;
+                backdrop-filter: blur(20px);
+            }
+            
+            .nav-menu.active {
+                left: 0;
+            }
+            
+            .nav-menu li {
+                width: 100%;
+                text-align: center;
+            }
+            
+            .nav-menu a {
+                padding: 1rem;
+                display: block;
+                border-bottom: 1px solid rgba(255,255,255,0.1);
+                font-size: 1rem;
+            }
+            
+            /* Content */
+            h2 {
+                font-size: 2rem;
+            }
+            
+            section {
+                padding: 3rem 0;
+            }
+            
+            .grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .team-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            /* Stats section mobile */
+            #stats-section > div > div {
+                grid-template-columns: repeat(2, 1fr) !important;
+            }
+            
+            /* Service icons mobile */
+            .service-icon {
+                height: 160px;
+                font-size: 3.5rem;
+            }
+            
+            .service-content {
+                padding: 1.5rem;
+            }
+            
+            .whatsapp {
+                bottom: 80px;
+                right: 20px;
+                width: 55px;
+                height: 55px;
+                font-size: 1.3rem;
+            }
+            
+            /* Increase opacity for better readability on mobile */
+            .card,
+            .team-card,
+            .product-card,
+            .testimonial {
+                background: rgba(255, 255, 255, 0.98);
+            }
+            
+            /* Adjust background opacity for mobile */
+            body::before {
+                opacity: 0.15;
+            }
+            
+            /* Mobile header - remove fixed background */
+            header {
+                background-attachment: scroll;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .welcome-logo {
+                width: 150px;
+            }
+            
+            .welcome-title {
+                font-size: 2rem;
+            }
+            
+            .welcome-tagline {
+                font-size: 1.1rem;
+                padding: 0 1rem;
+            }
+            
+            .welcome-subtitle {
+                font-size: 1rem;
+            }
+            
+            .about-logo {
+                width: 120px;
+            }
+            
+            .about-title {
+                font-size: 1.8rem;
+            }
+            
+            .about-content {
+                padding: 1.5rem;
+            }
+            
+            .about-text {
+                font-size: 0.95rem;
+                text-align: left;
+                text-align-last: left;
+                line-height: 1.6;
+            }
+            
+            .about-footer {
+                font-size: 1.1rem;
+                padding-top: 1rem;
+            }
+            
+            .loading-progress {
+                width: 250px;
+                height: 4px;
+            }
+            
+            .progress-text {
+                font-size: 0.85rem;
+                top: -20px;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .tagline {
+                font-size: 1rem;
+            }
+            
+            /* Stats section small mobile */
+            #stats-section > div > div {
+                grid-template-columns: 1fr !important;
+                gap: 1.5rem !important;
+            }
+            
+            #stats-section h2 {
+                font-size: 1.8rem !important;
+                margin-bottom: 2rem !important;
+            }
+            
+            #stats-section > div > div > div > div:first-child {
+                font-size: 2.5rem !important;
+            }
+            
+            /* Service icons small mobile */
+            .service-icon {
+                height: 140px;
+                font-size: 3rem;
+            }
+            
+            .service-content h3 {
+                font-size: 1.3rem;
+            }
+            
+            .contact-header a {
+                font-size: 0.85rem;
+                padding: 0.7rem 1rem;
+                min-width: auto;
+            }
+            
+            .team-avatar {
+                width: 100px;
+                height: 100px;
+                font-size: 2rem;
+            }
+            
+            h2 {
+                font-size: 1.8rem;
+                margin-bottom: 2rem;
+            }
+            
+            .card {
+                padding: 1.5rem;
+            }
+            
+            /* Reduce background opacity further for small screens */
+            body::before {
+                opacity: 0.1;
+            }
+        }
+        
+        /* For very small screens */
+        @media (max-width: 360px) {
+            .welcome-logo {
+                width: 120px;
+            }
+            
+            .welcome-title {
+                font-size: 1.8rem;
+            }
+            
+            .welcome-tagline {
+                font-size: 1rem;
+            }
+            
+            .about-content {
+                padding: 1.2rem;
+            }
+            
+            .about-text {
+                font-size: 0.9rem;
+            }
+            
+            .loading-progress {
+                width: 220px;
+            }
+            
+            h1 {
+                font-size: 1.6rem;
+            }
+            
+            .tagline {
+                font-size: 0.9rem;
+            }
+            
+            .service-icon {
+                height: 120px;
+                font-size: 2.5rem;
+            }
+            
+            .contact-header a {
+                font-size: 0.8rem;
+                padding: 0.6rem 0.8rem;
+            }
+            
+            .team-avatar {
+                width: 80px;
+                height: 80px;
+                font-size: 1.8rem;
+            }
+            
+            h2 {
+                font-size: 1.6rem;
+            }
+        }
+    </style>
+</head>
+<body class="loading">
+    <!-- Loading Animation (Two-Page Structure) -->
+    <div id="loading-screen">
+        <!-- First Page - Welcome Screen -->
+        <div class="loading-welcome" id="welcomePage">
+            <img src="/assets/icons/company-logo.svg" alt="Kingu Electrical Company Limited" class="welcome-logo">
+            
+            <h1 class="welcome-title">
+                Welcome to<br>Kingu Electrical<br>Company Limited
+            </h1>
+            
+            <p class="welcome-tagline">
+                Quality Electrical Services with Professional Experience
+            </p>
+            
+            <div class="welcome-spinner"></div>
+            
+            <p class="welcome-subtitle">
+                Engineering reliable power solutions for Tanzania since 2017
+            </p>
+        </div>
+        
+        <!-- Second Page - About Us Screen -->
+        <div class="loading-about" id="aboutPage">
+            <img src="/assets/icons/company-logo.svg" alt="Kingu Electrical Company Limited" class="about-logo">
+            
+            <h2 class="about-title">About Kingu Electrical</h2>
+            
+            <div class="about-content">
+                <p class="about-text">
+                    <span class="about-highlight">Kingu Electrical Company Limited</span> is a Tanzanian electrical engineering firm delivering 
+                    <span class="about-highlight">reliable, safe, and future-ready power solutions</span>. We specialize in industrial electrical installations, 
+                    generator systems, ATS solutions, PLC programming, CCTV, and power system optimization.
+                </p>
+                
+                <p class="about-text">
+                    Our work is driven by <span class="about-highlight">precision, safety standards, and real-world performance</span>. We don't believe in shortcuts — 
+                    every system we design, install, or upgrade is built to last, scale, and perform under demanding conditions.
+                </p>
+                
+                <p class="about-footer">
+                    At Kingu Electrical, <span class="about-highlight">engineering is not just a service — it's a responsibility</span>.
+                </p>
+            </div>
+            
+            <div class="loading-progress">
+                <div class="progress-text" id="progressText">Initializing power solutions...</div>
+                <div class="progress-bar" id="loading-progress"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Service Worker Status -->
+    <div class="sw-status" id="swStatus"></div>
+    
+    <!-- PWA Install Prompt -->
+    <div class="install-prompt" id="installContainer">
+        <div class="install-content">
+            <img src="/assets/icons/icon-72.png" alt="Kingu Electrical" class="install-icon">
+            <div class="install-text">
+                <h4>Install Kingu Electrical App</h4>
+                <p>Get faster access to our services</p>
+            </div>
+            <button id="installBtn" class="install-btn">Install</button>
+            <button id="closeInstall" class="close-install">×</button>
+        </div>
+    </div>
+
+    <!-- Promo Banner -->
+    <div class="promo-banner">
+        <div class="container">
+            <div class="promo-content">
+                <span class="promo-badge">LIMITED TIME OFFER</span>
+                <h3>⚡ Get 10% Off Your First Generator Service</h3>
+                <p>Book before January 31, 2026 • Use code: <strong>KINGU15</strong></p>
+                <a href="tel:+255682843552" class="btn-Kingu-shop">Claim Offer Now</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Kingu Electrical Shop CTA -->
+    <div class="Kingu-shop-cta">
+        <div class="container">
+            <div class="shop-cta-content">
+                <h3>🛒 Shop Electrical Products on Kingu Electrical</h3>
+                <p>Browse & Order directly. Fast delivery Across Tanzania!</p>
+                <a href="/Kinguelectrical-shop.html" class="btn-Kingu-shop" target="_blank">
+                    Open Kingu Electrical Shop
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header - WITH GREEN BACKGROUND REMOVED -->
+    <header id="home">
+        <div class="header-content">
+            <div class="logo-container">
+                <img src="/assets/icons/company-logo.svg" alt="Kingu Electrical Company Limited" class="logo">
+            </div>
+
+            <h1><span style="color:#1a5632">Kingu</span> <span style="color:#dc3545">Electrical</span> <span style="color:#1a5632">Company Limited</span></h1>
+            <p class="tagline" style="color:#dc3545; font-style: italic; font-weight: 500;">
+                Quality Electrical Services with Professional Experience
+            </p>
+
+            <div class="contact-header">
+                <a href="mailto:Kinguelectricaltz@gmail.com">
+                    📧 Kinguelectricaltz@gmail.com
+                </a>
+                <a href="tel:+255677014740">
+                    📞 +255 677 014 740
+                </a>
+                <a href="tel:+255763957908">
+                    📞 +255 763 957 908
+                </a>
+                <a href="tel:+255682843552">
+                    📞 +255 682 843 552
+                </a>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <a href="#home" class="nav-logo">
+                <span style="color:#1a5632">KINGU</span> 
+                <span style="color:#dc3545">ELECTRICAL</span>
+            </a>
+            <button class="hamburger" id="hamburger" aria-label="Toggle navigation">
+                ☰
+            </button>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About Us</a></li>
+                <li><a href="#team">Our Team</a></li>
+                <li><a href="#packages">Packages</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#products">Products</a></li>
+                <li><a href="/Kinguelectrical-shop.html" target="_blank">🛒 Shop</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#testimonials">Testimonials</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- STATS SECTION - TRUSTED ELECTRICAL EXPERTS (GREEN BACKGROUND REMOVED) -->
+    <div id="stats-section">
+        <div style="max-width: 1200px; margin: 0 auto; padding: 0 1rem;">
+            <h2 style="color: #0d3b1f !important; margin-bottom: 3rem; font-size: 2.5rem;">
+                Trusted Electrical Experts in Tanzania
+            </h2>
+            <div style="
+                display: grid !important;
+                grid-template-columns: repeat(4, 1fr) !important;
+                gap: 2rem !important;
+                margin-top: 2rem !important;
+            ">
+                <div style="text-align: center; padding: 2rem; background: white; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); border: 1px solid rgba(0,0,0,0.05); transition: all 0.3s ease;">
+                    <div style="
+                        font-size: 3rem !important;
+                        font-weight: bold !important;
+                        margin-bottom: 0.5rem !important;
+                        color: #1a5632 !important;
+                        font-family: 'Poppins', sans-serif;
+                    ">50+</div>
+                    <div style="color: #666 !important; font-size: 1.1rem !important; font-weight: 500;">
+                        Projects Completed
+                    </div>
+                </div>
+                <div style="text-align: center; padding: 2rem; background: white; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); border: 1px solid rgba(0,0,0,0.05); transition: all 0.3s ease;">
+                    <div style="
+                        font-size: 3rem !important;
+                        font-weight: bold !important;
+                        margin-bottom: 0.5rem !important;
+                        color: #1a5632 !important;
+                        font-family: 'Poppins', sans-serif;
+                    ">24/7</div>
+                    <div style="color: #666 !important; font-size: 1.1rem !important; font-weight: 500;">
+                        Emergency Support
+                    </div>
+                </div>
+                <div style="text-align: center; padding: 2rem; background: white; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); border: 1px solid rgba(0,0,0,0.05); transition: all 0.3s ease;">
+                    <div style="
+                        font-size: 3rem !important;
+                        font-weight: bold !important;
+                        margin-bottom: 0.5rem !important;
+                        color: #1a5632 !important;
+                        font-family: 'Poppins', sans-serif;
+                    ">98%</div>
+                    <div style="color: #666 !important; font-size: 1.1rem !important; font-weight: 500;">
+                        Client Satisfaction
+                    </div>
+                </div>
+                <div style="text-align: center; padding: 2rem; background: white; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); border: 1px solid rgba(0,0,0,0.05); transition: all 0.3s ease;">
+                    <div style="
+                        font-size: 3rem !important;
+                        font-weight: bold !important;
+                        margin-bottom: 0.5rem !important;
+                        color: #1a5632 !important;
+                        font-family: 'Poppins', sans-serif;
+                    ">10+</div>
+                    <div style="color: #666 !important; font-size: 1.1rem !important; font-weight: 500;">
+                        Years Experience
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Team Section -->
+        <section id="team" class="team-section">
+            <div class="container">
+                <h2>Meet Our Expert Team</h2>
+                <div class="team-grid">
+                    <!-- Eng. Kingu Goodluck - Director -->
+                    <div class="team-card">
+                        <div class="team-avatar director">
+                            KG
+                        </div>
+                        <div class="team-name">Eng. Kingu Goodluck</div>
+                        <div class="team-title">Director & Professional Electrical Engineer</div>
+                        <div class="team-experience">14+ Years Experience</div>
+                        <p>EWURA Licensed Electrical Engineer with extensive experience in power systems, generator installations, and industrial automation across Tanzania.</p>
+                        <div class="team-skills">
+                            <span class="skill-tag">Power Systems</span>
+                            <span class="skill-tag">Generator Installation</span>
+                            <span class="skill-tag">PLC Programming</span>
+                            <span class="skill-tag">Project Management</span>
+                        </div>
+                    </div>
+
+                    <!-- Herbert Njau - Electrical Technician -->
+                    <div class="team-card">
+                        <div class="team-avatar technician">
+                            HN
+                        </div>
+                        <div class="team-name">Herbert Njau</div>
+                        <div class="team-title">Senior Electrical Technician</div>
+                        <div class="team-experience">8+ Years Experience</div>
+                        <p>Specialized in electrical installations, maintenance, and troubleshooting of industrial electrical systems and generator setups.</p>
+                        <div class="team-skills">
+                            <span class="skill-tag">Electrical Installations</span>
+                            <span class="skill-tag">Maintenance</span>
+                            <span class="skill-tag">Troubleshooting</span>
+                            <span class="skill-tag">Safety Compliance</span>
+                        </div>
+                    </div>
+
+                    <!-- Rahel Mollel - Telecom Engineer -->
+                    <div class="team-card">
+                        <div class="team-avatar engineer">
+                            RM
+                        </div>
+                        <div class="team-name">Rahel Mollel</div>
+                        <div class="team-title">Telecom Engineer & Project Administrator</div>
+                        <div class="team-experience">6+ Years Experience</div>
+                        <p>Expert in telecom infrastructure projects, project coordination, and ensuring seamless communication between technical teams and clients.</p>
+                        <div class="team-skills">
+                            <span class="skill-tag">Telecom Infrastructure</span>
+                            <span class="skill-tag">Project Administration</span>
+                            <span class="skill-tag">Client Coordination</span>
+                            <span class="skill-tag">Documentation</span>
+                        </div>
+                    </div>
+
+                    <!-- Bernard Sabas - Mechanical Technician -->
+                    <div class="team-card">
+                        <div class="team-avatar technician">
+                            BS
+                        </div>
+                        <div class="team-name">Bernard Sabas</div>
+                        <div class="team-title">Mechanical Technician</div>
+                        <div class="team-experience">7+ Years Experience</div>
+                        <p>Specialized in mechanical aspects of generators, engine maintenance, and mechanical system installations for power solutions.</p>
+                        <div class="team-skills">
+                            <span class="skill-tag">Generator Mechanics</span>
+                            <span class="skill-tag">Engine Maintenance</span>
+                            <span class="skill-tag">Mechanical Systems</span>
+                            <span class="skill-tag">Preventive Maintenance</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="text-align: center; margin-top: 3rem;">
+                    <p style="font-size: 1.1rem; color: #1a5632; font-weight: 500;">
+                        Our team combines <strong>technical expertise</strong> with <strong>professional experience</strong> to deliver exceptional electrical solutions across Tanzania.
+                    </p>
+                    <a href="#contact" class="btn" style="margin-top: 1.5rem; display: inline-block;">
+                        Contact Our Team
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Service Packages -->
+        <section id="packages">
+            <div class="container">
+                <h2>Service Packages</h2>
+                <div class="grid">
+                    <div class="card">
+                        <h3>Basic Generator Service & Maintenance</h3>
+                        <div class="price">From TZS 280,000</div>
+                        <ul>
+                            <li>Generator service check</li>
+                            <li>Electrical safety inspection</li>
+                            <li>Basic troubleshooting</li>
+                            <li>3-month warranty</li>
+                        </ul>
+                        <a href="https://wa.me/255682843552?text=Hello!%20I'm%20interested%20in%20Basic%20Generator%20services%20package" target="_blank" class="btn">Book Now</a>
+                    </div>
+                    
+                    <div class="card popular">
+                        <div class="popular-badge">MOST POPULAR</div>
+                        <h3>Professional Installation</h3>
+                        <div class="price">From TZS 500,000</div>
+                        <ul>
+                            <li>Complete Generator installation 6-20kVA Tsh 500,000</li>
+                            <li>Complete Generator installation 20-250kVA Tsh 1,000,000+</li>
+                            <li>Complete Generator installation 250-100kVA Tsh 2,000,000+</li>
+                            <li>ATS system setup</li>
+                            <li>Free site inspection</li>
+                            <li>1-year warranty</li>
+                            <li>24/7 emergency support</li>
+                        </ul>
+                        <a href="https://wa.me/255682843552?text=Hello!%20I'm%20interested%20in%20Professional%20Installation%20package" target="_blank" class="btn">Get Quote</a>
+                    </div>
+                    
+                    <div class="card">
+                        <h3>Enterprise Solution</h3>
+                        <div class="price">Custom Pricing</div>
+                        <ul>
+                            <li>Full Electrical System Design</li>
+                            <li>DSE & Intellite...PLC programming</li>
+                            <li>Solar Power System Design & integration</li>
+                            <li>Annual maintenance contract</li>
+                            <li>Priority 24/7 support</li>
+                        </ul>
+                        <a href="#contact" class="btn">Contact Sales</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Emergency CTA -->
+        <div class="emergency-cta">
+            <div class="container">
+                <div class="emergency-content">
+                    <h3>⚡ Electrical Emergency?</h3>
+                    <p>24/7 Emergency Service Available Across Tanzania</p>
+                    <a href="tel:+255682843552" class="emergency-btn">
+                        📞 CALL NOW: +255682 843 552
+                    </a>
+                    <p>Response Time: <strong>Within 2 hours</strong> in Dar-es-salaam, Dodoma, Mwanza, Mbeya & Arusha</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- About Section -->
+        <section id="about">
+            <h2>About Us</h2>
+            <div class="grid">
+                <div class="card">
+                    <h3>Our Story</h3>
+                    <p>Founded in 2017 by highly Experienced Electrical Engineers, Kingu Electrical Company Limited has grown to become a leading Electrical Engineering and Product trading company in Tanzania, serving clients across East Africa with headquarters in Arusha and Dar-es-salaam.</p>
+                </div>
+
+                <div class="card">
+                    <h3>Our Mission</h3>
+                    <p>To deliver Exceptional Electrical Engineering Solutions that exceed client expectations while Maintaining the highest standards of safety, quality, and professionalism in all our projects.</p>
+                </div>
+
+                <div class="card">
+                    <h3>Our Values</h3>
+                    <p>Integrity, Quality, Teamwork, and Innovation guide every project we undertake and every relationship we build with our clients across Tanzania.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Services Section WITH PICTURES -->
+        <section id="services">
+            <h2>Our Services</h2>
+            <div class="grid">
+                <!-- Generator Services -->
+                <div class="service-card">
+                    <div class="service-icon" style="background: linear-gradient(135deg, #1a5632, #0d3b1f);">
+                        <i class="fas fa-generator"></i>
+                    </div>
+                    <div class="service-content">
+                        <h3>Generator Services</h3>
+                        <p>Complete Generator solutions including installation, Maintenance, service, Repair, Testing and commissioning of diesel generators up to 1000kVA for reliable backup power.</p>
+                        <a href="https://wa.me/255682843552?text=Hello!%20I'm%20interested%20in%20Generator%20Services" target="_blank" class="btn">Get Service</a>
+                    </div>
+                </div>
+
+                <!-- Solar Systems -->
+                <div class="service-card">
+                    <div class="service-icon" style="background: linear-gradient(135deg, #FF6B35, #FF8E53);">
+                        <i class="fas fa-solar-panel"></i>
+                    </div>
+                    <div class="service-content">
+                        <h3>Solar Systems</h3>
+                        <p>Design, installation and Maintenance of solar power systems for Residential, Commercial and Industrial Applications across Tanzania.</p>
+                        <a href="https://wa.me/255682843552?text=Hello!%20I'm%20interested%20in%20Solar%20Systems" target="_blank" class="btn">Get Quote</a>
+                    </div>
+                </div>
+
+                <!-- Generator Spare Parts -->
+                <div class="service-card">
+                    <div class="service-icon" style="background: linear-gradient(135deg, #0d6efd, #0b5ed7);">
+                        <i class="fas fa-cogs"></i>
+                    </div>
+                    <div class="service-content">
+                        <h3>Generator Spare Parts</h3>
+                        <p>Supply of Genuine Diesel Generator spare parts and complete Generator systems with professional installation services.</p>
+                        <a href="https://wa.me/255682843552?text=Hello!%20I'm%20interested%20in%20Generator%20Spare%20Parts" target="_blank" class="btn">Order Parts</a>
+                    </div>
+                </div>
+
+                <!-- Air Conditioning -->
+                <div class="service-card">
+                    <div class="service-icon" style="background: linear-gradient(135deg, #20c997, #199d76);">
+                        <i class="fas fa-wind"></i>
+                    </div>
+                    <div class="service-content">
+                        <h3>Air Conditioning</h3>
+                        <p>Professional installation, maintenance, repair and servicing of all types of air conditioning systems for commercial and residential use.</p>
+                        <a href="https://wa.me/255682843552?text=Hello!%20I'm%20interested%20in%20Air%20Conditioning%20Services" target="_blank" class="btn">Get Service</a>
+                    </div>
+                </div>
+
+                <!-- PLC & Automation -->
+                <div class="service-card">
+                    <div class="service-icon" style="background: linear-gradient(135deg, #6f42c1, #59359a);">
+                        <i class="fas fa-microchip"></i>
+                    </div>
+                    <div class="service-content">
+                        <h3>PLC & Automation</h3>
+                        <p>Advanced PLC programming, InteliLite & DSE configuration, and industrial automation solutions for telecom and manufacturing sectors.</p>
+                        <a href="https://wa.me/255682843552?text=Hello!%20I'm%20interested%20in%20PLC%20%26%20Automation" target="_blank" class="btn">Learn More</a>
+                    </div>
+                </div>
+
+                <!-- ATS Systems -->
+                <div class="service-card">
+                    <div class="service-icon" style="background: linear-gradient(135deg, #fd7e14, #e8590c);">
+                        <i class="fas fa-exchange-alt"></i>
+                    </div>
+                    <div class="service-content">
+                        <h3>ATS Systems</h3>
+                        <p>Design, installation, and maintenance of Automatic Transfer Switch systems for seamless power switching between mains and generators.</p>
+                        <a href="https://wa.me/255682843552?text=Hello!%20I'm%20interested%20in%20ATS%20Systems" target="_blank" class="btn">Get Service</a>
+                    </div>
+                </div>
+
+                <!-- HPU Conversion -->
+                <div class="service-card">
+                    <div class="service-icon" style="background: linear-gradient(135deg, #dc3545, #c82333);">
+                        <i class="fas fa-tools"></i>
+                    </div>
+                    <div class="service-content">
+                        <h3>HPU Conversion</h3>
+                        <p>Specialized HPU Training, automation Design and Conversion of HPU units into standard diesel generators for telecom infrastructure.</p>
+                        <a href="https://wa.me/255682843552?text=Hello!%20I'm%20interested%20in%20HPU%20Conversion" target="_blank" class="btn">Learn More</a>
+                    </div>
+                </div>
+
+                <!-- Technical Training -->
+                <div class="service-card">
+                    <div class="service-icon" style="background: linear-gradient(135deg, #17a2b8, #138496);">
+                        <i class="fas fa-chalkboard-teacher"></i>
+                    </div>
+                    <div class="service-content">
+                        <h3>Technical Training</h3>
+                        <p>Comprehensive Technical Training programs on Electrical and Mechanical aspects of Generators for Telecom O&M teams and Technicians.</p>
+                        <a href="https://wa.me/255682843552?text=Hello!%20I'm%20interested%20in%20Technical%20Training" target="_blank" class="btn">Enroll Now</a>
+                    </div>
+                </div>
+
+                <!-- Electrical Installations -->
+                <div class="service-card">
+                    <div class="service-icon" style="background: linear-gradient(135deg, #343a40, #212529);">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <div class="service-content">
+                        <h3>Electrical Installations</h3>
+                        <p>Complete electrical installation works for residential, commercial and industrial projects with compliance to Tanzanian standards.</p>
+                        <a href="https://wa.me/255682843552?text=Hello!%20I'm%20interested%20in%20Electrical%20Installations" target="_blank" class="btn">Get Service</a>
+                    </div>
+                </div>
+
+                <!-- Security & ICT Systems -->
+                <div class="service-card">
+                    <div class="service-icon" style="background: linear-gradient(135deg, #6610f2, #520dc2);">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <div class="service-content">
+                        <h3>Security & ICT Systems</h3>
+                        <p>CCTV installation, RMS Modbus mapping, rectifier systems, VFD and AVR systems for comprehensive security and control solutions.</p>
+                        <a href="https://wa.me/255682843552?text=Hello!%20I'm%20interested%20in%20Security%20%26%20ICT%20Systems" target="_blank" class="btn">Get Service</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Products Section -->
+        <section id="products">
+            <h2>Featured Products</h2>
+            <div class="product-grid">
+                <div class="product-card">
+                    <div style="height: 200px; background: linear-gradient(45deg, #1a5632, #0d3b1f); display: flex; align-items: center; justify-content: center; color: white; font-size: 4rem;">
+                        ⚡
+                    </div>
+                    <div style="padding: 1.5rem;">
+                        <h3>Diesel Generators</h3>
+                        <p>10kVA - 1000kVA available. Complete installation included.</p>
+                        <div class="price">TZS 8.5M - 85M</div>
+                        <a href="https://wa.me/255682843552?text=I'm interested in diesel generators" target="_blank" class="btn">Inquire Now</a>
+                    </div>
+                </div>
+                
+                <div class="product-card">
+                    <div style="height: 200px; background: linear-gradient(45deg, #FF6B35, #FF8E53); display: flex; align-items: center; justify-content: center; color: white; font-size: 4rem;">
+                        ☀️
+                    </div>
+                    <div style="padding: 1.5rem;">
+                        <h3>Solar Power Systems</h3>
+                        <p>Complete solar solutions with battery backup</p>
+                        <div class="price">TZS 300K - 25M</div>
+                        <a href="https://wa.me/255682843552?text=I'm interested in solar systems" target="_blank" class="btn">Get Quote</a>
+                    </div>
+                </div>
+                
+                <div class="product-card">
+                    <div style="height: 200px; background: linear-gradient(45deg, #0d6efd, #0b5ed7); display: flex; align-items: center; justify-content: center; color: white; font-size: 4rem;">
+                        🔧
+                    </div>
+                    <div style="padding: 1.5rem;">
+                        <h3>Genuine Spare Parts</h3>
+                        <p>Original parts with warranty. Next-day delivery available.</p>
+                        <div class="price">TZS 50K - 5Mil</div>
+                        <a href="https://wa.me/255682843552?text=I need generator spare parts" target="_blank" class="btn">Order Parts</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Kingu Electrical Shop Section -->
+            <div class="Kingu-shop-section">
+                <h3>🛒 Browse Our Complete Product Catalog</h3>
+                <p>We have 100+ electrical products available for immediate order</p>
+                <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin: 1.5rem 0;">
+                    <a href="/Kinguelectrical-shop.html#generators" class="btn" style="background: #1a5632; color: white;">
+                        View All Generators
+                    </a>
+                    <a href="/Kinguelectrical-shop.html#solar" class="btn" style="background: #FF6B35; color: white;">
+                        View Solar Systems
+                    </a>
+                    <a href="/Kinguelectrical-shop.html#spares" class="btn" style="background: #0d6efd; color: white;">
+                        View 100+ Spare Parts
+                    </a>
+                </div>
+                <p style="color: #666; font-size: 0.9rem; margin-top: 1rem;">
+                    <strong>Instant Support:</strong> Order directly via phone +255 682 843 552
+                </p>
+            </div>
+        </section>
+
+        <!-- Testimonials -->
+        <section id="testimonials">
+            <h2>Client Success Stories</h2>
+            <div class="testimonial-slider">
+                <div class="testimonial">
+                    <div class="testimonial-content">
+                        <p>"Kingu Electrical installed our backup generator system. Professional, on-time, and excellent after-sales support. Highly recommended!"</p>
+                    </div>
+                    <div class="client-info">
+                        <div style="width: 50px; height: 50px; background: #1a5632; border-radius: 50%; color: white; display: flex; align-items: center; justify-content: center; font-weight: bold;">JS</div>
+                        <div>
+                            <h4>James Shirima</h4>
+                            <p>Hotel Manager, Shirma Hotel</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial">
+                    <div class="testimonial-content">
+                        <p>"Their PLC programming service saved us 30% in energy costs. The team is knowledgeable and responsive."</p>
+                    </div>
+                    <div class="client-info">
+                        <div style="width: 50px; height: 50px; background: #FF6B35; border-radius: 50%; color: white; display: flex; align-items: center; justify-content: center; font-weight: bold;">PA</div>
+                        <div>
+                            <h4>Precious Adolph</h4>
+                            <p>Technical Manager, GK Manufacturing Plant</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial">
+                    <div class="testimonial-content">
+                        <p>"Emergency service at 2 AM! Fixed our generator issue in under 3 hours. Truly reliable service."</p>
+                    </div>
+                    <div class="client-info">
+                        <div style="width: 50px; height: 50px; background: #0d6efd; border-radius: 50%; color: white; display: flex; align-items: center; justify-content: center; font-weight: bold;">AE</div>
+                        <div>
+                            <h4>Adolph Elijah</h4>
+                            <p>Camp Administrator, Arusha</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Booking Widget -->
+        <div style="background: rgba(255, 255, 255, 0.95); padding: 2rem; border-radius: 12px; margin: 3rem 0; box-shadow: 0 6px 25px rgba(0,0,0,0.1); border: 1px solid rgba(255, 255, 255, 0.5);">
+            <h3 style="text-align: center;">📅 Book a Free Site Inspection</h3>
+            <form>
+                <input type="text" placeholder="Your Name" required>
+                <input type="tel" placeholder="Phone Number" required>
+                <input type="email" placeholder="Email Address">
+                <select required>
+                    <option value="">Select Service</option>
+                    <option>Generator Installation</option>
+                    <option>Electrical Maintenance</option>
+                    <option>PLC Programming</option>
+                    <option>Solar System</option>
+                    <option>Emergency Repair</option>
+                    <option>ATS System</option>
+                    <option>Other</option>
+                </select>
+                <input type="date" required>
+                <input type="time" required>
+                <textarea placeholder="Additional Details (Location, specific requirements)"></textarea>
+                <button type="submit" class="btn">Schedule Inspection</button>
+            </form>
+        </div>
+
+        <!-- Projects Section -->
+        <section id="projects">
+            <h2>Projects & Achievements</h2>
+            <div class="project-gallery">
+                <div class="project-item">
+                    <div style="height: 250px; background: linear-gradient(45deg, #1a5632, #0d3b1f); display: flex; align-items: center; justify-content: center; color: white; font-size: 3rem;">
+                        🏗️
+                    </div>
+                    <div style="padding: 1.5rem;">
+                        <h3>Telecom HPU Conversion</h3>
+                        <p>Successfully converted multiple HPU units into standard diesel generators for telecom infrastructure across Tanzania.</p>
+                        <p><strong>Year:</strong> 2019-2025</p>
+                    </div>
+                </div>
+
+                <div class="project-item">
+                    <div style="height: 250px; background: linear-gradient(45deg, #FF6B35, #FF8E53); display: flex; align-items: center; justify-content: center; color: white; font-size: 3rem;">
+                        ⚡
+                    </div>
+                    <div style="padding: 1.5rem;">
+                        <h3>Industrial Generator Installation</h3>
+                        <p>Complete installation and commissioning of 800kVA diesel generator set with integrated ATS for a major manufacturing facility.</p>
+                        <p><strong>Year:</strong> 2016-2025</p>
+                    </div>
+                </div>
+
+                <div class="project-item">
+                    <div style="height: 250px; background: linear-gradient(45deg, #0d6efd, #0b5ed7); display: flex; align-items: center; justify-content: center; color: white; font-size: 3rem;">
+                        💻
+                    </div>
+                    <div style="padding: 1.5rem;">
+                        <h3>Data Center Power Distribution</h3>
+                        <p>Design and implementation of 600A dual-bus DC Power Distribution Unit for critical data center infrastructure.</p>
+                        <p><strong>Year:</strong> 2022-2023</p>
+                    </div>
+                </div>
+
+                <div class="project-item">
+                    <div style="height: 250px; background: linear-gradient(45deg, #20c997, #199d76); display: flex; align-items: center; justify-content: center; color: white; font-size: 3rem;">
+                        👨‍🏫
+                    </div>
+                    <div style="padding: 1.5rem;">
+                        <h3>Technical Training Program</h3>
+                        <p>Developed and delivered specialized Generator Technical Training Programs for Multiple Telecom O&M Teams across Tanzania.</p>
+                        <p><strong>Year:</strong> 2017-2025</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- WhatsApp Features -->
+        <div style="background: linear-gradient(135deg, rgba(37, 211, 102, 0.95), rgba(33, 196, 95, 0.95)); color: white; padding: 2rem; border-radius: 12px; text-align: center; margin: 3rem 0; box-shadow: 0 6px 25px rgba(37, 211, 102, 0.3);">
+            <h3>📱 Instant Support via WhatsApp</h3>
+            <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-top: 1.5rem;">
+                <a href="https://wa.me/255682843552?text=Hi! I need a quote for electrical services" target="_blank" style="background: white; color: #25D366; padding: 1rem 2rem; border-radius: 25px; text-decoration: none; font-weight: 600; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">
+                    📋 Get Instant Quote
+                </a>
+                <a href="https://wa.me/255682843552?text=I have an electrical emergency!" target="_blank" style="background: white; color: #25D366; padding: 1rem 2rem; border-radius: 25px; text-decoration: none; font-weight: 600; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">
+                    🚨 Emergency Help
+                </a>
+            </div>
+        </div>
+
+        <!-- Service Area -->
+        <section id="service-area">
+            <h2>Service Areas in Tanzania</h2>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; align-items: center;">
+                <div>
+                    <h3>Primary Service Areas:</h3>
+                    <ul style="list-style: none; margin-bottom: 1.5rem;">
+                        <li style="margin-bottom: 0.5rem; padding-left: 1.5rem; position: relative;">
+                            <span style="position: absolute; left: 0; color: #1a5632;">✓</span> Dar-es-salaam (All Districts)
+                        </li>
+                        <li style="margin-bottom: 0.5rem; padding-left: 1.5rem; position: relative;">
+                            <span style="position: absolute; left: 0; color: #1a5632;">✓</span> Arusha Region
+                        </li>
+                        <li style="margin-bottom: 0.5rem; padding-left: 1.5rem; position: relative;">
+                            <span style="position: absolute; left: 0; color: #1a5632;">✓</span> Dodoma
+                        </li>
+                        <li style="margin-bottom: 0.5rem; padding-left: 1.5rem; position: relative;">
+                            <span style="position: absolute; left: 0; color: #1a5632;">✓</span> Mwanza
+                        </li>
+                        <li style="margin-bottom: 0.5rem; padding-left: 1.5rem; position: relative;">
+                            <span style="position: absolute; left: 0; color: #1a5632;">✓</span> Mbeya
+                        </li>
+                        <li style="margin-bottom: 0.5rem; padding-left: 1.5rem; position: relative;">
+                            <span style="position: absolute; left: 0; color: #1a5632;">✓</span> Zanzibar
+                        </li>
+                    </ul>
+                    <a href="tel:+255682843552" class="btn">Check If We Cover Your Area</a>
+                </div>
+                <div>
+                    <div style="height: 300px; background: linear-gradient(45deg, #1a5632, #0d3b1f); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: white; font-size: 4rem; box-shadow: 0 6px 25px rgba(0,0,0,0.2);">
+                        🗺️
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- RESOURCES SECTION - FREE ELECTRICAL RESOURCES (GREEN BACKGROUND REMOVED) -->
+        <section id="resources">
+            <h2>Free Electrical Resources</h2>
+            <div class="resources-horizontal">
+                <div class="resource-horizontal-card">
+                    <h3>Generator Maintenance Checklist</h3>
+                    <p>Free PDF guide for proper generator maintenance to extend lifespan and prevent breakdowns.</p>
+                    <a href="https://drive.google.com/drive/folders/1oQ5Nk5mDd-jpA7ZsP4E75XnD2E6h52cj" class="btn-horizontal" target="_blank">Download Free</a>
+                </div>
+                
+                <div class="resource-horizontal-card">
+                    <h3>Energy Saving Guide</h3>
+                    <p>Tips to reduce your electricity bill by 30% through efficient electrical system management.</p>
+                    <a href="https://drive.google.com/drive/folders/1oQ5Nk5mDd-jpA7ZsP4E75XnD2E6h52cj" class="btn-horizontal" target="_blank">Download Free</a>
+                </div>
+                
+                <div class="resource-horizontal-card">
+                    <h3>Emergency Preparedness Kit</h3>
+                    <p>What every business needs for power emergencies - checklist and preparation guide.</p>
+                    <a href="https://drive.google.com/drive/folders/1oQ5Nk5mDd-jpA7ZsP4E75XnD2E6h52cj" class="btn-horizontal" target="_blank">Download Free</a>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 2rem;">
+                <a href="tel:+255682843552" style="color: #dc3545; font-weight: bold; text-decoration: none; font-size: 1.1rem; text-shadow: 0 1px 2px rgba(0,0,0,0.2);">
+                    📞 Call +255 682 843 552 for Professional Consultation
+                </a>
+            </div>
+        </section>
+
+        <!-- Videos -->
+        <section id="videos">
+            <h2>Generator Installation Process</h2>
+            <div style="max-width: 800px; margin: 0 auto;">
+                <div style="width: 100%; height: 400px; background: linear-gradient(45deg, #1a5632, #0d3b1f); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: white; font-size: 4rem; box-shadow: 0 6px 25px rgba(0,0,0,0.2);">
+                    ▶
+                </div>
+                <p style="text-align: center; margin-top: 1rem; font-size: 1.1rem; color: #555;">Watch: Generator Installation Process - Time-lapse</p>
+            </div>
+        </section>
+
+        <!-- Certificates Section -->
+        <section id="certificates">
+            <h2>Certificates & Compliance</h2>
+            <div class="certificate-grid">
+                <div class="certificate-item">
+                    <div style="height: 200px; background: linear-gradient(45deg, #1a5632, #0d3b1f); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-size: 3rem; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">📄</div>
+                    <h4>Certificate of Incorporation</h4>
+                    <p><strong>BRELA Registration</strong><br>No: 157024493</p>
+                </div>
+
+                <div class="certificate-item">
+                    <div style="height: 200px; background: linear-gradient(45deg, #FF6B35, #FF8E53); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-size: 3rem; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">🏢</div>
+                    <h4>TIN Certificate</h4>
+                    <p><strong>Tanzania Revenue Authority</strong><br>TIN: 157-024-493</p>
+                </div>
+
+                <div class="certificate-item">
+                    <div style="height: 200px; background: linear-gradient(45deg, #0d6efd, #0b5ed7); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-size: 3rem; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">⚡</div>
+                    <h4>EWURA License</h4>
+                    <p><strong>Class A Electrical License</strong><br>No: ELA-2022-008</p>
+                </div>
+
+                <div class="certificate-item">
+                    <div style="height: 200px; background: linear-gradient(45deg, #20c997, #199d76); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-size: 3rem; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">👨‍🔧</div>
+                    <h4>ERB Registration</h4>
+                    <p><strong>Professional Engineer</strong><br>Registered Practitioner</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section - WITHOUT GREEN BACKGROUND -->
+        <div class="cta">
+            <div class="cta-content">
+                <h2>Need Professional Electrical Services?</h2>
+                <p>Contact our Expert Engineers Today for reliable and cost-effective electrical solutions tailored to your specific needs.</p>
+                <a href="https://wa.me/255682843552" target="_blank" class="btn" style="background: #1a5632; color: white; padding: 1rem 2rem; font-size: 1.1rem;">
+                    Chat with us on WhatsApp
+                </a>
+            </div>
+        </div>
+
+        <!-- Contact Section -->
+        <section id="contact">
+            <h2>Contact Us</h2>
+
+            <div class="grid">
+                <div class="card">
+                    <h3>Location</h3>
+                    <p><strong>Headquarters:</strong> Dar-es-salaam & Arusha, Tanzania</p>
+                    <p><strong>Address:</strong> Plot No. 485, Block 43, Nzasa</p>
+                    <p><strong>P.O. Box:</strong> 62313, Dar es Salaam</p>
+                </div>
+
+                <div class="card">
+                    <h3>Contact Info</h3>
+                    <p><strong>Phone:</strong> +255 677 014 740</p>
+                    <p><strong>Phone:</strong> +255 763 957 908</p>
+                    <p><strong>Phone:</strong> +255 682 843 552</p>
+                    <p><strong>Email:</strong> Kinguelectricaltz@gmail.com</p>
+                </div>
+
+                <div class="card">
+                    <h3>Business Hours</h3>
+                    <p><strong>Monday - Friday:</strong> 8:00 AM - 6:00 PM</p>
+                    <p><strong>Saturday:</strong> 9:00 AM - 2:00 PM</p>
+                    <p><strong>Emergency Services:</strong> 24/7 Available</p>
+                </div>
+            </div>
+
+            <form style="margin-top: 3rem;">
+                <input type="text" placeholder="Your Full Name" required>
+                <input type="email" placeholder="Your Email Address" required>
+                <input type="tel" placeholder="Your Phone Number">
+                <textarea placeholder="Your Message" required style="height: 150px;"></textarea>
+                <button type="submit" class="btn">Send Message</button>
+            </form>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>Kingu Electrical</h3>
+                    <p>Leading electrical engineering company in Tanzania providing professional power solutions and electrical products since 2022.</p>
+                </div>
+
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <a href="#home">Home</a>
+                    <a href="#about">About Us</a>
+                    <a href="#team">Our Team</a>
+                    <a href="#services">Our Services</a>
+                    <a href="#products">Products</a>
+                    <a href="/Kinguelectrical-shop.html" target="_blank">Kingu Electrical Shop</a>
+                    <a href="#contact">Contact Us</a>
+                </div>
+
+                <div class="footer-column">
+                    <h3>Contact Info</h3>
+                    <p>📞 +255 682 843 552</p>
+                    <p>📞 +255 677 014 740</p>
+                    <p>📞 +255 763 957 908</p>
+                    <p>📧 Kinguelectricaltz@gmail.com</p>
+                    <p>📍 Plot No. 485, Block 43, Nzasa, Dar-es-salaam</p>
+                </div>
+            </div>
+
+            <div class="copyright">
+                <p>&copy; <span id="year">2024</span> Kingu Electrical Company Limited. All Rights Reserved.</p>
+                <p>TIN: 157-024-493 | EWURA License: ELA-2022-008 | BRELA Registered</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- WhatsApp Button -->
+    <a class="whatsapp" href="https://wa.me/255682843552" target="_blank" aria-label="Chat With US on WhatsApp">
+        💬
+    </a>
+
+    <script>
+        // Loading Animation Script (Two-Page Structure)
+        document.addEventListener('DOMContentLoaded', function() {
+            const loadingScreen = document.getElementById('loading-screen');
+            const welcomePage = document.getElementById('welcomePage');
+            const aboutPage = document.getElementById('aboutPage');
+            const progressBar = document.getElementById('loading-progress');
+            const progressText = document.getElementById('progressText');
+            const body = document.body;
+            
+            let progress = 0;
+            const totalTime = 40000; // 40 seconds
+            const intervalTime = 200; // Update every 200ms
+            const increments = totalTime / intervalTime;
+            const progressIncrement = 100 / increments;
+            
+            // Messages to show during loading
+            const loadingMessages = [
+                "Welcome to Kingu Electrical",
+                "Initializing power solutions...",
+                "Loading engineering expertise...",
+                "Preparing generator systems...",
+                "Configuring PLC programming...",
+                "Setting up ATS solutions...",
+                "Ready to serve Tanzania!"
+            ];
+            
+            let messageIndex = 0;
+            let pageSwitched = false;
+            
+            // Simulate loading progress over 40 seconds
+            const loadingInterval = setInterval(() => {
+                progress += progressIncrement;
+                
+                // Update progress bar
+                if (progress <= 100) {
+                    progressBar.style.width = progress + '%';
+                    
+                    // Switch to about page at 40% progress
+                    if (progress >= 40 && !pageSwitched) {
+                        pageSwitched = true;
+                        welcomePage.classList.add('hidden');
+                        setTimeout(() => {
+                            aboutPage.classList.add('visible');
+                        }, 500);
+                    }
+                    
+                    // Change message every 15% progress
+                    if (progress % 15 < progressIncrement) {
+                        messageIndex = Math.min(messageIndex + 1, loadingMessages.length - 1);
+                        progressText.textContent = loadingMessages[messageIndex];
+                        
+                        // Add typing effect
+                        progressText.style.opacity = '0';
+                        setTimeout(() => {
+                            progressText.textContent = loadingMessages[messageIndex];
+                            progressText.style.opacity = '1';
+                        }, 300);
+                    }
+                }
+                
+                // Complete loading when progress reaches 100%
+                if (progress >= 100) {
+                    clearInterval(loadingInterval);
+                    
+                    // Final message
+                    progressText.textContent = "Entering Kingu Electrical Website...";
+                    
+                    // Complete loading sequence with smooth transition
+                    setTimeout(() => {
+                        loadingScreen.style.opacity = '0';
+                        
+                        setTimeout(() => {
+                            loadingScreen.style.display = 'none';
+                            body.classList.remove('loading');
+                            
+                            // Show main content with fade in effect
+                            document.querySelectorAll('*:not(#loading-screen):not(#stats-section)').forEach((el, index) => {
+                                setTimeout(() => {
+                                    el.style.opacity = '1';
+                                    el.style.visibility = 'visible';
+                                }, index * 30); // Staggered reveal
+                            });
+                            
+                            // Smooth scroll to top
+                            window.scrollTo({ top: 0, behavior: 'smooth' });
+                        }, 1500);
+                    }, 2000);
+                }
+            }, intervalTime);
+            
+            // Force completion after 45 seconds max (in case something goes wrong)
+            setTimeout(() => {
+                clearInterval(loadingInterval);
+                progressBar.style.width = '100%';
+                progressText.textContent = "Entering Kingu Electrical Website...";
+                
+                // Ensure about page is visible
+                if (!pageSwitched) {
+                    welcomePage.classList.add('hidden');
+                    aboutPage.classList.add('visible');
+                }
+                
+                setTimeout(() => {
+                    loadingScreen.style.opacity = '0';
+                    
+                    setTimeout(() => {
+                        loadingScreen.style.display = 'none';
+                        body.classList.remove('loading');
+                        
+                        // Show main content
+                        document.querySelectorAll('*:not(#loading-screen):not(#stats-section)').forEach(el => {
+                            el.style.opacity = '1';
+                            el.style.visibility = 'visible';
+                        });
+                    }, 1500);
+                }, 2000);
+            }, 45000); // 45 seconds max
+        });
+        
+        // FORCE STATS SECTION TO BE VISIBLE - NUCLEAR OPTION
+        (function forceStatsSection() {
+            // Function to ensure stats section is always visible
+            function makeStatsVisible() {
+                const statsSection = document.getElementById('stats-section');
+                if (statsSection) {
+                    // Apply nuclear styling
+                    statsSection.style.cssText = `
+                        width: 100% !important;
+                        height: auto !important;
+                        background: linear-gradient(135deg, 
+                            rgba(255, 255, 255, 0.95), 
+                            rgba(240, 240, 240, 0.95)
+                        ) !important;
+                        color: #333 !important;
+                        padding: 5rem 0 !important;
+                        text-align: center !important;
+                        position: relative !important;
+                        z-index: 99999 !important;
+                        opacity: 1 !important;
+                        visibility: visible !important;
+                        display: block !important;
+                        pointer-events: auto !important;
+                    `;
+                    
+                    // Force all child elements to be visible
+                    const allChildren = statsSection.querySelectorAll('*');
+                    allChildren.forEach(child => {
+                        child.style.opacity = '1';
+                        child.style.visibility = 'visible';
+                        child.style.display = '';
+                    });
+                    
+                    console.log('Stats section forced visible');
+                }
+            }
+            
+            // Run immediately
+            makeStatsVisible();
+            
+            // Run when DOM is loaded
+            document.addEventListener('DOMContentLoaded', makeStatsVisible);
+            
+            // Run when page is fully loaded
+            window.addEventListener('load', makeStatsVisible);
+            
+            // Run after loading animation completes
+            setTimeout(makeStatsVisible, 500);
+            setTimeout(makeStatsVisible, 1000);
+            setTimeout(makeStatsVisible, 2000);
+            setTimeout(makeStatsVisible, 3000);
+            
+            // Also run continuously for 10 seconds as backup
+            let intervalCount = 0;
+            const interval = setInterval(() => {
+                makeStatsVisible();
+                intervalCount++;
+                if (intervalCount > 20) clearInterval(interval);
+            }, 500);
+        })();
+        
+        // Mobile Navigation
+        const hamburger = document.getElementById('hamburger');
+        const navMenu = document.getElementById('navMenu');
+        
+        hamburger.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+        });
+        
+        // Close menu when clicking on links
+        document.querySelectorAll('.nav-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                navMenu.classList.remove('active');
+            });
+        });
+        
+        // Update year
+        document.getElementById('year').textContent = new Date().getFullYear();
+        
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                if(targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if(targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // Form submission
+        document.querySelectorAll('form').forEach(form => {
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                alert('Thank you! Your message has been submitted. We will contact you shortly.');
+                this.reset();
+            });
+        });
+    </script>
+</body>
+</html>
             display: flex;
             flex-direction: column;
             align-items: center;
