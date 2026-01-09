@@ -1,107 +1,28 @@
 {
     "name": "Kingu Electrical Company Ltd",
     "short_name": "Kingu Electrical",
-    "description": "Leading electrical engineering company in Tanzania providing generator services, PLC programming, HPU conversion, industrial electrical installations, and direct shopping via Kingu Electrical Shop.",
-    "start_url": "/",
-    "display": "standalone",
-    "background_color": "#ffffff",
-    "theme_color": "#1a5632",
-    "orientation": "portrait-primary",
-    "categories": ["business", "education", "utilities", "shopping"],
-    "lang": "en-TZ",
-    "dir": "ltr",
+    "description": "Professional electrical engineering services in Tanzania",
+    "start_url": "/?source=pwa",
     "scope": "/",
-    "id": "/",
+    "display": "standalone",
+    "background_color": "#1a5632",
+    "theme_color": "#1a5632",
+    "orientation": "portrait",
+    "categories": ["business", "utilities"],
+    "lang": "en-TZ",
     
     "icons": [
         {
-            "src": "/assets/icons/icon-72x72.png",
-            "sizes": "72x72",
-            "type": "image/png",
-            "purpose": "any maskable"
-        },
-        {
-            "src": "/assets/icons/icon-96x96.png",
-            "sizes": "96x96",
-            "type": "image/png",
-            "purpose": "any maskable"
-        },
-        {
-            "src": "/assets/icons/icon-128x128.png",
-            "sizes": "128x128",
-            "type": "image/png",
-            "purpose": "any maskable"
-        },
-        {
-            "src": "/assets/icons/icon-144x144.png",
-            "sizes": "144x144",
-            "type": "image/png",
-            "purpose": "any maskable"
-        },
-        {
-            "src": "/assets/icons/icon-152x152.png",
-            "sizes": "152x152",
-            "type": "image/png",
-            "purpose": "any maskable"
-        },
-        {
-            "src": "/assets/icons/icon-192x192.png",
+            "src": "/icon-192.png",
             "sizes": "192x192",
             "type": "image/png",
             "purpose": "any maskable"
         },
         {
-            "src": "/assets/icons/icon-384x384.png",
-            "sizes": "384x384",
-            "type": "image/png",
-            "purpose": "any maskable"
-        },
-        {
-            "src": "/assets/icons/icon-512x512.png",
+            "src": "/icon-512.png",
             "sizes": "512x512",
             "type": "image/png",
             "purpose": "any maskable"
-        },
-        {
-            "src": "/assets/icons/company-logo.svg",
-            "sizes": "512x512",
-            "type": "image/svg+xml",
-            "purpose": "any"
-        }
-    ],
-    
-    "screenshots": [
-        {
-            "src": "/assets/screenshots/mobile-screenshot.png",
-            "sizes": "360x640",
-            "type": "image/png",
-            "form_factor": "narrow",
-            "label": "Mobile View",
-            "platform": "wide"
-        },
-        {
-            "src": "/assets/screenshots/desktop-screenshot.png",
-            "sizes": "1280x720",
-            "type": "image/png",
-            "form_factor": "wide",
-            "label": "Desktop View",
-            "platform": "web"
-        },
-        {
-            "src": "/assets/screenshots/kingu-shop-mobile.png",
-            "sizes": "750x1334",
-            "type": "image/png",
-            "form_factor": "narrow",
-            "label": "Kingu Electrical Shop Mobile",
-            "platform": "wide"
-        },
-        {
-            "src": "/assets/screenshots/kingu-shop-desktop.png",
-            "sizes": "1920x1080",
-            "type": "image/png",
-            "form_factor": "wide",
-            "label": "Kingu Electrical Shop Desktop",
-            "platform": "web"
         }
     ],
     
@@ -109,196 +30,20 @@
         {
             "name": "Contact Us",
             "short_name": "Contact",
-            "description": "Get in touch with our electrical experts",
-            "url": "/#contact",
-            "icons": [{
-                "src": "/assets/icons/contact-icon.svg",
-                "sizes": "96x96"
-            }]
+            "description": "Get in touch with electrical experts",
+            "url": "/#contact"
         },
         {
             "name": "Emergency Service",
             "short_name": "Emergency",
             "description": "24/7 Emergency electrical service",
-            "url": "/#contact?emergency=true",
-            "icons": [{
-                "src": "/assets/icons/emergency-icon.svg",
-                "sizes": "96x96"
-            }]
+            "url": "/#contact?emergency=true"
         },
         {
-            "name": "Our Services",
-            "short_name": "Services",
-            "description": "View all our electrical services",
-            "url": "/#services",
-            "icons": [{
-                "src": "/assets/icons/services-icon.svg",
-                "sizes": "96x96"
-            }]
-        },
-        {
-            "name": "Browse Generators",
-            "short_name": "Generators",
-            "description": "View diesel and petrol generators",
-            "url": "/Kinguelectrical-shop.html#generators",
-            "icons": [{
-                "src": "/assets/icons/generator-icon.svg",
-                "sizes": "96x96"
-            }]
-        },
-        {
-            "name": "Solar Systems",
-            "short_name": "Solar",
-            "description": "Browse solar power systems",
-            "url": "/Kinguelectrical-shop.html#solar",
-            "icons": [{
-                "src": "/assets/icons/solar-icon.svg",
-                "sizes": "96x96"
-            }]
-        },
-        {
-            "name": "Kingu Electrical Shop",
+            "name": "Kingu Shop",
             "short_name": "Shop",
-            "description": "Browse electrical products and services",
-            "url": "/Kinguelectrical-shop.html",
-            "icons": [{
-                "src": "/assets/icons/shop-icon.svg",
-                "sizes": "96x96"
-            }]
-        },
-        {
-            "name": "Order via Phone",
-            "short_name": "Call Now",
-            "description": "Call to place your order",
-            "url": "tel:+255677014740",
-            "icons": [{
-                "src": "/assets/icons/phone-icon.svg",
-                "sizes": "96x96"
-            }]
-        },
-        {
-            "name": "WhatsApp Support",
-            "short_name": "WhatsApp",
-            "description": "Chat with us on WhatsApp",
-            "url": "https://wa.me/255682843552",
-            "icons": [{
-                "src": "/assets/icons/whatsapp-icon.svg",
-                "sizes": "96x96"
-            }]
-        }
-    ],
-    
-    "related_applications": [
-        {
-            "platform": "webapp",
-            "url": "https://kingueletrical.com/manifest.json"
-        }
-    ],
-    
-    "prefer_related_applications": false,
-    
-    "protocol_handlers": [
-        {
-            "protocol": "web+kingushop",
-            "url": "/Kinguelectrical-shop.html?product=%s"
-        },
-        {
-            "protocol": "web+kingu",
-            "url": "/?service=%s"
-        },
-        {
-            "protocol": "tel",
-            "url": "tel:%s"
-        }
-    ],
-    
-    "share_target": {
-        "action": "/Kinguelectrical-shop.html",
-        "method": "GET",
-        "enctype": "application/x-www-form-urlencoded",
-        "params": {
-            "title": "name",
-            "text": "description",
-            "url": "link"
-        }
-    },
-    
-    "handle_links": "preferred",
-    
-    "edge_side_panel": {
-        "preferred_width": 400
-    },
-    
-    "launch_handler": {
-        "client_mode": "auto"
-    },
-    
-    "display_override": ["window-controls-overlay", "standalone"],
-    
-    "permissions": [
-        "notifications",
-        "storage",
-        "background-sync",
-        "periodic-background-sync",
-        "clipboard-read",
-        "clipboard-write"
-    ],
-    
-    "serviceworker": {
-        "src": "/service-worker.js",
-        "scope": "/",
-        "update_via_cache": "none"
-    },
-    
-    "shortcuts_icons": {
-        "96": "/assets/icons/icon-96x96.png"
-    },
-    
-    "file_handlers": [
-        {
-            "action": "/Kinguelectrical-shop.html",
-            "accept": {
-                "text/*": [".txt", ".text"],
-                "application/pdf": [".pdf"]
-            }
-        }
-    ],
-    
-    "description": "Kingu Electrical - Professional electrical engineering services and products in Tanzania. Generator installation, solar systems, PLC programming, HPU conversion, and electrical equipment supply.",
-    
-    "screenshots_icons": {
-        "form_factors": ["wide", "narrow"],
-        "label": "Kingu Electrical App Screenshots"
-    },
-    
-    "version": "5.0.0",
-    
-    "author": "Kingu Electrical Company Limited",
-    
-    "dir": "ltr",
-    
-    "lang": "en-TZ",
-    
-    "scope": "/",
-    
-    "id": "/",
-    
-    "start_url": "/?source=pwa",
-    
-    "display": "standalone",
-    
-    "background_color": "#1a5632",
-    
-    "theme_color": "#1a5632",
-    
-    "orientation": "portrait-primary",
-    
-    "icons_": [
-        {
-            "src": "/assets/icons/maskable_icon.png",
-            "sizes": "196x196",
-            "type": "image/png",
-            "purpose": "maskable"
+            "description": "Browse electrical products",
+            "url": "/Kinguelectrical-shop.html"
         }
     ]
 }
