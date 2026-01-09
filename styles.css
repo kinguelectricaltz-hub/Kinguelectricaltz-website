@@ -57,6 +57,49 @@ h1, h2, h3, h4, .nav-logo, .btn {
 .hidden { display: none; }
 .section-center { text-align: center; }
 
+/* ===== GREEN BUTTON TEXT OVERRIDES ===== */
+/* All buttons with colored backgrounds should have green text */
+button,
+.btn,
+.emergency-btn,
+.promo-btn,
+.btn-kingu-shop,
+.whatsapp-btn,
+.whatsapp-option,
+.package-item a,
+.service-item a,
+.product-item a,
+.kingu-shop-section a,
+.contact-header a:hover,
+form button[type="submit"],
+#booking-form button,
+[style*="background: #dc3545"],
+[style*="background:  #dc3545"],
+[style*="background:#dc3545"],
+[style*="background: linear-gradient(90deg, #FFD700, #FFA500)"],
+[style*="background: linear-gradient(90deg, var(--accent-orange)"] {
+    color: var(--primary-green) !important;
+}
+
+/* Special case for Kingu shop button */
+.btn-kingu-shop {
+    color: var(--primary-green) !important;
+}
+
+/* Keep accent colors for decorative elements */
+.stat-number,
+.team-name,
+.service-icon,
+.product-icon,
+.price,
+.popular-badge,
+.tagline,
+.welcome-tagline,
+.promo-badge,
+.kingu-shop-cta {
+    color: #dc3545 !important;
+}
+
 /* ===== Promo Banner ===== */
 .promo-banner {
     background: linear-gradient(90deg, var(--emergency-red) 0%, var(--emergency-dark-red) 100%);
@@ -101,6 +144,28 @@ h1, h2, h3, h4, .nav-logo, .btn {
     font-size: 1.1rem;
     margin-bottom: 20px;
     opacity: 0.95;
+}
+
+.promo-btn {
+    background: var(--white);
+    color: var(--primary-green) !important;
+    font-weight: 600;
+    padding: 12px 30px;
+    border-radius: 50px;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    transition: var(--transition);
+    border: 2px solid transparent;
+    font-size: 1.1rem;
+}
+
+.promo-btn:hover {
+    background: #f8f9fa;
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    border-color: var(--primary-green);
 }
 
 /* ===== WhatsApp Float Button ===== */
@@ -162,8 +227,6 @@ header {
     display: flex;
     align-items: center;
 }
-
-/* Removed the problematic ::before pseudo-element */
 
 .header-content {
     position: relative;
@@ -238,6 +301,7 @@ header h1 {
     transform: translateY(-5px) scale(1.05);
     box-shadow: 0 10px 25px rgba(0,0,0,0.3);
     border-color: var(--accent-orange);
+    color: var(--primary-green) !important;
 }
 
 .contact-icon {
@@ -305,6 +369,7 @@ nav {
 
 .nav-menu a:hover {
     background: rgba(255, 255, 255, 0.1);
+    color: var(--primary-green) !important;
 }
 
 .nav-menu a::after {
@@ -475,7 +540,7 @@ h2::after {
 .stat-number {
     font-size: 3.5rem;
     font-weight: 700;
-    color: var(--accent-orange);
+    color: #dc3545 !important;
     margin-bottom: 10px;
     line-height: 1;
 }
@@ -504,7 +569,7 @@ h2::after {
     left: 50%;
     transform: translateX(-50%);
     background: var(--accent-orange);
-    color: white;
+    color: #dc3545 !important;
     padding: 8px 20px;
     border-radius: 20px;
     font-weight: 600;
@@ -516,7 +581,7 @@ h2::after {
 .price {
     font-size: 2.2rem;
     font-weight: 700;
-    color: var(--primary-green);
+    color: #dc3545 !important;
     margin: 20px 0;
 }
 
@@ -540,6 +605,27 @@ h2::after {
     content: "✓";
     color: var(--medium-green);
     font-weight: bold;
+}
+
+/* Package buttons */
+.package-item a {
+    background: var(--accent-orange);
+    color: var(--primary-green) !important;
+    font-weight: 600;
+    padding: 12px 30px;
+    border-radius: 50px;
+    text-decoration: none;
+    display: inline-block;
+    margin-top: 20px;
+    transition: var(--transition);
+    border: 2px solid transparent;
+}
+
+.package-item a:hover {
+    background: #ff9c4d;
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(245, 133, 41, 0.3);
+    border-color: var(--primary-green);
 }
 
 /* ===== Emergency CTA ===== */
@@ -597,7 +683,7 @@ h2::after {
 
 .emergency-btn {
     background: white;
-    color: var(--emergency-red);
+    color: var(--primary-green) !important;
     padding: 20px 40px;
     border-radius: 50px;
     font-weight: 700;
@@ -716,7 +802,7 @@ h2::after {
     padding: 0 20px;
     font-size: 1.4rem;
     font-weight: 700;
-    color: var(--primary-green);
+    color: #dc3545 !important;
     margin-bottom: 20px;
 }
 
@@ -724,6 +810,25 @@ h2::after {
     margin: 0 20px 25px;
     width: calc(100% - 40px);
     justify-content: center;
+}
+
+/* Product buttons */
+.product-item a {
+    background: var(--accent-orange);
+    color: var(--primary-green) !important;
+    font-weight: 600;
+    padding: 12px 30px;
+    border-radius: 50px;
+    text-decoration: none;
+    display: inline-block;
+    margin-top: 20px;
+    transition: var(--transition);
+}
+
+.product-item a:hover {
+    background: #ff9c4d;
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(245, 133, 41, 0.3);
 }
 
 /* ===== Testimonials ===== */
@@ -842,7 +947,7 @@ h2::after {
 #booking-form button {
     grid-column: 1 / -1;
     background: var(--accent-orange);
-    color: white;
+    color: var(--primary-green) !important;
     border: none;
     padding: 18px;
     border-radius: 8px;
@@ -890,7 +995,7 @@ h2::after {
 
 .whatsapp-option {
     background: rgba(255, 255, 255, 0.9);
-    color: #075E54;
+    color: var(--primary-green) !important;
     padding: 25px 20px;
     border-radius: var(--border-radius);
     text-decoration: none;
@@ -908,7 +1013,26 @@ h2::after {
     background: white;
     transform: translateY(-5px);
     box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-    border-color: #075E54;
+    border-color: var(--primary-green);
+}
+
+/* Service buttons */
+.service-item a {
+    background: var(--accent-orange);
+    color: var(--primary-green) !important;
+    font-weight: 600;
+    padding: 12px 30px;
+    border-radius: 50px;
+    text-decoration: none;
+    display: inline-block;
+    margin-top: 20px;
+    transition: var(--transition);
+}
+
+.service-item a:hover {
+    background: #ff9c4d;
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(245, 133, 41, 0.3);
 }
 
 /* ===== Service Area ===== */
@@ -985,58 +1109,25 @@ h2::after {
     line-height: 1.6;
 }
 
-/* ===== Videos ===== */
-.video-container {
-    max-width: 800px;
-    margin: 40px auto 0;
-    text-align: center;
-}
-
-.video-placeholder {
-    position: relative;
-    border-radius: var(--border-radius);
-    overflow: hidden;
-    box-shadow: var(--shadow);
-    cursor: pointer;
-}
-
-.video-placeholder img {
-    width: 100%;
-    height: 450px;
-    object-fit: cover;
-    transition: var(--transition);
-}
-
-.video-placeholder:hover img {
-    transform: scale(1.05);
-}
-
-.play-button {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 80px;
-    height: 80px;
-    background: rgba(245, 133, 41, 0.9);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-size: 30px;
-    transition: var(--transition);
-}
-
-.video-placeholder:hover .play-button {
+/* Resource download buttons */
+button[onclick*="downloadResource"] {
     background: var(--accent-orange);
-    transform: translate(-50%, -50%) scale(1.1);
+    color: var(--primary-green) !important;
+    font-weight: 600;
+    padding: 12px 30px;
+    border-radius: 50px;
+    border: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    transition: var(--transition);
 }
 
-.video-container p {
-    margin-top: 20px;
-    font-size: 1.2rem;
-    color: var(--medium-gray);
+button[onclick*="downloadResource"]:hover {
+    background: #ff9c4d;
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(245, 133, 41, 0.3);
 }
 
 /* ===== Certificates ===== */
@@ -1123,7 +1214,7 @@ h2::after {
 /* ===== Buttons ===== */
 .btn {
     background: var(--accent-orange);
-    color: var(--white);
+    color: var(--primary-green) !important;
     padding: 20px 45px;
     border-radius: 50px;
     font-weight: 600;
@@ -1193,7 +1284,7 @@ textarea {
 
 form button[type="submit"] {
     background: var(--accent-orange);
-    color: var(--white);
+    color: var(--primary-green) !important;
     padding: 18px 40px;
     border: none;
     border-radius: 10px;
