@@ -8,6 +8,10 @@
     <meta name="keywords" content="Kingu Electrical, Electrical Company Tanzania, Generator Installation, PLC Programming, HPU Conversion, ATS Design, Electrical Engineers Arusha, EWURA Licensed, BRELA Registered">
     <meta name="mobile-web-app-capable" content="yes">
     
+    <!-- Preload critical assets -->
+    <link rel="preload" href="Background.jpg" as="image" type="image/jpeg">
+    <link rel="preload" href="https://kingueletrical.com/assets/icons/company-logo.svg" as="image" type="image/svg+xml">
+    
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://kingueletrical.com/">
@@ -91,6 +95,60 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
+        /* ===== CRITICAL CSS - Loads First ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 80px;
+        }
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: white;
+            overflow-x: hidden;
+            width: 100%;
+            position: relative;
+            min-height: 100vh;
+            opacity: 1;
+            transition: opacity 0.5s ease;
+        }
+        
+        /* ===== OPTIMIZED BACKGROUND FIXES ===== */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-image: url('Background.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            opacity: 0.9;
+            z-index: -1;
+            filter: brightness(1.1);
+            will-change: transform;
+        }
+        
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: -1;
+        }
+        
         /* ===== LOADING ANIMATION STYLES ===== */
         #loading-screen {
             position: fixed;
@@ -108,7 +166,6 @@
             overflow: hidden;
         }
         
-        /* First Page - Welcome Screen */
         .loading-welcome {
             display: flex;
             flex-direction: column;
@@ -449,73 +506,18 @@
             visibility: hidden;
         }
 
-        /* ===== GLOBAL STYLES ===== */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        html {
-            scroll-behavior: smooth;
-            scroll-padding-top: 80px;
-        }
-        
-        body {
-            font-family: 'Roboto', sans-serif;
-            line-height: 1.6;
-            color: white;
-            overflow-x: hidden;
-            width: 100%;
-            position: relative;
-            min-height: 100vh;
-            opacity: 1;
-            transition: opacity 0.5s ease;
-        }
-        
-        /* ===== FIXED BACKGROUND IMAGE ===== */
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: url('Background.jpg');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            opacity: 0.9;
-            z-index: -1;
-            filter: brightness(1.1);
-        }
-        
-        /* Dark overlay for better text readability */
-        body::after {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.6);
-            z-index: -1;
-        }
-        
         /* ===== MOBILE BACKGROUND FIXES ===== */
         @media (max-width: 768px) {
             body::before {
-                position: absolute;
-                height: 100vh;
                 background-attachment: scroll;
+                position: absolute;
+                height: 100%;
+                width: 100%;
                 background-size: cover;
                 background-position: center center;
-            }
-            
-            body {
-                position: relative;
-                min-height: 100vh;
-                background: #000;
+                -webkit-background-size: cover;
+                -moz-background-size: cover;
+                -o-background-size: cover;
             }
             
             .loading-welcome {
@@ -525,29 +527,30 @@
             }
             
             body::after {
-                position: fixed;
                 background: rgba(0, 0, 0, 0.7);
-            }
-        }
-        
-        @media (max-width: 480px) {
-            body::before {
-                position: fixed;
-                background-size: cover;
-                background-position: top center;
             }
         }
         
         /* For iOS Safari specifically */
         @supports (-webkit-touch-callout: none) {
-            body::before {
-                background-attachment: scroll;
-                -webkit-background-size: cover;
-                background-size: cover;
+            body::before,
+            .loading-welcome {
+                background-attachment: scroll !important;
+                -webkit-background-size: cover !important;
+                background-size: cover !important;
+                height: -webkit-fill-available;
             }
         }
         
-        /* ===== TEXT CONTENT STYLES ===== */
+        /* Fix for touch devices */
+        @media (hover: none) and (pointer: coarse) {
+            body::before,
+            .loading-welcome {
+                background-attachment: scroll !important;
+            }
+        }
+        
+        /* ===== REST OF THE STYLES ===== */
         .content-wrapper {
             position: relative;
             z-index: 1;
@@ -2566,7 +2569,7 @@
     </a>
 
     <script>
-        // Loading Animation Script (Two-Page Structure)
+        // Loading Animation Script (Two-Page Structure) - OPTIMIZED VERSION
         document.addEventListener('DOMContentLoaded', function() {
             const loadingScreen = document.getElementById('loading-screen');
             const welcomePage = document.getElementById('welcomePage');
@@ -2576,8 +2579,8 @@
             const body = document.body;
             
             let progress = 0;
-            const totalTime = 40000; // 40 seconds
-            const intervalTime = 200; // Update every 200ms
+            const totalTime = 8000; // Reduced from 40s to 8s - MUCH BETTER!
+            const intervalTime = 50; // Update every 50ms for smoother progress
             const increments = totalTime / intervalTime;
             const progressIncrement = 100 / increments;
             
@@ -2595,7 +2598,15 @@
             let messageIndex = 0;
             let pageSwitched = false;
             
-            // Simulate loading progress over 40 seconds
+            // Check if page is already loaded (cached)
+            if (document.readyState === 'complete') {
+                // Page already loaded, skip long loading
+                loadingScreen.style.display = 'none';
+                body.classList.remove('loading');
+                return;
+            }
+            
+            // Simulate loading progress over 8 seconds
             const loadingInterval = setInterval(() => {
                 progress += progressIncrement;
                 
@@ -2609,7 +2620,7 @@
                         welcomePage.classList.add('hidden');
                         setTimeout(() => {
                             aboutPage.classList.add('visible');
-                        }, 500);
+                        }, 300);
                     }
                     
                     // Change message every 15% progress
@@ -2622,7 +2633,7 @@
                         setTimeout(() => {
                             progressText.textContent = loadingMessages[messageIndex];
                             progressText.style.opacity = '1';
-                        }, 300);
+                        }, 150);
                     }
                 }
                 
@@ -2646,17 +2657,17 @@
                                 setTimeout(() => {
                                     el.style.opacity = '1';
                                     el.style.visibility = 'visible';
-                                }, index * 30); // Staggered reveal
+                                }, index * 20); // Staggered reveal
                             });
                             
                             // Smooth scroll to top
                             window.scrollTo({ top: 0, behavior: 'smooth' });
-                        }, 1500);
-                    }, 2000);
+                        }, 800);
+                    }, 1000);
                 }
             }, intervalTime);
             
-            // Force completion after 45 seconds max (in case something goes wrong)
+            // Force completion after 10 seconds max (in case something goes wrong)
             setTimeout(() => {
                 clearInterval(loadingInterval);
                 progressBar.style.width = '100%';
@@ -2680,9 +2691,9 @@
                             el.style.opacity = '1';
                             el.style.visibility = 'visible';
                         });
-                    }, 1500);
-                }, 2000);
-            }, 45000); // 45 seconds max
+                    }, 800);
+                }, 1000);
+            }, 10000); // 10 seconds max
         });
         
         // Mobile Navigation
@@ -2761,6 +2772,22 @@
         document.querySelectorAll('section, .card, .team-member, .service-item, .product-item, .project-item, .package-item, .testimonial-item, .resource-item, .certificate-item, .stat-item, .kingu-shop-section, .whatsapp-btn, .emergency-btn').forEach(element => {
             observer.observe(element);
         });
+        
+        // Mobile background fix detection
+        function detectMobileAndFixBackground() {
+            const isMobile = window.innerWidth <= 768;
+            const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+            
+            if (isMobile || isTouchDevice) {
+                // Force scroll background for mobile
+                document.querySelector('body').style.backgroundAttachment = 'scroll';
+                document.querySelector('.loading-welcome').style.backgroundAttachment = 'scroll';
+            }
+        }
+        
+        // Run on load and resize
+        window.addEventListener('load', detectMobileAndFixBackground);
+        window.addEventListener('resize', detectMobileAndFixBackground);
     </script>
 </body>
 </html>
