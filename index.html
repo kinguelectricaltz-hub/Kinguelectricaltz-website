@@ -2,15 +2,14 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kingu Electrical Company Ltd | Electrical Engineering Experts in Tanzania </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+    <title>Kingu Electrical Company Ltd | Electrical Engineering Experts in Tanzania</title>
     <meta name="description" content="Leading Tanzanian Electrical Engineering Company providing Generator services, PLC programming, HPU conversion, ATS systems, CCTV, and Industrial Electrical Installations.">
     <meta name="keywords" content="Kingu Electrical, Electrical Company Tanzania, Generator Installation, PLC Programming, HPU Conversion, ATS Design, Electrical Engineers Arusha, EWURA Licensed, BRELA Registered">
     <meta name="mobile-web-app-capable" content="yes">
     
-    <!-- Preload critical assets -->
-    <link rel="preload" href="Background.jpg" as="image" type="image/jpeg">
-    <link rel="preload" href="https://kingueletrical.com/assets/icons/company-logo.png" as="image" type="image/svg+xml">
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://kingueletrical.com/">
     
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
@@ -81,6 +80,16 @@
                     "Telecom Infrastructure Maintenance",
                     "Technical Training"
                 ]
+            },
+            {
+                "@context": "https://schema.org",
+                "@type": "BreadcrumbList",
+                "itemListElement": [{
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "Home",
+                    "item": "https://kingueletrical.com/"
+                }]
             }
         ]
     }
@@ -95,58 +104,15 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        /* ===== CRITICAL CSS - Loads First ===== */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        html {
-            scroll-behavior: smooth;
-            scroll-padding-top: 80px;
-        }
-        
-        body {
-            font-family: 'Roboto', sans-serif;
-            line-height: 1.6;
-            color: white;
-            overflow-x: hidden;
-            width: 100%;
-            position: relative;
-            min-height: 100vh;
-            opacity: 1;
-            transition: opacity 0.5s ease;
-        }
-        
-        /* ===== OPTIMIZED BACKGROUND FIXES ===== */
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background-image: url('Background.jpg');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-attachment: fixed;
-            opacity: 0.9;
-            z-index: -1;
-            filter: brightness(1.1);
-            will-change: transform;
-        }
-        
-        body::after {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.6);
-            z-index: -1;
+        /* ===== BRAND COLORS ===== */
+        :root {
+            --primary-color: #1a5632;    /* Kingu Green */
+            --secondary-color: #dc3545;  /* Kingu Red/Electrical Red */
+            --accent-color: #0d6efd;     /* Professional Blue */
+            --text-color: #333333;       /* Dark text */
+            --light-bg: #f8f9fa;         /* Light background */
+            --dark-bg: #212529;          /* Dark background */
+            --white: #ffffff;
         }
         
         /* ===== LOADING ANIMATION STYLES ===== */
@@ -156,7 +122,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            background: linear-gradient(135deg, var(--white) 0%, var(--light-bg) 100%);
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -166,6 +132,7 @@
             overflow: hidden;
         }
         
+        /* First Page - Welcome Screen */
         .loading-welcome {
             display: flex;
             flex-direction: column;
@@ -177,13 +144,11 @@
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
-            opacity: 0.9;
-            z-index: -1;
-            filter: brightness(1.1);
+            background-attachment: fixed;
+            opacity: 1;
             position: absolute;
             top: 0;
             left: 0;
-            opacity: 1;
             transition: opacity 1s ease;
             padding: 2rem;
         }
@@ -206,7 +171,7 @@
             font-family: 'Poppins', sans-serif;
             font-size: 3.5rem;
             font-weight: 700;
-            color: #1a5632;
+            color: var(--primary-color);
             text-align: center;
             margin-bottom: 1rem;
             opacity: 0;
@@ -218,7 +183,7 @@
         .welcome-tagline {
             font-family: 'Poppins', sans-serif;
             font-size: 1.8rem;
-            color: #dc3545;
+            color: var(--secondary-color);
             text-align: center;
             max-width: 800px;
             margin: 0 auto 4rem;
@@ -233,7 +198,7 @@
         .welcome-subtitle {
             font-family: 'Roboto', sans-serif;
             font-size: 1.2rem;
-            color: #1a5632;
+            color: var(--primary-color);
             text-align: center;
             opacity: 0;
             animation: fadeIn 2s ease-out 3s forwards;
@@ -246,7 +211,7 @@
             width: 70px;
             height: 70px;
             border: 4px solid rgba(26, 86, 50, 0.2);
-            border-top-color: #1a5632;
+            border-top-color: var(--primary-color);
             border-radius: 50%;
             animation: spin 2s linear infinite;
             margin-top: 3rem;
@@ -289,7 +254,7 @@
             font-family: 'Poppins', sans-serif;
             font-size: 2.5rem;
             font-weight: 700;
-            color: #1a5632;
+            color: var(--primary-color);
             text-align: center;
             margin-bottom: 2rem;
             opacity: 0;
@@ -321,7 +286,7 @@
             left: -100%;
             width: 100%;
             height: 2px;
-            background: linear-gradient(90deg, transparent, #1a5632, transparent);
+            background: linear-gradient(90deg, transparent, var(--primary-color), transparent);
             animation: contentGlow 3s ease-in-out 2.5s infinite;
         }
         
@@ -329,7 +294,7 @@
             font-family: 'Roboto', sans-serif;
             font-size: 1.2rem;
             line-height: 1.8;
-            color: #333;
+            color: var(--text-color);
             text-align: justify;
             margin-bottom: 1.8rem;
             text-align-last: left;
@@ -340,7 +305,7 @@
         }
         
         .about-highlight {
-            color: #1a5632;
+            color: var(--primary-color);
             font-weight: 700;
             position: relative;
             display: inline-block;
@@ -354,7 +319,7 @@
             left: 0;
             width: 100%;
             height: 2px;
-            background: #1a5632;
+            background: var(--primary-color);
             transform: scaleX(0);
             animation: highlightPulse 3s ease-in-out 3s infinite;
         }
@@ -363,33 +328,36 @@
             font-family: 'Poppins', sans-serif;
             font-size: 1.4rem;
             font-weight: 600;
-            color: #1a5632;
+            color: var(--secondary-color);
             text-align: center;
             margin-top: 3rem;
             padding-top: 2rem;
             border-top: 1px solid rgba(26, 86, 50, 0.3);
-            opacity: 0.9;
+            opacity: 0;
             animation: fadeIn 1.5s ease-out 2.5s forwards;
             font-style: italic;
             line-height: 1.6;
             max-width: 800px;
         }
         
+        /* Progress Bar - Positioned outside both pages */
         .loading-progress {
             width: 400px;
             height: 6px;
             background: rgba(26, 86, 50, 0.15);
             border-radius: 3px;
             overflow: hidden;
-            margin-top: 2rem;
+            margin-top: auto;
+            margin-bottom: 2rem;
             position: relative;
             opacity: 0;
             animation: fadeIn 1s ease-out 2s forwards;
+            z-index: 100;
         }
         
         .progress-bar {
             height: 100%;
-            background: linear-gradient(90deg, #1a5632, #dc3545, #1a5632);
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color), var(--primary-color));
             width: 0%;
             transition: width 1s ease;
             border-radius: 3px;
@@ -406,6 +374,177 @@
             font-family: 'Poppins', sans-serif;
             font-size: 1rem;
             font-weight: 500;
+        }
+        
+        /* ===== KINGU ELECTRICAL WORD STYLING ===== */
+        /* For Welcome Screen Title */
+        .welcome-title-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            text-align: center;
+            margin: 15px 0;
+        }
+        
+        .kingu-text {
+            color: var(--primary-color);
+            margin-right: 10px;
+            font-size: 3.5rem;
+            font-weight: 700;
+        }
+        
+        .electrical-container {
+            display: inline-flex;
+            align-items: center;
+            position: relative;
+            color: var(--secondary-color);
+            font-size: 3.5rem;
+            font-weight: 700;
+        }
+        
+        .electrical-e {
+            display: inline-block;
+            color: var(--secondary-color);
+            position: relative;
+            z-index: 3;
+        }
+        
+        .electrical-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 5px;
+            vertical-align: middle;
+            object-fit: contain;
+            position: relative;
+            z-index: 2;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+        }
+        
+        .electrical-rest {
+            display: inline-block;
+            color: var(--secondary-color);
+            position: relative;
+            z-index: 3;
+        }
+        
+        .company-text {
+            color: var(--primary-color);
+            margin-left: 10px;
+            font-size: 3.5rem;
+            font-weight: 700;
+        }
+        
+        /* For About Screen Title */
+        .about-title-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            text-align: center;
+            margin: 15px 0;
+        }
+        
+        .about-kingu-text {
+            color: var(--primary-color);
+            margin-right: 8px;
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+        
+        .about-electrical-container {
+            display: inline-flex;
+            align-items: center;
+            position: relative;
+            color: var(--secondary-color);
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+        
+        .about-electrical-e {
+            display: inline-block;
+            color: var(--secondary-color);
+            position: relative;
+            z-index: 3;
+        }
+        
+        .about-electrical-icon {
+            width: 60px;
+            height: 60px;
+            margin: 0 4px;
+            vertical-align: middle;
+            object-fit: contain;
+            position: relative;
+            z-index: 2;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+        }
+        
+        .about-electrical-rest {
+            display: inline-block;
+            color: var(--secondary-color);
+            position: relative;
+            z-index: 3;
+        }
+        
+        /* For Main Header Title */
+        .main-title-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            text-align: center;
+            margin: 15px 0;
+        }
+        
+        .main-kingu-text {
+            color: var(--primary-color);
+            margin-right: 10px;
+            font-size: 4rem;
+            font-weight: 700;
+            text-shadow: 0 4px 8px rgba(0,0,0,0.5);
+        }
+        
+        .main-electrical-container {
+            display: inline-flex;
+            align-items: center;
+            position: relative;
+            color: var(--secondary-color);
+            font-size: 4rem;
+            font-weight: 700;
+            text-shadow: 0 4px 8px rgba(0,0,0,0.5);
+        }
+        
+        .main-electrical-e {
+            display: inline-block;
+            color: var(--secondary-color);
+            position: relative;
+            z-index: 3;
+        }
+        
+        .main-electrical-icon {
+            width: 90px;
+            height: 90px;
+            margin: 0 5px;
+            vertical-align: middle;
+            object-fit: contain;
+            position: relative;
+            z-index: 2;
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.5));
+        }
+        
+        .main-electrical-rest {
+            display: inline-block;
+            color: var(--secondary-color);
+            position: relative;
+            z-index: 3;
+        }
+        
+        .main-company-text {
+            color: var(--primary-color);
+            margin-left: 10px;
+            font-size: 4rem;
+            font-weight: 700;
+            text-shadow: 0 4px 8px rgba(0,0,0,0.5);
         }
         
         /* Animations */
@@ -443,20 +582,20 @@
         @keyframes spin {
             0% {
                 transform: rotate(0deg);
-                border-top-color: #1a5632;
+                border-top-color: var(--primary-color);
             }
             25% {
-                border-top-color: #dc3545;
+                border-top-color: var(--secondary-color);
             }
             50% {
-                border-top-color: #1a5632;
+                border-top-color: var(--primary-color);
             }
             75% {
-                border-top-color: #dc3545;
+                border-top-color: var(--secondary-color);
             }
             100% {
                 transform: rotate(360deg);
-                border-top-color: #1a5632;
+                border-top-color: var(--primary-color);
             }
         }
         
@@ -506,51 +645,38 @@
             visibility: hidden;
         }
 
-        /* ===== MOBILE BACKGROUND FIXES ===== */
-        @media (max-width: 768px) {
-            body::before {
-                background-attachment: scroll;
-                position: absolute;
-                height: 100%;
-                width: 100%;
-                background-size: cover;
-                background-position: center center;
-                -webkit-background-size: cover;
-                -moz-background-size: cover;
-                -o-background-size: cover;
-            }
-            
-            .loading-welcome {
-                background-attachment: scroll !important;
-                background-size: cover;
-                background-position: center center;
-            }
-            
-            body::after {
-                background: rgba(0, 0, 0, 0.7);
-            }
+        /* ===== GLOBAL STYLES ===== */
+        /* ===== FIXED BACKGROUND IMAGE ===== */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('Background.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            opacity: 0.9;
+            z-index: -1;
+            filter: brightness(1.1);
         }
         
-        /* For iOS Safari specifically */
-        @supports (-webkit-touch-callout: none) {
-            body::before,
-            .loading-welcome {
-                background-attachment: scroll !important;
-                -webkit-background-size: cover !important;
-                background-size: cover !important;
-                height: -webkit-fill-available;
-            }
+        /* Dark overlay for better text readability */
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: -1;
         }
         
-        /* Fix for touch devices */
-        @media (hover: none) and (pointer: coarse) {
-            body::before,
-            .loading-welcome {
-                background-attachment: scroll !important;
-            }
-        }
-        
-        /* ===== REST OF THE STYLES ===== */
+        /* ===== TEXT CONTENT STYLES ===== */
         .content-wrapper {
             position: relative;
             z-index: 1;
@@ -576,7 +702,7 @@
         }
         
         .promo-badge {
-            background: #dc3545;
+            background: var(--secondary-color);
             color: white;
             padding: 0.5rem 1.5rem;
             border-radius: 20px;
@@ -603,7 +729,7 @@
         
         .promo-btn {
             background: white;
-            color: #1a5632;
+            color: var(--primary-color);
             font-weight: 600;
             padding: 0.8rem 2rem;
             border-radius: 50px;
@@ -613,13 +739,14 @@
             text-decoration: none;
             transition: all 0.3s ease;
             border: 2px solid transparent;
+            min-height: 44px; /* Touch-friendly */
         }
         
         .promo-btn:hover {
             transform: translateY(-3px);
             box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-            background: #f8f9fa;
-            border-color: #dc3545;
+            background: var(--light-bg);
+            border-color: var(--secondary-color);
         }
         
         /* ===== KINGU SHOP CTA ===== */
@@ -653,7 +780,7 @@
         
         .btn-kingu-shop {
             background: white;
-            color: #dc3545;
+            color: var(--secondary-color);
             font-weight: 600;
             padding: 1rem 2.5rem;
             border-radius: 50px;
@@ -665,12 +792,13 @@
             font-size: 1.1rem;
             border: 2px solid transparent;
             box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            min-height: 44px; /* Touch-friendly */
         }
         
         .btn-kingu-shop:hover {
             transform: translateY(-3px);
             box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-            background: #f8f9fa;
+            background: var(--light-bg);
             border-color: white;
         }
         
@@ -702,7 +830,7 @@
             margin-left: auto;
             margin-right: auto;
             font-weight: 300;
-            color:  #1a5632;
+            color: var(--primary-color);
             font-style: italic;
             text-align: center;
             text-shadow: 0 2px 4px rgba(0,0,0,0.5);
@@ -731,13 +859,14 @@
             justify-content: center;
             backdrop-filter: blur(10px);
             font-weight: 500;
+            min-height: 44px; /* Touch-friendly */
         }
         
         .contact-header a:hover {
             background: rgba(255, 255, 255, 0.2);
             transform: translateY(-3px);
             box-shadow: 0 6px 20px rgba(0,0,0,0.3);
-            border-color:  #dc3545;
+            border-color: var(--secondary-color);
         }
         
         /* Navigation */
@@ -824,7 +953,7 @@
             transform: translateX(-50%);
             width: 100px;
             height: 4px;
-            background: linear-gradient(90deg,  #dc3545, #ffffff,  #dc3545);
+            background: linear-gradient(90deg, var(--secondary-color), #ffffff, var(--secondary-color));
             border-radius: 2px;
         }
         
@@ -911,7 +1040,7 @@
             font-size: 1.5rem;
             font-weight: 600;
             margin-bottom: 0.5rem;
-            color:  #dc3545;
+            color: var(--secondary-color);
         }
         
         .team-title {
@@ -927,13 +1056,13 @@
         
         .skill-tag {
             display: inline-block;
-            background: rgba(255, 215, 0, 0.15);
-            color:  #1a5632;
+            background: rgba(220, 53, 69, 0.15);
+            color: var(--secondary-color);
             padding: 0.25rem 0.75rem;
             border-radius: 20px;
             font-size: 0.8rem;
             margin: 0.25rem;
-            border: 1px solid rgba(255, 215, 0, 0.2);
+            border: 1px solid rgba(220, 53, 69, 0.2);
         }
         
         /* Services section */
@@ -965,7 +1094,7 @@
         .service-icon {
             font-size: 3rem;
             margin-bottom: 1rem;
-            color:  #dc3545;
+            color: var(--secondary-color);
         }
         
         /* Products section */
@@ -997,7 +1126,7 @@
         .product-icon {
             font-size: 3rem;
             margin-bottom: 1rem;
-            color:  #dc3545;
+            color: var(--secondary-color);
         }
         
         /* Testimonials */
@@ -1068,7 +1197,7 @@
         }
         
         .package-item.popular {
-            border: 2px solid  #dc3545;
+            border: 2px solid var(--secondary-color);
         }
         
         .popular-badge {
@@ -1076,8 +1205,8 @@
             top: -12px;
             left: 50%;
             transform: translateX(-50%);
-            background:  #1a5632;
-            color: #000;
+            background: var(--secondary-color);
+            color: var(--white);
             padding: 0.5rem 1rem;
             border-radius: 20px;
             font-weight: bold;
@@ -1087,7 +1216,7 @@
         .price {
             font-size: 2rem;
             font-weight: bold;
-            color:  #dc3545;
+            color: var(--secondary-color);
             margin: 1rem 0;
         }
         
@@ -1103,8 +1232,8 @@
         }
         
         .emergency-btn {
-            background:  #dc3545;
-            color: #000;
+            background: var(--secondary-color);
+            color: var(--white);
             font-weight: bold;
             padding: 1rem 2rem;
             border-radius: 50px;
@@ -1115,12 +1244,13 @@
             margin: 1rem 0;
             box-shadow: 0 4px 15px rgba(0,0,0,0.2);
             transition: all 0.3s ease;
+            min-height: 44px; /* Touch-friendly */
         }
         
         .emergency-btn:hover {
             transform: translateY(-3px);
             box-shadow: 0 6px 20px rgba(0,0,0,0.3);
-            background: #ffed4e;
+            background: #c82333;
         }
         
         /* Stats section */
@@ -1148,7 +1278,7 @@
         .stat-number {
             font-size: 3rem;
             font-weight: bold;
-            color:  #dc3545;
+            color: var(--secondary-color);
             margin-bottom: 0.5rem;
         }
         
@@ -1223,7 +1353,7 @@
             content: '✓';
             position: absolute;
             left: 0;
-            color:  #dc3545;
+            color: var(--secondary-color);
         }
         
         /* Videos section */
@@ -1254,7 +1384,7 @@
             padding: 2rem;
             margin: 3rem 0;
             text-align: center;
-            border: 2px solid  #dc3545;
+            border: 2px solid var(--secondary-color);
             backdrop-filter: blur(10px);
         }
         
@@ -1297,6 +1427,7 @@
             font-weight: 600;
             box-shadow: 0 4px 15px rgba(0,0,0,0.2);
             transition: all 0.3s ease;
+            min-height: 44px; /* Touch-friendly */
         }
         
         .whatsapp-btn:hover {
@@ -1325,6 +1456,7 @@
             background: rgba(255, 255, 255, 0.1);
             color: white;
             transition: all 0.3s ease;
+            font-size: 16px; /* Prevent zoom on iOS */
         }
         
         input::placeholder,
@@ -1334,14 +1466,14 @@
         
         input:focus, textarea:focus, select:focus {
             outline: none;
-            border-color: #1a5632;
-            box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.1);
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.1);
             background: rgba(255, 255, 255, 0.15);
         }
         
         button {
-            background:  #1a5632;
-            color: #000;
+            background: var(--secondary-color);
+            color: var(--white);
             padding: 1rem 2rem;
             border: none;
             border-radius: 8px;
@@ -1350,12 +1482,13 @@
             transition: background 0.3s ease;
             font-family: 'Poppins', sans-serif;
             font-weight: 600;
+            min-height: 44px; /* Touch-friendly */
         }
         
         button:hover {
-            background: #ffed4e;
+            background: #c82333;
             transform: translateY(-2px);
-            box-shadow: 0 6px 15px rgba(255, 215, 0, 0.3);
+            box-shadow: 0 6px 15px rgba(220, 53, 69, 0.3);
         }
         
         /* Footer */
@@ -1377,7 +1510,7 @@
         }
         
         .footer-column h3 {
-            color: #dc3545;
+            color: var(--secondary-color);
             margin-bottom: 1.5rem;
             font-size: 1.3rem;
         }
@@ -1391,7 +1524,7 @@
         }
         
         .footer-column a:hover {
-            color: #1a5632;
+            color: var(--secondary-color);
             transform: translateX(5px);
         }
         
@@ -1447,6 +1580,19 @@
         li {
             margin-bottom: 0.5rem;
             font-size: 1.1rem;
+        }
+        
+        /* Screen reader only */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
         }
         
         /* ===== RESPONSIVE DESIGN ===== */
@@ -1506,6 +1652,47 @@
             
             .kingu-shop-cta h3 {
                 font-size: 1.8rem;
+            }
+            
+            .kingu-text,
+            .company-text {
+                font-size: 2.5rem;
+            }
+            
+            .electrical-container {
+                font-size: 2.5rem;
+            }
+            
+            .electrical-icon {
+                width: 60px;
+                height: 60px;
+            }
+            
+            .about-kingu-text {
+                font-size: 2rem;
+            }
+            
+            .about-electrical-container {
+                font-size: 2rem;
+            }
+            
+            .about-electrical-icon {
+                width: 50px;
+                height: 50px;
+            }
+            
+            .main-kingu-text,
+            .main-company-text {
+                font-size: 2.5rem;
+            }
+            
+            .main-electrical-container {
+                font-size: 2.5rem;
+            }
+            
+            .main-electrical-icon {
+                width: 70px;
+                height: 70px;
             }
         }
         
@@ -1686,6 +1873,62 @@
                 padding: 0.8rem 2rem;
                 font-size: 1rem;
             }
+            
+            .kingu-text,
+            .company-text {
+                font-size: 2rem;
+            }
+            
+            .electrical-container {
+                font-size: 2rem;
+            }
+            
+            .electrical-icon {
+                width: 50px;
+                height: 50px;
+            }
+            
+            .about-kingu-text {
+                font-size: 1.8rem;
+            }
+            
+            .about-electrical-container {
+                font-size: 1.8rem;
+            }
+            
+            .about-electrical-icon {
+                width: 40px;
+                height: 40px;
+            }
+            
+            .main-kingu-text,
+            .main-company-text {
+                font-size: 2rem;
+            }
+            
+            .main-electrical-container {
+                font-size: 2rem;
+            }
+            
+            .main-electrical-icon {
+                width: 60px;
+                height: 60px;
+            }
+            
+            .welcome-title-container,
+            .about-title-container,
+            .main-title-container {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .kingu-text,
+            .company-text,
+            .about-kingu-text,
+            .main-kingu-text,
+            .main-company-text {
+                margin: 0;
+            }
         }
         
         @media (max-width: 480px) {
@@ -1799,6 +2042,47 @@
                 padding: 0.7rem 1.8rem;
                 font-size: 0.95rem;
             }
+            
+            .kingu-text,
+            .company-text {
+                font-size: 1.8rem;
+            }
+            
+            .electrical-container {
+                font-size: 1.8rem;
+            }
+            
+            .electrical-icon {
+                width: 40px;
+                height: 40px;
+            }
+            
+            .about-kingu-text {
+                font-size: 1.6rem;
+            }
+            
+            .about-electrical-container {
+                font-size: 1.6rem;
+            }
+            
+            .about-electrical-icon {
+                width: 35px;
+                height: 35px;
+            }
+            
+            .main-kingu-text,
+            .main-company-text {
+                font-size: 1.8rem;
+            }
+            
+            .main-electrical-container {
+                font-size: 1.8rem;
+            }
+            
+            .main-electrical-icon {
+                width: 50px;
+                height: 50px;
+            }
         }
         
         /* For very small screens */
@@ -1849,460 +2133,69 @@
                 font-size: 1.6rem;
             }
         }
-        
-        /* Animation for text */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        .animated-text {
-            animation: fadeInUp 1s ease-out;
-        }
-    </style>
-<head>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kingu Electrical</title>
-    
-    <style>
-        /* ===== LOGO SIZE CONTROLS ===== */
-        .welcome-logo,
-        .about-logo {
-            height: auto;
-            max-width: 100%;
-            display: block;
-            margin: 0 auto 20px;
-            object-fit: contain;
-        }
-        
-        .welcome-logo {
-            width: 200px;
-        }
-        
-        .about-logo {
-            width: 180px;
-        }
-        
-        /* ===== TITLE CONTAINERS ===== */
-        .welcome-title,
-        .about-title {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-wrap: wrap;
-            text-align: center;
-            margin: 15px 0;
-            font-family: Arial, sans-serif;
-        }
-        
-        .welcome-title {
-            font-size: 2.5rem;
-        }
-        
-        .about-title {
-            font-size: 2rem;
-        }
-        
-        /* ===== ELECTRICAL WORD CONTAINER ===== */
-        .electrical-container {
-            display: inline-flex;
-            align-items: center;
-            position: relative;
-            color: #dc3545;
-            height: 15rem; /* Increased height for large icon */
-        }
-        
-        /* ===== ELECTRICAL WORD PARTS ===== */
-        .electrical-e {
-            display: inline-block;
-            color: #dc3545;
-            position: relative;
-            z-index: 3;
-            margin-right: -40px; /* Pull closer to icon */
-            font-size: 2.5rem; /* Match container font size */
-        }
-        
-        .electrical-rest {
-            display: inline-block;
-            color: #dc3545;
-            position: relative;
-            z-index: 3;
-            margin-left: -60px; /* Pull closer to icon */
-            font-size: 2.5rem; /* Match container font size */
-        }
-        
-        .about-title .electrical-e,
-        .about-title .electrical-rest {
-            font-size: 2rem;
-        }
-        
-        /* ===== MASSIVE ICON STYLING - 6x SIZE ===== */
-        .welcome-icon-img,
-        .about-icon-img {
-            display: inline-block;
-            vertical-align: middle;
-            object-fit: contain;
-            position: relative;
-            z-index: 2;
-        }
-        
-        .welcome-icon-img {
-            width: 15rem; /* 2.5rem * 6 = 15rem (240px) */
-            height: 15rem;
-            max-width: 240px;
-            max-height: 240px;
-            margin: 0 -60px; /* Massive overlap for huge icon */
-        }
-        
-        .about-icon-img {
-            width: 12rem; /* 2rem * 6 = 12rem (192px) */
-            height: 12rem;
-            max-width: 192px;
-            max-height: 192px;
-            margin: 0 -50px; /* Massive overlap for huge icon */
-        }
-        
-        /* ===== KINGU TEXT ===== */
-        .kingu-text {
-            color: #1a5632;
-            margin-right: 15px; /* More spacing for huge icon */
-            position: relative;
-            z-index: 4;
-            font-size: 2.5rem;
-        }
-        
-        .company-text {
-            color: #1a5632;
-            margin-left: 15px; /* More spacing for huge icon */
-            position: relative;
-            z-index: 4;
-            font-size: 2.5rem;
-        }
-        
-        .about-title .kingu-text {
-            font-size: 2rem;
-        }
-        
-        /* ===== VISUAL ENHANCEMENT ===== */
-        .electrical-container::before {
-            content: '';
-            position: absolute;
-            left: -30px; /* Extended for huge icon */
-            right: -30px; /* Extended for huge icon */
-            top: 50%;
-            height: 12rem; /* Taller for huge icon */
-            background-color: rgba(255, 255, 255, 0.95);
-            transform: translateY(-50%);
-            z-index: 1;
-            border-radius: 10px;
-        }
-        
-        /* ===== RESPONSIVE ADJUSTMENTS ===== */
-        @media (max-width: 1200px) {
-            .welcome-icon-img {
-                width: 12rem;
-                height: 12rem;
-                margin: 0 -50px;
-            }
-            
-            .about-icon-img {
-                width: 10rem;
-                height: 10rem;
-                margin: 0 -40px;
-            }
-            
-            .electrical-container {
-                height: 12rem;
-            }
-            
-            .electrical-container::before {
-                height: 10rem;
-            }
-        }
-        
-        @media (max-width: 992px) {
-            .welcome-title {
-                font-size: 2rem;
-            }
-            
-            .about-title {
-                font-size: 1.75rem;
-            }
-            
-            .welcome-logo {
-                width: 180px;
-            }
-            
-            .about-logo {
-                width: 160px;
-            }
-            
-            .welcome-icon-img {
-                width: 10rem; /* 2rem * 5 = 10rem */
-                height: 10rem;
-                margin: 0 -40px;
-            }
-            
-            .about-icon-img {
-                width: 8.75rem; /* 1.75rem * 5 = 8.75rem */
-                height: 8.75rem;
-                margin: 0 -35px;
-            }
-            
-            .electrical-e {
-                margin-right: -30px;
-                font-size: 2rem;
-            }
-            
-            .electrical-rest {
-                margin-left: -45px;
-                font-size: 2rem;
-            }
-            
-            .about-title .electrical-e,
-            .about-title .electrical-rest {
-                font-size: 1.75rem;
-            }
-            
-            .kingu-text {
-                font-size: 2rem;
-                margin-right: 12px;
-            }
-            
-            .company-text {
-                font-size: 2rem;
-                margin-left: 12px;
-            }
-            
-            .about-title .kingu-text {
-                font-size: 1.75rem;
-            }
-            
-            .electrical-container {
-                height: 10rem;
-            }
-            
-            .electrical-container::before {
-                height: 8rem;
-                left: -20px;
-                right: -20px;
-            }
-        }
-        
-        @media (max-width: 768px) {
-            .welcome-title {
-                font-size: 1.75rem;
-            }
-            
-            .about-title {
-                font-size: 1.5rem;
-            }
-            
-            .welcome-icon-img {
-                width: 8.75rem; /* 1.75rem * 5 = 8.75rem */
-                height: 8.75rem;
-                margin: 0 -35px;
-            }
-            
-            .about-icon-img {
-                width: 7.5rem; /* 1.5rem * 5 = 7.5rem */
-                height: 7.5rem;
-                margin: 0 -30px;
-            }
-            
-            .electrical-e {
-                margin-right: -25px;
-                font-size: 1.75rem;
-            }
-            
-            .electrical-rest {
-                margin-left: -35px;
-                font-size: 1.75rem;
-            }
-            
-            .about-title .electrical-e,
-            .about-title .electrical-rest {
-                font-size: 1.5rem;
-            }
-            
-            .kingu-text {
-                font-size: 1.75rem;
-                margin-right: 10px;
-            }
-            
-            .company-text {
-                font-size: 1.75rem;
-                margin-left: 10px;
-            }
-            
-            .about-title .kingu-text {
-                font-size: 1.5rem;
-            }
-            
-            .electrical-container {
-                height: 8.75rem;
-            }
-        }
-        
-        @media (max-width: 576px) {
-            .welcome-title {
-                font-size: 1.5rem;
-            }
-            
-            .about-title {
-                font-size: 1.25rem;
-            }
-            
-            .welcome-logo {
-                width: 150px;
-            }
-            
-            .about-logo {
-                width: 130px;
-            }
-            
-            .welcome-icon-img {
-                width: 7.5rem; /* 1.5rem * 5 = 7.5rem */
-                height: 7.5rem;
-                margin: 0 -30px;
-            }
-            
-            .about-icon-img {
-                width: 6.25rem; /* 1.25rem * 5 = 6.25rem */
-                height: 6.25rem;
-                margin: 0 -25px;
-            }
-            
-            .electrical-e {
-                margin-right: -20px;
-                font-size: 1.5rem;
-            }
-            
-            .electrical-rest {
-                margin-left: -30px;
-                font-size: 1.5rem;
-            }
-            
-            .about-title .electrical-e,
-            .about-title .electrical-rest {
-                font-size: 1.25rem;
-            }
-            
-            .kingu-text {
-                font-size: 1.5rem;
-                margin-right: 8px;
-            }
-            
-            .company-text {
-                font-size: 1.5rem;
-                margin-left: 8px;
-            }
-            
-            .about-title .kingu-text {
-                font-size: 1.25rem;
-            }
-            
-            .electrical-container {
-                height: 7.5rem;
-            }
-        }
-        
-        @media (max-width: 400px) {
-            .welcome-title,
-            .about-title {
-                flex-direction: column;
-                gap: 10px;
-            }
-            
-            .kingu-text,
-            .company-text {
-                margin: 0;
-            }
-            
-            .electrical-container {
-                height: auto;
-                margin: 10px 0;
-            }
-        }
     </style>
 </head>
+
 <body class="loading">
     <!-- Loading Animation (Two-Page Structure) -->
     <div id="loading-screen">
         <!-- First Page - Welcome Screen -->
         <div class="loading-welcome" id="welcomePage">
-            <img src="https://kingueletrical.com/assets/icons/company-logo.png"
-                 alt="Kingu Electrical Company Limited"
-                 class="welcome-logo">
-
-            <h1 class="welcome-title">
+            <img src="https://kingueletrical.com/assets/icons/company-logo.svg" alt="Kingu Electrical Company Limited" class="welcome-logo">
+            
+            <!-- Welcome Screen Title with Icon in "Electrical" -->
+            <div class="welcome-title-container">
                 <span class="kingu-text">Kingu</span>
                 <span class="electrical-container">
                     <span class="electrical-e">E</span>
-                    <img src="assets/icons/kingu.svg"
-                         alt="Kingu Icon"
-                         class="welcome-icon-img">
+                    <img src="assets/icons/kingu.svg" alt="Kingu Icon" class="electrical-icon">
                     <span class="electrical-rest">ectrical</span>
                 </span>
                 <span class="company-text">Company Limited</span>
-            </h1>
-
-            <p class="welcome-tagline"
-               style="color:#1a5632; font-style: italic; font-weight: 800;">
+            </div>
+            
+            <p class="welcome-tagline">
                 Quality Electrical Services with Professional Experience
             </p>
-
             <div class="welcome-spinner"></div>
-
-            <p class="welcome-subtitle"
-               style="color:#1a5632; font-style: italic; font-weight: 800;">
+            <p class="welcome-subtitle">
                 Engineering reliable power solutions for Tanzania since 2017
             </p>
         </div>
         
         <!-- Second Page - About Us Screen -->
         <div class="loading-about" id="aboutPage">
-            <img src="https://kingueletrical.com/assets/icons/company-logo.png"
-                 alt="Kingu Electrical Company Limited"
-                 class="about-logo">
-
-            <h2 class="about-title">
-                <span class="kingu-text">Kingu</span>
-                <span class="electrical-container">
-                    <span class="electrical-e">E</span>
-                    <img src="assets/icons/kingu.svg"
-                         alt="Kingu Icon"
-                         class="about-icon-img">
-                    <span class="electrical-rest">ectrical</span>
+            <img src="https://kingueletrical.com/assets/icons/company-logo.svg" alt="Kingu Electrical Company Limited" class="about-logo">
+            
+            <!-- About Screen Title with Icon in "Electrical" -->
+            <div class="about-title-container">
+                <span class="about-kingu-text">Kingu</span>
+                <span class="about-electrical-container">
+                    <span class="about-electrical-e">E</span>
+                    <img src="assets/icons/kingu.svg" alt="Kingu Icon" class="about-electrical-icon">
+                    <span class="about-electrical-rest">ectrical</span>
                 </span>
-            </h2>
-
+            </div>
+            
             <div class="about-content">
-                <p class="about-content">
-                    At Kingu Electrical,
-                    <span class="about-highlight">
-                        Engineering is not just a service — it's a responsibility
-                    </span>.
-                </p>
+                <p class="about-text">Founded in 2017, <span class="about-highlight">Kingu Electrical Company Limited</span> has emerged as a leading force in Tanzania's electrical engineering sector. Our journey began with a simple vision: to provide <span class="about-highlight">reliable, professional, and innovative</span> electrical solutions that power Tanzania's growth and development.</p>
+                
+                <p class="about-text">With headquarters in both <span class="about-highlight">Arusha and Dar-es-salaam</span>, we have strategically positioned ourselves to serve clients across East Africa. Our team of <span class="about-highlight">highly experienced electrical engineers</span> brings together decades of combined expertise in power systems, industrial automation, and renewable energy solutions.</p>
+                
+                <p class="about-text">We specialize in comprehensive electrical engineering services including <span class="about-highlight">generator installation and maintenance, PLC programming, HPU conversions, ATS systems design, solar power solutions, and industrial electrical installations</span>. Each project we undertake is handled with the utmost professionalism, adhering to the highest standards of safety and quality.</p>
+               
+                <p class="about-text">At Kingu Electrical, we believe that <span class="about-highlight">Engineering is not just a service</span> — it's a responsibility to our clients, our community, and our nation's development. We are proud to have completed over <span class="about-highlight">50 major projects</span> across Tanzania, earning the trust of clients in various sectors including hospitality, manufacturing, telecommunications, and residential developments.</p>
             </div>
+            
+            <p class="about-footer">
+                At Kingu Electrical, <span class="about-highlight">Engineering is not just a service — it's a responsibility</span>.
+            </p>
         </div>
-    </div>
-</body>
-    
-            <div class="loading-progress">
-                <div class="progress-text" id="progressText">Initializing power solutions...</div>
-                <div class="progress-bar" id="loading-progress"></div>
-            </div>
+        
+        <!-- Progress Bar - Positioned outside both pages -->
+        <div class="loading-progress">
+            <div class="progress-text" id="progressText">Initializing power solutions...</div>
+            <div class="progress-bar" id="loading-progress"></div>
         </div>
     </div>
 
@@ -2334,8 +2227,8 @@
                 <span style="color:#1a5632">KINGU</span> 
                 <span style="color:#dc3545">ELECTRICAL</span>
             </a>
-            <button class="hamburger" id="hamburger" aria-label="Toggle navigation">
-                ☰
+            <button class="hamburger" id="hamburger" aria-label="Toggle navigation" aria-expanded="false" aria-controls="navMenu">
+                ☰ <span class="sr-only">Menu</span>
             </button>
             <ul class="nav-menu" id="navMenu">
                 <li><a href="#home">Home</a></li>
@@ -2358,8 +2251,18 @@
     <!-- Header -->
     <header id="home">
         <div class="content-wrapper">
-            <h1 class="animated-text"> <span style="color:#1a5632">Kingu</span> <span style="color:#dc3545">Electrical</span> <span style="color:#1a5632">Company Limited</span></h1>
-            <p class="tagline animated-text" style="animation-delay: 0.2s" style="color:#1a5632">
+            <!-- Main Header Title with Icon in "Electrical" -->
+            <div class="main-title-container">
+                <span class="main-kingu-text">Kingu</span>
+                <span class="main-electrical-container">
+                    <span class="main-electrical-e">E</span>
+                    <img src="assets/icons/kingu.svg" alt="Kingu Icon" class="main-electrical-icon">
+                    <span class="main-electrical-rest">ectrical</span>
+                </span>
+                <span class="main-company-text">Company Limited</span>
+            </div>
+            
+            <p class="tagline animated-text" style="animation-delay: 0.2s">
                 Quality Electrical Services with Professional Experience
             </p>
             
@@ -2435,10 +2338,10 @@
                 <div class="team-grid">
                     <!-- Eng. Kingu Goodluck - Director -->
                     <div class="team-member animated-text" style="animation-delay: 0.1s">
-                        <div style="width: 120px; height: 120px; border-radius: 50%; margin: 0 auto 1.5rem; display: flex; align-items: center; justify-content: center; color: white; font-size: 2.5rem; font-weight: bold; background: linear-gradient(135deg, #FF6B35, #FF8E53);">KG</div>
+                        <div style="width: 120px; height: 120px; border-radius: 50%; margin: 0 auto 1.5rem; display: flex; align-items: center; justify-content: center; color: white; font-size: 2.5rem; font-weight: bold; background: linear-gradient(135deg, var(--primary-color), #28a745);">KG</div>
                         <div class="team-name">Eng. Kingu Goodluck</div>
                         <div class="team-title">Director & Professional Electrical Engineer</div>
-                        <div style="color:  #dc3545; font-size: 0.9rem; margin-bottom: 1rem; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">⏳ 14+ Years Experience</div>
+                        <div style="color: var(--secondary-color); font-size: 0.9rem; margin-bottom: 1rem; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">⏳ 14+ Years Experience</div>
                         <p>EWURA Licensed Electrical Engineer with extensive experience in power systems, generator installations, and industrial automation across Tanzania.</p>
                         <div class="team-skills">
                             <span class="skill-tag">Power Systems</span>
@@ -2450,10 +2353,10 @@
 
                     <!-- Herbert Riziki- Electrical Technician -->
                     <div class="team-member animated-text" style="animation-delay: 0.2s">
-                        <div style="width: 120px; height: 120px; border-radius: 50%; margin: 0 auto 1.5rem; display: flex; align-items: center; justify-content: center; color: white; font-size: 2.5rem; font-weight: bold; background: linear-gradient(135deg, #0d6efd, #0b5ed7);">HN</div>
-                        <div class="team-name">Herbert Riziki</div>
+                        <div style="width: 120px; height: 120px; border-radius: 50%; margin: 0 auto 1.5rem; display: flex; align-items: center; justify-content: center; color: white; font-size: 2.5rem; font-weight: bold; background: linear-gradient(135deg, var(--accent-color), #0b5ed7);">HN</div>
+                        <div class="team-name">Herbert Njau</div>
                         <div class="team-title">Senior Electrical Technician</div>
-                        <div style="color:  #dc3545; font-size: 0.9rem; margin-bottom: 1rem; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">⏳ 8+ Years Experience</div>
+                        <div style="color: var(--secondary-color); font-size: 0.9rem; margin-bottom: 1rem; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">⏳ 8+ Years Experience</div>
                         <p>Specialized in electrical installations, maintenance, and troubleshooting of industrial electrical systems and generator setups.</p>
                         <div class="team-skills">
                             <span class="skill-tag">Electrical Installations</span>
@@ -2468,7 +2371,7 @@
                         <div style="width: 120px; height: 120px; border-radius: 50%; margin: 0 auto 1.5rem; display: flex; align-items: center; justify-content: center; color: white; font-size: 2.5rem; font-weight: bold; background: linear-gradient(135deg, #6f42c1, #59359a);">RM</div>
                         <div class="team-name">Rahel Mollel</div>
                         <div class="team-title">Telecom Engineer & Project Administrator</div>
-                        <div style="color:  #dc3545; font-size: 0.9rem; margin-bottom: 1rem; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">⏳ 6+ Years Experience</div>
+                        <div style="color: var(--secondary-color); font-size: 0.9rem; margin-bottom: 1rem; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">⏳ 6+ Years Experience</div>
                         <p>Expert in telecom infrastructure projects, project coordination, and ensuring seamless communication between technical teams and clients.</p>
                         <div class="team-skills">
                             <span class="skill-tag">Telecom Infrastructure</span>
@@ -2481,9 +2384,9 @@
                     <!-- Bernard Masanja- Mechanical Technician -->
                     <div class="team-member animated-text" style="animation-delay: 0.4s">
                         <div style="width: 120px; height: 120px; border-radius: 50%; margin: 0 auto 1.5rem; display: flex; align-items: center; justify-content: center; color: white; font-size: 2.5rem; font-weight: bold; background: linear-gradient(135deg, #20c997, #199d76);">BS</div>
-                        <div class="team-name">Bernard Masanja</div>
+                        <div class="team-name">Bernard Sabas</div>
                         <div class="team-title">Mechanical Technician</div>
-                        <div style="color:  #dc3545; font-size: 0.9rem; margin-bottom: 1rem; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">⏳ 7+ Years Experience</div>
+                        <div style="color: var(--secondary-color); font-size: 0.9rem; margin-bottom: 1rem; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">⏳ 7+ Years Experience</div>
                         <p>Specialized in mechanical aspects of generators, engine maintenance, and mechanical system installations for power solutions.</p>
                         <div class="team-skills">
                             <span class="skill-tag">Generator Mechanics</span>
@@ -2495,10 +2398,10 @@
                 </div>
                 
                 <div style="text-align: center; margin-top: 3rem;">
-                    <p style="font-size: 1.1rem; color:  #dc3545; font-weight: 500;">
-                        Our team combines <strong>Technical Expertise</strong> with <strong>Professional experience</strong> to deliver exceptional electrical solutions across Tanzania.
+                    <p style="font-size: 1.1rem; color: var(--secondary-color); font-weight: 500;">
+                        Our team combines <strong>technical expertise</strong> with <strong>professional experience</strong> to deliver exceptional electrical solutions across Tanzania.
                     </p>
-                    <a href="#contact" style="background:  #dc3545; color: #000; padding: 0.75rem 1.5rem; border-radius: 25px; text-decoration: none; display: inline-block; margin-top: 1.5rem; font-weight: 600; transition: all 0.3s ease;">Contact Our Team</a>
+                    <a href="#contact" style="background: var(--secondary-color); color: var(--white); padding: 0.75rem 1.5rem; border-radius: 25px; text-decoration: none; display: inline-block; margin-top: 1.5rem; font-weight: 600;">Contact Our Team</a>
                 </div>
             </div>
         </section>
@@ -2517,7 +2420,7 @@
                             <li>Basic troubleshooting</li>
                             <li>3-month warranty</li>
                         </ul>
-                        <a href="https://wa.me/255682843552?text=Hello!%20I'm%20interested%20in%20Basic%20Generator%20services%20package" target="_blank" style="background:  #dc3545; color: #000; padding: 0.75rem 1.5rem; border-radius: 25px; text-decoration: none; display: inline-block; font-weight: 600; transition: all 0.3s ease;">Book Now</a>
+                        <a href="https://wa.me/255682843552?text=Hello!%20I'm%20interested%20in%20Basic%20Generator%20services%20package" target="_blank" style="background: var(--secondary-color); color: var(--white); padding: 0.75rem 1.5rem; border-radius: 25px; text-decoration: none; display: inline-block; font-weight: 600;">Book Now</a>
                     </div>
                     
                     <div class="package-item popular animated-text" style="animation-delay: 0.2s">
@@ -2533,7 +2436,7 @@
                             <li>1-year warranty</li>
                             <li>24/7 emergency support</li>
                         </ul>
-                        <a href="https://wa.me/255682843552?text=Hello!%20I'm%20interested%20in%20Professional%20Installation%20package" target="_blank" style="background:  #dc3545; color: #000; padding: 0.75rem 1.5rem; border-radius: 25px; text-decoration: none; display: inline-block; font-weight: 600; transition: all 0.3s ease;">Get Quote</a>
+                        <a href="https://wa.me/255682843552?text=Hello!%20I'm%20interested%20in%20Professional%20Installation%20package" target="_blank" style="background: var(--secondary-color); color: var(--white); padding: 0.75rem 1.5rem; border-radius: 25px; text-decoration: none; display: inline-block; font-weight: 600;">Get Quote</a>
                     </div>
                     
                     <div class="package-item animated-text" style="animation-delay: 0.3s">
@@ -2546,7 +2449,7 @@
                             <li>Annual maintenance contract</li>
                             <li>Priority 24/7 support</li>
                         </ul>
-                        <a href="#contact" style="background:  #dc3545; color: #000; padding: 0.75rem 1.5rem; border-radius: 25px; text-decoration: none; display: inline-block; font-weight: 600; transition: all 0.3s ease;">Contact Sales</a>
+                        <a href="#contact" style="background: var(--secondary-color); color: var(--white); padding: 0.75rem 1.5rem; border-radius: 25px; text-decoration: none; display: inline-block; font-weight: 600;">Contact Sales</a>
                     </div>
                 </div>
             </div>
@@ -2570,73 +2473,73 @@
                 <h2 class="animated-text">Our Services</h2>
                 <div class="services-grid">
                     <div class="service-item animated-text" style="animation-delay: 0.1s">
-                        <div class="service-icon"><i class="fas fa-generator"></i></div>
+                        <div class="service-icon" aria-hidden="true"><i class="fas fa-generator"></i></div>
                         <h3>Generator Services</h3>
                         <p>Complete Generator solutions including installation, maintenance, service, repair, testing and commissioning of diesel generators up to 1000kVA for reliable backup power.</p>
-                        <a href="https://wa.me/255682843552?text=Hello!%20I'm%20interested%20in%20Generator%20Services" target="_blank" style="background:  #dc3545; color: #000; padding: 0.75rem 1.5rem; border-radius: 25px; text-decoration: none; display: inline-block; margin-top: 1rem; font-weight: 600;">Get Service</a>
+                        <a href="https://wa.me/255682843552?text=Hello!%20I'm%20interested%20in%20Generator%20Services" target="_blank" style="background: var(--secondary-color); color: var(--white); padding: 0.75rem 1.5rem; border-radius: 25px; text-decoration: none; display: inline-block; margin-top: 1rem; font-weight: 600;">Get Service</a>
                     </div>
                     
                     <div class="service-item animated-text" style="animation-delay: 0.2s">
-                        <div class="service-icon"><i class="fas fa-solar-panel"></i></div>
+                        <div class="service-icon" aria-hidden="true"><i class="fas fa-solar-panel"></i></div>
                         <h3>Solar Systems</h3>
                         <p>Design, installation and Maintenance of solar power systems for Residential, Commercial and Industrial Applications across Tanzania.</p>
-                        <a href="https://wa.me/255682843552?text=Hello!%20I'm%20interested%20in%20Solar%20Systems" target="_blank" style="background:  #dc3545; color: #000; padding: 0.75rem 1.5rem; border-radius: 25px; text-decoration: none; display: inline-block; margin-top: 1rem; font-weight: 600;">Get Quote</a>
+                        <a href="https://wa.me/255682843552?text=Hello!%20I'm%20interested%20in%20Solar%20Systems" target="_blank" style="background: var(--secondary-color); color: var(--white); padding: 0.75rem 1.5rem; border-radius: 25px; text-decoration: none; display: inline-block; margin-top: 1rem; font-weight: 600;">Get Quote</a>
                     </div>
                     
                     <div class="service-item animated-text" style="animation-delay: 0.3s">
-                        <div class="service-icon"><i class="fas fa-cogs"></i></div>
+                        <div class="service-icon" aria-hidden="true"><i class="fas fa-cogs"></i></div>
                         <h3>Generator Spare Parts</h3>
                         <p>Supply of Genuine Diesel Generator spare parts and complete Generator systems with professional installation services.</p>
-                        <a href="https://wa.me/255682843552?text=Hello!%20I'm%20interested%20in%20Generator%20Spare%20Parts" target="_blank" style="background:  #dc3545; color: #000; padding: 0.75rem 1.5rem; border-radius: 25px; text-decoration: none; display: inline-block; margin-top: 1rem; font-weight: 600;">Order Parts</a>
+                        <a href="https://wa.me/255682843552?text=Hello!%20I'm%20interested%20in%20Generator%20Spare%20Parts" target="_blank" style="background: var(--secondary-color); color: var(--white); padding: 0.75rem 1.5rem; border-radius: 25px; text-decoration: none; display: inline-block; margin-top: 1rem; font-weight: 600;">Order Parts</a>
                     </div>
                     
                     <div class="service-item animated-text" style="animation-delay: 0.4s">
-                        <div class="service-icon"><i class="fas fa-wind"></i></div>
+                        <div class="service-icon" aria-hidden="true"><i class="fas fa-wind"></i></div>
                         <h3>Air Conditioning</h3>
                         <p>Professional installation, maintenance, repair and servicing of all types of air conditioning systems for commercial and residential use.</p>
-                        <a href="https://wa.me/255682843552?text=Hello!%20I'm%20interested%20in%20Air%20Conditioning%20Services" target="_blank" style="background:  #dc3545; color: #000; padding: 0.75rem 1.5rem; border-radius: 25px; text-decoration: none; display: inline-block; margin-top: 1rem; font-weight: 600;">Get Service</a>
+                        <a href="https://wa.me/255682843552?text=Hello!%20I'm%20interested%20in%20Air%20Conditioning%20Services" target="_blank" style="background: var(--secondary-color); color: var(--white); padding: 0.75rem 1.5rem; border-radius: 25px; text-decoration: none; display: inline-block; margin-top: 1rem; font-weight: 600;">Get Service</a>
                     </div>
                     
                     <div class="service-item animated-text" style="animation-delay: 0.5s">
-                        <div class="service-icon"><i class="fas fa-microchip"></i></div>
+                        <div class="service-icon" aria-hidden="true"><i class="fas fa-microchip"></i></div>
                         <h3>PLC & Automation</h3>
                         <p>Advanced PLC programming, InteliLite & DSE configuration, and industrial automation solutions for telecom and manufacturing sectors.</p>
-                        <a href="https://wa.me/255682843552?text=Hello!%20I'm%20interested%20in%20PLC%20%26%20Automation" target="_blank" style="background:  #dc3545; color: #000; padding: 0.75rem 1.5rem; border-radius: 25px; text-decoration: none; display: inline-block; margin-top: 1rem; font-weight: 600;">Learn More</a>
+                        <a href="https://wa.me/255682843552?text=Hello!%20I'm%20interested%20in%20PLC%20%26%20Automation" target="_blank" style="background: var(--secondary-color); color: var(--white); padding: 0.75rem 1.5rem; border-radius: 25px; text-decoration: none; display: inline-block; margin-top: 1rem; font-weight: 600;">Learn More</a>
                     </div>
                     
                     <div class="service-item animated-text" style="animation-delay: 0.6s">
-                        <div class="service-icon"><i class="fas fa-exchange-alt"></i></div>
+                        <div class="service-icon" aria-hidden="true"><i class="fas fa-exchange-alt"></i></div>
                         <h3>ATS Systems</h3>
                         <p>Design, installation, and maintenance of Automatic Transfer Switch systems for seamless power switching between mains and generators.</p>
-                        <a href="https://wa.me/255682843552?text=Hello!%20I'm%20interested%20in%20ATS%20Systems" target="_blank" style="background:  #dc3545; color: #000; padding: 0.75rem 1.5rem; border-radius: 25px; text-decoration: none; display: inline-block; margin-top: 1rem; font-weight: 600;">Get Service</a>
+                        <a href="https://wa.me/255682843552?text=Hello!%20I'm%20interested%20in%20ATS%20Systems" target="_blank" style="background: var(--secondary-color); color: var(--white); padding: 0.75rem 1.5rem; border-radius: 25px; text-decoration: none; display: inline-block; margin-top: 1rem; font-weight: 600;">Get Service</a>
                     </div>
                     
                     <div class="service-item animated-text" style="animation-delay: 0.7s">
-                        <div class="service-icon"><i class="fas fa-tools"></i></div>
+                        <div class="service-icon" aria-hidden="true"><i class="fas fa-tools"></i></div>
                         <h3>HPU Conversion</h3>
                         <p>Specialized HPU Training, automation Design and Conversion of HPU units into standard diesel generators for telecom infrastructure.</p>
-                        <a href="https://wa.me/255682843552?text=Hello!%20I'm%20interested%20in%20HPU%20Conversion" target="_blank" style="background:  #dc3545; color: #000; padding: 0.75rem 1.5rem; border-radius: 25px; text-decoration: none; display: inline-block; margin-top: 1rem; font-weight: 600;">Learn More</a>
+                        <a href="https://wa.me/255682843552?text=Hello!%20I'm%20interested%20in%20HPU%20Conversion" target="_blank" style="background: var(--secondary-color); color: var(--white); padding: 0.75rem 1.5rem; border-radius: 25px; text-decoration: none; display: inline-block; margin-top: 1rem; font-weight: 600;">Learn More</a>
                     </div>
                     
                     <div class="service-item animated-text" style="animation-delay: 0.8s">
-                        <div class="service-icon"><i class="fas fa-chalkboard-teacher"></i></div>
+                        <div class="service-icon" aria-hidden="true"><i class="fas fa-chalkboard-teacher"></i></div>
                         <h3>Technical Training</h3>
                         <p>Comprehensive Technical Training programs on Electrical and Mechanical aspects of Generators for Telecom O&M teams and Technicians.</p>
-                        <a href="https://wa.me/255682843552?text=Hello!%20I'm%20interested%20in%20Technical%20Training" target="_blank" style="background:  #dc3545; color: #000; padding: 0.75rem 1.5rem; border-radius: 25px; text-decoration: none; display: inline-block; margin-top: 1rem; font-weight: 600;">Enroll Now</a>
+                        <a href="https://wa.me/255682843552?text=Hello!%20I'm%20interested%20in%20Technical%20Training" target="_blank" style="background: var(--secondary-color); color: var(--white); padding: 0.75rem 1.5rem; border-radius: 25px; text-decoration: none; display: inline-block; margin-top: 1rem; font-weight: 600;">Enroll Now</a>
                     </div>
                     
                     <div class="service-item animated-text" style="animation-delay: 0.9s">
-                        <div class="service-icon"><i class="fas fa-bolt"></i></div>
+                        <div class="service-icon" aria-hidden="true"><i class="fas fa-bolt"></i></div>
                         <h3>Electrical Installations</h3>
                         <p>Complete electrical installation works for residential, commercial and industrial projects with compliance to Tanzanian standards.</p>
-                        <a href="https://wa.me/255682843552?text=Hello!%20I'm%20interested%20in%20Electrical%20Installations" target="_blank" style="background:  #dc3545; color: #000; padding: 0.75rem 1.5rem; border-radius: 25px; text-decoration: none; display: inline-block; margin-top: 1rem; font-weight: 600;">Get Service</a>
+                        <a href="https://wa.me/255682843552?text=Hello!%20I'm%20interested%20in%20Electrical%20Installations" target="_blank" style="background: var(--secondary-color); color: var(--white); padding: 0.75rem 1.5rem; border-radius: 25px; text-decoration: none; display: inline-block; margin-top: 1rem; font-weight: 600;">Get Service</a>
                     </div>
                     
                     <div class="service-item animated-text" style="animation-delay: 1s">
-                        <div class="service-icon"><i class="fas fa-shield-alt"></i></div>
+                        <div class="service-icon" aria-hidden="true"><i class="fas fa-shield-alt"></i></div>
                         <h3>Security & ICT Systems</h3>
                         <p>CCTV installation, RMS Modbus mapping, rectifier systems, VFD and AVR systems for comprehensive security and control solutions.</p>
-                        <a href="https://wa.me/255682843552?text=Hello!%20I'm%20interested%20in%20Security%20%26%20ICT%20Systems" target="_blank" style="background:  #dc3545; color: #000; padding: 0.75rem 1.5rem; border-radius: 25px; text-decoration: none; display: inline-block; margin-top: 1rem; font-weight: 600;">Get Service</a>
+                        <a href="https://wa.me/255682843552?text=Hello!%20I'm%20interested%20in%20Security%20%26%20ICT%20Systems" target="_blank" style="background: var(--secondary-color); color: var(--white); padding: 0.75rem 1.5rem; border-radius: 25px; text-decoration: none; display: inline-block; margin-top: 1rem; font-weight: 600;">Get Service</a>
                     </div>
                 </div>
             </div>
@@ -2648,27 +2551,27 @@
                 <h2 class="animated-text">Featured Products</h2>
                 <div class="products-grid">
                     <div class="product-item animated-text" style="animation-delay: 0.1s">
-                        <div class="product-icon">⚡</div>
+                        <div class="product-icon" aria-hidden="true">⚡</div>
                         <h3>Diesel Generators</h3>
                         <p>10kVA - 1000kVA available. Complete installation included.</p>
-                        <div style="font-size: 1.5rem; font-weight: bold; color:  #dc3545; margin: 1rem 0;">TZS 8.5M - 85M</div>
-                        <a href="https://wa.me/255682843552?text=I'm interested in diesel generators" target="_blank" style="background:  #dc3545; color: #000; padding: 0.75rem 1.5rem; border-radius: 25px; text-decoration: none; display: inline-block; font-weight: 600;">Inquire Now</a>
+                        <div style="font-size: 1.5rem; font-weight: bold; color: var(--secondary-color); margin: 1rem 0;">TZS 8.5M - 85M</div>
+                        <a href="https://wa.me/255682843552?text=I'm interested in diesel generators" target="_blank" style="background: var(--secondary-color); color: var(--white); padding: 0.75rem 1.5rem; border-radius: 25px; text-decoration: none; display: inline-block; font-weight: 600;">Inquire Now</a>
                     </div>
                     
                     <div class="product-item animated-text" style="animation-delay: 0.2s">
-                        <div class="product-icon">☀️</div>
+                        <div class="product-icon" aria-hidden="true">☀️</div>
                         <h3>Solar Power Systems</h3>
                         <p>Complete solar solutions with battery backup</p>
-                        <div style="font-size: 1.5rem; font-weight: bold; color:  #dc3545; margin: 1rem 0;">TZS 300K - 25M</div>
-                        <a href="https://wa.me/255682843552?text=I'm interested in solar systems" target="_blank" style="background:  #dc3545; color: #000; padding: 0.75rem 1.5rem; border-radius: 25px; text-decoration: none; display: inline-block; font-weight: 600;">Get Quote</a>
+                        <div style="font-size: 1.5rem; font-weight: bold; color: var(--secondary-color); margin: 1rem 0;">TZS 300K - 25M</div>
+                        <a href="https://wa.me/255682843552?text=I'm interested in solar systems" target="_blank" style="background: var(--secondary-color); color: var(--white); padding: 0.75rem 1.5rem; border-radius: 25px; text-decoration: none; display: inline-block; font-weight: 600;">Get Quote</a>
                     </div>
                     
                     <div class="product-item animated-text" style="animation-delay: 0.3s">
-                        <div class="product-icon">🔧</div>
+                        <div class="product-icon" aria-hidden="true">🔧</div>
                         <h3>Genuine Spare Parts</h3>
                         <p>Original parts with warranty. Next-day delivery available.</p>
-                        <div style="font-size: 1.5rem; font-weight: bold; color:  #dc3545; margin: 1rem 0;">TZS 50K - 5M</div>
-                        <a href="https://wa.me/255682843552?text=I need generator spare parts" target="_blank" style="background:  #dc3545; color: #000; padding: 0.75rem 1.5rem; border-radius: 25px; text-decoration: none; display: inline-block; font-weight: 600;">Order Parts</a>
+                        <div style="font-size: 1.5rem; font-weight: bold; color: var(--secondary-color); margin: 1rem 0;">TZS 50K - 5M</div>
+                        <a href="https://wa.me/255682843552?text=I need generator spare parts" target="_blank" style="background: var(--secondary-color); color: var(--white); padding: 0.75rem 1.5rem; border-radius: 25px; text-decoration: none; display: inline-block; font-weight: 600;">Order Parts</a>
                     </div>
                 </div>
                 
@@ -2677,11 +2580,11 @@
                     <h3>🛒 Browse Our Complete Product Catalog</h3>
                     <p>We have 100+ electrical products available for immediate order</p>
                     <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin: 1.5rem 0;">
-                        <a href="#generators" style="background:  #dc3545; color: #000; padding: 0.75rem 1.5rem; border-radius: 25px; text-decoration: none; display: inline-block; font-weight: 600;">View All Generators</a>
-                        <a href="#solar" style="background:  #dc3545; color: #000; padding: 0.75rem 1.5rem; border-radius: 25px; text-decoration: none; display: inline-block; font-weight: 600;">View Solar Systems</a>
-                        <a href="#spares" style="background:  #dc3545; color: #000; padding: 0.75rem 1.5rem; border-radius: 25px; text-decoration: none; display: inline-block; font-weight: 600;">View 100+ Spare Parts</a>
+                        <a href="#generators" style="background: var(--secondary-color); color: var(--white); padding: 0.75rem 1.5rem; border-radius: 25px; text-decoration: none; display: inline-block; font-weight: 600;">View All Generators</a>
+                        <a href="#solar" style="background: var(--secondary-color); color: var(--white); padding: 0.75rem 1.5rem; border-radius: 25px; text-decoration: none; display: inline-block; font-weight: 600;">View Solar Systems</a>
+                        <a href="#spares" style="background: var(--secondary-color); color: var(--white); padding: 0.75rem 1.5rem; border-radius: 25px; text-decoration: none; display: inline-block; font-weight: 600;">View 100+ Spare Parts</a>
                     </div>
-                    <p style="color:  #dc3545; font-size: 0.9rem; margin-top: 1rem;">
+                    <p style="color: var(--secondary-color); font-size: 0.9rem; margin-top: 1rem;">
                         <strong>Instant Support:</strong> Order directly via phone +255 682 843 552
                     </p>
                 </div>
@@ -2761,28 +2664,28 @@
                 <h2 class="animated-text">Projects & Achievements</h2>
                 <div class="projects-grid">
                     <div class="project-item animated-text" style="animation-delay: 0.1s">
-                        <div style="font-size: 3rem; margin-bottom: 1rem;">🏗️</div>
+                        <div style="font-size: 3rem; margin-bottom: 1rem;" aria-hidden="true">🏗️</div>
                         <h3>Telecom HPU Conversion</h3>
                         <p>Successfully converted multiple HPU units into standard diesel generators for telecom infrastructure across Tanzania.</p>
                         <p><strong>Year:</strong> 2019-2025</p>
                     </div>
                     
                     <div class="project-item animated-text" style="animation-delay: 0.2s">
-                        <div style="font-size: 3rem; margin-bottom: 1rem;">⚡</div>
+                        <div style="font-size: 3rem; margin-bottom: 1rem;" aria-hidden="true">⚡</div>
                         <h3>Industrial Generator Installation</h3>
                         <p>Complete installation and commissioning of 800kVA diesel generator set with integrated ATS for a major manufacturing facility.</p>
                         <p><strong>Year:</strong> 2016-2025</p>
                     </div>
                     
                     <div class="project-item animated-text" style="animation-delay: 0.3s">
-                        <div style="font-size: 3rem; margin-bottom: 1rem;">💻</div>
+                        <div style="font-size: 3rem; margin-bottom: 1rem;" aria-hidden="true">💻</div>
                         <h3>Data Center Power Distribution</h3>
                         <p>Design and implementation of 600A dual-bus DC Power Distribution Unit for critical data center infrastructure.</p>
                         <p><strong>Year:</strong> 2022-2023</p>
                     </div>
                     
                     <div class="project-item animated-text" style="animation-delay: 0.4s">
-                        <div style="font-size: 3rem; margin-bottom: 1rem;">👨‍🏫</div>
+                        <div style="font-size: 3rem; margin-bottom: 1rem;" aria-hidden="true">👨‍🏫</div>
                         <h3>Technical Training Program</h3>
                         <p>Developed and delivered specialized Generator Technical Training Programs for Multiple Telecom O&M Teams across Tanzania.</p>
                         <p><strong>Year:</strong> 2017-2025</p>
@@ -2821,230 +2724,87 @@
                             <li>Mbeya</li>
                             <li>Zanzibar</li>
                         </ul>
- <a href="tel:+255682843552" style="background:  #dc3545; color: #000; padding: 0.75rem 1.5rem; border-radius: 25px; text-decoration: none; display: inline-block; margin-top: 1rem; font-weight: 600;">Check If We Cover Your Area</a>
+                        <a href="tel:+255682843552" style="background: var(--secondary-color); color: var(--white); padding: 0.75rem 1.5rem; border-radius: 25px; text-decoration: none; display: inline-block; margin-top: 1rem; font-weight: 600;">Check If We Cover Your Area</a>
                     </div>
                     <div class="animated-text" style="animation-delay: 0.2s">
-                        <div style="height: 300px; background: rgba(255, 255, 255, 0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: white; font-size: 4rem; backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2);">
-                          <a href="assets/icon/Tanzania.png" </a>  
+                        <div style="height: 300px; background: rgba(255, 255, 255, 0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: white; font-size: 4rem; backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2);" aria-hidden="true">
+                            🗺️
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-       <section id="resources" style="background: url('Background.jpg'); background-size: cover; background-position: center; background-attachment: fixed; color: white; padding: 4rem 2rem; position: relative;">
-    <div class="content-wrapper" style="max-width: 1200px; margin: 0 auto;">
-        <div style="text-align: center; margin-bottom: 3rem;">
-            <h2 style="font-size: 2.5rem; margin-bottom: 1rem; color: white; text-shadow: 0 2px 4px rgba(0,0,0,0.3);">
-                Free Electrical Resources
-            </h2>
-            <p style="color: #ffffffcc; max-width: 600px; margin: 0 auto; font-size: 1.1rem; text-shadow: 0 1px 2px rgba(0,0,0,0.2);">
-                Download our expert guides to optimize your electrical systems and save on energy costs
-            </p>
-        </div>
-        
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-bottom: 3rem;">
-            <!-- Resource 1 -->
-            <div style="background: rgba(255, 255, 255, 0.1); border-radius: 15px; padding: 2rem; backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2); transition: all 0.3s ease; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);"
-                 onmouseover="this.style.transform='translateY(-5px)';this.style.borderColor='rgba(255, 215, 0, 0.5)';this.style.boxShadow='0 12px 40px rgba(0, 0, 0, 0.2)'"
-                 onmouseout="this.style.transform='translateY(0)';this.style.borderColor='rgba(255, 255, 255, 0.2)';this.style.boxShadow='0 8px 32px rgba(0, 0, 0, 0.1)'">
-                <div style="background: rgba(255, 215, 0, 0.2); width: 60px; height: 60px; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-bottom: 1.5rem;">
-                    <span style="font-size: 2rem; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));">🔧</span>
+        <!-- Resources Section -->
+        <section id="resources">
+            <div class="content-wrapper">
+                <h2 class="animated-text">Free Electrical Resources</h2>
+                <div class="resources-grid">
+                    <div class="resource-item animated-text" style="animation-delay: 0.1s">
+                        <h3>Generator Maintenance Checklist</h3>
+                        <p>Free PDF guide for proper generator maintenance to extend lifespan and prevent breakdowns.</p>
+                        <a href="https://drive.google.com/drive/folders/1oQ5Nk5mDd-jpA7ZsP4E75XnD2E6h52cj" target="_blank" style="background: var(--secondary-color); color: var(--white); padding: 0.75rem 1.5rem; border-radius: 25px; text-decoration: none; display: inline-block; margin-top: 1rem; font-weight: 600;">Download Free</a>
+                    </div>
+                    
+                    <div class="resource-item animated-text" style="animation-delay: 0.2s">
+                        <h3>Energy Saving Guide</h3>
+                        <p>Tips to reduce your electricity bill by 30% through efficient electrical system management.</p>
+                        <a href="https://drive.google.com/drive/folders/1oQ5Nk5mDd-jpA7ZsP4E75XnD2E6h52cj" target="_blank" style="background: var(--secondary-color); color: var(--white); padding: 0.75rem 1.5rem; border-radius: 25px; text-decoration: none; display: inline-block; margin-top: 1rem; font-weight: 600;">Download Free</a>
+                    </div>
+                    
+                    <div class="resource-item animated-text" style="animation-delay: 0.3s">
+                        <h3>Emergency Preparedness Kit</h3>
+                        <p>What every business needs for power emergencies - checklist and preparation guide.</p>
+                        <a href="https://drive.google.com/drive/folders/1oQ5Nk5mDd-jpA7ZsP4E75XnD2E6h52cj" target="_blank" style="background: var(--secondary-color); color: var(--white); padding: 0.75rem 1.5rem; border-radius: 25px; text-decoration: none; display: inline-block; margin-top: 1rem; font-weight: 600;">Download Free</a>
+                    </div>
                 </div>
-                <h3 style="font-size: 1.5rem; margin-bottom: 0.75rem; color: white; font-weight: 600;">Generator Maintenance Checklist</h3>
-                <p style="color: rgba(255, 255, 255, 0.9); margin-bottom: 1.5rem; line-height: 1.6; font-size: 1.05rem;">
-                    Free PDF guide for proper generator maintenance to extend lifespan and prevent breakdowns.
-                </p>
-                <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 2rem;">
-                    <span style="color: #FFD700; font-size: 0.9rem; font-weight: 500;">PDF • 850KB</span>
-                    <button onclick="downloadResource('generator-checklist')"
-                            style="background: linear-gradient(90deg, #FFD700, #FFA500); color: #000; padding: 0.75rem 1.5rem; border-radius: 25px; border: none; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 0.5rem; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);"
-                            onmouseover="this.style.transform='scale(1.05)';this.style.boxShadow='0 6px 20px rgba(255, 215, 0, 0.4)'"
-                            onmouseout="this.style.transform='scale(1)';this.style.boxShadow='0 4px 15px rgba(255, 215, 0, 0.3)'">
-                        <span>⬇️</span> Download Free
-                    </button>
+                
+                <div style="text-align: center; margin-top: 2rem;">
+                    <a href="tel:+255682843552" style="color: var(--secondary-color); font-weight: bold; text-decoration: none; font-size: 1.1rem;" class="animated-text" style="animation-delay: 0.4s">
+                        📞 Call +255 682 843 552 for Professional Consultation
+                    </a>
                 </div>
             </div>
-            
-            <!-- Resource 2 -->
-            <div style="background: rgba(255, 255, 255, 0.1); border-radius: 15px; padding: 2rem; backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2); transition: all 0.3s ease; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);"
-                 onmouseover="this.style.transform='translateY(-5px)';this.style.borderColor='rgba(255, 215, 0, 0.5)';this.style.boxShadow='0 12px 40px rgba(0, 0, 0, 0.2)'"
-                 onmouseout="this.style.transform='translateY(0)';this.style.borderColor='rgba(255, 255, 255, 0.2)';this.style.boxShadow='0 8px 32px rgba(0, 0, 0, 0.1)'">
-                <div style="background: rgba(255, 215, 0, 0.2); width: 60px; height: 60px; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-bottom: 1.5rem;">
-                    <span style="font-size: 2rem; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));">💡</span>
-                </div>
-                <h3 style="font-size: 1.5rem; margin-bottom: 0.75rem; color: white; font-weight: 600;">Energy Saving Guide</h3>
-                <p style="color: rgba(255, 255, 255, 0.9); margin-bottom: 1.5rem; line-height: 1.6; font-size: 1.05rem;">
-                    Tips to reduce your electricity bill by 30% through efficient electrical system management.
-                </p>
-                <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 2rem;">
-                    <span style="color: #FFD700; font-size: 0.9rem; font-weight: 500;">PDF • 1.2MB</span>
-                    <button onclick="downloadResource('energy-guide')"
-                            style="background: linear-gradient(90deg, #FFD700, #FFA500); color: #000; padding: 0.75rem 1.5rem; border-radius: 25px; border: none; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 0.5rem; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);"
-                            onmouseover="this.style.transform='scale(1.05)';this.style.boxShadow='0 6px 20px rgba(255, 215, 0, 0.4)'"
-                            onmouseout="this.style.transform='scale(1)';this.style.boxShadow='0 4px 15px rgba(255, 215, 0, 0.3)'">
-                        <span>⬇️</span> Download Free
-                    </button>
+        </section>
+
+        <!-- Videos Section -->
+        <section id="videos">
+            <div class="content-wrapper">
+                <h2 class="animated-text">Generator Installation Process</h2>
+                <div class="video-container">
+                    <div class="video-placeholder animated-text" style="animation-delay: 0.2s" aria-hidden="true">
+                        ▶
+                    </div>
+                    <p class="animated-text" style="animation-delay: 0.3s; text-align: center; margin-top: 1rem; font-size: 1.1rem; color: var(--secondary-color);">Watch: Generator Installation Process - Time-lapse</p>
                 </div>
             </div>
-            
-            <!-- Resource 3 -->
-            <div style="background: rgba(255, 255, 255, 0.1); border-radius: 15px; padding: 2rem; backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2); transition: all 0.3s ease; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);"
-                 onmouseover="this.style.transform='translateY(-5px)';this.style.borderColor='rgba(255, 215, 0, 0.5)';this.style.boxShadow='0 12px 40px rgba(0, 0, 0, 0.2)'"
-                 onmouseout="this.style.transform='translateY(0)';this.style.borderColor='rgba(255, 255, 255, 0.2)';this.style.boxShadow='0 8px 32px rgba(0, 0, 0, 0.1)'">
-                <div style="background: rgba(255, 215, 0, 0.2); width: 60px; height: 60px; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-bottom: 1.5rem;">
-                    <span style="font-size: 2rem; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));">⚠️</span>
-                </div>
-                <h3 style="font-size: 1.5rem; margin-bottom: 0.75rem; color: white; font-weight: 600;">Emergency Preparedness Kit</h3>
-                <p style="color: rgba(255, 255, 255, 0.9); margin-bottom: 1.5rem; line-height: 1.6; font-size: 1.05rem;">
-                    What every business needs for power emergencies - checklist and preparation guide.
-                </p>
-                <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 2rem;">
-                    <span style="color: #FFD700; font-size: 0.9rem; font-weight: 500;">PDF • 650KB</span>
-                    <button onclick="downloadResource('emergency-kit')"
-                            style="background: linear-gradient(90deg, #FFD700, #FFA500); color: #000; padding: 0.75rem 1.5rem; border-radius: 25px; border: none; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 0.5rem; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);"
-                            onmouseover="this.style.transform='scale(1.05)';this.style.boxShadow='0 6px 20px rgba(255, 215, 0, 0.4)'"
-                            onmouseout="this.style.transform='scale(1)';this.style.boxShadow='0 4px 15px rgba(255, 215, 0, 0.3)'">
-                        <span>⬇️</span> Download Free
-                    </button>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Professional Consultation CTA -->
-        <div style="text-align: center; padding: 3rem; background: rgba(255, 255, 255, 0.1); border-radius: 20px; border: 2px solid rgba(255, 215, 0, 0.5); max-width: 700px; margin: 0 auto; backdrop-filter: blur(10px); box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);">
-            <div style="background: rgba(255, 215, 0, 0.2); width: 70px; height: 70px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem;">
-                <span style="font-size: 2rem; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));">📞</span>
-            </div>
-            <h3 style="color: white; margin-bottom: 1rem; font-size: 1.75rem; font-weight: 600; text-shadow: 0 2px 4px rgba(0,0,0,0.3);">
-                Need Professional Electrical Advice?
-            </h3>
-            <p style="color: rgba(255, 255, 255, 0.9); margin-bottom: 2rem; font-size: 1.1rem; max-width: 500px; margin-left: auto; margin-right: auto;">
-                Get personalized solutions for your electrical needs from our certified experts
-            </p>
-            <a href="tel:+255682843552"
-               style="background: linear-gradient(90deg, #FFD700, #FFA500); color: #000; padding: 1.25rem 2.5rem; border-radius: 30px; text-decoration: none; font-weight: 700; display: inline-flex; align-items: center; gap: 1rem; transition: all 0.3s ease; font-size: 1.1rem; box-shadow: 0 6px 20px rgba(255, 215, 0, 0.4);"
-               onmouseover="this.style.transform='scale(1.05)';this.style.boxShadow='0 8px 25px rgba(255, 215, 0, 0.6)'"
-               onmouseout="this.style.transform='scale(1)';this.style.boxShadow='0 6px 20px rgba(255, 215, 0, 0.4)'">
-                <span style="font-size: 1.5rem;">📞</span>
-                Call +255 682 843 552
-            </a>
-            <p style="color: rgba(255, 255, 255, 0.7); margin-top: 1.5rem; font-size: 0.95rem; font-style: italic;">
-                Available Monday - Saturday, 8:00 AM - 6:00 PM
-            </p>
-        </div>
-    </div>
-</section>
+        </section>
 
-<!-- Download Modal -->
-<div id="downloadModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.9); z-index: 10000; align-items: center; justify-content: center; padding: 1rem; backdrop-filter: blur(5px);">
-    <div style="background: white; padding: 2.5rem; border-radius: 20px; max-width: 450px; width: 100%; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3); border: 2px solid #FFD700;">
-        <h3 style="color: #1a3a5f; margin-bottom: 1.5rem; font-size: 1.5rem; text-align: center; font-weight: 600;">Get Your Free Guide</h3>
-        <p style="color: #666; margin-bottom: 1.5rem; text-align: center; line-height: 1.5;">
-            Enter your details to download the free resource and receive expert tips via email
-        </p>
-        <form id="downloadForm" onsubmit="submitDownloadForm(event)" style="display: flex; flex-direction: column; gap: 1rem;">
-            <input type="text" placeholder="Your Full Name" required 
-                   style="padding: 1rem; border: 2px solid #e0e0e0; border-radius: 10px; font-size: 1rem; transition: border-color 0.3s ease;"
-                   onfocus="this.style.borderColor='#FFD700'"
-                   onblur="this.style.borderColor='#e0e0e0'">
-            
-            <input type="email" placeholder="Your Email Address" required 
-                   style="padding: 1rem; border: 2px solid #e0e0e0; border-radius: 10px; font-size: 1rem; transition: border-color 0.3s ease;"
-                   onfocus="this.style.borderColor='#FFD700'"
-                   onblur="this.style.borderColor='#e0e0e0'">
-            
-            <div style="display: flex; gap: 1rem; margin-top: 1rem;">
-                <button type="submit"
-                        style="background: linear-gradient(90deg, #FFD700, #FFA500); color: #000; padding: 1rem; border-radius: 10px; border: none; font-weight: 600; cursor: pointer; flex: 2; transition: all 0.3s ease; font-size: 1.05rem;"
-                        onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 6px 15px rgba(255, 215, 0, 0.4)'"
-                        onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='none'">
-                    Download Now
-                </button>
-                <button type="button" onclick="closeModal()"
-                        style="background: #f5f5f5; color: #666; padding: 1rem; border-radius: 10px; border: 1px solid #ddd; font-weight: 600; cursor: pointer; flex: 1; transition: all 0.3s ease;"
-                        onmouseover="this.style.background='#e0e0e0'"
-                        onmouseout="this.style.background='#f5f5f5'">
-                    Cancel
-                </button>
-            </div>
-        </form>
-    </div>
-</div>
-
-<script>
-let currentResource = '';
-
-function downloadResource(resource) {
-    currentResource = resource;
-    document.getElementById('downloadModal').style.display = 'flex';
-}
-
-function closeModal() {
-    document.getElementById('downloadModal').style.display = 'none';
-    document.getElementById('downloadForm').reset();
-}
-
-function submitDownloadForm(event) {
-    event.preventDefault();
-    const formData = new FormData(event.target);
-    const email = formData.get('email');
-    const name = formData.get('name');
-    
-    // Here you would typically send this data to your server/CRM
-    console.log('Lead captured:', { name, email, resource: currentResource });
-    
-    // Direct download URLs (replace with your actual file URLs)
-    const fileUrls = {
-        'generator-checklist': 'https://drive.google.com/drive/folders/1oQ5Nk5mDd-jpA7ZsP4E75XnD2E6h52cj',
-        'energy-guide': 'https://drive.google.com/drive/folders/1oQ5Nk5mDd-jpA7ZsP4E75XnD2E6h52cj',
-        'emergency-kit': 'https://drive.google.com/drive/folders/1oQ5Nk5mDd-jpA7ZsP4E75XnD2E6h52cj'
-    };
-    
-    // Open download in new tab
-    window.open(fileUrls[currentResource], '_blank');
-    closeModal();
-    
-    // Show success notification
-    alert(`Thank you ${name}! Your guide is downloading. Check your email (${email}) for the download link and additional resources.`);
-}
-
-// Close modal when clicking outside
-document.getElementById('downloadModal').addEventListener('click', function(e) {
-    if (e.target === this) closeModal();
-});
-
-// Close modal with Escape key
-document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape') closeModal();
-});
-</script>
-</section>
         <!-- Certificates Section -->
         <section id="certificates">
             <div class="content-wrapper">
                 <h2 class="animated-text">Certificates & Compliance</h2>
                 <div class="certificates-grid">
                     <div class="certificate-item animated-text" style="animation-delay: 0.1s">
-                        <div style="font-size: 3rem; margin-bottom: 1rem;">📄</div>
+                        <div style="font-size: 3rem; margin-bottom: 1rem;" aria-hidden="true">📄</div>
                         <h4>Certificate of Incorporation</h4>
                         <p><strong>BRELA Registration</strong><br>No: 157024493</p>
                     </div>
                     
                     <div class="certificate-item animated-text" style="animation-delay: 0.2s">
-                        <div style="font-size: 3rem; margin-bottom: 1rem;">🏢</div>
+                        <div style="font-size: 3rem; margin-bottom: 1rem;" aria-hidden="true">🏢</div>
                         <h4>TIN Certificate</h4>
                         <p><strong>Tanzania Revenue Authority</strong><br>TIN: 157-024-493</p>
                     </div>
                     
                     <div class="certificate-item animated-text" style="animation-delay: 0.3s">
-                        <div style="font-size: 3rem; margin-bottom: 1rem;">⚡</div>
+                        <div style="font-size: 3rem; margin-bottom: 1rem;" aria-hidden="true">⚡</div>
                         <h4>EWURA License</h4>
                         <p><strong>Class A Electrical License</strong><br>No: ELA-2022-008</p>
                     </div>
                     
                     <div class="certificate-item animated-text" style="animation-delay: 0.4s">
-                        <div style="font-size: 3rem; margin-bottom: 1rem;">👨‍🔧</div>
+                        <div style="font-size: 3rem; margin-bottom: 1rem;" aria-hidden="true">👨‍🔧</div>
                         <h4>ERB Registration</h4>
                         <p><strong>Professional Engineer</strong><br>Registered Practitioner</p>
                     </div>
@@ -3131,7 +2891,7 @@ document.addEventListener('keydown', function(e) {
     </a>
 
     <script>
-        // Loading Animation Script (Two-Page Structure) - OPTIMIZED VERSION
+        // Loading Animation Script (Optimized)
         document.addEventListener('DOMContentLoaded', function() {
             const loadingScreen = document.getElementById('loading-screen');
             const welcomePage = document.getElementById('welcomePage');
@@ -3141,8 +2901,8 @@ document.addEventListener('keydown', function(e) {
             const body = document.body;
             
             let progress = 0;
-            const totalTime = 8000; // Reduced from 40s to 8s - MUCH BETTER!
-            const intervalTime = 50; // Update every 50ms for smoother progress
+            const totalTime = 8000; // Reduced from 15000 to 8000ms for better UX
+            const intervalTime = 100;
             const increments = totalTime / intervalTime;
             const progressIncrement = 100 / increments;
             
@@ -3159,16 +2919,20 @@ document.addEventListener('keydown', function(e) {
             
             let messageIndex = 0;
             let pageSwitched = false;
+            let loadingComplete = false;
             
-            // Check if page is already loaded (cached)
-            if (document.readyState === 'complete') {
-                // Page already loaded, skip long loading
-                loadingScreen.style.display = 'none';
-                body.classList.remove('loading');
-                return;
-            }
+            // Check if page loads faster than animation
+            document.onreadystatechange = function() {
+                if (document.readyState === 'complete' && !loadingComplete) {
+                    // If page loads faster than animation, speed it up
+                    if (progress < 80) {
+                        progress = 80;
+                        progressBar.style.width = '80%';
+                    }
+                }
+            };
             
-            // Simulate loading progress over 8 seconds
+            // Simulate loading progress
             const loadingInterval = setInterval(() => {
                 progress += progressIncrement;
                 
@@ -3195,12 +2959,13 @@ document.addEventListener('keydown', function(e) {
                         setTimeout(() => {
                             progressText.textContent = loadingMessages[messageIndex];
                             progressText.style.opacity = '1';
-                        }, 150);
+                        }, 100);
                     }
                 }
                 
                 // Complete loading when progress reaches 100%
                 if (progress >= 100) {
+                    loadingComplete = true;
                     clearInterval(loadingInterval);
                     
                     // Final message
@@ -3215,47 +2980,51 @@ document.addEventListener('keydown', function(e) {
                             body.classList.remove('loading');
                             
                             // Show main content with fade in effect
-                            document.querySelectorAll('*:not(#loading-screen):not(.promo-banner):not(.kingu-shop-cta)').forEach((el, index) => {
+                            const elements = document.querySelectorAll('*:not(#loading-screen):not(.promo-banner):not(.kingu-shop-cta)');
+                            elements.forEach((el, index) => {
                                 setTimeout(() => {
                                     el.style.opacity = '1';
                                     el.style.visibility = 'visible';
-                                }, index * 20); // Staggered reveal
+                                }, index * 10);
                             });
                             
                             // Smooth scroll to top
                             window.scrollTo({ top: 0, behavior: 'smooth' });
-                        }, 800);
-                    }, 1000);
+                        }, 500);
+                    }, 800);
                 }
             }, intervalTime);
             
-            // Force completion after 10 seconds max (in case something goes wrong)
+            // Force completion after 12 seconds max (reduced from 20)
             setTimeout(() => {
-                clearInterval(loadingInterval);
-                progressBar.style.width = '100%';
-                progressText.textContent = "Entering Kingu Electrical Website...";
-                
-                // Ensure about page is visible
-                if (!pageSwitched) {
-                    welcomePage.classList.add('hidden');
-                    aboutPage.classList.add('visible');
-                }
-                
-                setTimeout(() => {
-                    loadingScreen.style.opacity = '0';
+                if (!loadingComplete) {
+                    clearInterval(loadingInterval);
+                    loadingComplete = true;
+                    progressBar.style.width = '100%';
+                    progressText.textContent = "Entering Kingu Electrical Website...";
+                    
+                    // Ensure about page is visible
+                    if (!pageSwitched) {
+                        welcomePage.classList.add('hidden');
+                        aboutPage.classList.add('visible');
+                    }
                     
                     setTimeout(() => {
-                        loadingScreen.style.display = 'none';
-                        body.classList.remove('loading');
+                        loadingScreen.style.opacity = '0';
                         
-                        // Show main content
-                        document.querySelectorAll('*:not(#loading-screen):not(.promo-banner):not(.kingu-shop-cta)').forEach(el => {
-                            el.style.opacity = '1';
-                            el.style.visibility = 'visible';
-                        });
+                        setTimeout(() => {
+                            loadingScreen.style.display = 'none';
+                            body.classList.remove('loading');
+                            
+                            // Show main content
+                            document.querySelectorAll('*:not(#loading-screen):not(.promo-banner):not(.kingu-shop-cta)').forEach(el => {
+                                el.style.opacity = '1';
+                                el.style.visibility = 'visible';
+                            });
+                        }, 500);
                     }, 800);
-                }, 1000);
-            }, 10000); // 10 seconds max
+                }
+            }, 12000); // 12 seconds max
         });
         
         // Mobile Navigation
@@ -3263,12 +3032,15 @@ document.addEventListener('keydown', function(e) {
         const navMenu = document.getElementById('navMenu');
         
         hamburger.addEventListener('click', () => {
+            const isExpanded = hamburger.getAttribute('aria-expanded') === 'true';
+            hamburger.setAttribute('aria-expanded', !isExpanded);
             navMenu.classList.toggle('active');
         });
         
         // Close menu when clicking on links
         document.querySelectorAll('.nav-menu a').forEach(link => {
             link.addEventListener('click', () => {
+                hamburger.setAttribute('aria-expanded', 'false');
                 navMenu.classList.remove('active');
             });
         });
@@ -3286,6 +3058,7 @@ document.addEventListener('keydown', function(e) {
                 const targetElement = document.querySelector(targetId);
                 if(targetElement) {
                     // Close mobile menu if open
+                    hamburger.setAttribute('aria-expanded', 'false');
                     navMenu.classList.remove('active');
                     
                     window.scrollTo({
@@ -3334,22 +3107,6 @@ document.addEventListener('keydown', function(e) {
         document.querySelectorAll('section, .card, .team-member, .service-item, .product-item, .project-item, .package-item, .testimonial-item, .resource-item, .certificate-item, .stat-item, .kingu-shop-section, .whatsapp-btn, .emergency-btn').forEach(element => {
             observer.observe(element);
         });
-        
-        // Mobile background fix detection
-        function detectMobileAndFixBackground() {
-            const isMobile = window.innerWidth <= 768;
-            const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-            
-            if (isMobile || isTouchDevice) {
-                // Force scroll background for mobile
-                document.querySelector('body').style.backgroundAttachment = 'scroll';
-                document.querySelector('.loading-welcome').style.backgroundAttachment = 'scroll';
-            }
-        }
-        
-        // Run on load and resize
-        window.addEventListener('load', detectMobileAndFixBackground);
-        window.addEventListener('resize', detectMobileAndFixBackground);
     </script>
 </body>
 </html>
