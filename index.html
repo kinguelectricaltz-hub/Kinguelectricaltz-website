@@ -1866,6 +1866,137 @@
             animation: fadeInUp 1s ease-out;
         }
     </style>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kingu Electrical</title>
+    
+    <style>
+        /* ===== LOGO SIZE CONTROLS ===== */
+        .welcome-logo,
+        .about-logo {
+            height: auto;
+            max-width: 100%;
+            display: block;
+            margin: 0 auto 20px;
+            object-fit: contain;
+        }
+        
+        .welcome-logo {
+            width: 200px;
+        }
+        
+        .about-logo {
+            width: 180px;
+        }
+        
+        /* ===== TITLE CONTAINERS WITH FLEXBOX ===== */
+        .welcome-title,
+        .about-title {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 8px; /* Space between elements */
+            text-align: center;
+            margin: 15px 0;
+        }
+        
+        /* ===== ICON STYLING ===== */
+        .welcome-icon-img,
+        .about-icon-img {
+            height: auto;
+            object-fit: contain;
+            flex-shrink: 0; /* Prevents icon from shrinking */
+            display: inline-block;
+        }
+        
+        .welcome-icon-img {
+            width: 45px;
+            height: 45px;
+            margin: 0 5px; /* Adjust horizontal spacing */
+        }
+        
+        .about-icon-img {
+            width: 40px;
+            height: 40px;
+            margin: 0 5px; /* Adjust horizontal spacing */
+        }
+        
+        /* ===== TEXT SPANS ===== */
+        .welcome-title span,
+        .about-title span {
+            display: inline-block;
+            line-height: 1.2; /* Match icon height */
+        }
+        
+        /* ===== RESPONSIVE ADJUSTMENTS ===== */
+        @media (max-width: 768px) {
+            .welcome-logo {
+                width: 180px;
+            }
+            
+            .about-logo {
+                width: 160px;
+            }
+            
+            .welcome-icon-img {
+                width: 40px;
+                height: 40px;
+                margin: 0 4px;
+            }
+            
+            .about-icon-img {
+                width: 35px;
+                height: 35px;
+                margin: 0 4px;
+            }
+            
+            .welcome-title,
+            .about-title {
+                gap: 6px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .welcome-logo {
+                width: 150px;
+            }
+            
+            .about-logo {
+                width: 130px;
+            }
+            
+            .welcome-icon-img,
+            .about-icon-img {
+                width: 30px;
+                height: 30px;
+                margin: 0 3px;
+            }
+            
+            .welcome-title,
+            .about-title {
+                gap: 4px;
+                font-size: 0.9em; /* Adjust font size for mobile */
+            }
+        }
+        
+        /* For very small screens, stack if needed */
+        @media (max-width: 320px) {
+            .welcome-title,
+            .about-title {
+                flex-direction: column;
+                gap: 2px;
+            }
+            
+            .welcome-icon-img,
+            .about-icon-img {
+                margin: 5px 0; /* Vertical margin when stacked */
+            }
+        }
+    </style>
 </head>
 <body class="loading">
     <!-- Loading Animation (Two-Page Structure) -->
@@ -1878,17 +2009,15 @@
 
             <h1 class="welcome-title">
                 <span style="color:#1a5632">Kingu</span>
-
                 <img src="assets/icons/kingu.svg"
-                     alt=""
+                     alt="Kingu Icon"
                      class="welcome-icon-img">
-
                 <span style="color:#dc3545">Electrical</span>
                 <span style="color:#1a5632">Company Limited</span>
             </h1>
 
             <p class="welcome-tagline"
-               style="color:#dc3545; font-style: italic; font-weight: 800;">
+               style="color:#1a5632; font-style: italic; font-weight: 800;">
                 Quality Electrical Services with Professional Experience
             </p>
 
@@ -1900,31 +2029,31 @@
             </p>
         </div>
         
-       <!-- Second Page - About Us Screen -->
-<div class="loading-about" id="aboutPage">
-    <img src="https://kingueletrical.com/assets/icons/company-logo.png"
-         alt="Kingu Electrical Company Limited"
-         class="about-logo">
+        <!-- Second Page - About Us Screen -->
+        <div class="loading-about" id="aboutPage">
+            <img src="https://kingueletrical.com/assets/icons/company-logo.png"
+                 alt="Kingu Electrical Company Limited"
+                 class="about-logo">
 
-    <h2 class="about-title">
-        <span style="color:#1a5632">Kingu</span>
+            <h2 class="about-title">
+                <span style="color:#1a5632">Kingu</span>
+                <img src="assets/icons/kingu.svg"
+                     alt="Kingu Icon"
+                     class="about-icon-img">
+                <span style="color:#dc3545">Electrical</span>
+            </h2>
 
-        <img src="assets/icons/kingu.svg"
-             alt=""
-             class="about-icon-img">
-
-        <span style="color:#dc3545">Electrical</span>
-    </h2>
-
-    <div class="about-content">
-        <p class="about-Content">
-            At Kingu Electrical,
-            <span class="about-highlight">
-                Engineering is not just a service — it's a responsibility
-            </span>.
-        </p>
+            <div class="about-content">
+                <p class="about-content">
+                    At Kingu Electrical,
+                    <span class="about-highlight">
+                        Engineering is not just a service — it's a responsibility
+                    </span>.
+                </p>
+            </div>
+        </div>
     </div>
-</div>
+</body>
     
             <div class="loading-progress">
                 <div class="progress-text" id="progressText">Initializing power solutions...</div>
