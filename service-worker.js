@@ -1,319 +1,214 @@
-// Enhanced PWA Implementation for Kingu Electrical
-document.addEventListener('DOMContentLoaded', function() {
-    // Initialize PWA
-    initPWA();
-    initOfflineDetection();
-    initBackgroundSync();
-});
-
-// PWA Initialization
-function initPWA() {
-    // Update year
-    document.getElementById('year').textContent = new Date().getFullYear();
-    
-    // Register Service Worker
-    if ('serviceWorker' in navigator) {
-        registerServiceWorker();
-    }
-    
-    // PWA Installation Prompt
-    setupInstallPrompt();
-    
-    // Check if app is already installed
-    checkIfInstalled();
-}
-
-// Service Worker Registration
-function registerServiceWorker() {
-    window.addEventListener('load', async () => {
-        try {
-            const registration = await navigator.serviceWorker.register('/service-worker.js', {
-                scope: '/',
-                updateViaCache: 'none'
-            });
-            
-            console.log('✅ Service Worker registered with scope:', registration.scope);
-            
-            // Update UI status
-            updateSWStatus('🟢 App Ready');
-            
-            // Check for updates
-            registration.addEventListener('updatefound', () => {
-                const newWorker = registration.installing;
-                console.log('🔄 New service worker found:', newWorker.state);
-                
-                newWorker.addEventListener('statechange', () => {
-                    console.log('Service Worker state changed to:', newWorker.state);
-                    
-                    if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                        // New update available
-                        showUpdateNotification();
-                    }
-                });
-            });
-            
-            // Periodic updates check
-            setInterval(() => {
-                registration.update();
-            }, 60 * 60 * 1000); // Check for updates every hour
-            
-        } catch (error) {
-            console.error('❌ Service Worker registration failed:', error);
-            updateSWStatus('🔴 Offline Mode');
-        }
-    });
-}
-
-// PWA Installation Prompt
-let deferredPrompt;
-const installContainer = document.getElementById('installContainer');
-const installBtn = document.getElementById('installBtn');
-const closeInstall = document.getElementById('closeInstall');
-
-function setupInstallPrompt() {
-    // Listen for beforeinstallprompt event
-    window.addEventListener('beforeinstallprompt', (e) => {
-        e.preventDefault();
-        deferredPrompt = e;
-        
-        // Show install prompt after 10 seconds
-        setTimeout(() => {
-            if (deferredPrompt && !isAppInstalled()) {
-                const lastDismissed = localStorage.getItem('pwaPromptDismissed');
-                const oneWeekAgo = Date.now() - (7 * 24 * 60 * 60 * 1000);
-                
-                if (!lastDismissed || lastDismissed < oneWeekAgo) {
-                    installContainer.style.display = 'block';
-                }
-            }
-        }, 10000);
-    });
-    
-    // Install button click
-    installBtn.addEventListener('click', async () => {
-        if (!deferredPrompt) return;
-        
-        installBtn.textContent = 'Installing...';
-        installBtn.disabled = true;
-        
-        deferredPrompt.prompt();
-        const { outcome } = await deferredPrompt.userChoice;
-        
-        console.log(`User ${outcome} the install prompt`);
-        
-        if (outcome === 'accepted') {
-            installContainer.innerHTML = `
-                <div class="install-content">
-                    <img src="/assets/icons/success.svg" alt="Success" class="install-icon">
-                    <div class="install-text">
-                        <h4>Installation Started!</h4>
-                        <p>Kingu Electrical app is being installed...</p>
-                    </div>
-                </div>
-            `;
-            setTimeout(() => {
-                installContainer.style.display = 'none';
-            }, 3000);
-        } else {
-            installBtn.textContent = 'Install';
-            installBtn.disabled = false;
-            localStorage.setItem('pwaPromptDismissed', Date.now());
-        }
-        
-        deferredPrompt = null;
-    });
-    
-    // Close button
-    closeInstall.addEventListener('click', () => {
-        installContainer.style.display = 'none';
-        localStorage.setItem('pwaPromptDismissed', Date.now());
-    });
-    
-    // Track successful installation
-    window.addEventListener('appinstalled', () => {
-        console.log('🎉 PWA was installed successfully');
-        deferredPrompt = null;
-        installContainer.style.display = 'none';
-        updateSWStatus('✅ App Installed');
-        
-        // Send analytics if you have it
-        if (window.gtag) {
-            gtag('event', 'app_installed');
-        }
-    });
-}
-
-// Offline Detection
-function initOfflineDetection() {
-    const statusElement = document.getElementById('swStatus');
-    
-    window.addEventListener('online', () => {
-        updateSWStatus('🟢 Online');
-        showOnlineNotification();
-    });
-    
-    window.addEventListener('offline', () => {
-        updateSWStatus('🔴 Offline');
-        showOfflineNotification();
-    });
-    
-    // Initial check
-    if (!navigator.onLine) {
-        updateSWStatus('🔴 Offline');
-        showOfflineNotification();
-    }
-}
-
-// Background Sync
-function initBackgroundSync() {
-    if ('serviceWorker' in navigator && 'SyncManager' in window) {
-        navigator.serviceWorker.ready.then(registration => {
-            // Register for periodic sync
-            registration.periodicSync.register('update-content', {
-                minInterval: 24 * 60 * 60 * 1000 // Once per day
-            }).catch(err => {
-                console.log('Periodic sync registration failed:', err);
-            });
-        });
-    }
-}
-
-// Helper Functions
-function updateSWStatus(text) {
-    const statusElement = document.getElementById('swStatus');
-    if (statusElement) {
-        statusElement.textContent = text;
-        statusElement.style.display = 'block';
-        
-        // Auto-hide after 5 seconds if online
-        if (text === '🟢 Online' || text === '✅ App Installed') {
-            setTimeout(() => {
-                statusElement.style.display = 'none';
-            }, 5000);
-        }
-    }
-}
-
-function isAppInstalled() {
-    return window.matchMedia('(display-mode: standalone)').matches ||
-           window.navigator.standalone ||
-           document.referrer.includes('android-app://');
-}
-
-function checkIfInstalled() {
-    if (isAppInstalled()) {
-        console.log('📱 App is running in standalone mode');
-        document.body.classList.add('standalone-mode');
-    }
-}
-
-function showUpdateNotification() {
-    const notification = document.createElement('div');
-    notification.className = 'update-notification';
-    notification.innerHTML = `
-        <div class="update-content">
-            <p>🔄 A new version of Kingu Electrical is available!</p>
-            <button id="updateBtn" class="btn">Update Now</button>
-            <button id="closeUpdate" class="btn-text">Later</button>
-        </div>
-    `;
-    
-    document.body.appendChild(notification);
-    
-    document.getElementById('updateBtn').addEventListener('click', () => {
-        window.location.reload();
-    });
-    
-    document.getElementById('closeUpdate').addEventListener('click', () => {
-        notification.remove();
-    });
-    
-    // Auto-remove after 30 seconds
-    setTimeout(() => {
-        if (document.body.contains(notification)) {
-            notification.remove();
-        }
-    }, 30000);
-}
-
-function showOfflineNotification() {
-    const notification = document.createElement('div');
-    notification.className = 'offline-notification';
-    notification.innerHTML = `
-        <div class="offline-content">
-            <p>📶 You are currently offline. Some features may be limited.</p>
-        </div>
-    `;
-    
-    notification.id = 'offline-notif';
-    if (!document.getElementById('offline-notif')) {
-        document.body.appendChild(notification);
-        
-        // Auto-remove after 5 seconds
-        setTimeout(() => {
-            if (document.body.contains(notification)) {
-                notification.remove();
-            }
-        }, 5000);
-    }
-}
-
-function showOnlineNotification() {
-    const notification = document.createElement('div');
-    notification.className = 'online-notification';
-    notification.innerHTML = `
-        <div class="online-content">
-            <p>✅ You are back online!</p>
-        </div>
-    `;
-    
-    notification.id = 'online-notif';
-    if (!document.getElementById('online-notif')) {
-        document.body.appendChild(notification);
-        
-        // Auto-remove after 3 seconds
-        setTimeout(() => {
-            if (document.body.contains(notification)) {
-                notification.remove();
-            }
-        }, 3000);
-    }
-}
-
-// Force update if needed
-function forceUpdate() {
-    if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.getRegistration().then(registration => {
-            if (registration) {
-                registration.unregister().then(() => {
-                    console.log('Service Worker unregistered');
-                    caches.keys().then(cacheNames => {
-                        cacheNames.forEach(cacheName => {
-                            caches.delete(cacheName);
-                        });
-                        console.log('All caches cleared');
-                        window.location.reload();
-                    });
-                });
-            }
-        });
-    }
-}
-
-// Add to global scope for debugging
-window.pwaDebug = {
-    forceUpdate,
-    checkStatus: () => {
-        console.log('PWA Status:', {
-            isInstalled: isAppInstalled(),
-            isOnline: navigator.onLine,
-            deferredPrompt: !!deferredPrompt,
-            serviceWorker: 'serviceWorker' in navigator
-        });
+{
+  "name": "Kingu Electrical Company Ltd",
+  "short_name": "Kingu Electrical",
+  "description": "Tanzania's Leading Electrical Engineering Experts - Generator Installation, PLC Programming, Solar Systems & Industrial Automation",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "theme_color": "#1a5632",
+  "background_color": "#1a5632",
+  "categories": ["business", "engineering", "shopping", "utilities"],
+  "dir": "ltr",
+  "lang": "en-TZ",
+  "id": "/",
+  
+  "icons": [
+    {
+      "src": "/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
     },
-    clearStorage: () => {
-        localStorage.clear();
-        sessionStorage.clear();
-        console.log('Storage cleared');
+    {
+      "src": "/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-180x180.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "apple touch icon"
+    },
+    {
+      "src": "/icon-144x144.png",
+      "sizes": "144x144",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon-96x96.png",
+      "sizes": "96x96",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon-72x72.png",
+      "sizes": "72x72",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon-48x48.png",
+      "sizes": "48x48",
+      "type": "image/png"
     }
-};
+  ],
+  
+  "screenshots": [
+    {
+      "src": "/screenshot-mobile.png",
+      "sizes": "375x667",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Kingu Electrical Mobile App Home Screen"
+    },
+    {
+      "src": "/screenshot-tablet.png",
+      "sizes": "768x1024",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Kingu Electrical Tablet View - Products Catalog"
+    },
+    {
+      "src": "/screenshot-desktop.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Kingu Electrical Desktop - Complete Services Overview"
+    }
+  ],
+  
+  "shortcuts": [
+    {
+      "name": "⚡ Order Generator",
+      "short_name": "Generators",
+      "description": "Browse & Order Diesel Generators",
+      "url": "/#generators",
+      "icons": [
+        {
+          "src": "/shortcut-generator.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "🔧 Emergency Service",
+      "short_name": "Emergency 24/7",
+      "description": "24/7 Emergency Electrical Repair",
+      "url": "/#emergency",
+      "icons": [
+        {
+          "src": "/shortcut-emergency.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "📞 Quick Contact",
+      "short_name": "Contact Us",
+      "description": "Call or WhatsApp for Immediate Support",
+      "url": "/#contact",
+      "icons": [
+        {
+          "src": "/shortcut-contact.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "🛒 Electrical Shop",
+      "short_name": "Shop Online",
+      "description": "Browse Electrical Products & Spares",
+      "url": "/#products",
+      "icons": [
+        {
+          "src": "/shortcut-shop.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    }
+  ],
+  
+  "related_applications": [],
+  "prefer_related_applications": false,
+  
+  "launch_handler": {
+    "client_mode": "focus-existing"
+  },
+  
+  "handle_links": "preferred",
+  
+  "edge_side_panel": {
+    "preferred_width": 400
+  },
+  
+  "protocol_handlers": [
+    {
+      "protocol": "web+kingu",
+      "url": "/?protocol=%s"
+    },
+    {
+      "protocol": "mailto",
+      "url": "/#contact?email=%s"
+    }
+  ],
+  
+  "share_target": {
+    "action": "/share",
+    "method": "GET",
+    "enctype": "application/x-www-form-urlencoded",
+    "params": {
+      "title": "title",
+      "text": "text",
+      "url": "url"
+    }
+  },
+  
+  "display_override": ["window-controls-overlay", "standalone", "minimal-ui"],
+  
+  "capture_links": "new-client",
+  
+  "file_handlers": [
+    {
+      "action": "/upload",
+      "accept": {
+        "application/pdf": [".pdf"],
+        "image/*": [".png", ".jpg", ".jpeg"]
+      }
+    }
+  ],
+  
+  "permissions": [
+    "clipboard-write",
+    "clipboard-read",
+    "geolocation"
+  ],
+  
+  "shortcuts_icons": {
+    "48": "/shortcut-icon-48.png",
+    "72": "/shortcut-icon-72.png",
+    "96": "/shortcut-icon-96.png",
+    "144": "/shortcut-icon-144.png",
+    "192": "/shortcut-icon-192.png"
+  },
+  
+  "iarc_rating_id": "e3b7d4a5-6f8c-4c5b-9e2a-1d3c4e5f6a7b",
+  
+  "prefer_related_applications": false,
+  
+  "related_applications": [
+    {
+      "platform": "play",
+      "url": "https://play.google.com/store/apps/details?id=com.kinguelectrical.tz",
+      "id": "com.kinguelectrical.tz"
+    },
+    {
+      "platform": "itunes",
+      "url": "https://apps.apple.com/us/app/kingu-electrical/id1234567890"
+    }
+  ]
+}
