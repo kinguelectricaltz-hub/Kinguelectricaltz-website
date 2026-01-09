@@ -1867,6 +1867,375 @@
         }
     </style>
 <head>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kingu Electrical</title>
+    
+    <style>
+        /* ===== LOGO SIZE CONTROLS ===== */
+        .welcome-logo,
+        .about-logo {
+            height: auto;
+            max-width: 100%;
+            display: block;
+            margin: 0 auto 20px;
+            object-fit: contain;
+        }
+        
+        .welcome-logo {
+            width: 200px;
+        }
+        
+        .about-logo {
+            width: 180px;
+        }
+        
+        /* ===== TITLE CONTAINERS ===== */
+        .welcome-title,
+        .about-title {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            text-align: center;
+            margin: 15px 0;
+            font-family: Arial, sans-serif;
+        }
+        
+        .welcome-title {
+            font-size: 2.5rem;
+        }
+        
+        .about-title {
+            font-size: 2rem;
+        }
+        
+        /* ===== ELECTRICAL WORD CONTAINER ===== */
+        .electrical-container {
+            display: inline-flex;
+            align-items: center;
+            position: relative;
+            color: #dc3545;
+            height: 15rem; /* Increased height for large icon */
+        }
+        
+        /* ===== ELECTRICAL WORD PARTS ===== */
+        .electrical-e {
+            display: inline-block;
+            color: #dc3545;
+            position: relative;
+            z-index: 3;
+            margin-right: -40px; /* Pull closer to icon */
+            font-size: 2.5rem; /* Match container font size */
+        }
+        
+        .electrical-rest {
+            display: inline-block;
+            color: #dc3545;
+            position: relative;
+            z-index: 3;
+            margin-left: -60px; /* Pull closer to icon */
+            font-size: 2.5rem; /* Match container font size */
+        }
+        
+        .about-title .electrical-e,
+        .about-title .electrical-rest {
+            font-size: 2rem;
+        }
+        
+        /* ===== MASSIVE ICON STYLING - 6x SIZE ===== */
+        .welcome-icon-img,
+        .about-icon-img {
+            display: inline-block;
+            vertical-align: middle;
+            object-fit: contain;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .welcome-icon-img {
+            width: 15rem; /* 2.5rem * 6 = 15rem (240px) */
+            height: 15rem;
+            max-width: 240px;
+            max-height: 240px;
+            margin: 0 -60px; /* Massive overlap for huge icon */
+        }
+        
+        .about-icon-img {
+            width: 12rem; /* 2rem * 6 = 12rem (192px) */
+            height: 12rem;
+            max-width: 192px;
+            max-height: 192px;
+            margin: 0 -50px; /* Massive overlap for huge icon */
+        }
+        
+        /* ===== KINGU TEXT ===== */
+        .kingu-text {
+            color: #1a5632;
+            margin-right: 15px; /* More spacing for huge icon */
+            position: relative;
+            z-index: 4;
+            font-size: 2.5rem;
+        }
+        
+        .company-text {
+            color: #1a5632;
+            margin-left: 15px; /* More spacing for huge icon */
+            position: relative;
+            z-index: 4;
+            font-size: 2.5rem;
+        }
+        
+        .about-title .kingu-text {
+            font-size: 2rem;
+        }
+        
+        /* ===== VISUAL ENHANCEMENT ===== */
+        .electrical-container::before {
+            content: '';
+            position: absolute;
+            left: -30px; /* Extended for huge icon */
+            right: -30px; /* Extended for huge icon */
+            top: 50%;
+            height: 12rem; /* Taller for huge icon */
+            background-color: rgba(255, 255, 255, 0.95);
+            transform: translateY(-50%);
+            z-index: 1;
+            border-radius: 10px;
+        }
+        
+        /* ===== RESPONSIVE ADJUSTMENTS ===== */
+        @media (max-width: 1200px) {
+            .welcome-icon-img {
+                width: 12rem;
+                height: 12rem;
+                margin: 0 -50px;
+            }
+            
+            .about-icon-img {
+                width: 10rem;
+                height: 10rem;
+                margin: 0 -40px;
+            }
+            
+            .electrical-container {
+                height: 12rem;
+            }
+            
+            .electrical-container::before {
+                height: 10rem;
+            }
+        }
+        
+        @media (max-width: 992px) {
+            .welcome-title {
+                font-size: 2rem;
+            }
+            
+            .about-title {
+                font-size: 1.75rem;
+            }
+            
+            .welcome-logo {
+                width: 180px;
+            }
+            
+            .about-logo {
+                width: 160px;
+            }
+            
+            .welcome-icon-img {
+                width: 10rem; /* 2rem * 5 = 10rem */
+                height: 10rem;
+                margin: 0 -40px;
+            }
+            
+            .about-icon-img {
+                width: 8.75rem; /* 1.75rem * 5 = 8.75rem */
+                height: 8.75rem;
+                margin: 0 -35px;
+            }
+            
+            .electrical-e {
+                margin-right: -30px;
+                font-size: 2rem;
+            }
+            
+            .electrical-rest {
+                margin-left: -45px;
+                font-size: 2rem;
+            }
+            
+            .about-title .electrical-e,
+            .about-title .electrical-rest {
+                font-size: 1.75rem;
+            }
+            
+            .kingu-text {
+                font-size: 2rem;
+                margin-right: 12px;
+            }
+            
+            .company-text {
+                font-size: 2rem;
+                margin-left: 12px;
+            }
+            
+            .about-title .kingu-text {
+                font-size: 1.75rem;
+            }
+            
+            .electrical-container {
+                height: 10rem;
+            }
+            
+            .electrical-container::before {
+                height: 8rem;
+                left: -20px;
+                right: -20px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .welcome-title {
+                font-size: 1.75rem;
+            }
+            
+            .about-title {
+                font-size: 1.5rem;
+            }
+            
+            .welcome-icon-img {
+                width: 8.75rem; /* 1.75rem * 5 = 8.75rem */
+                height: 8.75rem;
+                margin: 0 -35px;
+            }
+            
+            .about-icon-img {
+                width: 7.5rem; /* 1.5rem * 5 = 7.5rem */
+                height: 7.5rem;
+                margin: 0 -30px;
+            }
+            
+            .electrical-e {
+                margin-right: -25px;
+                font-size: 1.75rem;
+            }
+            
+            .electrical-rest {
+                margin-left: -35px;
+                font-size: 1.75rem;
+            }
+            
+            .about-title .electrical-e,
+            .about-title .electrical-rest {
+                font-size: 1.5rem;
+            }
+            
+            .kingu-text {
+                font-size: 1.75rem;
+                margin-right: 10px;
+            }
+            
+            .company-text {
+                font-size: 1.75rem;
+                margin-left: 10px;
+            }
+            
+            .about-title .kingu-text {
+                font-size: 1.5rem;
+            }
+            
+            .electrical-container {
+                height: 8.75rem;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .welcome-title {
+                font-size: 1.5rem;
+            }
+            
+            .about-title {
+                font-size: 1.25rem;
+            }
+            
+            .welcome-logo {
+                width: 150px;
+            }
+            
+            .about-logo {
+                width: 130px;
+            }
+            
+            .welcome-icon-img {
+                width: 7.5rem; /* 1.5rem * 5 = 7.5rem */
+                height: 7.5rem;
+                margin: 0 -30px;
+            }
+            
+            .about-icon-img {
+                width: 6.25rem; /* 1.25rem * 5 = 6.25rem */
+                height: 6.25rem;
+                margin: 0 -25px;
+            }
+            
+            .electrical-e {
+                margin-right: -20px;
+                font-size: 1.5rem;
+            }
+            
+            .electrical-rest {
+                margin-left: -30px;
+                font-size: 1.5rem;
+            }
+            
+            .about-title .electrical-e,
+            .about-title .electrical-rest {
+                font-size: 1.25rem;
+            }
+            
+            .kingu-text {
+                font-size: 1.5rem;
+                margin-right: 8px;
+            }
+            
+            .company-text {
+                font-size: 1.5rem;
+                margin-left: 8px;
+            }
+            
+            .about-title .kingu-text {
+                font-size: 1.25rem;
+            }
+            
+            .electrical-container {
+                height: 7.5rem;
+            }
+        }
+        
+        @media (max-width: 400px) {
+            .welcome-title,
+            .about-title {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .kingu-text,
+            .company-text {
+                margin: 0;
+            }
+            
+            .electrical-container {
+                height: auto;
+                margin: 10px 0;
+            }
+        }
+    </style>
+</head>
 <body class="loading">
     <!-- Loading Animation (Two-Page Structure) -->
     <div id="loading-screen">
@@ -1889,7 +2258,7 @@
             </h1>
 
             <p class="welcome-tagline"
-               style="color:#dc3545; font-style: italic; font-weight: 800;">
+               style="color:#1a5632; font-style: italic; font-weight: 800;">
                 Quality Electrical Services with Professional Experience
             </p>
 
@@ -1916,63 +2285,6 @@
                          class="about-icon-img">
                     <span class="electrical-rest">ectrical</span>
                 </span>
-            </h2>
-
-            <div class="about-content">
-                <p class="about-content">
-                    At Kingu Electrical,
-                    <span class="about-highlight">
-                        Engineering is not just a service — it's a responsibility
-                    </span>.
-                </p>
-            </div>
-        </div>
-    </div>
-</body>
-</head>
-<body class="loading">
-    <!-- Loading Animation (Two-Page Structure) -->
-    <div id="loading-screen">
-        <!-- First Page - Welcome Screen -->
-        <div class="loading-welcome" id="welcomePage">
-            <img src="https://kingueletrical.com/assets/icons/company-logo.png"
-                 alt="Kingu Electrical Company Limited"
-                 class="welcome-logo">
-
-            <h1 class="welcome-title">
-                <span style="color:#1a5632">Kingu</span>
-                <img src="assets/icons/kingu.svg"
-                     alt="Kingu Icon"
-                     class="welcome-icon-img">
-                <span style="color:#dc3545">Electrical</span>
-                <span style="color:#1a5632">Company Limited</span>
-            </h1>
-
-            <p class="welcome-tagline"
-               style="color:#1a5632; font-style: italic; font-weight: 800;">
-                Quality Electrical Services with Professional Experience
-            </p>
-
-            <div class="welcome-spinner"></div>
-
-            <p class="welcome-subtitle"
-               style="color:#1a5632; font-style: italic; font-weight: 800;">
-                Engineering reliable power solutions for Tanzania since 2017
-            </p>
-        </div>
-        
-        <!-- Second Page - About Us Screen -->
-        <div class="loading-about" id="aboutPage">
-            <img src="https://kingueletrical.com/assets/icons/company-logo.png"
-                 alt="Kingu Electrical Company Limited"
-                 class="about-logo">
-
-            <h2 class="about-title">
-                <span style="color:#1a5632">Kingu</span>
-                <img src="assets/icons/kingu.svg"
-                     alt="Kingu Icon"
-                     class="about-icon-img">
-                <span style="color:#dc3545">Electrical</span>
             </h2>
 
             <div class="about-content">
