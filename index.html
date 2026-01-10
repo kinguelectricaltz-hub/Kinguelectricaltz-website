@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
     <title>Kingu Electrical Company Ltd | Electrical Engineering Experts in Tanzania</title>
     <meta name="description" content="Leading Tanzanian Electrical Engineering Company providing Generator services, PLC programming, HPU conversion, ATS systems, CCTV, and Industrial Electrical Installations.">
     <meta name="keywords" content="Kingu Electrical, Electrical Company Tanzania, Generator Installation, PLC Programming, HPU Conversion, ATS Design, Electrical Engineers Arusha, EWURA Licensed, BRELA Registered">
@@ -96,11 +96,13 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
         }
         
         html {
             scroll-behavior: smooth;
             scroll-padding-top: 80px;
+            font-size: 16px;
         }
         
         body {
@@ -113,6 +115,8 @@
             min-height: 100vh;
             opacity: 1;
             transition: opacity 0.5s ease;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
         
         /* ===== LOADING ANIMATION (20s total) ===== */
@@ -142,7 +146,7 @@
             background: linear-gradient(135deg, #1a5632 0%, #0d3d21 100%);
             opacity: 1;
             transition: opacity 1s ease;
-            padding: 2rem;
+            padding: 1rem;
             position: relative;
             overflow: hidden;
         }
@@ -159,9 +163,9 @@
         }
         
         .welcome-logo {
-            width: 180px;
+            width: 120px;
             height: auto;
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
             opacity: 0;
             animation: logoFloatIn 2s ease-out 0.5s forwards;
             filter: drop-shadow(0 8px 16px rgba(0,0,0,0.2));
@@ -170,7 +174,7 @@
         
         .welcome-title {
             font-family: 'Poppins', sans-serif;
-            font-size: 2.5rem;
+            font-size: 1.8rem;
             font-weight: 700;
             color: white;
             text-align: center;
@@ -180,32 +184,36 @@
             text-shadow: 0 4px 8px rgba(0,0,0,0.3);
             line-height: 1.2;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
             flex-wrap: wrap;
-            gap: 8px;
+            gap: 4px;
             z-index: 2;
+            width: 100%;
+            padding: 0 1rem;
         }
         
         .welcome-tagline {
             font-family: 'Poppins', sans-serif;
-            font-size: 1.4rem;
-            color: #ffffff; /* Changed to white */
+            font-size: 1.1rem;
+            color: #ffffff;
             text-align: center;
-            max-width: 600px;
-            margin: 0 auto 3rem;
+            max-width: 100%;
+            margin: 0 auto 2rem;
             opacity: 0;
             animation: fadeInUp 1.5s ease-out 1.5s forwards;
             font-weight: 300;
             text-shadow: 0 2px 4px rgba(0,0,0,0.3);
             line-height: 1.4;
-            padding: 0 2rem;
+            padding: 0 1rem;
             z-index: 2;
         }
         
         .loading-progress-container {
-            width: 300px;
-            margin-top: 2rem;
+            width: 90%;
+            max-width: 300px;
+            margin-top: 1.5rem;
             z-index: 2;
         }
         
@@ -220,7 +228,7 @@
         
         .loading-progress-fill {
             height: 100%;
-            background: linear-gradient(90deg, #ffffff, #ffffff, #ffffff); /* Changed to white */
+            background: linear-gradient(90deg, #ffffff, #ffffff, #ffffff);
             width: 0%;
             transition: width 0.3s ease;
             border-radius: 3px;
@@ -230,21 +238,23 @@
             text-align: center;
             color: white;
             font-family: 'Poppins', sans-serif;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             margin-top: 0.75rem;
             opacity: 0.8;
             min-height: 1.5em;
+            padding: 0 0.5rem;
         }
         
         .loading-stats {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 2rem;
-            margin-top: 3rem;
-            max-width: 600px;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+            margin-top: 2rem;
+            max-width: 280px;
             opacity: 0;
             animation: fadeIn 2s ease-out 2s forwards;
             z-index: 2;
+            width: 90%;
         }
         
         .loading-stat {
@@ -257,14 +267,14 @@
         }
         
         .loading-stat-number {
-            font-size: 2rem;
+            font-size: 1.8rem;
             font-weight: bold;
-            color: #ffffff; /* Changed to white */
+            color: #ffffff;
             margin-bottom: 0.25rem;
         }
         
         .loading-stat-label {
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             color: rgba(255, 255, 255, 0.9);
         }
         
@@ -307,7 +317,7 @@
             visibility: hidden;
         }
         
-        /* ===== MAIN STYLES (Below-the-fold) ===== */
+        /* ===== MAIN STYLES ===== */
         /* Background image */
         body::before {
             content: '';
@@ -320,7 +330,7 @@
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
-            background-attachment: fixed;
+            background-attachment: scroll;
             opacity: 0.9;
             z-index: -1;
             filter: brightness(1.1);
@@ -340,9 +350,10 @@
         .content-wrapper {
             position: relative;
             z-index: 1;
-            padding: 20px;
+            padding: 0 15px;
             max-width: 1200px;
             margin: 0 auto;
+            width: 100%;
         }
         
         /* Navigation */
@@ -372,14 +383,14 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0 20px;
+            padding: 0 15px;
             height: 70px;
         }
         
         .nav-logo {
             color: white;
             font-weight: 700;
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             text-decoration: none;
             font-family: 'Poppins', sans-serif;
             display: flex;
@@ -388,12 +399,12 @@
         }
         
         .nav-logo-icon {
-            width: 30px;
-            height: 30px;
-            fill: #ffffff; /* Changed to white */
+            width: 25px;
+            height: 25px;
+            fill: #ffffff;
         }
         
-        /* Improved Hamburger Menu */
+        /* Hamburger Menu */
         .hamburger {
             display: none;
             flex-direction: column;
@@ -427,7 +438,7 @@
             transform: translateY(-10px) rotate(-45deg);
         }
         
-        /* Improved Navigation Menu */
+        /* Navigation Menu */
         .nav-menu {
             display: flex;
             list-style: none;
@@ -526,7 +537,7 @@
         /* Header */
         header {
             text-align: center;
-            padding: 150px 20px 100px;
+            padding: 120px 15px 60px;
             min-height: 100vh;
             display: flex;
             align-items: center;
@@ -544,78 +555,82 @@
         
         h1 {
             font-family: 'Poppins', sans-serif;
-            font-size: 3.5rem;
+            font-size: 2.2rem;
             font-weight: 700;
             margin-bottom: 1.5rem;
             text-shadow: 0 4px 8px rgba(0,0,0,0.5);
             line-height: 1.2;
             text-align: center;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
             flex-wrap: wrap;
-            gap: 10px;
+            gap: 8px;
+            width: 100%;
         }
         
         .header-icon-img {
-            width: 120px; /* 2x larger */
-            height: 120px; /* 2x larger */
-            vertical-align: middle;
-            margin: 0 8px;
+            width: 80px;
+            height: 80px;
+            margin: 10px 0;
             filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));
-            /* SVG color is controlled by the SVG file itself */
         }
         
         .tagline {
-            font-size: 1.8rem;
-            margin-bottom: 3rem;
-            max-width: 800px;
-            margin-left: auto;
-            margin-right: auto;
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            max-width: 100%;
             font-weight: 300;
-            color: #ffffff; /* Changed to white */
+            color: #ffffff;
             font-style: italic;
             text-align: center;
             text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+            padding: 0 15px;
         }
         
         .contact-header {
             display: flex;
-            flex-wrap: wrap;
+            flex-direction: column;
             gap: 1rem;
             justify-content: center;
-            margin-top: 3rem;
-            max-width: 900px;
+            align-items: center;
+            margin-top: 2rem;
+            max-width: 100%;
+            width: 100%;
+            padding: 0 10px;
         }
         
         .contact-header a {
             background: rgba(255, 255, 255, 0.1);
             color: white;
-            padding: 1rem 1.5rem;
+            padding: 1rem 1rem;
             border-radius: 50px;
             text-decoration: none;
             display: flex;
             align-items: center;
+            justify-content: center;
             gap: 0.75rem;
             transition: all 0.3s ease;
             border: 2px solid rgba(255, 255, 255, 0.3);
-            min-width: 280px;
-            justify-content: center;
+            width: 100%;
+            max-width: 350px;
             backdrop-filter: blur(10px);
             font-weight: 500;
-            font-size: 1.1rem;
+            font-size: 1rem;
+            text-align: center;
         }
         
         .contact-header a:hover {
             background: rgba(255, 255, 255, 0.2);
             transform: translateY(-3px);
             box-shadow: 0 6px 20px rgba(0,0,0,0.3);
-            border-color: #ffffff; /* Changed to white */
+            border-color: #ffffff;
         }
         
         /* Main content sections */
         section {
-            padding: 100px 20px;
+            padding: 60px 15px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -623,6 +638,7 @@
             opacity: 0;
             visibility: hidden;
             transition: all 0.5s ease;
+            width: 100%;
         }
         
         body:not(.loading) section {
@@ -632,12 +648,13 @@
         
         h2 {
             font-family: 'Poppins', sans-serif;
-            font-size: 2.8rem;
-            margin-bottom: 3rem;
+            font-size: 2.2rem;
+            margin-bottom: 2rem;
             text-align: center;
             position: relative;
             padding-bottom: 1rem;
             text-shadow: 0 4px 8px rgba(0,0,0,0.5);
+            width: 100%;
         }
         
         h2::after {
@@ -646,9 +663,9 @@
             bottom: 0;
             left: 50%;
             transform: translateX(-50%);
-            width: 100px;
+            width: 80px;
             height: 4px;
-            background: linear-gradient(90deg, #ffffff, #ffffff, #ffffff); /* Changed to white */
+            background: linear-gradient(90deg, #ffffff, #ffffff, #ffffff);
             border-radius: 2px;
         }
         
@@ -657,7 +674,7 @@
         .promo-banner {
             background: linear-gradient(135deg, rgba(26, 86, 50, 0.95), rgba(13, 61, 33, 0.95));
             color: white;
-            padding: 1.5rem 0;
+            padding: 1.2rem 0;
             text-align: center;
             position: relative;
             z-index: 1000;
@@ -674,21 +691,44 @@
         .promo-content {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 0 1rem;
+            padding: 0 15px;
         }
         
         .promo-badge {
             background: #dc3545;
             color: white;
-            padding: 0.5rem 1.5rem;
+            padding: 0.5rem 1.2rem;
             border-radius: 20px;
             font-weight: bold;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             margin-bottom: 0.8rem;
             display: inline-block;
             text-transform: uppercase;
             letter-spacing: 1px;
             animation: pulse 2s infinite;
+        }
+        
+        .promo-content h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .promo-content p {
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+            padding: 0 10px;
+        }
+        
+        .promo-btn {
+            display: inline-block;
+            background: #ffffff;
+            color: #000;
+            padding: 0.6rem 1.5rem;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 0.5rem;
+            font-size: 0.95rem;
         }
         
         @keyframes pulse {
@@ -701,7 +741,7 @@
         .kingu-shop-cta {
             background: linear-gradient(135deg, rgba(220, 53, 69, 0.95), rgba(200, 35, 51, 0.95));
             color: white;
-            padding: 2rem 0;
+            padding: 1.5rem 15px;
             text-align: center;
             position: relative;
             z-index: 1000;
@@ -715,57 +755,88 @@
             visibility: visible;
         }
         
+        .shop-cta-content h3 {
+            font-size: 1.4rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .shop-cta-content p {
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+            padding: 0 10px;
+        }
+        
+        .btn-kingu-shop {
+            display: inline-block;
+            background: #ffffff;
+            color: #000;
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            border: 2px solid #ffffff;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-kingu-shop:hover {
+            background: transparent;
+            color: #ffffff;
+        }
+        
         /* Stats Section */
         .stats-section {
             background: rgba(255, 255, 255, 0.1);
-            padding: 4rem 20px;
-            margin: 4rem 0;
+            padding: 2rem 15px;
+            margin: 2rem 0;
             border-radius: 12px;
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.2);
+            width: 100%;
         }
         
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            margin-top: 1.5rem;
         }
         
         .stat-item {
             text-align: center;
-            padding: 2rem;
+            padding: 1.5rem;
         }
         
         .stat-number {
-            font-size: 3rem;
+            font-size: 2.5rem;
             font-weight: bold;
-            color: #ffffff; /* Changed to white */
+            color: #ffffff;
             margin-bottom: 0.5rem;
         }
         
         /* Grid layouts */
         .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
             margin-top: 2rem;
             width: 100%;
             max-width: 1200px;
         }
         
         .card {
-            padding: 2rem;
+            padding: 1.5rem;
             background: rgba(255, 255, 255, 0.1);
             border-radius: 12px;
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.2);
             transition: all 0.3s ease;
             text-align: center;
+            width: 100%;
         }
         
         .card:hover {
-            transform: translateY(-10px);
+            transform: translateY(-5px);
             background: rgba(255, 255, 255, 0.15);
             box-shadow: 0 15px 35px rgba(0,0,0,0.3);
         }
@@ -773,34 +844,35 @@
         /* Services Grid */
         .services-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
             margin-top: 2rem;
             width: 100%;
             max-width: 1200px;
         }
         
         .service-item {
-            padding: 2rem;
+            padding: 1.5rem;
             background: rgba(255, 255, 255, 0.1);
             border-radius: 12px;
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.2);
             text-align: center;
             transition: all 0.3s ease;
+            width: 100%;
         }
         
         .service-item:hover {
-            transform: translateY(-10px);
+            transform: translateY(-5px);
             background: rgba(255, 255, 255, 0.15);
             box-shadow: 0 15px 35px rgba(0,0,0,0.3);
         }
         
         .service-icon {
-            font-size: 3rem;
+            font-size: 2.5rem;
             margin-bottom: 1rem;
-            color: #ffffff; /* Changed to white */
-            height: 80px;
+            color: #ffffff;
+            height: 60px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -809,8 +881,8 @@
         /* Team Section Styles */
         .team-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
             margin-top: 2rem;
             width: 100%;
             max-width: 1200px;
@@ -818,61 +890,65 @@
         
         .team-member {
             text-align: center;
-            padding: 2rem;
+            padding: 1.5rem;
             background: rgba(255, 255, 255, 0.1);
             border-radius: 12px;
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.2);
             transition: all 0.3s ease;
+            width: 100%;
         }
         
         .team-member:hover {
-            transform: translateY(-10px);
+            transform: translateY(-5px);
             background: rgba(255, 255, 255, 0.15);
             box-shadow: 0 15px 35px rgba(0,0,0,0.3);
         }
         
         .team-name {
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             font-weight: 600;
             margin-bottom: 0.5rem;
-            color: #ffffff; /* Changed to white */
+            color: #ffffff;
         }
         
         .team-title {
             color: #ffffff;
             font-weight: 500;
             margin-bottom: 1rem;
-            font-size: 1.1rem;
+            font-size: 1rem;
         }
         
         .team-skills {
             margin-top: 1rem;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.5rem;
         }
         
         .skill-tag {
             display: inline-block;
-            background: rgba(255, 255, 255, 0.15); /* Changed to white */
-            color: #ffffff; /* Changed to white */
+            background: rgba(255, 255, 255, 0.15);
+            color: #ffffff;
             padding: 0.25rem 0.75rem;
             border-radius: 20px;
             font-size: 0.8rem;
-            margin: 0.25rem;
-            border: 1px solid rgba(255, 255, 255, 0.2); /* Changed to white */
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
         
         /* Packages Section */
         .package-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
             margin-top: 2rem;
             width: 100%;
             max-width: 1200px;
         }
         
         .package-item {
-            padding: 2rem;
+            padding: 1.5rem;
             background: rgba(255, 255, 255, 0.1);
             border-radius: 12px;
             backdrop-filter: blur(10px);
@@ -880,10 +956,11 @@
             text-align: center;
             transition: all 0.3s ease;
             position: relative;
+            width: 100%;
         }
         
         .package-item.popular {
-            border: 2px solid #ffffff; /* Changed to white */
+            border: 2px solid #ffffff;
         }
         
         .popular-badge {
@@ -891,8 +968,8 @@
             top: -12px;
             left: 50%;
             transform: translateX(-50%);
-            background: #ffffff; /* Changed to white */
-            color: #000; /* Keep black text for contrast */
+            background: #ffffff;
+            color: #000;
             padding: 0.5rem 1rem;
             border-radius: 20px;
             font-weight: bold;
@@ -900,66 +977,68 @@
         }
         
         .price {
-            font-size: 2rem;
+            font-size: 1.8rem;
             font-weight: bold;
-            color: #ffffff; /* Changed to white */
+            color: #ffffff;
             margin: 1rem 0;
         }
         
         /* Products Section */
         .products-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
             margin-top: 2rem;
             width: 100%;
             max-width: 1200px;
         }
         
         .product-item {
-            padding: 2rem;
+            padding: 1.5rem;
             background: rgba(255, 255, 255, 0.1);
             border-radius: 12px;
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.2);
             text-align: center;
             transition: all 0.3s ease;
+            width: 100%;
         }
         
         .product-item:hover {
-            transform: translateY(-10px);
+            transform: translateY(-5px);
             background: rgba(255, 255, 255, 0.15);
             box-shadow: 0 15px 35px rgba(0,0,0,0.3);
         }
         
         .product-icon {
-            font-size: 3rem;
+            font-size: 2.5rem;
             margin-bottom: 1rem;
-            color: #ffffff; /* Changed to white */
+            color: #ffffff;
         }
         
         /* Projects Section */
         .projects-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
             margin-top: 2rem;
             width: 100%;
             max-width: 1200px;
         }
         
         .project-item {
-            padding: 2rem;
+            padding: 1.5rem;
             background: rgba(255, 255, 255, 0.1);
             border-radius: 12px;
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.2);
             text-align: center;
             transition: all 0.3s ease;
+            width: 100%;
         }
         
         .project-item:hover {
-            transform: translateY(-10px);
+            transform: translateY(-5px);
             background: rgba(255, 255, 255, 0.15);
             box-shadow: 0 15px 35px rgba(0,0,0,0.3);
         }
@@ -967,17 +1046,17 @@
         /* Resources Section */
         .resources-grid {
             display: flex;
-            gap: 2rem;
-            overflow-x: auto;
-            padding: 1rem 0;
+            flex-direction: column;
+            gap: 1.5rem;
+            padding: 0;
             width: 100%;
             max-width: 1200px;
-            scrollbar-width: none;
+            overflow-x: visible;
         }
         
         .resource-item {
-            min-width: 300px;
-            padding: 2rem;
+            width: 100%;
+            padding: 1.5rem;
             background: rgba(255, 255, 255, 0.1);
             border-radius: 12px;
             backdrop-filter: blur(10px);
@@ -988,15 +1067,15 @@
         /* Certificates Section */
         .certificates-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
             margin-top: 2rem;
             width: 100%;
             max-width: 1200px;
         }
         
         .certificate-item {
-            padding: 2rem;
+            padding: 1.5rem;
             background: rgba(255, 255, 255, 0.1);
             border-radius: 12px;
             backdrop-filter: blur(10px);
@@ -1007,47 +1086,52 @@
         /* Service Area */
         .service-area-content {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: 1fr;
             gap: 2rem;
             align-items: center;
             margin-top: 2rem;
+            width: 100%;
         }
         
         .service-list ul {
             list-style: none;
             margin-bottom: 1.5rem;
+            padding: 0;
         }
         
         .service-list li {
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.75rem;
             padding-left: 1.5rem;
             position: relative;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
+            text-align: left;
         }
         
         .service-list li::before {
             content: '✓';
             position: absolute;
             left: 0;
-            color: #ffffff; /* Changed to white */
+            color: #ffffff;
+            font-weight: bold;
         }
         
         /* Videos section */
         .video-container {
-            max-width: 800px;
+            max-width: 100%;
             margin: 0 auto;
+            width: 100%;
         }
         
         .video-placeholder {
             width: 100%;
-            height: 400px;
+            height: 250px;
             background: rgba(255, 255, 255, 0.1);
             border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
-            font-size: 4rem;
+            font-size: 3rem;
             box-shadow: 0 6px 25px rgba(0,0,0,0.2);
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.2);
@@ -1057,31 +1141,71 @@
         .kingu-shop-section {
             background: rgba(255, 255, 255, 0.1);
             border-radius: 15px;
-            padding: 2rem;
-            margin: 3rem 0;
+            padding: 1.5rem;
+            margin: 2rem 0;
             text-align: center;
-            border: 2px solid #ffffff; /* Changed to white */
+            border: 2px solid #ffffff;
             backdrop-filter: blur(10px);
+            width: 100%;
+        }
+        
+        .kingu-shop-section h3 {
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+        }
+        
+        .kingu-shop-section p {
+            margin-bottom: 1rem;
+        }
+        
+        .kingu-shop-section .btn-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            justify-content: center;
+            align-items: center;
+            margin: 1.5rem 0;
+        }
+        
+        .kingu-shop-section a {
+            background: #ffffff;
+            color: #000;
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            text-decoration: none;
+            display: inline-block;
+            font-weight: 600;
+            width: 100%;
+            max-width: 300px;
+            text-align: center;
         }
         
         /* Form Improvements */
         .booking-widget {
             background: rgba(255, 255, 255, 0.1);
-            padding: 2rem;
+            padding: 1.5rem;
             border-radius: 12px;
-            margin: 3rem 0;
+            margin: 2rem 0;
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.2);
+            width: 100%;
+        }
+        
+        .booking-widget h3 {
+            font-size: 1.4rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
         }
         
         .form-group {
             margin-bottom: 1.25rem;
             position: relative;
+            width: 100%;
         }
         
         .form-row {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: 1fr;
             gap: 1rem;
         }
         
@@ -1125,32 +1249,22 @@
             color: white;
             transition: all 0.3s ease;
             width: 100%;
-        }
-        
-        input:invalid:not(:focus):not(:placeholder-shown),
-        select:invalid:not(:focus) {
-            border-color: #ff6b6b;
-            background: rgba(255, 107, 107, 0.05);
-        }
-        
-        input:valid:not(:placeholder-shown),
-        select:valid {
-            border-color: #28a745;
-            background: rgba(40, 167, 69, 0.05);
+            font-size: 1rem;
+            min-height: 50px;
         }
         
         input:focus,
         textarea:focus,
         select:focus {
-            outline: 3px solid rgba(255, 255, 255, 0.5); /* Changed to white */
+            outline: 3px solid rgba(255, 255, 255, 0.5);
             outline-offset: 2px;
-            border-color: #ffffff; /* Changed to white */
+            border-color: #ffffff;
             background: rgba(255, 255, 255, 0.15);
         }
         
-        button {
-            background: #ffffff; /* Changed to white */
-            color: #000; /* Black text for contrast */
+        button, .btn {
+            background: #ffffff;
+            color: #000;
             padding: 1rem 2rem;
             border: none;
             border-radius: 8px;
@@ -1160,12 +1274,16 @@
             font-family: 'Poppins', sans-serif;
             font-weight: 600;
             width: 100%;
+            min-height: 50px;
+            display: inline-block;
+            text-align: center;
+            text-decoration: none;
         }
         
-        button:hover {
-            background: #f0f0f0; /* Lighter white on hover */
+        button:hover, .btn:hover {
+            background: #f0f0f0;
             transform: translateY(-2px);
-            box-shadow: 0 6px 15px rgba(255, 255, 255, 0.3); /* Changed to white */
+            box-shadow: 0 6px 15px rgba(255, 255, 255, 0.3);
         }
         
         button[disabled] {
@@ -1191,19 +1309,19 @@
         /* WhatsApp Widget */
         .whatsapp-widget {
             position: fixed;
-            bottom: 30px;
-            right: 30px;
+            bottom: 20px;
+            right: 15px;
             z-index: 9998;
         }
         
         .whatsapp-toggle {
-            width: 60px;
-            height: 60px;
+            width: 55px;
+            height: 55px;
             background: #25D366;
             border: none;
             border-radius: 50%;
             color: white;
-            font-size: 1.8rem;
+            font-size: 1.5rem;
             cursor: pointer;
             display: flex;
             align-items: center;
@@ -1243,9 +1361,10 @@
         /* Chat Window */
         .whatsapp-chat {
             position: absolute;
-            bottom: 70px;
+            bottom: 65px;
             right: 0;
-            width: 320px;
+            width: calc(100vw - 30px);
+            max-width: 320px;
             background: white;
             border-radius: 12px;
             box-shadow: 0 10px 40px rgba(0,0,0,0.2);
@@ -1264,15 +1383,15 @@
         /* Back to Top Button */
         .back-to-top {
             position: fixed;
-            bottom: 100px;
-            right: 30px;
-            width: 50px;
-            height: 50px;
-            background: rgba(255, 255, 255, 0.9); /* Changed to white */
+            bottom: 85px;
+            right: 15px;
+            width: 45px;
+            height: 45px;
+            background: rgba(255, 255, 255, 0.9);
             border: 2px solid white;
             border-radius: 50%;
-            color: #000; /* Black text for contrast */
-            font-size: 1.2rem;
+            color: #000;
+            font-size: 1rem;
             cursor: pointer;
             display: flex;
             align-items: center;
@@ -1292,28 +1411,219 @@
         }
         
         .back-to-top:hover {
-            background: #ffffff; /* Solid white on hover */
+            background: #ffffff;
             transform: translateY(-5px);
         }
         
         /* Emergency CTA */
         .emergency-cta {
             background: rgba(220, 53, 69, 0.2);
-            padding: 3rem 20px;
+            padding: 2rem 15px;
             text-align: center;
-            margin: 4rem 0;
+            margin: 2rem 0;
             border-radius: 12px;
             backdrop-filter: blur(10px);
             border: 1px solid rgba(220, 53, 69, 0.3);
+            width: 100%;
+        }
+        
+        .emergency-cta h3 {
+            font-size: 1.6rem;
+            margin-bottom: 1rem;
+        }
+        
+        .emergency-cta p {
+            margin-bottom: 1rem;
+        }
+        
+        .emergency-btn {
+            display: inline-block;
+            background: #dc3545;
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            width: 100%;
+            max-width: 300px;
+        }
+        
+        .emergency-btn:hover {
+            background: #c82333;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(220, 53, 69, 0.4);
         }
         
         /* Footer */
         footer {
             background: rgba(0, 0, 0, 0.9);
             color: white;
-            padding: 4rem 20px 2rem;
+            padding: 3rem 15px 1.5rem;
             text-align: center;
-            margin-top: 100px;
+            margin-top: 2rem;
+            width: 100%;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .footer-column {
+            text-align: center;
+        }
+        
+        .footer-column h3 {
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+            color: #ffffff;
+        }
+        
+        .footer-column p {
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+        }
+        
+        .footer-column a {
+            display: block;
+            color: #ffffff;
+            text-decoration: none;
+            margin-bottom: 0.5rem;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-column a:hover {
+            color: #1a5632;
+        }
+        
+        .copyright {
+            border-top: 1px solid rgba(255,255,255,0.2);
+            padding-top: 1.5rem;
+            font-size: 0.9rem;
+            color: rgba(255,255,255,0.7);
+        }
+        
+        /* ===== TABLET & DESKTOP STYLES ===== */
+        @media (min-width: 768px) {
+            html {
+                font-size: 17px;
+            }
+            
+            .welcome-title {
+                font-size: 2.5rem;
+                flex-direction: row;
+                gap: 8px;
+            }
+            
+            .welcome-tagline {
+                font-size: 1.4rem;
+            }
+            
+            .loading-stats {
+                grid-template-columns: repeat(3, 1fr);
+                max-width: 600px;
+            }
+            
+            h1 {
+                font-size: 3.5rem;
+                flex-direction: row;
+                gap: 10px;
+            }
+            
+            .header-icon-img {
+                width: 120px;
+                height: 120px;
+            }
+            
+            .tagline {
+                font-size: 1.8rem;
+                max-width: 800px;
+            }
+            
+            .contact-header {
+                flex-direction: row;
+                flex-wrap: wrap;
+                max-width: 900px;
+            }
+            
+            .contact-header a {
+                min-width: 280px;
+                max-width: calc(50% - 0.5rem);
+            }
+            
+            h2 {
+                font-size: 2.8rem;
+            }
+            
+            .grid,
+            .services-grid,
+            .team-grid,
+            .package-grid,
+            .products-grid,
+            .projects-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+            
+            .service-area-content {
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            .footer-content {
+                grid-template-columns: repeat(3, 1fr);
+                text-align: left;
+            }
+            
+            .footer-column {
+                text-align: left;
+            }
+            
+            .resources-grid {
+                flex-direction: row;
+                overflow-x: auto;
+            }
+            
+            .resource-item {
+                min-width: 300px;
+            }
+            
+            .certificates-grid {
+                grid-template-columns: repeat(2, 2fr);
+            }
+            
+            section {
+                padding: 100px 20px;
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            .grid,
+            .services-grid,
+            .team-grid,
+            .package-grid,
+            .products-grid,
+            .projects-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            .certificates-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+            
+            .nav-menu {
+                gap: 0.5rem;
+            }
         }
         
         /* Mobile Dropdown */
@@ -1331,11 +1641,12 @@
                 background: rgba(0, 0, 0, 0.98);
                 flex-direction: column;
                 align-items: center;
-                padding: 2rem 0;
+                padding: 1rem 0;
                 transition: left 0.3s ease;
                 z-index: 999;
                 backdrop-filter: blur(20px);
                 overflow-y: auto;
+                gap: 0;
             }
             
             .nav-menu.active {
@@ -1352,6 +1663,7 @@
                 padding: 1.25rem;
                 font-size: 1.1rem;
                 border-radius: 0;
+                width: 100%;
             }
             
             .nav-dropdown {
@@ -1361,6 +1673,11 @@
             .dropdown-toggle {
                 justify-content: center;
                 gap: 8px;
+                width: 100%;
+            }
+            
+            .dropdown-toggle::after {
+                margin-left: 5px;
             }
             
             .dropdown-menu {
@@ -1378,6 +1695,7 @@
                 border-radius: 0;
                 width: 100%;
                 box-shadow: none;
+                min-width: auto;
             }
             
             .nav-dropdown.active .dropdown-menu {
@@ -1389,122 +1707,20 @@
                 padding-left: 3rem;
                 font-size: 1em;
                 border-bottom: 1px solid rgba(255,255,255,0.05);
+                text-align: left;
             }
             
             .dropdown-menu a:hover {
                 padding-left: 3.5rem;
             }
-            
-            .service-area-content {
-                grid-template-columns: 1fr;
-            }
         }
         
-        /* Mobile responsive */
-        @media (max-width: 768px) {
-            .welcome-title {
-                font-size: 2rem;
-                flex-direction: column;
-                gap: 5px;
-            }
-            
-            .welcome-tagline {
-                font-size: 1.2rem;
-            }
-            
-            .loading-stats {
-                grid-template-columns: 1fr;
-                gap: 1rem;
-            }
-            
-            h1 {
-                font-size: 2.2rem;
-                flex-direction: column;
-            }
-            
-            .tagline {
-                font-size: 1.3rem;
-            }
-            
-            .contact-header {
-                flex-direction: column;
-            }
-            
-            .contact-header a {
-                width: 100%;
-                max-width: 350px;
-                font-size: 1rem;
-            }
-            
-            h2 {
-                font-size: 2.2rem;
-            }
-            
-            .whatsapp-widget {
-                bottom: 20px;
-                right: 20px;
-            }
-            
-            .whatsapp-chat {
-                width: calc(100vw - 40px);
-                right: -10px;
-            }
-            
-            .whatsapp-toggle {
-                width: 55px;
-                height: 55px;
-                font-size: 1.5rem;
-            }
-            
-            .back-to-top {
-                bottom: 90px;
-                right: 20px;
-                width: 45px;
-                height: 45px;
-            }
-            
-            .form-row {
-                grid-template-columns: 1fr;
-            }
-            
-            input,
-            select,
-            textarea,
-            button {
-                min-height: 44px;
-            }
-            
-            button {
-                padding: 12px 24px;
-            }
-            
-            .team-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .package-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .products-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .projects-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .certificates-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .header-icon-img {
-                width: 80px; /* Adjusted for mobile */
-                height: 80px; /* Adjusted for mobile */
-            }
-        }
-        
+        /* Small mobile */
         @media (max-width: 480px) {
+            html {
+                font-size: 15px;
+            }
+            
             .welcome-title {
                 font-size: 1.8rem;
             }
@@ -1513,17 +1729,13 @@
                 font-size: 1rem;
             }
             
-            .loading-progress-container {
-                width: 250px;
-            }
-            
             h1 {
                 font-size: 1.8rem;
             }
             
             .header-icon-img {
-                width: 60px; /* Adjusted for small mobile */
-                height: 60px; /* Adjusted for small mobile */
+                width: 60px;
+                height: 60px;
             }
             
             .tagline {
@@ -1532,6 +1744,54 @@
             
             h2 {
                 font-size: 1.8rem;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .contact-header a {
+                font-size: 0.9rem;
+                padding: 0.8rem;
+            }
+            
+            .service-list li {
+                font-size: 1rem;
+            }
+        }
+        
+        /* Fix for iOS Safari viewport */
+        @supports (-webkit-touch-callout: none) {
+            body {
+                min-height: -webkit-fill-available;
+            }
+            
+            #loading-screen {
+                min-height: -webkit-fill-available;
+            }
+            
+            header {
+                min-height: -webkit-fill-available;
+            }
+        }
+        
+        /* Better touch targets for mobile */
+        @media (hover: none) and (pointer: coarse) {
+            button,
+            .btn,
+            a[href],
+            input,
+            select,
+            textarea {
+                min-height: 44px;
+            }
+            
+            .nav-menu > li > a {
+                padding: 1.25rem;
+            }
+            
+            .contact-header a {
+                min-height: 60px;
             }
         }
     </style>
@@ -1543,7 +1803,7 @@
             <img src="https://kingueletrical.com/assets/icons/company-logo.svg" alt="Kingu Electrical Company Limited" class="welcome-logo">
             <h1 class="welcome-title">
                 <span>Kingu</span>
-                <span style="color:#ffffff">⚡</span> <!-- Changed to white -->
+                <span style="color:#ffffff">⚡</span>
                 <span>Electrical</span>
                 <span>Company Limited</span>
             </h1>
@@ -1728,7 +1988,7 @@
                         <div style="width: 120px; height: 120px; border-radius: 50%; margin: 0 auto 1.5rem; display: flex; align-items: center; justify-content: center; color: white; font-size: 2.5rem; font-weight: bold; background: linear-gradient(135deg, #FF6B35, #FF8E53);">KG</div>
                         <div class="team-name">Eng. Kingu Goodluck</div>
                         <div class="team-title">Director & Professional Electrical Engineer</div>
-                        <div style="color: #ffffff; font-size: 0.9rem; margin-bottom: 1rem; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">⏳ 14+ Years Experience</div> <!-- Changed to white -->
+                        <div style="color: #ffffff; font-size: 0.9rem; margin-bottom: 1rem; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">⏳ 14+ Years Experience</div>
                         <p>EWURA Licensed Electrical Engineer with extensive experience in power systems, generator installations, and industrial automation across Tanzania.</p>
                         <div class="team-skills">
                             <span class="skill-tag">Power Systems</span>
@@ -1743,7 +2003,7 @@
                         <div style="width: 120px; height: 120px; border-radius: 50%; margin: 0 auto 1.5rem; display: flex; align-items: center; justify-content: center; color: white; font-size: 2.5rem; font-weight: bold; background: linear-gradient(135deg, #0d6efd, #0b5ed7);">HN</div>
                         <div class="team-name">Herbert Njau</div>
                         <div class="team-title">Senior Electrical Technician</div>
-                        <div style="color: #ffffff; font-size: 0.9rem; margin-bottom: 1rem; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">⏳ 8+ Years Experience</div> <!-- Changed to white -->
+                        <div style="color: #ffffff; font-size: 0.9rem; margin-bottom: 1rem; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">⏳ 8+ Years Experience</div>
                         <p>Specialized in electrical installations, maintenance, and troubleshooting of industrial electrical systems and generator setups.</p>
                         <div class="team-skills">
                             <span class="skill-tag">Electrical Installations</span>
@@ -1758,7 +2018,7 @@
                         <div style="width: 120px; height: 120px; border-radius: 50%; margin: 0 auto 1.5rem; display: flex; align-items: center; justify-content: center; color: white; font-size: 2.5rem; font-weight: bold; background: linear-gradient(135deg, #6f42c1, #59359a);">RM</div>
                         <div class="team-name">Rahel Mollel</div>
                         <div class="team-title">Telecom Engineer & Project Administrator</div>
-                        <div style="color: #ffffff; font-size: 0.9rem; margin-bottom: 1rem; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">⏳ 6+ Years Experience</div> <!-- Changed to white -->
+                        <div style="color: #ffffff; font-size: 0.9rem; margin-bottom: 1rem; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">⏳ 6+ Years Experience</div>
                         <p>Expert in telecom infrastructure projects, project coordination, and ensuring seamless communication between technical teams and clients.</p>
                         <div class="team-skills">
                             <span class="skill-tag">Telecom Infrastructure</span>
@@ -1773,7 +2033,7 @@
                         <div style="width: 120px; height: 120px; border-radius: 50%; margin: 0 auto 1.5rem; display: flex; align-items: center; justify-content: center; color: white; font-size: 2.5rem; font-weight: bold; background: linear-gradient(135deg, #20c997, #199d76);">BS</div>
                         <div class="team-name">Bernard Sabas</div>
                         <div class="team-title">Mechanical Technician</div>
-                        <div style="color: #ffffff; font-size: 0.9rem; margin-bottom: 1rem; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">⏳ 7+ Years Experience</div> <!-- Changed to white -->
+                        <div style="color: #ffffff; font-size: 0.9rem; margin-bottom: 1rem; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">⏳ 7+ Years Experience</div>
                         <p>Specialized in mechanical aspects of generators, engine maintenance, and mechanical system installations for power solutions.</p>
                         <div class="team-skills">
                             <span class="skill-tag">Generator Mechanics</span>
@@ -1784,11 +2044,11 @@
                     </div>
                 </div>
                 
-                <div style="text-align: center; margin-top: 3rem;">
-                    <p style="font-size: 1.1rem; color: #ffffff; font-weight: 500;"> <!-- Changed to white -->
+                <div style="text-align: center; margin-top: 2rem;">
+                    <p style="font-size: 1.1rem; color: #ffffff; font-weight: 500;">
                         Our team combines <strong>technical expertise</strong> with <strong>professional experience</strong> to deliver exceptional electrical solutions across Tanzania.
                     </p>
-                    <a href="#contact" style="background: #ffffff; color: #000; padding: 0.75rem 1.5rem; border-radius: 25px; text-decoration: none; display: inline-block; margin-top: 1.5rem; font-weight: 600; transition: all 0.3s ease;">Contact Our Team</a> <!-- Changed to white/black -->
+                    <a href="#contact" class="btn" style="margin-top: 1.5rem;">Contact Our Team</a>
                 </div>
             </div>
         </section>
@@ -1801,40 +2061,40 @@
                     <div class="package-item">
                         <h3>Basic Generator Service & Maintenance</h3>
                         <div class="price">From TZS 280,000</div>
-                        <ul style="text-align: left; margin: 1.5rem 0; list-style: none;">
-                            <li>✓ Generator service check</li>
-                            <li>✓ Electrical safety inspection</li>
-                            <li>✓ Basic troubleshooting</li>
-                            <li>✓ 3-month warranty</li>
+                        <ul style="text-align: left; margin: 1.5rem 0; list-style: none; padding: 0;">
+                            <li style="margin-bottom: 0.5rem; padding-left: 1.5rem; position: relative;">✓ Generator service check</li>
+                            <li style="margin-bottom: 0.5rem; padding-left: 1.5rem; position: relative;">✓ Electrical safety inspection</li>
+                            <li style="margin-bottom: 0.5rem; padding-left: 1.5rem; position: relative;">✓ Basic troubleshooting</li>
+                            <li style="margin-bottom: 0.5rem; padding-left: 1.5rem; position: relative;">✓ 3-month warranty</li>
                         </ul>
-                        <a href="https://wa.me/255682843552?text=Hello!%20I'm%20interested%20in%20Basic%20Generator%20services%20package" target="_blank" style="background: #ffffff; color: #000; padding: 0.75rem 1.5rem; border-radius: 25px; text-decoration: none; display: inline-block; font-weight: 600; transition: all 0.3s ease;">Book Now</a> <!-- Changed to white/black -->
+                        <a href="https://wa.me/255682843552?text=Hello!%20I'm%20interested%20in%20Basic%20Generator%20services%20package" target="_blank" class="btn">Book Now</a>
                     </div>
                     
                     <div class="package-item popular">
                         <div class="popular-badge">MOST POPULAR</div>
                         <h3>Professional Installation</h3>
                         <div class="price">From TZS 500,000</div>
-                        <ul style="text-align: left; margin: 1.5rem 0; list-style: none;">
-                            <li>✓ Complete Generator installation 6-20kVA</li>
-                            <li>✓ ATS system setup</li>
-                            <li>✓ Free site inspection</li>
-                            <li>✓ 1-year warranty</li>
-                            <li>✓ 24/7 emergency support</li>
+                        <ul style="text-align: left; margin: 1.5rem 0; list-style: none; padding: 0;">
+                            <li style="margin-bottom: 0.5rem; padding-left: 1.5rem; position: relative;">✓ Complete Generator installation 6-20kVA</li>
+                            <li style="margin-bottom: 0.5rem; padding-left: 1.5rem; position: relative;">✓ ATS system setup</li>
+                            <li style="margin-bottom: 0.5rem; padding-left: 1.5rem; position: relative;">✓ Free site inspection</li>
+                            <li style="margin-bottom: 0.5rem; padding-left: 1.5rem; position: relative;">✓ 1-year warranty</li>
+                            <li style="margin-bottom: 0.5rem; padding-left: 1.5rem; position: relative;">✓ 24/7 emergency support</li>
                         </ul>
-                        <a href="https://wa.me/255682843552?text=Hello!%20I'm%20interested%20in%20Professional%20Installation%20package" target="_blank" style="background: #ffffff; color: #000; padding: 0.75rem 1.5rem; border-radius: 25px; text-decoration: none; display: inline-block; font-weight: 600; transition: all 0.3s ease;">Get Quote</a> <!-- Changed to white/black -->
+                        <a href="https://wa.me/255682843552?text=Hello!%20I'm%20interested%20in%20Professional%20Installation%20package" target="_blank" class="btn">Get Quote</a>
                     </div>
                     
                     <div class="package-item">
                         <h3>Enterprise Solution</h3>
                         <div class="price">Custom Pricing</div>
-                        <ul style="text-align: left; margin: 1.5rem 0; list-style: none;">
-                            <li>✓ Full Electrical System Design</li>
-                            <li>✓ DSE & Intellite PLC programming</li>
-                            <li>✓ Solar Power System integration</li>
-                            <li>✓ Annual maintenance contract</li>
-                            <li>✓ Priority 24/7 support</li>
+                        <ul style="text-align: left; margin: 1.5rem 0; list-style: none; padding: 0;">
+                            <li style="margin-bottom: 0.5rem; padding-left: 1.5rem; position: relative;">✓ Full Electrical System Design</li>
+                            <li style="margin-bottom: 0.5rem; padding-left: 1.5rem; position: relative;">✓ DSE & Intellite PLC programming</li>
+                            <li style="margin-bottom: 0.5rem; padding-left: 1.5rem; position: relative;">✓ Solar Power System integration</li>
+                            <li style="margin-bottom: 0.5rem; padding-left: 1.5rem; position: relative;">✓ Annual maintenance contract</li>
+                            <li style="margin-bottom: 0.5rem; padding-left: 1.5rem; position: relative;">✓ Priority 24/7 support</li>
                         </ul>
-                        <a href="#contact" style="background: #ffffff; color: #000; padding: 0.75rem 1.5rem; border-radius: 25px; text-decoration: none; display: inline-block; font-weight: 600; transition: all 0.3s ease;">Contact Sales</a> <!-- Changed to white/black -->
+                        <a href="#contact" class="btn">Contact Sales</a>
                     </div>
                 </div>
             </div>
@@ -1939,37 +2199,37 @@
                         <div class="product-icon">⚡</div>
                         <h3>Diesel Generators</h3>
                         <p>10kVA - 1000kVA available. Complete installation included.</p>
-                        <div style="font-size: 1.5rem; font-weight: bold; color: #ffffff; margin: 1rem 0;">TZS 8.5M - 85M</div> <!-- Changed to white -->
-                        <a href="https://wa.me/255682843552?text=I'm interested in diesel generators" target="_blank" style="background: #ffffff; color: #000; padding: 0.75rem 1.5rem; border-radius: 25px; text-decoration: none; display: inline-block; font-weight: 600;">Inquire Now</a> <!-- Changed to white/black -->
+                        <div style="font-size: 1.5rem; font-weight: bold; color: #ffffff; margin: 1rem 0;">TZS 8.5M - 85M</div>
+                        <a href="https://wa.me/255682843552?text=I'm interested in diesel generators" target="_blank" class="btn">Inquire Now</a>
                     </div>
                     
                     <div class="product-item">
                         <div class="product-icon">☀️</div>
                         <h3>Solar Power Systems</h3>
                         <p>Complete solar solutions with battery backup</p>
-                        <div style="font-size: 1.5rem; font-weight: bold; color: #ffffff; margin: 1rem 0;">TZS 300K - 25M</div> <!-- Changed to white -->
-                        <a href="https://wa.me/255682843552?text=I'm interested in solar systems" target="_blank" style="background: #ffffff; color: #000; padding: 0.75rem 1.5rem; border-radius: 25px; text-decoration: none; display: inline-block; font-weight: 600;">Get Quote</a> <!-- Changed to white/black -->
+                        <div style="font-size: 1.5rem; font-weight: bold; color: #ffffff; margin: 1rem 0;">TZS 300K - 25M</div>
+                        <a href="https://wa.me/255682843552?text=I'm interested in solar systems" target="_blank" class="btn">Get Quote</a>
                     </div>
                     
                     <div class="product-item">
                         <div class="product-icon">🔧</div>
                         <h3>Genuine Spare Parts</h3>
                         <p>Original parts with warranty. Next-day delivery available.</p>
-                        <div style="font-size: 1.5rem; font-weight: bold; color: #ffffff; margin: 1rem 0;">TZS 50K - 5Mil</div> <!-- Changed to white -->
-                        <a href="https://wa.me/255682843552?text=I need generator spare parts" target="_blank" style="background: #ffffff; color: #000; padding: 0.75rem 1.5rem; border-radius: 25px; text-decoration: none; display: inline-block; font-weight: 600;">Order Parts</a> <!-- Changed to white/black -->
+                        <div style="font-size: 1.5rem; font-weight: bold; color: #ffffff; margin: 1rem 0;">TZS 50K - 5Mil</div>
+                        <a href="https://wa.me/255682843552?text=I need generator spare parts" target="_blank" class="btn">Order Parts</a>
                     </div>
                 </div>
                 
                 <!-- Kingu Electrical Shop Section -->
-                <div class="kingu-shop-section" style="margin-top: 3rem;">
+                <div class="kingu-shop-section">
                     <h3>🛒 Browse Our Complete Product Catalog</h3>
                     <p>We have 100+ electrical products available for immediate order</p>
-                    <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin: 1.5rem 0;">
-                        <a href="#generators" style="background: #ffffff; color: #000; padding: 0.75rem 1.5rem; border-radius: 25px; text-decoration: none; display: inline-block; font-weight: 600;">View All Generators</a> <!-- Changed to white/black -->
-                        <a href="#solar" style="background: #ffffff; color: #000; padding: 0.75rem 1.5rem; border-radius: 25px; text-decoration: none; display: inline-block; font-weight: 600;">View Solar Systems</a> <!-- Changed to white/black -->
-                        <a href="#spares" style="background: #ffffff; color: #000; padding: 0.75rem 1.5rem; border-radius: 25px; text-decoration: none; display: inline-block; font-weight: 600;">View 100+ Spare Parts</a> <!-- Changed to white/black -->
+                    <div class="btn-container">
+                        <a href="#generators" class="btn">View All Generators</a>
+                        <a href="#solar" class="btn">View Solar Systems</a>
+                        <a href="#spares" class="btn">View 100+ Spare Parts</a>
                     </div>
-                    <p style="color: #ffffff; font-size: 0.9rem; margin-top: 1rem;"> <!-- Changed to white -->
+                    <p style="color: #ffffff; font-size: 0.9rem; margin-top: 1rem;">
                         <strong>Instant Support:</strong> Order directly via phone +255 682 843 552
                     </p>
                 </div>
@@ -2027,7 +2287,7 @@
                             <li>Mbeya</li>
                             <li>Zanzibar</li>
                         </ul>
-                        <a href="tel:+255682843552" style="background: #ffffff; color: #000; padding: 0.75rem 1.5rem; border-radius: 25px; text-decoration: none; display: inline-block; margin-top: 1rem; font-weight: 600;">Check If We Cover Your Area</a> <!-- Changed to white/black -->
+                        <a href="tel:+255682843552" class="btn">Check If We Cover Your Area</a>
                     </div>
                     <div>
                         <div class="video-placeholder">
@@ -2046,24 +2306,24 @@
                     <div class="resource-item">
                         <h3>Generator Maintenance Checklist</h3>
                         <p>Free PDF guide for proper generator maintenance to extend lifespan and prevent breakdowns.</p>
-                        <a href="https://drive.google.com/drive/folders/1oQ5Nk5mDd-jpA7ZsP4E75XnD2E6h52cj" target="_blank" style="background: #ffffff; color: #000; padding: 0.75rem 1.5rem; border-radius: 25px; text-decoration: none; display: inline-block; margin-top: 1rem; font-weight: 600;">Download Free</a> <!-- Changed to white/black -->
+                        <a href="https://drive.google.com/drive/folders/1oQ5Nk5mDd-jpA7ZsP4E75XnD2E6h52cj" target="_blank" class="btn">Download Free</a>
                     </div>
                     
                     <div class="resource-item">
                         <h3>Energy Saving Guide</h3>
                         <p>Tips to reduce your electricity bill by 30% through efficient electrical system management.</p>
-                        <a href="https://drive.google.com/drive/folders/1oQ5Nk5mDd-jpA7ZsP4E75XnD2E6h52cj" target="_blank" style="background: #ffffff; color: #000; padding: 0.75rem 1.5rem; border-radius: 25px; text-decoration: none; display: inline-block; margin-top: 1rem; font-weight: 600;">Download Free</a> <!-- Changed to white/black -->
+                        <a href="https://drive.google.com/drive/folders/1oQ5Nk5mDd-jpA7ZsP4E75XnD2E6h52cj" target="_blank" class="btn">Download Free</a>
                     </div>
                     
                     <div class="resource-item">
                         <h3>Emergency Preparedness Kit</h3>
                         <p>What every business needs for power emergencies - checklist and preparation guide.</p>
-                        <a href="https://drive.google.com/drive/folders/1oQ5Nk5mDd-jpA7ZsP4E75XnD2E6h52cj" target="_blank" style="background: #ffffff; color: #000; padding: 0.75rem 1.5rem; border-radius: 25px; text-decoration: none; display: inline-block; margin-top: 1rem; font-weight: 600;">Download Free</a> <!-- Changed to white/black -->
+                        <a href="https://drive.google.com/drive/folders/1oQ5Nk5mDd-jpA7ZsP4E75XnD2E6h52cj" target="_blank" class="btn">Download Free</a>
                     </div>
                 </div>
                 
                 <div style="text-align: center; margin-top: 2rem;">
-                    <a href="tel:+255682843552" style="color: #ffffff; font-weight: bold; text-decoration: none; font-size: 1.1rem;"> <!-- Changed to white -->
+                    <a href="tel:+255682843552" style="color: #ffffff; font-weight: bold; text-decoration: none; font-size: 1.1rem;">
                         📞 Call +255 682 843 552 for Professional Consultation
                     </a>
                 </div>
@@ -2078,7 +2338,7 @@
                     <div class="video-placeholder">
                         ▶
                     </div>
-                    <p style="text-align: center; margin-top: 1rem; font-size: 1.1rem; color: #ffffff;">Watch: Generator Installation Process - Time-lapse</p> <!-- Changed to white -->
+                    <p style="text-align: center; margin-top: 1rem; font-size: 1.1rem; color: #ffffff;">Watch: Generator Installation Process - Time-lapse</p>
                 </div>
             </div>
         </section>
@@ -2153,7 +2413,7 @@
                     </div>
                 </div>
 
-                <form id="contactForm" style="margin-top: 3rem; max-width: 800px;">
+                <form id="contactForm" style="margin-top: 2rem; max-width: 800px; width: 100%;">
                     <div class="form-group">
                         <input type="text" placeholder="Your Full Name" required>
                         <div class="form-error"></div>
@@ -2266,15 +2526,14 @@
             const progressText = document.getElementById('progressText');
             const body = document.body;
             
-            const TOTAL_TIME = 20000; // 20 seconds total
-            const UPDATE_INTERVAL = 100; // Update every 100ms
+            const TOTAL_TIME = 20000;
+            const UPDATE_INTERVAL = 100;
             const TOTAL_UPDATES = TOTAL_TIME / UPDATE_INTERVAL;
             const PROGRESS_PER_UPDATE = 100 / TOTAL_UPDATES;
             
             let progress = 0;
             let startTime = Date.now();
             
-            // Messages sequence
             const messages = [
                 { time: 0, text: "Initializing electrical systems..." },
                 { time: 3000, text: "Loading generator configurations..." },
@@ -2284,9 +2543,7 @@
                 { time: 19000, text: "Welcome to Kingu Electrical!" }
             ];
             
-            // Preload critical content
             function preloadCriticalContent() {
-                // Preload images
                 const criticalImages = [
                     'assets/icons/kingu.svg'
                 ];
@@ -2296,10 +2553,8 @@
                     img.src = src;
                 });
                 
-                // Preload main background
                 const bgImg = new Image();
                 bgImg.onload = function() {
-                    // Optimize background
                     const canvas = document.createElement('canvas');
                     const ctx = canvas.getContext('2d');
                     canvas.width = Math.min(this.width, 1920);
@@ -2311,17 +2566,14 @@
                 };
                 bgImg.src = 'Background.jpg';
                 
-                // Load critical fonts
                 const font = new FontFace('Poppins', 'url(https://fonts.gstatic.com/s/poppins/v20/pxiEyp8kv8JHgFVrJJfecg.woff2)');
                 font.load().then(() => {
                     document.fonts.add(font);
                 });
             }
             
-            // Start preloading
             preloadCriticalContent();
             
-            // Update progress
             const progressInterval = setInterval(() => {
                 const elapsed = Date.now() - startTime;
                 progress = (elapsed / TOTAL_TIME) * 100;
@@ -2329,7 +2581,6 @@
                 if (progress <= 100) {
                     progressFill.style.width = progress + '%';
                     
-                    // Update messages
                     const currentMessage = messages
                         .filter(m => elapsed >= m.time)
                         .pop();
@@ -2339,21 +2590,18 @@
                     }
                 }
                 
-                // Complete loading
                 if (progress >= 100 || elapsed >= TOTAL_TIME) {
                     clearInterval(progressInterval);
                     completeLoading();
                 }
             }, UPDATE_INTERVAL);
             
-            // Force completion after 21 seconds (safety)
             setTimeout(completeLoading, 21000);
             
             function completeLoading() {
                 progressFill.style.width = '100%';
                 progressText.textContent = "Welcome to Kingu Electrical!";
                 
-                // Fade out loading screen
                 setTimeout(() => {
                     loadingScreen.style.opacity = '0';
                     
@@ -2361,7 +2609,6 @@
                         loadingScreen.style.display = 'none';
                         body.classList.remove('loading');
                         
-                        // Show main content with staggered animation
                         const elements = [
                             document.querySelector('nav'),
                             document.querySelector('header'),
@@ -2393,7 +2640,6 @@
                             }
                         });
                         
-                        // Initialize scroll animations
                         initScrollAnimations();
                         
                     }, 500);
@@ -2410,9 +2656,9 @@
             const isExpanded = hamburger.getAttribute('aria-expanded') === 'true';
             hamburger.setAttribute('aria-expanded', !isExpanded);
             navMenu.classList.toggle('active');
+            document.body.style.overflow = !isExpanded ? 'hidden' : 'auto';
         });
         
-        // Mobile dropdown handling
         dropdownToggles.forEach(toggle => {
             toggle.addEventListener('click', (e) => {
                 if (window.innerWidth <= 1024) {
@@ -2420,7 +2666,6 @@
                     const dropdown = toggle.parentElement;
                     dropdown.classList.toggle('active');
                     
-                    // Close other dropdowns
                     document.querySelectorAll('.nav-dropdown').forEach(other => {
                         if (other !== dropdown) {
                             other.classList.remove('active');
@@ -2430,17 +2675,28 @@
             });
         });
         
-        // Close menu when clicking links
         document.querySelectorAll('.nav-menu a').forEach(link => {
             link.addEventListener('click', () => {
                 hamburger.setAttribute('aria-expanded', 'false');
                 navMenu.classList.remove('active');
+                document.body.style.overflow = 'auto';
                 
-                // Close all dropdowns
                 document.querySelectorAll('.nav-dropdown').forEach(dropdown => {
                     dropdown.classList.remove('active');
                 });
             });
+        });
+        
+        // Close menu when clicking outside on mobile
+        document.addEventListener('click', (e) => {
+            if (window.innerWidth <= 1024 && 
+                navMenu.classList.contains('active') &&
+                !navMenu.contains(e.target) &&
+                !hamburger.contains(e.target)) {
+                hamburger.setAttribute('aria-expanded', 'false');
+                navMenu.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
         });
         
         // ===== FORM VALIDATION =====
@@ -2450,7 +2706,6 @@
         const formSuccess = document.getElementById('formSuccess');
         
         if (bookingForm) {
-            // Real-time validation
             const inputs = bookingForm.querySelectorAll('input, select, textarea');
             
             inputs.forEach(input => {
@@ -2471,7 +2726,6 @@
                 }
             });
             
-            // Form submission
             bookingForm.addEventListener('submit', async function(e) {
                 e.preventDefault();
                 
@@ -2493,16 +2747,13 @@
                     return;
                 }
                 
-                // Show loading state
                 const originalText = submitBtn.textContent;
                 submitBtn.innerHTML = '<span class="loading-spinner"></span>' + submitBtn.getAttribute('data-loading-text');
                 submitBtn.disabled = true;
                 
                 try {
-                    // Simulate API call
                     await new Promise(resolve => setTimeout(resolve, 1500));
                     
-                    // Show success
                     formSuccess.innerHTML = `
                         <strong>✓ Inspection Scheduled Successfully!</strong><br>
                         We'll call you at <strong>${this.querySelector('input[type="tel"]').value}</strong> 
@@ -2510,13 +2761,10 @@
                     `;
                     formSuccess.classList.add('show');
                     
-                    // Scroll to success
                     formSuccess.scrollIntoView({ behavior: 'smooth', block: 'center' });
                     
-                    // Reset form
                     this.reset();
                     
-                    // Hide success after 10s
                     setTimeout(() => {
                         formSuccess.classList.remove('show');
                     }, 10000);
@@ -2535,7 +2783,6 @@
             });
         }
         
-        // Contact form
         if (contactForm) {
             contactForm.addEventListener('submit', function(e) {
                 e.preventDefault();
@@ -2544,7 +2791,6 @@
             });
         }
         
-        // Validation functions
         function validateField(field) {
             const errorElement = field.parentElement.querySelector('.form-error');
             
@@ -2595,26 +2841,22 @@
         const chatInput = document.querySelector('.chat-footer input');
         const sendBtn = document.querySelector('.send-btn');
         
-        // Toggle chat
         whatsappToggle.addEventListener('click', () => {
             const isExpanded = whatsappToggle.getAttribute('aria-expanded') === 'true';
             whatsappToggle.setAttribute('aria-expanded', !isExpanded);
             whatsappChat.setAttribute('aria-hidden', isExpanded);
             
-            // Clear notification badge when opened
             if (!isExpanded) {
                 const badge = document.querySelector('.notification-badge');
                 badge.style.display = 'none';
             }
         });
         
-        // Close chat
         closeChat.addEventListener('click', () => {
             whatsappToggle.setAttribute('aria-expanded', 'false');
             whatsappChat.setAttribute('aria-hidden', 'true');
         });
         
-        // Quick options
         quickOptions.forEach(option => {
             option.addEventListener('click', () => {
                 const message = option.getAttribute('data-message');
@@ -2623,7 +2865,6 @@
             });
         });
         
-        // Send message
         function sendMessage() {
             const message = chatInput.value.trim();
             if (!message) return;
@@ -2646,7 +2887,6 @@
             }
         });
         
-        // Close chat when clicking outside
         document.addEventListener('click', (e) => {
             if (!whatsappChat.contains(e.target) && 
                 !whatsappToggle.contains(e.target) && 
@@ -2690,7 +2930,6 @@
                 });
             }, observerOptions);
             
-            // Observe all cards and service items
             document.querySelectorAll('.card, .service-item, .stat-item, .team-member, .package-item, .product-item, .project-item, .resource-item, .certificate-item').forEach(element => {
                 element.style.opacity = '0';
                 element.style.transform = 'translateY(20px)';
@@ -2713,10 +2952,10 @@
                         behavior: 'smooth'
                     });
                     
-                    // Close mobile menu if open
                     if (window.innerWidth <= 1024) {
                         hamburger.setAttribute('aria-expanded', 'false');
                         navMenu.classList.remove('active');
+                        document.body.style.overflow = 'auto';
                         document.querySelectorAll('.nav-dropdown').forEach(dropdown => {
                             dropdown.classList.remove('active');
                         });
@@ -2746,8 +2985,17 @@
             images.forEach(img => imageObserver.observe(img));
         }
         
-        // Initialize lazy loading after page load
         window.addEventListener('load', lazyLoadImages);
+        
+        // ===== FIX MOBILE VIEWPORT HEIGHT =====
+        function setVhProperty() {
+            let vh = window.innerHeight * 0.01;
+            document.documentElement.style.setProperty('--vh', `${vh}px`);
+        }
+        
+        setVhProperty();
+        window.addEventListener('resize', setVhProperty);
+        window.addEventListener('orientationchange', setVhProperty);
     </script>
 </body>
 </html>
