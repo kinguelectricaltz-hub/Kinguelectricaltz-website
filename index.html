@@ -2222,6 +2222,117 @@ h1 span {
 <body>
     <main>
         <!-- Stats Section -->
+       <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Electrical Experts - Stats Section</title>
+    <style>
+        /* Stats Section with Background Image */
+        .stats-section {
+            padding: 80px 20px;
+            background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(Background.jpg);
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: white;
+            text-align: center;
+        }
+        
+        .content-wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .stats-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 60px;
+            color: white;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .stat-item {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 40px 20px;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .stat-item:hover {
+            transform: translateY(-10px);
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .stat-number {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: #FFD700; /* Gold color for better contrast */
+            min-height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+        }
+        
+        .stat-label {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 500;
+        }
+        
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .stats-section {
+                padding: 60px 20px;
+                background-attachment: scroll; /* Disable fixed background on mobile */
+            }
+            
+            .stats-section h2 {
+                font-size: 2rem;
+                margin-bottom: 40px;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
+            }
+            
+            .stat-item {
+                padding: 30px 15px;
+            }
+            
+            .stat-number {
+                font-size: 2.8rem;
+                min-height: 60px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+                max-width: 300px;
+            }
+            
+            .stat-number {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+    <main>
+        <!-- Stats Section -->
         <section id="stats" class="stats-section">
             <div class="content-wrapper">
                 <h2>Trusted Electrical Experts in Tanzania</h2>
@@ -2258,6 +2369,9 @@ h1 span {
             let current = 0;
             const duration = 2000; // 2 seconds
             const increment = target / (duration / 16);
+            
+            // Reset to 0 for animation
+            element.textContent = '0' + plusSign;
             
             function update() {
                 current += increment;
@@ -2306,7 +2420,7 @@ h1 span {
         }, 3000);
     });
     </script>
-    
+
         <!-- About Section -->
         <section id="about">
             <div class="content-wrapper">
