@@ -30,16 +30,14 @@
     <meta property="og:title" content="Kingu Electrical Company Limited | Electrical Experts Tanzania">
     <meta property="og:description"
           content="Trusted electrical engineering and generator experts serving Tanzania.">
-    <meta property="og:image"
-          content="/assets/icons/company-logo.png">
+   <meta property="og:image" content="https://kingueletrical.com/assets/icons/company-logo.png">
 
     <!-- ================= TWITTER ================= -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Kingu Electrical Company Limited">
     <meta name="twitter:description"
           content="Professional electrical and generator services across Tanzania.">
-    <meta name="twitter:image"
-          content="/assets/icons/company-logo.png">
+   
 
     <!-- ================= CANONICAL ================= -->
     <link rel="canonical" href="https://kingueletrical.com/">
@@ -63,23 +61,25 @@
 
     <!-- ================= STRUCTURED DATA (LOCAL BUSINESS) ================= -->
     <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "ElectricalContractor",
-      "name": "Kingu Electrical Company Limited",
-      "url": "https://kingueletrical.com",
-      "logo": "/assets/icons/company-logo.png",
-      "telephone": "+255682843552",
-      "address": {
-        "@type": "PostalAddress",
-        "addressLocality": "Dar es Salaam",
-        "addressCountry": "TZ"
-      },
-      "areaServed": {
-        "@type": "Country",
-        "name": "Tanzania"
-      }
-    }
+{
+  "@context": "https://schema.org",
+  "@type": "ElectricalContractor",
+  "name": "Kingu Electrical Company Limited",
+  "url": "https://kingueletrical.com/",
+  "logo": "https://kingueletrical.com/assets/icons/company-logo.png",
+  "image": "https://kingueletrical.com/assets/icons/company-logo.png",
+  "telephone": "+255682843552",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Dar es Salaam",
+    "addressCountry": "TZ"
+  },
+  "areaServed": {
+    "@type": "Country",
+    "name": "Tanzania"
+  }
+}
+</script>
     </script>
     <!-- ================= PERFORMANCE HINT ================= -->
     <meta name="theme-color" content="#1a5632">
@@ -1921,35 +1921,237 @@ h1 span {
     </nav>
 
     <!-- Header -->
-    <header id="home">
+   <header id="home">
     <div class="content-wrapper">
-        <h1>
-            <img src="./assets/icons/company-logo.png" class="company-logo-img" alt="Company Logo">
-            <span style="color:#1a5632;font-weight: bold; ">Kingu</span>
-            <span style="color:#dc3545;font-weight: bold; ">Electrical</span>
+        <h1 class="floating-title">
+            <img src="./assets/icons/company-logo.png" class="company-logo-img floating-logo" alt="Company Logo">
+            <span style="color:#1a5632;font-weight: bold;">Kingu</span>
+            <span style="color:#dc3545;font-weight: bold;">Electrical</span>
             <span style="color:#1a5632;font-weight: bold;">Company Limited</span>
         </h1>
-          <p class="tagline" style="color: #DC3545; font-weight: bold; font-style: italic;">
-            Quality Electrical Services with Professional Experience
-          </p>
         
-        <div class="contact-header">
-            <a href="mailto:Kinguelectricaltz@gmail.com">
+        <p class="tagline floating-tagline" style="color: #DC3545; font-weight: bold; font-style: italic;">
+            Quality Electrical Services with Professional Experience
+        </p>
+        
+        <div class="contact-header floating-contact-grid">
+            <a href="mailto:Kinguelectricaltz@gmail.com" class="floating-contact">
                 <i class="fas fa-envelope"></i> Kinguelectricaltz@gmail.com
             </a>
-            <a href="tel:+255677014740">
+            <a href="tel:+255677014740" class="floating-contact">
                 <i class="fas fa-phone"></i> +255 677 014 740
             </a>
-            <a href="tel:+255763957908">
+            <a href="tel:+255763957908" class="floating-contact">
                 <i class="fas fa-phone"></i> +255 763 957 908
             </a>
-            <a href="tel:+255682843552">
+            <a href="tel:+255682843552" class="floating-contact">
                 <i class="fas fa-phone"></i> +255 682 843 552
             </a>
         </div>
     </div>
+</header>
 
-    </header>
+<style>
+/* Your original styles with floating animation */
+#home {
+    background: url('Background.jpg') center/cover no-repeat fixed;
+    min-height: 100vh;
+    position: relative;
+}
+
+#home::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
+}
+
+.content-wrapper {
+    position: relative;
+    z-index: 1;
+    color: white;
+    text-align: center;
+    padding: 3rem 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+/* Company name */
+.floating-title {
+    font-size: 2.2rem;
+    margin-bottom: 1rem;
+}
+
+.company-logo-img {
+    width: 60px;
+    height: 60px;
+    vertical-align: middle;
+    margin-right: 15px;
+}
+
+/* Tagline - keeps your original red color */
+.floating-tagline {
+    font-size: 1.2rem;
+    margin: 1.5rem 0;
+    max-width: 600px;
+    padding: 1rem;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 8px;
+}
+
+/* Contact section - 4 invisible columns */
+.floating-contact-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+    margin-top: 2rem;
+    max-width: 1000px;
+    width: 100%;
+}
+
+/* Contact links - keeps your original style */
+.floating-contact {
+    background: rgba(255, 255, 255, 0.9);
+    color: #333;
+    text-decoration: none;
+    padding: 1rem;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.8rem;
+    transition: all 0.3s ease;
+    font-weight: 500;
+    border: 2px solid transparent;
+}
+
+/* Keep original icon colors */
+.floating-contact i {
+    font-size: 1.2rem;
+}
+
+.floating-contact:first-child i {
+    color: #dc3545; /* Red for email */
+}
+
+.floating-contact:not(:first-child) i {
+    color: #1a5632; /* Green for phones */
+}
+
+/* Add brand color borders on hover */
+.floating-contact:first-child:hover {
+    border-color: #dc3545;
+    background: white;
+}
+
+.floating-contact:not(:first-child):hover {
+    border-color: #1a5632;
+    background: white;
+}
+
+/* FLOATING ANIMATIONS ONLY */
+.floating-title span {
+    display: inline-block;
+    animation: floatWord 3s ease-in-out infinite;
+}
+
+.floating-title span:nth-child(1) { animation-delay: 0s; } /* Kingu */
+.floating-title span:nth-child(2) { animation-delay: 0.5s; } /* Electrical */
+.floating-title span:nth-child(3) { animation-delay: 1s; } /* Company Limited */
+
+.floating-logo {
+    animation: floatLogo 4s ease-in-out infinite;
+}
+
+.floating-tagline {
+    animation: floatTagline 5s ease-in-out infinite;
+}
+
+.floating-contact {
+    animation: floatContact 6s ease-in-out infinite;
+}
+
+.floating-contact:nth-child(1) { animation-delay: 0.2s; }
+.floating-contact:nth-child(2) { animation-delay: 0.3s; }
+.floating-contact:nth-child(3) { animation-delay: 0.4s; }
+.floating-contact:nth-child(4) { animation-delay: 0.5s; }
+
+/* Floating animations - very subtle */
+@keyframes floatWord {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-5px);
+    }
+}
+
+@keyframes floatLogo {
+    0%, 100% {
+        transform: translateY(0) rotate(0deg);
+    }
+    50% {
+        transform: translateY(-8px) rotate(2deg);
+    }
+}
+
+@keyframes floatTagline {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-6px);
+    }
+}
+
+@keyframes floatContact {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .floating-contact-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .floating-title {
+        font-size: 1.8rem;
+    }
+    
+    .company-logo-img {
+        width: 50px;
+        height: 50px;
+        margin-right: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .floating-contact-grid {
+        grid-template-columns: 1fr;
+        max-width: 300px;
+    }
+    
+    .floating-title {
+        font-size: 1.5rem;
+    }
+    
+    .floating-tagline {
+        font-size: 1rem;
+        padding: 0.8rem;
+    }
+}
+</style>
 
     <!-- Main Content -->
     <main>
