@@ -2156,16 +2156,82 @@ h1 span {
     <!-- Main Content -->
     <main>
         <!-- Stats Section -->
+       <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Electrical Experts - Stats Section</title>
+    <style>
+        /* Basic styling for the stats section - adjust to match your existing styles */
+        .stats-section {
+            padding: 80px 20px;
+            background: #f8f9fa;
+            text-align: center;
+        }
+        
+        .content-wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .stats-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 60px;
+            color: #333;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .stat-item {
+            background: white;
+            border-radius: 10px;
+            padding: 40px 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .stat-item:hover {
+            transform: translateY(-5px);
+        }
+        
+        .stat-number {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: #2c3e50;
+            min-height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .stat-label {
+            font-size: 1.2rem;
+            color: #666;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <!-- Stats Section -->
         <section id="stats" class="stats-section">
             <div class="content-wrapper">
                 <h2>Trusted Electrical Experts in Tanzania</h2>
                 <div class="stats-grid">
                     <div class="stat-item">
-                        <div class="stat-number">50+</div>
+                        <div class="stat-number" data-count="50">50+</div>
                         <div class="stat-label">Projects Completed</div>
                     </div>
                     <div class="stat-item">
-                        <div class="stat-number">10+</div>
+                        <div class="stat-number" data-count="10">10+</div>
                         <div class="stat-label">Years Experience</div>
                     </div>
                     <div class="stat-item">
@@ -2179,7 +2245,68 @@ h1 span {
                 </div>
             </div>
         </section>
+    </main>
 
+    <script>
+    // Simple counter animation script
+    document.addEventListener('DOMContentLoaded', function() {
+        const counters = document.querySelectorAll('.stat-number[data-count]');
+        let animationStarted = false;
+        
+        function animateCounter(element, target) {
+            const plusSign = element.textContent.includes('+') ? '+' : '';
+            let current = 0;
+            const duration = 2000; // 2 seconds
+            const increment = target / (duration / 16);
+            
+            function update() {
+                current += increment;
+                if (current < target) {
+                    element.textContent = Math.floor(current) + plusSign;
+                    requestAnimationFrame(update);
+                } else {
+                    element.textContent = target + plusSign;
+                }
+            }
+            requestAnimationFrame(update);
+        }
+        
+        function startAnimation() {
+            if (animationStarted) return;
+            animationStarted = true;
+            
+            counters.forEach((counter, index) => {
+                setTimeout(() => {
+                    const target = parseInt(counter.getAttribute('data-count'));
+                    animateCounter(counter, target);
+                }, index * 300);
+            });
+        }
+        
+        // Start when stats section is visible
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    startAnimation();
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.5 });
+        
+        const statsSection = document.getElementById('stats');
+        if (statsSection) {
+            observer.observe(statsSection);
+        }
+        
+        // Fallback: start after 3 seconds
+        setTimeout(() => {
+            if (!animationStarted) {
+                startAnimation();
+            }
+        }, 3000);
+    });
+    </script>
+    
         <!-- About Section -->
         <section id="about">
             <div class="content-wrapper">
