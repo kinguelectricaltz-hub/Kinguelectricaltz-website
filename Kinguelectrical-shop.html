@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-       <meta charset="UTF-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kingu Electrical Shop | Complete Electrical Products & Services Tanzania</title>
     <meta name="description" content="Complete electrical products: Armoured Cables, MCBs, Contactors, Changeover Switches, Timers, Meters, Cable Trays, Transformers, Pumps & more. Order online!">
@@ -15,195 +15,101 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Kingu Shop">
-    <link rel="apple-touch-icon" href="/assets/icons/icon-192.png">
+    <link rel="apple-touch-icon" href="/assets/icons/company-logo.png">
     
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://kingueletrical.com/Kinguelectrical-shop.html">
     <meta property="og:title" content="Kingu Electrical Shop | Electrical Products">
     <meta property="og:description" content="Browse and order electrical products directly from Kingu Electrical">
-    <meta property="og:image" content="https://kingueletrical.com/assets/icons/kingu-shop.png">
+    <meta property="og:image" content="https://kingueletrical.com/assets/icons/company-logo.png">
     
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://kingueletrical.com/Kinguelectrical-shop.html">
     <meta property="twitter:title" content="Kingu Electrical Shop | Electrical Products">
     <meta property="twitter:description" content="Browse and order electrical products directly from Kingu Electrical">
-    <meta property="twitter:image" content="https://kingueletrical.com/assets/icons/kingu-shop.png">
+    <meta property="twitter:image" content="https://kingueletrical.com/assets/icons/company-logo.png">
     
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
-    
     <style>
-        :root {
-            --primary-green: #1a5632;
-            --kingu-dark: #0d3d21;
-            --kingu-accent: #FF6B35;
-            --text-dark: #333;
-            --text-light: #666;
-            --white: #fff;
-            --gray-bg: #f5f5f5;
-            --border-color: #e0e0e0;
-            --success: #34a853;
-        }
-        
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Poppins', sans-serif; background: var(--gray-bg); color: var(--text-dark); line-height: 1.6; }
-        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
-        
-        .shop-header {
-            background: linear-gradient(135deg, var(--kingu-dark), var(--primary-green));
-            color: var(--white);
-            padding: 2rem 0;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
+        body { font-family: 'Poppins', sans-serif; background: #f4f7fb; color: #1e2a3e; line-height: 1.5; }
+        :root {
+            --primary: #0f5c3f; --primary-dark: #0a3e2a; --accent: #e67e22;
+            --gray-200: #e2e8f0; --gray-600: #475569;
+            --shadow-sm: 0 4px 6px -2px rgba(0,0,0,0.05);
+            --shadow-md: 0 10px 15px -3px rgba(0,0,0,0.08);
+            --radius-xl: 1rem; --radius-lg: 0.75rem;
         }
-        .shop-header::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: url('Background.jpg'); opacity: 0.1; }
-        .shop-header h1 { font-size: 2.5rem; margin-bottom: 1rem; position: relative; z-index: 1; }
-        .shop-header p { font-size: 1.1rem; opacity: 0.9; max-width: 600px; margin: 0 auto 1.5rem; position: relative; z-index: 1; }
-        .kingu-badge { display: inline-flex; align-items: center; background: var(--white); color: var(--primary-green); padding: 0.75rem 2rem; border-radius: 50px; font-weight: 600; text-decoration: none; transition: all 0.3s; border: 2px solid var(--primary-green); position: relative; z-index: 1; }
-        .kingu-badge:hover { transform: translateY(-3px); background: var(--primary-green); color: var(--white); }
-        .back-to-main { position: absolute; top: 20px; left: 20px; color: var(--white); text-decoration: none; background: rgba(0,0,0,0.2); padding: 8px 16px; border-radius: 50px; transition: all 0.3s; z-index: 2; }
-        .back-to-main:hover { background: rgba(0,0,0,0.3); transform: translateX(-5px); }
-        
-        .category-nav {
-            background: var(--white);
-            padding: 1rem 0;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            overflow-x: auto;
-        }
-        .category-nav ul { display: flex; justify-content: center; flex-wrap: wrap; list-style: none; gap: 0.5rem; }
-        .category-nav a {
-            color: var(--text-dark);
-            text-decoration: none;
-            padding: 0.75rem 1.5rem;
-            border-radius: 50px;
-            transition: all 0.3s;
-            font-weight: 500;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            white-space: nowrap;
-        }
-        .category-nav a:hover, .category-nav a.active { background: var(--primary-green); color: var(--white); }
-        
-        .category-section { display: none; animation: fadeIn 0.5s ease; margin: 3rem 0; }
+        .container { max-width: 1280px; margin: 0 auto; padding: 0 1.5rem; }
+        .shop-header { background: linear-gradient(105deg, var(--primary-dark) 0%, var(--primary) 100%); color: white; padding: 2rem 0 2.5rem; position: relative; overflow: hidden; }
+        .back-to-main { display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(255,255,255,0.15); padding: 0.5rem 1.25rem; border-radius: 40px; color: white; text-decoration: none; font-weight: 500; margin-bottom: 1.5rem; transition: all 0.2s; }
+        .back-to-main:hover { background: rgba(255,255,255,0.25); transform: translateX(-4px); }
+        .shop-header h1 { font-size: 2.4rem; font-weight: 700; margin-bottom: 0.75rem; }
+        .kingu-badge { display: inline-flex; align-items: center; gap: 0.5rem; background: white; color: var(--primary-dark); padding: 0.7rem 1.8rem; border-radius: 60px; font-weight: 600; text-decoration: none; margin-top: 1rem; transition: all 0.2s; }
+        .kingu-badge:hover { background: var(--accent); color: white; }
+        .category-nav { background: white; border-bottom: 1px solid var(--gray-200); position: sticky; top: 0; z-index: 30; overflow-x: auto; }
+        .category-nav ul { display: flex; gap: 0.25rem; padding: 0.75rem 1rem; list-style: none; min-width: max-content; }
+        .category-nav a { display: flex; align-items: center; gap: 0.5rem; padding: 0.6rem 1.3rem; border-radius: 60px; font-weight: 500; color: var(--gray-600); text-decoration: none; transition: all 0.2s; }
+        .category-nav a:hover, .category-nav a.active { background: var(--primary); color: white; }
+        .stats-bar { background: white; border-radius: var(--radius-xl); padding: 1.2rem; margin: 1.5rem 0; }
+        .category-section { display: none; animation: fadeSlide 0.35s ease; }
         .category-section.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        
-        .category-header {
-            background: var(--white);
-            padding: 2rem;
-            border-radius: 15px 15px 0 0;
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-        }
-        .category-icon-large { width: 70px; height: 70px; background: var(--primary-green); color: var(--white); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; }
-        .category-info h2 { color: var(--kingu-dark); margin-bottom: 0.5rem; }
-        .category-info p { color: var(--text-light); }
-        
-        .category-controls {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 1rem;
-            margin-bottom: 2rem;
-            padding: 1rem;
-            background: var(--white);
-            border-radius: 0.5rem;
-        }
-        .sort-group select, .view-btn { padding: 0.5rem; border: 1px solid var(--border-color); border-radius: 0.375rem; background: white; cursor: pointer; font-family: inherit; }
-        .view-btn { padding: 0.5rem 0.75rem; font-size: 1.25rem; }
-        .view-btn.active { background: var(--primary-green); color: white; border-color: var(--primary-green); }
-        
-        .products-grid {
-            display: grid;
-            gap: 1.5rem;
-            margin: 2rem 0;
-        }
-        .products-grid[data-view="grid"] { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
+        @keyframes fadeSlide { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+        .category-header { background: white; padding: 1.5rem; border-radius: var(--radius-xl); display: flex; align-items: center; gap: 1.2rem; margin-bottom: 1.8rem; }
+        .category-icon-large { width: 64px; height: 64px; background: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem; color: white; }
+        .category-controls { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; margin-bottom: 1.8rem; background: white; padding: 0.8rem 1.2rem; border-radius: var(--radius-lg); }
+        .sort-group select, .view-btn { padding: 0.5rem 1rem; border-radius: 40px; border: 1px solid var(--gray-200); background: white; font-family: inherit; cursor: pointer; font-weight: 500; }
+        .view-btn.active { background: var(--primary); color: white; }
+        .products-grid { display: grid; gap: 1.8rem; margin: 2rem 0; }
+        .products-grid[data-view="grid"] { grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); }
         .products-grid[data-view="list"] { grid-template-columns: 1fr; }
         .products-grid[data-view="list"] .product-card { display: flex; flex-direction: row; align-items: stretch; }
         .products-grid[data-view="list"] .product-img-container { width: 200px; flex-shrink: 0; }
-        .products-grid[data-view="list"] .product-info { flex: 1; }
-        
-        .product-card {
-            background: var(--white);
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-            transition: transform 0.3s, box-shadow 0.3s;
-            border: 1px solid var(--border-color);
-            display: flex;
-            flex-direction: column;
-            position: relative;
-        }
-        .product-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.15); border-color: var(--primary-green); }
-        .product-badge { position: absolute; top: 15px; left: 15px; background: var(--kingu-accent); color: white; padding: 0.25rem 0.75rem; border-radius: 4px; font-size: 0.8rem; font-weight: 600; z-index: 2; }
-        .product-img-container { height: 200px; overflow: hidden; position: relative; background: var(--gray-bg); }
-        .product-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s; }
-        .product-card:hover .product-img { transform: scale(1.05); }
-        .product-info { padding: 1.5rem; flex: 1; }
-        .product-category { color: var(--primary-green); font-size: 0.9rem; font-weight: 600; text-transform: uppercase; }
-        .product-title { font-size: 1.25rem; margin: 0.5rem 0; }
-        .product-description { color: var(--text-light); font-size: 0.95rem; margin-bottom: 1rem; }
-        .product-price { font-size: 1.5rem; font-weight: 700; color: var(--primary-green); margin-bottom: 1rem; }
-        .product-meta { display: flex; justify-content: space-between; align-items: center; font-size: 0.9rem; color: var(--text-light); margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--border-color); }
-        .stock-status { padding: 0.25rem 0.75rem; border-radius: 50px; font-size: 0.8rem; font-weight: 600; background: rgba(52,168,83,0.1); color: var(--success); }
-        .kingu-order-btn { display: flex; align-items: center; justify-content: center; width: 100%; padding: 1rem; background: var(--primary-green); color: white; border: none; font-weight: 600; cursor: pointer; transition: background 0.3s; gap: 10px; }
-        .kingu-order-btn:hover { background: var(--kingu-dark); }
-        
-        .filters { background: var(--white); padding: 1.5rem; margin: 2rem auto; border-radius: 15px; max-width: 1000px; }
-        .filter-group { display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center; justify-content: center; }
-        .filter-btn { padding: 0.5rem 1.5rem; border: 2px solid var(--border-color); background: white; border-radius: 50px; cursor: pointer; font-weight: 500; transition: all 0.3s; }
-        .filter-btn:hover, .filter-btn.active { background: var(--primary-green); color: white; border-color: var(--primary-green); }
-        .search-box { flex-grow: 1; max-width: 300px; position: relative; }
-        .search-box input { width: 100%; padding: 0.75rem 1rem 0.75rem 3rem; border: 2px solid var(--border-color); border-radius: 50px; font-family: inherit; }
-        .search-icon { position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: var(--text-light); }
-        
-        .cart-sidebar { position: fixed; top: 0; right: -400px; width: 380px; height: 100vh; background: white; box-shadow: -5px 0 25px rgba(0,0,0,0.1); padding: 2rem; overflow-y: auto; transition: right 0.3s; z-index: 1000; }
+        .product-card { background: white; border-radius: var(--radius-xl); overflow: hidden; box-shadow: var(--shadow-sm); transition: all 0.25s ease; border: 1px solid var(--gray-200); display: flex; flex-direction: column; position: relative; }
+        .product-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-md); }
+        .product-badge { position: absolute; top: 12px; left: 12px; background: var(--accent); color: white; padding: 0.2rem 0.9rem; border-radius: 40px; font-size: 0.7rem; font-weight: 700; z-index: 2; }
+        .product-img-container { height: 210px; overflow: hidden; background: #f0f2f5; display: flex; align-items: center; justify-content: center; }
+        .product-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; }
+        .product-card:hover .product-img { transform: scale(1.03); }
+        .product-info { padding: 1.3rem; flex: 1; display: flex; flex-direction: column; }
+        .product-category { color: var(--primary); font-size: 0.7rem; font-weight: 700; text-transform: uppercase; }
+        .product-title { font-size: 1.1rem; font-weight: 700; margin: 0.4rem 0; }
+        .product-description { color: var(--gray-600); font-size: 0.85rem; margin-bottom: 0.8rem; flex: 1; }
+        .product-price { font-size: 1.4rem; font-weight: 800; color: var(--primary); margin: 0.5rem 0; }
+        .kingu-order-btn { background: var(--primary); color: white; border: none; padding: 0.8rem; font-weight: 600; cursor: pointer; transition: all 0.2s; border-radius: 60px; }
+        .kingu-order-btn:hover { background: var(--primary-dark); }
+        .filters { background: white; padding: 1rem 1.5rem; border-radius: var(--radius-xl); margin: 1.5rem 0; }
+        .filter-group { display: flex; flex-wrap: wrap; gap: 0.7rem; align-items: center; justify-content: space-between; }
+        .filter-buttons { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+        .filter-btn { padding: 0.4rem 1.2rem; border-radius: 40px; border: 1px solid var(--gray-200); background: white; font-weight: 500; cursor: pointer; }
+        .filter-btn.active, .filter-btn:hover { background: var(--primary); color: white; }
+        .search-box { position: relative; min-width: 240px; }
+        .search-box input { width: 100%; padding: 0.6rem 1rem 0.6rem 2.4rem; border-radius: 60px; border: 1px solid var(--gray-200); font-family: inherit; }
+        .search-icon { position: absolute; left: 0.8rem; top: 50%; transform: translateY(-50%); }
+        .cart-sidebar { position: fixed; top: 0; right: -420px; width: 400px; height: 100vh; background: white; box-shadow: -8px 0 30px rgba(0,0,0,0.15); padding: 1.5rem; overflow-y: auto; transition: right 0.3s; z-index: 1000; }
         .cart-sidebar.open { right: 0; }
-        .cart-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; }
-        .close-cart { background: none; border: none; font-size: 1.5rem; cursor: pointer; width: 40px; height: 40px; border-radius: 50%; }
-        .cart-item { display: flex; gap: 1rem; padding: 1rem 0; border-bottom: 1px solid var(--border-color); }
-        .cart-item-img { width: 60px; height: 60px; object-fit: cover; border-radius: 8px; }
-        .cart-quantity { display: flex; align-items: center; gap: 0.5rem; margin-top: 0.5rem; }
-        .quantity-btn { width: 30px; height: 30px; border-radius: 50%; border: 1px solid var(--border-color); background: white; cursor: pointer; }
-        .cart-total { background: var(--gray-bg); padding: 1.5rem; border-radius: 10px; margin: 1rem 0; }
-        .cart-checkout-btn { width: 100%; padding: 1rem; background: var(--primary-green); color: white; border: none; border-radius: 10px; font-weight: 600; cursor: pointer; }
-        .cart-icon { position: fixed; bottom: 30px; right: 30px; background: var(--primary-green); color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 5px 20px rgba(26,86,50,0.4); z-index: 100; }
-        .cart-count { position: absolute; top: -5px; right: -5px; background: var(--kingu-accent); width: 25px; height: 25px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; }
-        .whatsapp-float { position: fixed; bottom: 100px; right: 30px; width: 60px; height: 60px; background: #25D366; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 20px rgba(37,211,102,0.4); z-index: 999; text-decoration: none; }
-        .whatsapp-float img { width: 30px; height: 30px; }
-        .quick-order { background: linear-gradient(135deg, var(--kingu-dark), var(--primary-green)); color: white; padding: 3rem; border-radius: 20px; text-align: center; margin: 4rem 0; }
-        .quick-order-form { max-width: 500px; margin: 2rem auto 0; }
-        .form-group { margin-bottom: 1.5rem; }
-        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 1rem; border: none; border-radius: 10px; font-family: inherit; }
-        .shop-footer { background: var(--primary-green); color: white; padding: 3rem 0; text-align: center; }
-        .footer-links { display: flex; justify-content: center; flex-wrap: wrap; gap: 2rem; margin: 2rem 0; }
-        .footer-links a { color: white; text-decoration: none; background: rgba(255,255,255,0.1); padding: 8px 16px; border-radius: 50px; display: flex; align-items: center; gap: 8px; }
-        @media (max-width: 768px) {
-            .products-grid[data-view="list"] .product-card { flex-direction: column; }
-            .products-grid[data-view="list"] .product-img-container { width: 100%; height: 200px; }
-            .cart-sidebar { width: 100%; right: -100%; }
-        }
+        .cart-icon { position: fixed; bottom: 28px; right: 28px; background: var(--primary); width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 90; }
+        .cart-count { position: absolute; top: -6px; right: -6px; background: var(--accent); width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: bold; color: white; }
+        .whatsapp-float { position: fixed; bottom: 110px; right: 28px; background: #25D366; width: 54px; height: 54px; border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 89; text-decoration: none; font-size: 1.8rem; color: white; }
+        .quick-order { background: linear-gradient(115deg, var(--primary-dark), var(--primary)); border-radius: var(--radius-xl); padding: 2rem; margin: 2.5rem 0; color: white; }
+        .quick-order-form input, .quick-order-form select, .quick-order-form textarea { width: 100%; padding: 0.75rem; border-radius: 60px; border: none; margin-top: 0.3rem; font-family: inherit; }
+        .cart-item { margin-bottom: 1rem; padding-bottom: 1rem; border-bottom: 1px solid var(--gray-200); }
+        .cart-quantity { display: flex; gap: 0.5rem; align-items: center; margin-top: 0.5rem; }
+        .quantity-btn { width: 30px; height: 30px; border-radius: 50%; border: 1px solid var(--gray-200); background: white; cursor: pointer; }
+        @media (max-width: 640px) { .cart-sidebar { width: 100%; right: -100%; } .products-grid[data-view="list"] .product-card { flex-direction: column; } .products-grid[data-view="list"] .product-img-container { width: 100%; height: 190px; } }
     </style>
 </head>
 <body>
     <header class="shop-header">
-        <a href="https://kingueletrical.com" class="back-to-main">← Back to Main Website</a>
         <div class="container">
-            <h1>🛒 Kingu Electrical Shop</h1>
-            <p>Complete electrical solutions: Armoured Cables, MCBs, Contactors, Changeover Switches, Timers, Meters, Cable Trays, Transformers, Pumps & More</p>
+            <a href="https://kingueletrical.com" class="back-to-main">← Back to Main Website</a>
+            <h1>🛒 Kingu Electrical & Mechanical Shop</h1>
+            <p>Deep Sea Electronics (DSE) · Intellite PLC ·  Schneider · Yanmar Engine Spares · Perkins Spares · Cables · Switches · Lighting · Motor Controls · Generators</p>
             <a href="tel:+255682843552" class="kingu-badge">📞 Call to Order: +255 682 843 552</a>
         </div>
     </header>
@@ -211,547 +117,394 @@
     <nav class="category-nav">
         <div class="container">
             <ul>
-                <li><a href="#all" class="active" data-category="all">📦 All Products (500+)</a></li>
-                <li><a href="#spares" data-category="spares">🔩 Spare Parts</a></li>
-                <li><a href="#tools" data-category="tools">🔧 Tools & Meters</a></li>
+                <li><a href="#all" class="active" data-category="all">📦 All Products</a></li>
+                <li><a href="#dse" data-category="dse">🎮 Deep Sea Electronics</a></li>
+                <li><a href="#plc" data-category="plc">💻 PLC & Controllers</a></li>
+                <li><a href="#cables" data-category="cables">🔌 Cables & Wiring</a></li>
+                <li><a href="#switches" data-category="switches">🔘 Switches & Sockets</a></li>
+                <li><a href="#lighting" data-category="lighting">💡 Lighting & Lamps</a></li>
+                <li><a href="#motors" data-category="motors">⚙️ Motor Controls</a></li>
+                <li><a href="#yanmar" data-category="yanmar">⚙️ Yanmar Spares</a></li>
+                <li><a href="#perkins" data-category="perkins">🔧 Perkins Spares</a></li>
                 <li><a href="#generators" data-category="generators">⚡ Generators</a></li>
-                <li><a href="#solar" data-category="solar">☀️ Solar Systems</a></li>
-                <li><a href="#services" data-category="services">🛠️ Services</a></li>
-                <li><a href="#deals" data-category="deals">🎯 Special Deals</a></li>
             </ul>
         </div>
     </nav>
 
     <div class="container">
-        <div class="stats-bar" style="background:white; padding:1rem; border-radius:10px; margin-bottom:1rem;">
-            <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); text-align:center;">
-                <div><div style="font-size:1.8rem; color:var(--primary-green);">500+</div><div>Products</div></div>
-                <div><div style="font-size:1.8rem; color:var(--primary-green);">24/7</div><div>Support</div></div>
-                <div><div style="font-size:1.8rem; color:var(--primary-green);">Free</div><div>Delivery Dar/Arusha</div></div>
+        <div class="stats-bar">
+            <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(130px,1fr)); text-align:center;">
+                <div><span style="font-size:1.8rem; font-weight:700; color:var(--primary);" id="productCount">0</span><br>Products</div>
+                <div><span style="font-size:1.8rem; font-weight:700; color:var(--primary);">24/7</span><br>Support</div>
+                <div><span style="font-size:1.8rem; font-weight:700; color:var(--primary);">Free</span><br>Delivery DAR/ARUSHA</div>
             </div>
         </div>
     </div>
 
-    <!-- Category Sections -->
+    <div class="container" id="categoriesContainer"></div>
+
     <div class="container">
-        <section id="all" class="category-section active">
-            <div class="category-header"><div class="category-icon-large">📦</div><div class="category-info"><h2>All Products</h2><p>Complete catalog: Armoured Cables, MCBs, Contactors, Changeover Switches, Timers, Meters, Cable Lugs, Enclosures, Cable Trays, Joints, Crimping Tools, Transformers, Pumps & more</p></div></div>
-            <div class="category-controls"><div class="sort-group"><label>Sort:</label><select id="sort-all" class="sort-select" data-category="all"><option value="default">Default</option><option value="price-low">Price Low-High</option><option value="price-high">Price High-Low</option><option value="name">Name A-Z</option></select></div><div class="view-toggle"><button class="view-btn active" data-view="grid" data-category="all">⊞</button><button class="view-btn" data-view="list" data-category="all">☰</button></div></div>
-            <div class="products-container" data-category="all"><div class="products-grid" data-view="grid"></div></div>
-        </section>
-        
-        <section id="spares" class="category-section"><div class="category-header"><div class="category-icon-large">🔩</div><div class="category-info"><h2>Spare Parts</h2><p>MCBs, Contactors, Armoured Cables, Cable Lugs, Enclosures, Bus Bars, Cable Trays, Joint Kits, Transformers, Diodes, Capacitors & more</p></div></div><div class="category-controls"><div class="sort-group"><label>Sort:</label><select id="sort-spares" class="sort-select" data-category="spares"><option value="default">Default</option><option value="price-low">Price Low-High</option><option value="price-high">Price High-Low</option></select></div><div class="view-toggle"><button class="view-btn active" data-view="grid" data-category="spares">⊞</button><button class="view-btn" data-view="list" data-category="spares">☰</button></div></div><div class="products-container" data-category="spares"><div class="products-grid" data-view="grid"></div></div></section>
-        
-        <section id="tools" class="category-section"><div class="category-header"><div class="category-icon-large">🔧</div><div class="category-info"><h2>Tools & Meters</h2><p>Clamp Meters, Multimeters, Crimping Tools, Safety Belts, High Voltage Detectors, Testers</p></div></div><div class="category-controls"><div class="sort-group"><label>Sort:</label><select id="sort-tools" class="sort-select" data-category="tools"><option value="default">Default</option><option value="price-low">Price Low-High</option></select></div><div class="view-toggle"><button class="view-btn active" data-view="grid" data-category="tools">⊞</button><button class="view-btn" data-view="list" data-category="tools">☰</button></div></div><div class="products-container" data-category="tools"><div class="products-grid" data-view="grid"></div></div></section>
-        
-        <section id="generators" class="category-section"><div class="category-header"><div class="category-icon-large">⚡</div><div class="category-info"><h2>Generators</h2><p>Diesel & Petrol generators from 5kVA to 500kVA. Silent and industrial models.</p></div></div><div class="category-controls"><div class="sort-group"><label>Sort:</label><select id="sort-generators" class="sort-select" data-category="generators"><option value="default">Default</option><option value="price-low">Price Low-High</option></select></div><div class="view-toggle"><button class="view-btn active" data-view="grid" data-category="generators">⊞</button><button class="view-btn" data-view="list" data-category="generators">☰</button></div></div><div class="products-container" data-category="generators"><div class="products-grid" data-view="grid"></div></div></section>
-        
-        <section id="solar" class="category-section"><div class="category-header"><div class="category-icon-large">☀️</div><div class="category-info"><h2>Solar Systems</h2><p>Complete solar power systems, panels, inverters, batteries for homes and businesses.</p></div></div><div class="category-controls"><div class="sort-group"><label>Sort:</label><select id="sort-solar" class="sort-select" data-category="solar"><option value="default">Default</option></select></div><div class="view-toggle"><button class="view-btn active" data-view="grid" data-category="solar">⊞</button><button class="view-btn" data-view="list" data-category="solar">☰</button></div></div><div class="products-container" data-category="solar"><div class="products-grid" data-view="grid"></div></div></section>
-        
-        <section id="services" class="category-section"><div class="category-header"><div class="category-icon-large">🛠️</div><div class="category-info"><h2>Services</h2><p>Installation, maintenance, repair services. Submersible pump installation, electrical wiring, panel building.</p></div></div><div class="category-controls"><div class="sort-group"><label>Sort:</label><select id="sort-services" class="sort-select" data-category="services"><option value="default">Default</option></select></div><div class="view-toggle"><button class="view-btn active" data-view="grid" data-category="services">⊞</button><button class="view-btn" data-view="list" data-category="services">☰</button></div></div><div class="products-container" data-category="services"><div class="products-grid" data-view="grid"></div></div></section>
-        
-        <section id="deals" class="category-section"><div class="category-header"><div class="category-icon-large">🎯</div><div class="category-info"><h2>Special Deals</h2><p>Exclusive bundles, combo offers, and discounted packages.</p></div></div><div class="category-controls"><div class="sort-group"><label>Sort:</label><select id="sort-deals" class="sort-select" data-category="deals"><option value="default">Default</option></select></div><div class="view-toggle"><button class="view-btn active" data-view="grid" data-category="deals">⊞</button><button class="view-btn" data-view="list" data-category="deals">☰</button></div></div><div class="products-container" data-category="deals"><div class="products-grid" data-view="grid"></div></div></section>
-        
         <section class="filters">
             <div class="filter-group">
-                <button class="filter-btn active" data-filter="all">All</button>
-                <button class="filter-btn" data-filter="best">Best Sellers</button>
-                <button class="filter-btn" data-filter="stock">In Stock</button>
-                <div class="search-box"><span class="search-icon">🔍</span><input type="text" placeholder="Search products..." id="globalSearch"></div>
+                <div class="filter-buttons">
+                    <button class="filter-btn active" data-filter="all">All</button>
+                    <button class="filter-btn" data-filter="best">⭐ Best Sellers</button>
+                </div>
+                <div class="search-box">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" id="globalSearch" placeholder="Search products...">
+                </div>
             </div>
         </section>
-        
+
         <section class="quick-order">
-            <div class="quick-order-content"><h2>Quick Order Form</h2><p>Tell us what you need, we'll call you back</p>
-            <form id="quickOrderForm"><div class="form-group"><input type="text" placeholder="Your Name" required id="orderName"></div><div class="form-group"><input type="tel" placeholder="Phone Number" required id="orderPhone"></div><div class="form-group"><select required id="orderCategory"><option value="">Select Category</option><option value="Armoured Cables">Armoured Cables</option><option value="MCBs & Breakers">MCBs & Breakers</option><option value="Contactors">Contactors</option><option value="Changeover Switches">Changeover Switches</option><option value="Tools & Meters">Tools & Meters</option><option value="Cable Trays & Lugs">Cable Trays & Lugs</option><option value="Transformers">Transformers</option><option value="Generators">Generators</option><option value="Solar Systems">Solar Systems</option><option value="Water Pumps">Water Pumps</option><option value="Other">Other</option></select></div><div class="form-group"><textarea placeholder="Product names or requirements..." rows="3" id="orderRequirements"></textarea></div><button type="submit" class="cart-checkout-btn">📩 Send Request</button></form></div>
+            <h3>⚡ Quick Order Form</h3>
+            <p>Tell us what you need, we'll call you back within 30min</p>
+            <form id="quickOrderForm" class="quick-order-form">
+                <div><input type="text" placeholder="Your Name" required id="orderName"></div>
+                <div><input type="tel" placeholder="Phone Number" required id="orderPhone"></div>
+                <div><select required id="orderCategory"><option value="">Select Category</option><option>Deep Sea Electronics (DSE)</option><option>Siemens PLC</option><option>Allen Bradley PLC</option><option>Cables</option><option>Switches & Sockets</option><option>LED Lighting</option><option>Yanmar Engine Spares</option><option>Perkins Engine Spares</option><option>Generators</option></select></div>
+                <div><textarea placeholder="Product model & part numbers..." rows="2" id="orderRequirements"></textarea></div>
+                <button type="submit" class="kingu-order-btn" style="background:white; color:var(--primary);">📩 Send Request</button>
+            </form>
         </section>
     </div>
 
-    <div class="cart-sidebar" id="cartSidebar"><div class="cart-header"><h2>🛒 Your Cart</h2><button class="close-cart" onclick="closeCart()">×</button></div><div id="cartItems"></div><div class="cart-total"><div>Subtotal: <span id="cartSubtotal">0 TZS</span></div><div>Delivery: <span id="cartDelivery">0 TZS</span></div><div style="font-weight:700; margin-top:10px;">Total: <span id="cartTotal">0 TZS</span></div></div><button class="cart-checkout-btn" onclick="checkout()">📞 Checkout on WhatsApp</button></div>
+    <div class="cart-sidebar" id="cartSidebar">
+        <div style="display:flex; justify-content:space-between; margin-bottom:1.5rem;"><h2>🛒 Cart</h2><button onclick="closeCart()" style="background:none; border:none; font-size:1.8rem; cursor:pointer;">×</button></div>
+        <div id="cartItems"></div>
+        <div style="background:#f1f5f9; padding:1rem; border-radius:1rem; margin:1rem 0;">
+            <div>Subtotal: <span id="cartSubtotal">0 TZS</span></div>
+            <div>Delivery: <span id="cartDelivery">0 TZS</span></div>
+            <div style="font-weight:700;">Total: <span id="cartTotal">0 TZS</span></div>
+        </div>
+        <button class="kingu-order-btn" onclick="checkout()">📞 Checkout on WhatsApp</button>
+    </div>
     <div class="cart-icon" onclick="openCart()">🛒<div class="cart-count" id="cartCount">0</div></div>
-    <a class="whatsapp-float" href="https://wa.me/255682843552" target="_blank"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v5/icons/whatsapp.svg" alt="WhatsApp"></a>
-    
-    <footer class="shop-footer"><div class="container"><h3>Kingu Electrical Shop</h3><div class="footer-links"><a href="tel:+255682843552">📞 Call: +255 682 843 552</a><a href="https://wa.me/255682843552">💬 WhatsApp</a><a href="mailto:kinguelectricaltz@gmail.com">✉️ Email</a></div><p>&copy; 2025 Kingu Electrical. All prices in TZS. Delivery nationwide. Quality Guaranteed.</p></div></footer>
+    <a class="whatsapp-float" href="https://wa.me/255682843552" target="_blank">💬</a>
+
+    <footer style="background: var(--primary-dark); color:white; text-align:center; padding:2rem; margin-top:2rem;">
+        <p>© 2025 Kingu Electrical & Mechanical  Complete Electrical Solutions</p>
+    </footer>
 
     <script>
-        // ========== IMAGE MAPPING - Different images for different product types ==========
-        function getProductImage(productName, category) {
-            const name = productName.toLowerCase();
-            
-            // Cable images
-            if (name.includes('cable') || name.includes('armoured')) 
-                return "cables.png";
-            // MCB / Circuit Breaker images
-            if (name.includes('mcb') || name.includes('breaker') || name.includes('mccb'))
-                return "breakers.png";
-            // Contactor images
-            if (name.includes('contactor'))
-                return "contactors.png";
-            // Generator images
-            if (category === 'generators' || name.includes('generator') || name.includes('kva'))
-                return "generator.png";
-            // Solar images
-            if (category === 'solar' || name.includes('solar'))
-                return "https://images.unsplash.com/photo-1509391366360-2e959784a276?w=400&h=300&fit=crop";
-            // Tool images
-            if (category === 'tools' || name.includes('meter') || name.includes('clamp') || name.includes('multimeter') || name.includes('crimping'))
-                return "meter.png";
-            // Switch / Changeover images
-            if (name.includes('switch') || name.includes('changeover') || name.includes('isolator'))
-                return "changeover.png";
-            // Enclosure / Panel images
-            if (name.includes('enclosure') || name.includes('box') || name.includes('panel') || name.includes('distribution'))
-                return "panel.png";
-            // Transformer images
-            if (name.includes('transformer') || name.includes('stabilizer') || name.includes('avr'))
-                return "https://images.unsplash.com/photo-1581092335871-5c5c6b9c3b9c?w=400&h=300&fit=crop";
-            // Pump images
-            if (name.includes('pump') || name.includes('submersible'))
-                return "pump.jpeg";
-            // Tray / Ladder images
-            if (name.includes('tray') || name.includes('ladder'))
-                return "ladder.jpeg";
-            // Default image
-            return "default.png";
-        }
-
-        // ========== COMPLETE PRODUCT DATABASE - ALL 500+ PRODUCTS ==========
+        // ============================================================
+        // PRODUCT DATABASE - EACH PRODUCT WITH ITS SPECIFIC PHOTO
+        // ============================================================
         const products = [];
+        let nextId = 1;
 
-        function addProduct(id, category, name, description, price, badge = null, delivery = "Varies") {
-            products.push({
-                id, category, name, description,
-                price: price,
-                priceFormatted: price.toLocaleString(),
-                image: getProductImage(name, category),
-                stock: "in-stock",
-                delivery: delivery,
-                installation: "Not needed",
-                badge: badge
+        // Function to add product with specific image
+        function addProduct(category, name, description, price, badge = null, imageUrl = null) {
+            const id = nextId++;
+            // Default image based on category if no specific image provided
+            let finalImage = imageUrl;
+            if (!finalImage) {
+                finalImage = `changeover.png`;
+            }
+            products.push({ 
+                id, category, name, description, price: price, 
+                priceFormatted: price.toLocaleString(), 
+                image: finalImage,
+                stock: "in-stock", 
+                badge: badge 
             });
         }
 
-        // ========== 1. ARMOURED CABLES (1001-1010) ==========
-        addProduct(1001, "spares", "Armoured Cable 4mm x 4 Core", "High-quality armoured cable for underground and outdoor installations. 4mm² x 4 core.", 8500);
-        addProduct(1002, "spares", "Armoured Cable 10mm x 4 Core", "Armoured cable 10mm² x 4 core for industrial and commercial applications.", 16000);
-        addProduct(1003, "spares", "Armoured Cable 16mm x 4 Core", "Armoured cable 16mm² x 4 core for heavy-duty electrical installations.", 24000, "Best Seller");
-        addProduct(1004, "spares", "Armoured Cable 25mm x 4 Core", "Armoured cable 25mm² x 4 core for main power supply lines.", 44000);
-        addProduct(1005, "spares", "Armoured Cable 240mm x 4 Core", "Heavy-duty armoured cable 240mm² x 4 core for industrial power distribution.", 368000, "Industrial");
-        addProduct(1006, "spares", "Flexible Cable 4mm x 4 Core", "Flexible PVC cable 4mm² x 4 core for control panels and machinery.", 750000);
-        addProduct(1007, "spares", "Flexible Cable 16mm x 4 Core", "Flexible PVC cable 16mm² x 4 core for high current applications.", 960000, "Popular");
-        addProduct(1008, "spares", "PVC Flexible Cable 2.5mm x 3 Core", "PVC flexible cable 2.5mm² x 3 core for general electrical wiring.", 380000);
-        addProduct(1009, "spares", "Earth Wire 35mm", "Pure copper earth wire 35mm² for grounding systems.", 15000);
-        addProduct(1010, "spares", "Droop Cable 10mm x 4 Core", "Droop cable 10mm² x 4 core for overhead power lines.", 19000);
+        // ============================================================
+        // DEEP SEA ELECTRONICS (DSE) - EACH WITH SPECIFIC PHOTO
+        // Replace image URLs with your actual product images
+        // ============================================================
+        addProduct("dse", "Deep Sea DSE3110", "Auto start module, basic generator control with alarm monitoring", 185000, "Best Seller", "/images/dse/dse3110.png");
+        addProduct("dse", "Deep Sea DSE3110-3", "Auto start with 3-phase monitoring and voltage sensing", 225000, null, "/images/dse/dse3110-3.jpg");
+        addProduct("dse", "Deep Sea DSE4110", "Auto start with comprehensive alarm monitoring", 195000, null, "/images/dse/dse4110.jpg");
+        addProduct("dse", "Deep Sea DSE4510", "Automatic mains failure controller, single phase with LCD display", 365000, null, "/images/dse/dse4510.jpg");
+        addProduct("dse", "Deep Sea DSE4510 MKII", "Automatic mains failure controller, single phase with LCD display", 365000, null, "/images/dse/dse4510MKII.jpg");
+        addProduct("dse", "Deep Sea DSE4520", "ATS controller with remote monitoring and SMS capability", 425000, "Best Seller", "/images/dse/dse4520.jpg");
+        addProduct("dse", "Deep Sea DSE4510-3", "3-phase AMF controller with advanced protection", 395000, null, "/images/dse/dse4510.jpg");
+        addProduct("dse", "Deep Sea DSE5510", "Advanced gen-set controller with LCD and engine monitoring", 285000, null, "/images/dse/dse5510.jpg");
+        addProduct("dse", "Deep Sea DSE5520", "Remote start with SMS capability and data logging", 325000, null, "/images/dse/dse5520.jpg");
+        addProduct("dse", "Deep Sea DSE6110", "Gen-set controller, 3-phase monitoring with CAN bus", 295000, null, "/images/dse/dse6110.jpg");
+        addProduct("dse", "Deep Sea DSE6110 MKII", "Gen-set controller, 3-phase monitoring with CAN bus", 295000, null, "/images/dse/dse6110MKII.jpg");
+        addProduct("dse", "Deep Sea DSE6120", "Advanced controller with load sharing capability", 485000, "Premium", "/images/dse/dse6120.jpg");
+        addProduct("dse", "Deep Sea DSE6120 MKII", "Advanced controller with load sharing capability", 485000, "Premium", "/images/dse/dse6120MKII.jpg");
+        addProduct("dse", "Deep Sea DSEG8660",  Mains (Utility) Controller", 585000, null, "/images/dse/DSEG8660.jpg");
+        addProduct("dse", "Deep Sea DSE7210", "Auto start with CAN bus interface and J1939 support", 385000, null, "/images/dse/dse7210.jpg");
+        addProduct("dse", "Deep Sea DSE7220", "Advanced auto start with J1939 and remote monitoring", 425000, null, "/images/dse/dse7220.jpg");
+        addProduct("dse", "Deep Sea DSE7310", "Auto start with remote monitoring and USB interface", 325000, null, "/images/dse/dse7310.jpg");
+        addProduct("dse", "Deep Sea DSE7320", "Color display, advanced controller with graphical interface", 385000, "Best Seller", "/images/dse/dse7320.jpg");
+        addProduct("dse", "Deep Sea DSE7320 MKII", "Color display, advanced controller with graphical interface", 385000, "Best Seller", "/images/dse/dse7320MKII.jpg");
+        addProduct("dse", "Deep Sea DSE7420", "High-end controller with Auto Mains (Utility) Failure Control Module", 525000, null, "/images/dse/dse7420.jpg");
+        addProduct("dse", "Deep Sea DSE7410 MKII", "DSE7410 MKII Auto Start Control Module", 525000, null, "/images/dse/dse7410MKII.jpg");
+        addProduct("dse", "Deep Sea DSE7420 MKII", "Auto Mains (Utility) Failure Control Module", 525000, null, "/images/dse/dse7420MKII.jpg");
+        addProduct("dse", "Deep Sea DSE8610 MKII", "Color display, multi-language, advanced PLC functionality", 485000, null, "/images/dse/dse8610.jpg");
+        addProduct("dse", "Deep Sea DSE8620 MKII", "DSE8620 MKII Synchronising Auto Mains (Utility) Failure Load Share Control Module", 685000, "Premium", "/images/dse/dse8620.jpg");
+        addProduct("dse", "Deep Sea DSE8660 MKII", "DSE8660 MKII Auto Transfer Switch & Mains (Utility) Control Module", 985000, null, "/images/dse/dse8660.jpg");
+        addProduct("dse", "DSE Remote Display Panel", "Remote annunciator for DSE controllers with alarm indication", 125000, null, "/images/dse/remote-panel.jpg");
+        addProduct("dse", "DSE CAN Bus Cable", "CAN bus communication cable for DSE controllers", 25000, null, "/images/dse/can-cable.jpg");
+        addProduct("dse", "DSE USB Programming Cable", "Programming cable for DSE controllers with driver", 35000, null, "/images/dse/usb-cable.jpg");
+      
+         // ============================================================
+        // CABLES & WIRING - EACH WITH SPECIFIC PHOTO
+        // ============================================================
+        addProduct("cables", "0.5 mm Single Core Flexible Cable", "PVC insulated, 99.9% pure copper, 100m roll", 39500, null, "/images/cables/0.5mm-single-core.jpg");
+        addProduct("cables", "1.5 mm Single Core Flexible Cable", "PVC insulated, 99.9% pure copper conductor, 100m roll", 102000, null, "/images/cables/1.5mm-single-core.jpg");
+        addProduct("cables", "2.5 mm Single Core Cable", "Standard single core for house wiring, 100m roll", 155000, null, "/images/cables/2.5mm-single-core.jpg");
+        addProduct("cables", "4 mm Single Core Cable", "Heavy duty single core, 100m roll", 235000, null, "/images/cables/4mm-single-core.jpg");
+        addProduct("cables", "6 mm Single Core Cable", "Industrial single core, 100m roll", 345000, null, "/images/cables/6mm-single-core.jpg");
+        addProduct("cables", "10mm Single Core Cable", "Heavy duty 10mm single core, 100m roll", 535000, null, "/images/cables/10mm-single-core.jpg");
+        addProduct("cables", "16mm Single Core Cable", "Heavy industrial cable, 100m roll", 785000, null, "/images/cables/16mm-single-core.jpg");
+        addProduct("cables", "0.5mm 2 Core Flexible Cable", "PVC insulated, 2 core, 99.9% pure copper, 100m roll", 98000, null, "/images/cables/0.5mm-2core.jpg");
+        addProduct("cables", "0.5mm 2 Core Twisted Cable", "Red & Black twisted flexible cable, 100m roll", 86000, null, "/images/cables/0.5mm-2core-twisted.jpg");
+        addProduct("cables", "1.5mm 2 Core Flexible Cable", "Heavy duty 2 core flexible cable, 100m roll", 222000, null, "/images/cables/1.5mm-2core.jpg");
+        addProduct("cables", "2.5mm 2 Core Flexible Cable", "Heavy duty flexible cable, 100m roll", 325000, null, "/images/cables/2.5mm-2core.jpg");
+        addProduct("cables", "0.75mm 3 Core Flexible Cable", "3 core with earth, flexible, 100m roll", 175000, null, "/images/cables/0.75mm-3core.jpg");
+        addProduct("cables", "1.5mm 3 Core Flexible Cable", "3 core heavy duty flexible, 100m roll", 292000, null, "/images/cables/1.5mm-3core.jpg");
+        addProduct("cables", "2.5mm 3 Core Flexible Cable", "3 core industrial flexible, 100m roll", 385000, null, "/images/cables/2.5mm-3core.jpg");
+        addProduct("cables", "4mm 3 Core Flexible Cable", "3 phase flexible cable, 100m roll", 545000, null, "/images/cables/4mm-3core.jpg");
+        addProduct("cables", "10mm 3 Core Flexible Cable", "Industrial 3 phase flexible, 100m roll", 2103000, null, "/images/cables/10mm-3core.jpg");
+        addProduct("cables", "1.5mm 4 Core Flexible Cable", "4 core power cable, 100m roll", 447000, null, "/images/cables/1.5mm-4core.jpg");
+        addProduct("cables", "1.5mm 4 Core Submersible Cable", "Waterproof submersible pump cable, 100m roll", 508000, null, "/images/cables/submersible-4core.jpg");
+        addProduct("cables", "2.5mm 4 Core Flexible Cable", "4 core industrial cable, 100m roll", 585000, null, "/images/cables/2.5mm-4core.jpg");
+        addProduct("cables", "10mm 4 Core Flexible Cable", "Heavy 4 core industrial, 100m roll", 2632000, null, "/images/cables/10mm-4core.jpg");
+        addProduct("cables", "1.5 mm Flat Twin Cable", "PVC flat twin for surface wiring, 100m roll", 250000, null, "/images/cables/flat-twin-1.5mm.jpg");
+        addProduct("cables", "2.5 mm Flat Twin Cable", "Heavy duty flat twin, 100m roll", 385000, null, "/images/cables/flat-twin-2.5mm.jpg");
+        addProduct("cables", "Armoured Cable 4mm x 4 Core", "High-quality armoured cable for underground installations", 8500, "Best Seller", "/images/cables/armoured-4mm-4core.jpg");
+        addProduct("cables", "Armoured Cable 10mm x 4 Core", "Armoured cable for industrial applications", 16000, null, "/images/cables/armoured-10mm-4core.jpg");
+        addProduct("cables", "Armoured Cable 16mm x 4 Core", "Armoured cable for heavy-duty installations", 24000, "Best Seller", "/images/cables/armoured-16mm-4core.jpg");
+        addProduct("cables", "Armoured Cable 25mm x 4 Core", "Armoured cable for main power supply lines", 44000, null, "/images/cables/armoured-25mm-4core.jpg");
+        addProduct("cables", "Armoured Cable 35mm x 4 Core", "Heavy-duty armoured cable for industrial", 58000, null, "/images/cables/armoured-35mm-4core.jpg");
+        addProduct("cables", "Armoured Cable 50mm x 4 Core", "Industrial armoured cable", 85000, null, "/images/cables/armoured-50mm-4core.jpg");
+        addProduct("cables", "Armoured Cable 70mm x 4 Core", "Heavy industrial armoured cable", 125000, null, "/images/cables/armoured-70mm-4core.jpg");
+        addProduct("cables", "Armoured Cable 95mm x 4 Core", "High capacity armoured cable", 165000, null, "/images/cables/armoured-95mm-4core.jpg");
+        addProduct("cables", "Armoured Cable 120mm x 4 Core", "Heavy industrial power cable", 215000, null, "/images/cables/armoured-120mm-4core.jpg");
+        addProduct("cables", "Armoured Cable 150mm x 4 Core", "Industrial main feeder cable", 265000, null, "/images/cables/armoured-150mm-4core.jpg");
+        addProduct("cables", "Armoured Cable 185mm x 4 Core", "Heavy industrial cable", 325000, null, "/images/cables/armoured-185mm-4core.jpg");
+        addProduct("cables", "Armoured Cable 240mm x 4 Core", "Heavy-duty industrial cable", 368000, "Industrial", "/images/cables/armoured-240mm-4core.jpg");
 
-        // ========== 2. MCB & CIRCUIT BREAKERS (2001-2020) ==========
-        addProduct(2001, "spares", "MCB Schneider C120N 125A 4 Pole", "Schneider Electric MCB C120N 125A 4 pole circuit breaker. High breaking capacity.", 92000, "Premium");
-        addProduct(2002, "spares", "MCB Schneider C120N 100A 3 Pole", "Schneider MCB C120N 100A 3 pole circuit breaker.", 69000);
-        addProduct(2003, "spares", "MCB Schneider C120N 100A 2 Pole", "Schneider MCB C120N 100A 2 pole circuit breaker.", 46000);
-        addProduct(2004, "spares", "MCB Schneider C120N 80A 4 Pole", "Schneider MCB C120N 80A 4 pole circuit breaker.", 92000);
-        addProduct(2005, "spares", "MCB Schneider 3 Pole 1250A", "Heavy-duty MCCB Schneider 3 pole 1250A for main distribution boards.", 1650000, "Industrial");
-        addProduct(2006, "spares", "MCB Schneider 3 Pole 800A", "MCCB Schneider 3 pole 800A for industrial applications.", 1200000);
-        addProduct(2007, "spares", "MCB Schneider 3 Pole 630A", "MCCB Schneider 3 pole 630A circuit breaker.", 400000);
-        addProduct(2008, "spares", "MCB Schneider 3 Pole 400A", "MCCB Schneider 3 pole 400A circuit breaker.", 270000);
-        addProduct(2009, "spares", "MCB Schneider 3 Pole 250A", "MCCB Schneider 3 pole 250A circuit breaker.", 75000);
-        addProduct(2010, "spares", "MCB Schneider 3 Pole 160A", "MCCB Schneider 3 pole 160A circuit breaker.", 55000);
-        addProduct(2011, "spares", "MCB ABB 3 Pole 10A", "ABB MCB 3 pole 10A miniature circuit breaker.", 25000);
-        addProduct(2012, "spares", "MCB ABB 4 Pole 32A", "ABB MCB 4 pole 32A circuit breaker.", 35000);
-        addProduct(2013, "spares", "MCB ABB 4 Pole 100A", "ABB MCB 4 pole 100A circuit breaker.", 35000);
-        addProduct(2014, "spares", "MCB ABB 4 Pole 10A", "ABB MCB 4 pole 10A circuit breaker.", 35000);
-        addProduct(2015, "spares", "MCB Schneider 4 Pole 63A", "Schneider MCB 4 pole 63A circuit breaker.", 22000);
-        addProduct(2016, "spares", "MCB Schneider 4 Pole 25A", "Schneider MCB 4 pole 25A circuit breaker.", 22000);
-        addProduct(2017, "spares", "MCB Schneider 4 Pole 10A", "Schneider MCB 4 pole 10A circuit breaker.", 22000);
-        addProduct(2018, "spares", "MCB Single Pole Schneider iC60", "Schneider iC60 single pole MCB for lighting circuits.", 5000);
-        addProduct(2019, "spares", "MCB 2 Pole 32A Legrand", "Legrand MCB 2 pole 32A circuit breaker.", 10000);
-        addProduct(2020, "spares", "MCB ZAD C63A Schneider", "Schneider ZAD MCB 63A circuit breaker.", 12000);
+        // ============================================================
+        // SWITCHES & SOCKETS - EACH WITH SPECIFIC PHOTO
+        // ============================================================
+        addProduct("switches", "1 Gang 1 Way Switch Standard", "Standard white switch, smooth edges", 3900, null, "/images/switches/1gang-1way-white.jpg");
+        addProduct("switches", "1 Gang 2 Way Switch Standard", "2-way switching, white finish", 4500, null, "/images/switches/1gang-2way-white.jpg");
+        addProduct("switches", "1 Gang 2 Way Switch – Black", "Black finish, modern design", 8000, null, "/images/switches/1gang-2way-black.jpg");
+        addProduct("switches", "1 Gang 13A Socket with Neon – White", "Power socket with indicator light", 8500, null, "/images/switches/socket-1gang-white.jpg");
+        addProduct("switches", "1 Gang 13A Socket with Neon – Black", "Power socket with indicator light, black finish", 11000, null, "/images/switches/socket-1gang-black.jpg");
+        addProduct("switches", "2 Gang 13A Socket", "Double power socket, white finish", 12500, null, "/images/switches/socket-2gang.jpg");
+        addProduct("switches", "1 Gang 13A Socket with USB", "Power socket with USB charging ports", 18500, null, "/images/switches-socket-usb.jpg");
+        addProduct("switches", "MCB Schneider 125A 4 Pole", "Schneider Electric MCB C120N 125A 4 pole", 92000, "Premium", "/images/switches/mcb-schneider-125a.jpg");
+        addProduct("switches", "MCB Schneider 100A 3 Pole", "Schneider MCB C120N 100A 3 pole", 69000, null, "/images/switches/mcb-schneider-100a-3p.jpg");
+        addProduct("switches", "MCB Schneider 63A 4 Pole", "Schneider MCB 4 pole 63A", 26000, null, "/images/switches/mcb-schneider-63a.jpg");
+        addProduct("switches", "MCB ABB 4 Pole 32A", "ABB MCB 4 pole 32A circuit breaker", 35000, null, "/images/switches/mcb-abb-32a.jpg");
+        addProduct("switches", "Change Over Switch 100A", "Manual change over switch for generator and mains", 295000, null, "/images/switches/changeover-100a.jpg");
+        addProduct("switches", "Automatic Changeover Switch 63A", "Automatic changeover switch 63A three phase", 1050000, null, "/images/switches/auto-changeover.jpg");
+        addProduct("switches", "Automatic Changeover Switch 125A", "Automatic changeover switch 125A three phase", 1050000, null, "/images/switches/auto-changeover125.jpg");
+        addProduct("switches", "Isolator Switch ABB", "ABB isolator switch for safe electrical isolation", 240000, null, "/images/switches/isolator-abb.jpg");
+        addProduct("switches", "Motorised Automatic Transfer Change Over Switch 125A Gave Electro", "Motorised Automatic Transfer Change Over Switch 125A Gave Electro", 1050000, null, "/images/switches/gave125.jpg");
+        addProduct("switches", "Motorised Automatic Transfer Change Over Switch 63A Gave Electro", "Motorised Automatic Transfer Change Over Switch 63A Gave Electro", 1050000, null, "/images/switches/gave63.jpg");
+        
 
-        // ========== 3. CONTACTORS (3001-3020) ==========
-        addProduct(3001, "spares", "IC Contactor 125A Schneider", "Schneider IC contactor 125A for motor control and switching.", 35000, "Best Seller");
-        addProduct(3002, "spares", "AC Contactor 300A Siemens", "Siemens AC contactor 300A for heavy industrial applications.", 550000);
-        addProduct(3003, "spares", "AC Contactor 180A", "AC contactor 180A for commercial applications.", 210000);
-        addProduct(3004, "spares", "AC Contactor 70A 4 Pole", "AC contactor 70A 4 pole for three-phase applications.", 200000);
-        addProduct(3005, "spares", "AC Contactor Chint NXC-09 20A", "Chint AC contactor NXC-09 20A for small motor control.", 17000);
-        addProduct(3006, "spares", "AC Contactor Chint NXC-12 25A", "Chint AC contactor NXC-12 25A.", 18000);
-        addProduct(3007, "spares", "AC Contactor Chint NXC-15 32A", "Chint AC contactor NXC-15 32A.", 22000);
-        addProduct(3008, "spares", "AC Contactor Chint NXC-18 32A", "Chint AC contactor NXC-18 32A.", 27000);
-        addProduct(3009, "spares", "AC Contactor Chint NXC-25 40A", "Chint AC contactor NXC-25 40A.", 27000);
-        addProduct(3010, "spares", "AC Contactor Chint NXC-32 50A", "Chint AC contactor NXC-32 50A.", 38000);
-        addProduct(3011, "spares", "AC Contactor Chint NXC-40 60A", "Chint AC contactor NXC-40 60A.", 68000);
-        addProduct(3012, "spares", "AC Contactor Chint NXC-85 100A", "Chint AC contactor NXC-85 100A for heavy-duty applications.", 144000);
-        addProduct(3013, "spares", "ABB Contactor A09-40-00 25A", "ABB contactor A09-40-00 25A for motor control.", 24000);
-        addProduct(3014, "spares", "ABB Contactor A12-40-00 27A", "ABB contactor A12-40-00 27A.", 24000);
-        addProduct(3015, "spares", "ABB Contactor A75-30-10 125A", "ABB contactor A75-30-10 125A for industrial applications.", 136000);
-        addProduct(3016, "spares", "ABB Contactor EX110 200A", "ABB EX110 contactor 200A for heavy industrial use.", 600000, "Industrial");
-        addProduct(3017, "spares", "ABB Contactor EX150 250A", "ABB EX150 contactor 250A for heavy industrial applications.", 640000);
-        addProduct(3018, "spares", "Contactor Schneider D25 40A", "Schneider contactor D25 40A.", 20000);
-        addProduct(3019, "spares", "Contactor Schneider D32 50A", "Schneider contactor D32 50A.", 20000);
-        addProduct(3020, "spares", "AC Contactor Chint 4 Pole 380A", "Chint AC contactor 4 pole 380A for heavy industrial switching.", 1060000, "Industrial");
+        // ============================================================
+        // LIGHTING PRODUCTS - EACH WITH SPECIFIC PHOTO
+        // ============================================================
+        addProduct("lighting", "10W LED Magnetic Track Light", "Warm white, magnetic track light", 55000, null, "/images/lighting/magnetic-track-10w.jpg");
+        addProduct("lighting", "20W LED Flood Light", "Medium floodlight for outdoor use", 18500, null, "/images/lighting/floodlight-20w.jpg");
+        addProduct("lighting", "50W LED Flood Light", "High-power floodlight for yards", 35000, null, "/images/lighting/floodlight-50w.jpg");
+        addProduct("lighting", "100W LED Flood Light", "High-power floodlight, warm white", 68000, null, "/images/lighting/floodlight-100w.jpg");
+        addProduct("lighting", "100W LED Canopy Light", "Durable outdoor ceiling fixture", 410000, null, "/images/lighting/canopy-light.jpg");
+        addProduct("lighting", "LED Panel Light 60x60cm", "Recessed LED panel for offices", 125000, null, "/images/lighting/panel-60x60.jpg");
+        addProduct("lighting", "LED Downlight 6W", "Recessed downlight, warm white", 8500, null, "/images/lighting/downlight-6w.jpg");
+        addProduct("lighting", "LED Downlight 12W", "Recessed downlight, high lumen", 12500, null, "/images/lighting/downlight-12w.jpg");
+        addProduct("lighting", "LED Bulb 9W", "High brightness LED bulb", 5500, null, "/images/lighting/bulb-9w.jpg");
+        addProduct("lighting", "LED Tube Light 4ft", "T8 LED tube, cool white", 12500, null, "/images/lighting/tube-4ft.jpg");
+        addProduct("lighting", "Solar Street Light 30W", "Complete solar street light with pole", 185000, null, "/images/lighting/solar-street-30w.jpg");
+        addProduct("lighting", "Solar Street Light 60W", "High power solar street light", 285000, null, "/images/lighting/solar-street-60w.jpg");
+        addProduct("lighting", "12-Globe Crystal Pendant Chandelier", "Chrome finish, crystal globes", 770000, null, "/images/lighting/chandelier-crystal.jpg");
+        addProduct("lighting", "12-Globe Modern Pendant Chandelier", "Matte black, opal glass globes", 600000, null, "/images/lighting/chandelier-modern.jpg");
 
-        // ========== 4. CHANGE OVER SWITCHES (4001-4009) ==========
-        addProduct(4001, "spares", "Motorized Change Over Switch 250V", "Automatic motorized change over switch 250V for seamless power transfer.", 2500000, "Best Seller");
-        addProduct(4002, "spares", "Automatic Changeover Switch ABB 100A", "ABB automatic changeover switch 100A for generator and mains transfer.", 130000);
-        addProduct(4003, "spares", "Automatic Changeover Switch 63A 3 Phase", "Automatic changeover switch 63A three phase for industrial applications.", 850000);
-        addProduct(4004, "spares", "Change Over Switch 100A", "Manual change over switch 100A for generator and mains.", 195000);
-        addProduct(4005, "spares", "Main Switch 12 Ways 3 Phase Tronic", "Main switch 12 ways 3 phase with 36 MCB positions.", 48000);
-        addProduct(4006, "spares", "Main Switch 100A Havells", "Havells main switch 100A for distribution boards.", 210000);
-        addProduct(4007, "spares", "Isolator Switch ABB", "ABB isolator switch for safe electrical isolation.", 140000);
-        addProduct(4008, "spares", "Isolator Fuse Switch 10kA", "Isolator fuse switch 10kA for protection and isolation.", 250000);
-        addProduct(4009, "spares", "Isolator Fuse Switch 63A Havells", "Havells isolator fuse switch 63A.", 165000);
+        // ============================================================
+        // MOTOR CONTROLS - EACH WITH SPECIFIC PHOTO
+        // ============================================================
+        addProduct("motors", "1.5HP Control Switch For Pump", "Single phase pump controller with protection", 55000, null, "/images/motors/pump-control-1.5hp.jpg");
+        addProduct("motors", "1.5HP Control Switch For Pump", "Single phase pump controller with protection", 55000, null, "/images/motors/pump-contro2-1.5hp.jpg");
+        addProduct("motors", "1.5HP DOL Starter", "Direct-on-line starter for motors", 79000, null, "/images/motors/dol-starter-1.5hp.jpg");
+        addProduct("motors", "3HP DOL Starter", "Direct-on-line starter for 3HP motors", 125000, null, "/images/motors/dol-starter-3hp.jpg");
+        addProduct("motors", "5HP DOL Starter", "Direct-on-line starter for 5HP motors", 185000, null, "/images/motors/dol-starter-5hp.jpg");
+        addProduct("motors", "IC Contactor 125A Schneider", "Schneider IC contactor 125A for motor control", 35000, "Best Seller", "/images/motors/contactor-125a.jpg");
+        addProduct("motors", "AC Contactor 300A Siemens", "Siemens AC contactor 300A for heavy industrial", 550000, null, "/images/motors/contactor-300a.jpg");
+        addProduct("motors", "AC Contactor Chint NXC-09 20A", "Chint contactor for small motors", 17000, null, "/images/motors/contactor-chint-20a.jpg");
+        addProduct("motors", "AC Contactor Chint NXC-32 50A", "Chint contactor 50A", 38000, null, "/images/motors/contactor-chint-50a.jpg");
+        addProduct("motors", "Soft Starter 15kW", "Soft starter for smooth motor starting", 185000, null, "/images/motors/soft-starter-15kw.jpg");
+        addProduct("motors", "Soft Starter 22kW", "Industrial soft starter", 245000, null, "/images/motors/soft-starter-22kw.jpg");
+        addProduct("motors", "VFD 1.5kW", "Variable frequency drive for motor speed control", 185000, null, "/images/motors/vfd-1.5kw.jpg");
+        addProduct("motors", "VFD 2.2kW", "Variable frequency drive", 245000, null, "/images/motors/vfd-2.2kw.jpg");
+        addProduct("motors", "Motor Circuit Breaker GV2 9-14A", "Schneider GV2 motor circuit breaker", 65000, null, "/images/motors/gv2-breaker.jpg");
 
-        // ========== 5. CONTROL & PROTECTION DEVICES (5001-5014) ==========
-        addProduct(5001, "spares", "Control Box 1HP", "Control box for 1HP water pumps and motors with overload protection.", 35000, "Popular");
-        addProduct(5002, "spares", "Control Box 2HP", "Control box for 2HP water pumps and motors.", 35000);
-        addProduct(5003, "spares", "Control Box 3HP", "Control box for 3HP water pumps and motors.", 40000);
-        addProduct(5004, "spares", "Water Level Controller", "Automatic water level controller for tanks and pumps.", 23000);
-        addProduct(5005, "spares", "Motor Circuit Breaker GV2 Schneider 9-14A", "Schneider GV2 motor circuit breaker for motor protection.", 45000);
-        addProduct(5006, "spares", "Motor Circuit Breaker GV2 24-32A", "Schneider GV2 motor circuit breaker 24-32A.", 45000);
-        addProduct(5007, "spares", "Motor Circuit Breaker GV2 2.5-4A", "Schneider GV2 motor circuit breaker 2.5-4A for small motors.", 45000);
-        addProduct(5008, "spares", "Overload Relay 12-18A", "Thermal overload relay for motor protection 12-18A.", 7000);
-        addProduct(5009, "spares", "Overload Relay 80-93A", "Thermal overload relay for motor protection 80-93A.", 17000);
-        addProduct(5010, "spares", "AVR SX460A", "Automatic Voltage Regulator SX460A for generator voltage control.", 550000);
-        addProduct(5011, "spares", "Adjustable Voltage Protector 63A 4 Pole", "Adjustable voltage protector 63A 4 pole for equipment protection.", 67000);
-        addProduct(5012, "spares", "Surge Protective Device ABB 3 Poles DC", "ABB surge protective device 3 poles DC for solar systems.", 12000);
-        addProduct(5013, "spares", "Surge Protective Device Schneider 3 Poles DC", "Schneider surge protective device 3 poles DC.", 80000);
-        addProduct(5014, "spares", "Surge Protective Device ABS 4 Poles AC", "ABS surge protective device 4 poles AC for mains protection.", 96000);
+        // ============================================================
+        // YANMAR ENGINE SPARES - EACH WITH SPECIFIC PHOTO
+        // ============================================================
+        addProduct("yanmar", "Yanmar 3TN Piston Ring Set", "Complete piston rings for 3TN series", 225000, "Yanmar Genuine", "/images/yanmar/3tn-piston-ring.jpg");
+        addProduct("yanmar", "Yanmar 3TN Cylinder Liner", "Cast iron cylinder liner", 105000, null, "/images/yanmar/3tn-cylinder-liner.jpg");
+        addProduct("yanmar", "Yanmar 4TN Piston Kit", "Complete piston with rings", 385000, "Best Seller", "/images/yanmar/4tn-piston-kit.jpg");
+        addProduct("yanmar", "Yanmar 4TN Cylinder Liner Kit", "Wet cylinder liner with O-rings", 225000, null, "/images/yanmar/4tn-cylinder-liner.jpg");
+        addProduct("yanmar", "Yanmar 3TN,4TN Complete Overhaul kit", "Complete overhaul kit set", 825000, null, "/images/yanmar/overhaul.jpg");
+        addProduct("yanmar", "Yanmar Fuel Injector Nozzle", "Genuine injector nozzle", 165000, null, "/images/yanmar/injector-nozzle.jpg");
+        addProduct("yanmar", "Yanmar Oil Filter", "Genuine oil filter", 40500, null, "/images/yanmar/oil-filter.jpg");
+        addProduct("yanmar", "Yanmar Fuel Filter", "Fuel filter/water separator", 40500, null, "/images/yanmar/fuel-filter.jpg");
+        addProduct("yanmar", "Yanmar Water Pump Assembly", "Complete water pump", 385000, null, "/images/yanmar/water-pump.jpg");
+        addProduct("yanmar", "Yanmar Turbocharger", "Complete turbo assembly", 1785000, null, "/images/yanmar/turbocharger.jpg");
+        addProduct("yanmar", "Yanmar Crankshaft", "Balanced crankshaft", 1550000, null, "/images/yanmar/crankshaft.jpg");
+        addProduct("yanmar", "Yanmar Gasket Kit", "Complete overhaul gasket kit", 205000, null, "/images/yanmar/gasket-kit.jpg");
 
-        // ========== 6. TIMERS & CONTROLLERS (6001-6006) ==========
-        addProduct(6001, "spares", "Timer 24 Hours Theben", "Theben 24-hour timer switch for lighting and equipment control.", 43500);
-        addProduct(6002, "spares", "Timer Switch 24Hrs Schneider", "Schneider 24-hour timer switch.", 30000);
-        addProduct(6003, "spares", "Timer DT-2 Schneider", "Schneider DT-2 digital timer.", 8000);
-        addProduct(6004, "spares", "Timer with Base Super Timer", "Super timer with base for industrial timing applications.", 12000);
-        addProduct(6005, "spares", "Photocell Switch", "Automatic photocell switch for outdoor lighting control.", 12000);
-        addProduct(6006, "spares", "Temperature Controller", "Digital temperature controller for industrial applications.", 75000);
+        // ============================================================
+        // PERKINS ENGINE SPARES - EACH WITH SPECIFIC PHOTO
+        // ============================================================
+        addProduct("perkins", "Perkins 1104 Piston Kit", "Complete piston with rings", 385000, "Perkins Genuine", "/images/perkins/1104-piston-kit.jpg");
+        addProduct("perkins", "Perkins 1104 Cylinder Liner", "Wet cylinder liner kit", 245000, null, "/images/perkins/1104-cylinder-liner.png");
+        addProduct("perkins", "Perkins 1104 Connecting Rod", "Forged connecting rod", 285000, null, "/images/perkins/1104-connecting-rod.jpg");
+        addProduct("perkins", "Perkins 1104 Gasket Kit", "Complete overhaul gasket set", 255000, null, "/images/perkins/1104-gasket-kit.jpg");
+        addProduct("perkins", "Perkins Fuel Injector", "Complete injector assembly", 285000, null, "/images/perkins/fuel-injector.jpg");
+        addProduct("perkins", "Perkins Turbocharger", "Complete turbo assembly", 485000, null, "/images/perkins/Perkin-turbocharger.jpg");
+        addProduct("perkins", "Perkins Crankshaft", "Precision ground crankshaft", 595000, null, "/images/perkins/Perkin-crankshaft.jpg");
+        addProduct("perkins", "Perkins Oil Filter", "Genuine oil filter", 40500, null, "/images/perkins/perkin-oil-filter.jpg");
+        addProduct("perkins", "Perkins Water Pump", "Circulating water pump", 245000, null, "/images/perkins/perkins-water-pump.jpg");
 
-        // ========== 7. METERS & TESTERS (7001-7010) ==========
-        addProduct(7001, "tools", "Clamp Meter Fluke 225", "Fluke 225 professional clamp meter for electrical measurements.", 1080000, "Professional");
-        addProduct(7002, "tools", "Clamp Meter UNI-T UT205", "UNI-T UT205 professional clamp meter.", 150000, "Best Seller");
-        addProduct(7003, "tools", "Clamp Meter UNI-T UT207", "UNI-T UT207 professional clamp meter with advanced features.", 450000);
-        addProduct(7004, "tools", "Multimeter UNI-T UT39C+", "UNI-T UT39C+ digital multimeter.", 70000);
-        addProduct(7005, "tools", "Multimeter UNI-T UT136C+", "UNI-T UT136C+ digital multimeter.", 85000);
-        addProduct(7006, "tools", "Multimeter UNI-T UT89X", "UNI-T UT89X digital multimeter with temperature measurement.", 95000);
-        addProduct(7007, "tools", "Digital Multimeter UNI-T UT89XD", "UNI-T UT89XD advanced digital multimeter.", 105000);
-        addProduct(7008, "tools", "Current and Voltage Meter", "Digital current and voltage meter for panel mounting.", 25000);
-        addProduct(7009, "tools", "Ammeter (Ampere Meter)", "Panel mounted ammeter for current measurement.", 15000);
-        addProduct(7010, "tools", "Power Factor Meter PFR 120MK30", "Power factor meter for panel installation.", 205000);
+        // ============================================================
+        // GENERATORS - EACH WITH SPECIFIC PHOTO
+        // ============================================================
+        addProduct("generators", "10kVA Diesel Generator", "Portable diesel generator with ATS panel", 5200000, "Best Seller", "/images/generators/generator.png");
+        addProduct("generators", "15kVA Home Generator", "Residential generator with automatic transfer switch", 14800000, null, "/images/generators/generator.png");
+        addProduct("generators", "25kVA Standby Generator", "Commercial generator with auto start", 27200000, null, "/images/generators/generator.png");
+        addProduct("generators", "50kVA Silent Generator", "Super silent generator for residential areas", 52500000, "Popular", "/images/generatorsgenerator.png");
+        addProduct("generators", "100kVA Diesel Generator", "Complete generator set with ATS", 125500000, "Best Seller", "/images/generators/generator.png");
+        addProduct("generators", "Generator ATS Panel", "Automatic transfer switch panel", 450000, null, "/images/generators/ats-panel.png");
+        addProduct("generators", "Generator Control Panel", "Remote monitoring panel", 285000, null, "/images/generators/control-panel.jpg");
 
-        // ========== 8. CABLE LUGS & CONNECTORS (8001-8006) ==========
-        addProduct(8001, "spares", "Bimetallic Cable Lugs 95mm", "Bimetallic cable lugs 95mm for cable termination.", 7000);
-        addProduct(8002, "spares", "Cable Lug 240mm", "Pure copper cable lug 240mm.", 13000);
-        addProduct(8003, "spares", "Through Lug 150mm", "Through lug 150mm for cable connections.", 5000);
-        addProduct(8004, "spares", "Clamp Pure Copper 240mm", "Pure copper clamp for cable connections.", 20000);
-        addProduct(8005, "spares", "ABC Clamp", "ABC clamp for overhead line connections.", 3000);
-        addProduct(8006, "spares", "Tension Clamp", "Tension clamp for cable tensioning.", 8000);
+        // ============================================================
+        // ELECTRICAL SPARES & ACCESSORIES - EACH WITH SPECIFIC PHOTO
+        // ============================================================
+        addProduct("cables", "Cable Lug 16mm", "Pure copper cable lug", 1500, null, "/images/spares/cable-lug-16mm.jpg");
+        addProduct("cables", "Cable Lug 25mm", "Pure copper cable lug", 1800, null, "/images/spares/cable-lug-25mm.jpg");
+        addProduct("cables", "Cable Lug 35mm", "Pure copper cable lug", 2200, null, "/images/spares/cable-lug-35mm.jpg");
+        addProduct("cables", "Cable Lug 50mm", "Pure copper cable lug", 2800, null, "/images/spares/cable-lug-50mm.jpg");
+        addProduct("cables", "Cable Lug 70mm", "Pure copper cable lug", 3500, null, "/images/spares/cable-lug-70mm.jpg");
+        addProduct("cables", "Cable Lug 95mm", "Pure copper cable lug", 4500, null, "/images/spares/cable-lug-95mm.jpg");
+        addProduct("cables", "Cable Lug 120mm", "Pure copper cable lug", 5500, null, "/images/spares/cable-lug-120mm.jpg");
+        addProduct("cables", "Cable Lug 150mm", "Pure copper cable lug", 6800, null, "/images/spares/cable-lug-150mm.jpg");
+        addProduct("cables", "Cable Lug 185mm", "Pure copper cable lug", 8500, null, "/images/spares/cable-lug-185mm.jpg");
+        addProduct("cables", "Cable Lug 240mm", "Pure copper cable lug", 13000, null, "/images/spares/cable-lug-240mm.jpg");
+        
+        addProduct("switches", "Control Box 1HP", "Control box for 1HP water pumps", 35000, "Popular", "/images/spares/control-box-1hp.jpg");
+        addProduct("switches", "Water Level Controller", "Automatic water level controller", 23000, null, "/images/spares/water-level-controller.jpg");
+        addProduct("switches", "Timer 24 Hours Theben", "Theben 24-hour timer switch", 93500, null, "/images/spares/timer-theben.jpg");
+        addProduct("switches", "Photocell Switch", "Automatic photocell for outdoor lighting", 12000, null, "/images/spares/photocell.jpg");
+        
+        addProduct("tools", "Clamp Meter Fluke 325", "Fluke professional clamp meter", 2080000, "Professional", "/images/tools/fluke-325.jpg");
+        addProduct("tools", "Clamp Meter UNI-T UT205", "UNI-T professional clamp meter", 205000, "Best Seller", "/images/tools/uni-t-ut205.jpg");
+        addProduct("tools", "Multimeter UNI-T UT39C+", "Digital multimeter", 100000, null, "/images/tools/uni-t-ut39c.jpg");
+        addProduct("tools", "Hydraulic Crimping Tool YKK 240", "Hydraulic crimping tool", 350000, "Best Seller", "/images/tools/crimping-tool.jpg");
+        
+        addProduct("spares", "AVR SX460A", "Automatic Voltage Regulator", 550000, null, "/images/spares/avr-sx460a.jpg");
+        addProduct("spares", "Surge Protective Device ABB", "ABB surge protector DC", 12000, null, "/images/spares/surge-abb.jpg");
+        addProduct("spares", "Cable Tray 50x50mm", "Galvanized cable tray", 37000, null, "/images/spares/cable-tray.jpg");
+        addProduct("spares", "Step Up Down Transformer 750W", "Voltage converter", 258000, null, "/images/spares/transformer-750w.jpg");
+        addProduct("services", "Submersible Water Pump 0.9HP", "Complete submersible pump", 250000, null, "/images/spares/pump.jpg");
+        addProduct("services", "Submersible Water Pump 3HP", "Submersible pump for deep wells", 600000, null, "/images/spares/pump.jpg");
 
-        // ========== 9. ENCLOSURES & PANELS (9001-9010) ==========
-        addProduct(9001, "spares", "Empty Enclosure Box 1400x800x250mm", "Large industrial enclosure box for switchgear and panels.", 1150000, "Industrial");
-        addProduct(9002, "spares", "Empty Enclosure Box 1200x1000x250mm", "Large industrial enclosure box.", 600000);
-        addProduct(9003, "spares", "Empty Enclosure Box 1400x1000x250mm", "Empty enclosure box 1400x1000x250mm for electrical panels.", 120000);
-        addProduct(9004, "spares", "Panel Distribution Board 3 Ways", "Panel distribution board with incoming 250A and outgoing 160A MCB.", 1300000, "Premium");
-        addProduct(9005, "spares", "Panel Distribution Board 4 Ways", "Panel distribution board with incoming 100A and outgoing 63A MCB.", 1500000);
-        addProduct(9006, "spares", "Bus Bar Chamber 100A", "Bus bar chamber 100A for distribution.", 200000);
-        addProduct(9007, "spares", "Bus Bar Chamber 630A 4 Ways", "Bus bar chamber 630A with 4 ways for heavy distribution.", 3500000);
-        addProduct(9008, "spares", "Bus Bar Isolator SM51", "Bus bar isolator SM51.", 3000);
-        addProduct(9009, "spares", "Bus Bar Isolator SM76", "Bus bar isolator SM76.", 5000);
-        addProduct(9010, "spares", "Bus Bar", "Copper bus bar for electrical panels.", 5000);
+        // Update product count
+        document.getElementById('productCount').innerText = products.length;
+        console.log("Total products loaded:", products.length);
 
-        // ========== 10. CABLE TRAYS (10001-10012) ==========
-        addProduct(10001, "spares", "Cable Tray 40x50mm", "Galvanized cable tray 40x50mm for cable management.", 91000);
-        addProduct(10002, "spares", "Cable Tray 50x50mm", "Galvanized cable tray 50x50mm.", 37000);
-        addProduct(10003, "spares", "Cable Tray 100x50mm", "Galvanized cable tray 100x50mm.", 44000);
-        addProduct(10004, "spares", "Cable Tray 150x50mm", "Galvanized cable tray 150x50mm.", 52000);
-        addProduct(10005, "spares", "Cable Tray 200x50mm", "Galvanized cable tray 200x50mm.", 60000);
-        addProduct(10006, "spares", "Cable Tray 300x50mm", "Galvanized cable tray 300x50mm.", 75000);
-        addProduct(10007, "spares", "Cable Tray with Cover 50x50mm", "Galvanized cable tray with cover 50x50mm.", 37000);
-        addProduct(10008, "spares", "Cable Tray with Cover 100x50mm", "Galvanized cable tray with cover 100x50mm.", 44000);
-        addProduct(10009, "spares", "Cable Tray with Cover 150x50mm", "Galvanized cable tray with cover 150x50mm.", 52000);
-        addProduct(10010, "spares", "Cable Tray with Cover 200x50mm", "Galvanized cable tray with cover 200x50mm.", 62000);
-        addProduct(10011, "spares", "Cable Tray with Cover 300x50mm", "Galvanized cable tray with cover 300x50mm.", 75000);
-        addProduct(10012, "spares", "Cable Tray with Cover 400x50mm", "Galvanized cable tray with cover 400x50mm.", 91000);
-
-        // ========== 11. TOOLS & CRIMPING TOOLS (12001-12008) ==========
-        addProduct(12001, "tools", "Hydraulic Crimping Tool YKK 240", "Hydraulic crimping tool for 18-240mm cables.", 100000, "Best Seller");
-        addProduct(12002, "tools", "Hydraulic Crimping Tool YOK 240", "Hydraulic crimping tool YOK 240 for 8-240mm.", 180000);
-        addProduct(12003, "tools", "Hydraulic Crimping Tool YOK 020", "Hydraulic crimping tool for 8-20mm.", 80000);
-        addProduct(12004, "tools", "Hydraulic Crimping Tool YK30", "Hydraulic crimping tool for 150-300mm.", 110000);
-        addProduct(12005, "tools", "Hydraulic Crimping Tool TSK 240", "Hydraulic crimping tool for up to 240mm.", 90000);
-        addProduct(12006, "tools", "Hydraulic Clamping Tips 48-700mm", "Hydraulic clamping tips set for various sizes.", 310000);
-        addProduct(12007, "tools", "Lineman Climbing Belt (Safety Belt)", "Professional safety belt for linemen and electrical workers.", 270000, "Safety");
-        addProduct(12008, "tools", "High Voltage Detector", "High voltage detector for electrical safety.", 2500000, "Professional");
-
-        // ========== 12. TRANSFORMERS & STABILIZERS (14001-14007) ==========
-        addProduct(14001, "spares", "Step Up Down Transformer 750W", "Step up/down transformer 750W for voltage conversion.", 58000);
-        addProduct(14002, "spares", "Step Up Down Transformer 1500W", "Step up/down transformer 1500W.", 160000);
-        addProduct(14003, "spares", "Step Up Down Transformer 2000W", "Step up/down transformer 2000W.", 130000);
-        addProduct(14004, "spares", "Step Up Down Transformer 3000W", "Step up/down transformer 3000W.", 160000);
-        addProduct(14005, "spares", "Step Up Down Transformer 5000W", "Step up/down transformer 5000W.", 210000);
-        addProduct(14006, "spares", "Automatic Voltage Regulator SVC-10000VA", "Automatic voltage regulator SVC-10000VA for equipment protection.", 750000);
-        addProduct(14007, "spares", "Stabilizer SVC-30kVA", "Three-phase stabilizer 30kVA for industrial applications.", 2700000, "Industrial");
-
-        // ========== 13. WATER PUMPS (16001-16005) ==========
-        addProduct(16001, "services", "Submersible Water Pump 0.9HP", "Complete submersible water pump 0.9HP for boreholes.", 250000);
-        addProduct(16002, "services", "Submersible Water Pump 3HP", "Submersible water pump 3HP for deep wells.", 600000);
-        addProduct(16003, "services", "Submersible Water Pump 5.3HP", "Submersible water pump 5.3HP for industrial applications.", 1000000);
-        addProduct(16004, "services", "Submersible Water Pump 7.5HP", "Submersible water pump 7.5HP for heavy-duty applications.", 1140000);
-        addProduct(16005, "services", "Submersible Water Pump SPN 3HP", "SPN submersible pump 3HP for borehole applications.", 690000);
-
-        // ========== 14. GENERATORS ==========
-        addProduct(1, "generators", "10kVA Diesel Generator", "Portable diesel generator perfect for small businesses and backup power. Includes ATS panel.", 3200000, "Best Seller");
-        addProduct(2, "generators", "15kVA Home Generator", "15kVA generator for residential homes with automatic transfer switch. Silent operation.", 4800000);
-        addProduct(3, "generators", "25kVA Standby Generator", "25kVA standby generator with automatic transfer switch for medium businesses.", 7200000);
-        addProduct(4, "generators", "50kVA Silent Generator", "Super silent 50kVA generator with soundproof canopy for residential areas.", 12500000, "Popular");
-        addProduct(5, "generators", "80kVA Commercial Generator", "80kVA commercial generator for offices and shopping centers.", 18500000);
-        addProduct(6, "generators", "100kVA Diesel Generator", "Complete 100kVA diesel generator set with ATS control panel.", 25500000, "Best Seller");
-
-        // ========== 15. SOLAR SYSTEMS ==========
-        addProduct(101, "solar", "1kW Solar System", "Basic 1kW solar system for small homes. Includes 4 panels, inverter, and battery.", 1850000, "Budget Friendly");
-        addProduct(102, "solar", "2kW Solar System", "2kW solar system for medium homes. Powers lights, fans, TV, and small appliances.", 3500000);
-        addProduct(103, "solar", "3kW Home Solar System", "3kW solar system perfect for residential homes with 24/7 power.", 5200000, "Popular");
-        addProduct(104, "solar", "5kW Solar System", "Complete 5kW solar power system with batteries, inverter, and installation.", 8500000, "Best Seller");
-        addProduct(105, "solar", "8kW Hybrid Solar System", "8kW hybrid solar system with generator backup capability.", 12800000);
-        addProduct(106, "solar", "10kW Solar System", "Commercial 10kW solar system with lithium batteries.", 15000000);
-        addProduct(107, "solar", "15kW Industrial Solar", "15kW industrial solar system for factories and workshops.", 22500000);
-        addProduct(108, "solar", "20kW Commercial Solar", "20kW commercial solar system for businesses and offices.", 28000000, "Best Seller");
-
-        // ========== 16. SERVICES ==========
-        addProduct(401, "services", "Generator Installation", "Professional generator installation with ATS and wiring.", 250000);
-        addProduct(402, "services", "Generator Maintenance", "Professional generator maintenance service including oil change and testing.", 150000);
-        addProduct(403, "services", "Solar System Installation", "Professional solar system installation service.", 500000, "Popular");
-        addProduct(404, "services", "Electrical Wiring Service", "Complete electrical wiring for residential and commercial buildings.", 200000);
-        addProduct(405, "services", "Panel Upgrade Service", "Electrical panel upgrade and maintenance service.", 180000);
-        addProduct(406, "services", "Submersible Pump Installation", "Professional submersible pump installation for boreholes.", 150000);
-
-        // ========== 17. SPECIAL DEALS ==========
-        addProduct(501, "deals", "Combo: Generator + ATS Bundle", "Generator with automatic transfer switch at special price.", 3500000, "Special Deal");
-        addProduct(502, "deals", "Complete Tool Kit Set", "Complete electrical tool kit with 50+ professional tools.", 1850000, "Special Deal");
-        addProduct(503, "deals", "Solar System + Battery Bundle", "5kW solar system with lithium batteries and free installation.", 9800000, "Special Deal");
-        addProduct(504, "deals", "MCB Bulk Pack", "Assorted MCBs bulk pack for contractors.", 450000, "Special Deal");
-
-        console.log(`Total products loaded: ${products.length} products with diverse images`);
-
-        // State management
+        // Cart and UI State
         let cart = JSON.parse(localStorage.getItem('kinguCart')) || [];
         let currentCategory = 'all';
         let currentFilter = 'all';
         let searchTerm = '';
         let categoryStates = {
-            all: { sortBy: 'default', view: 'grid' },
-            spares: { sortBy: 'default', view: 'grid' },
-            tools: { sortBy: 'default', view: 'grid' },
-            generators: { sortBy: 'default', view: 'grid' },
-            solar: { sortBy: 'default', view: 'grid' },
-            services: { sortBy: 'default', view: 'grid' },
-            deals: { sortBy: 'default', view: 'grid' }
+            all: { sortBy: 'default', view: 'grid' }, dse: { sortBy: 'default', view: 'grid' },
+            plc: { sortBy: 'default', view: 'grid' }, cables: { sortBy: 'default', view: 'grid' },
+            switches: { sortBy: 'default', view: 'grid' }, lighting: { sortBy: 'default', view: 'grid' },
+            motors: { sortBy: 'default', view: 'grid' }, yanmar: { sortBy: 'default', view: 'grid' },
+            perkins: { sortBy: 'default', view: 'grid' }, generators: { sortBy: 'default', view: 'grid' }
         };
-
+        
+        function renderCategorySections() {
+            const cats = ['all', 'dse', 'plc', 'cables', 'switches', 'lighting', 'motors', 'yanmar', 'perkins', 'generators'];
+            const container = document.getElementById('categoriesContainer');
+            container.innerHTML = '';
+            cats.forEach(cat => {
+                const section = document.createElement('section');
+                section.id = cat;
+                section.className = 'category-section' + (cat === 'all' ? ' active' : '');
+                let headerTitle = "All Products", icon = "📦";
+                if(cat === 'dse') { headerTitle = "Deep Sea Electronics (Complete DSE Range)"; icon = "🎮"; }
+                if(cat === 'plc') { headerTitle = "PLCs & Controllers (Siemens, Allen Bradley, Schneider)"; icon = "💻"; }
+                if(cat === 'cables') { headerTitle = "Cables & Wiring (Tronic, Armoured, Flexible)"; icon = "🔌"; }
+                if(cat === 'switches') { headerTitle = "Switches, Sockets & Circuit Protection"; icon = "🔘"; }
+                if(cat === 'lighting') { headerTitle = "LED Lighting & Lamps"; icon = "💡"; }
+                if(cat === 'motors') { headerTitle = "Motor Controls, Starters & Contactors"; icon = "⚙️"; }
+                if(cat === 'yanmar') { headerTitle = "Yanmar Engine Spares (All Models)"; icon = "⚙️"; }
+                if(cat === 'perkins') { headerTitle = "Perkins Engine Spares"; icon = "🔧"; }
+                if(cat === 'generators') { headerTitle = "Diesel Generators (10kVA - 300kVA)"; icon = "⚡"; }
+                section.innerHTML = `
+                    <div class="category-header"><div class="category-icon-large">${icon}</div><div><h2>${headerTitle}</h2><p>Genuine parts with warranty - Fast delivery across Tanzania</p></div></div>
+                    <div class="category-controls"><div class="sort-group"><label>Sort:</label><select class="sort-select" data-category="${cat}"><option value="default">Default</option><option value="price-low">Price Low-High</option><option value="price-high">Price High-Low</option><option value="name">Name A-Z</option></select></div><div><button class="view-btn active" data-view="grid" data-category="${cat}">⊞ Grid</button><button class="view-btn" data-view="list" data-category="${cat}">☰ List</button></div></div>
+                    <div class="products-container" data-category="${cat}"><div class="products-grid" data-view="grid"></div></div>
+                `;
+                container.appendChild(section);
+            });
+            attachDynamicEvents();
+        }
+        
+        function attachDynamicEvents() {
+            document.querySelectorAll('.sort-select').forEach(sel => {
+                sel.addEventListener('change', (e) => { categoryStates[sel.dataset.category].sortBy = e.target.value; displayCategory(sel.dataset.category); });
+            });
+            document.querySelectorAll('.view-btn').forEach(btn => {
+                btn.addEventListener('click', () => { const cat = btn.dataset.category; categoryStates[cat].view = btn.dataset.view; document.querySelectorAll(`.view-btn[data-category="${cat}"]`).forEach(b=>b.classList.remove('active')); btn.classList.add('active'); displayCategory(cat); });
+            });
+        }
+        
         function displayCategory(category) {
             let filtered = products.filter(p => category === 'all' ? true : p.category === category);
-            if (searchTerm) {
-                filtered = filtered.filter(p => p.name.toLowerCase().includes(searchTerm) || p.description.toLowerCase().includes(searchTerm));
-            }
-            if (currentFilter === 'best') {
-                filtered = filtered.filter(p => p.badge === 'Best Seller' || p.badge === 'Popular' || p.badge === 'Premium');
-            }
-            
+            if(searchTerm) filtered = filtered.filter(p => p.name.toLowerCase().includes(searchTerm) || p.description.toLowerCase().includes(searchTerm));
+            if(currentFilter === 'best') filtered = filtered.filter(p => p.badge && (p.badge.includes('Best') || p.badge.includes('Popular') || p.badge.includes('Premium')));
             const sort = categoryStates[category]?.sortBy || 'default';
-            if (sort === 'price-low') filtered.sort((a, b) => a.price - b.price);
-            if (sort === 'price-high') filtered.sort((a, b) => b.price - a.price);
-            if (sort === 'name') filtered.sort((a, b) => a.name.localeCompare(b.name));
-            
+            if(sort === 'price-low') filtered.sort((a,b)=>a.price-b.price);
+            if(sort === 'price-high') filtered.sort((a,b)=>b.price-a.price);
+            if(sort === 'name') filtered.sort((a,b)=>a.name.localeCompare(b.name));
             const container = document.querySelector(`.products-container[data-category="${category}"]`);
-            if (!container) return;
+            if(!container) return;
             const grid = container.querySelector('.products-grid');
-            if (!grid) return;
-            
-            grid.innerHTML = '';
-            if (filtered.length === 0) {
-                grid.innerHTML = '<div style="text-align:center;padding:2rem;">No products found</div>';
-                return;
-            }
-            
+            if(!grid) return;
             const view = categoryStates[category]?.view || 'grid';
             grid.setAttribute('data-view', view);
-            
-            filtered.forEach(p => {
-                const card = `
-                    <div class="product-card" style="position:relative">
-                        ${p.badge ? `<div class="product-badge">${p.badge}</div>` : ''}
-                        <div class="product-img-container">
-                            <img src="${p.image}" class="product-img" alt="${p.name}" onerror="this.src='https://via.placeholder.com/400x300?text=Electrical+Product'">
-                        </div>
-                        <div class="product-info">
-                            <div class="product-category">${p.category.toUpperCase()}</div>
-                            <h3 class="product-title">${p.name}</h3>
-                            <p class="product-description">${p.description.substring(0, 100)}${p.description.length > 100 ? '...' : ''}</p>
-                            <div class="product-price">${p.priceFormatted} TZS</div>
-                            <div class="product-meta">
-                                <div class="stock-status">✓ In Stock</div>
-                                <div>Delivery: ${p.delivery}</div>
-                            </div>
-                        </div>
-                        <button class="kingu-order-btn" onclick="addToCart(${p.id})">🛒 Add to Cart</button>
-                    </div>
-                `;
-                grid.innerHTML += card;
-            });
+            grid.innerHTML = filtered.map(p => `
+                <div class="product-card">
+                    ${p.badge ? `<div class="product-badge">${p.badge}</div>` : ''}
+                    <div class="product-img-container"><img src="${p.image}" class="product-img" alt="${p.name}" loading="lazy" onerror="this.src='https://via.placeholder.com/400x300/0f5c3f/ffffff?text=Image+Not+Found'"></div>
+                    <div class="product-info"><div class="product-category">${p.category.toUpperCase()}</div><h3 class="product-title">${p.name}</h3><p class="product-description">${p.description.substring(0,85)}</p><div class="product-price">${p.priceFormatted} TZS</div><button class="kingu-order-btn" onclick="addToCart(${p.id})">🛒 Add to Cart</button></div>
+                </div>
+            `).join('');
         }
-
-        function addToCart(id) {
-            const product = products.find(p => p.id === id);
-            const existing = cart.find(i => i.id === id);
-            if (existing) {
-                existing.quantity++;
-            } else {
-                cart.push({ ...product, quantity: 1 });
-            }
-            localStorage.setItem('kinguCart', JSON.stringify(cart));
-            updateCartUI();
-            updateCartCount();
-            alert(`✓ Added ${product.name} to cart!`);
-        }
-
-        function updateCartUI() {
-            let subtotal = 0;
-            const itemsDiv = document.getElementById('cartItems');
-            itemsDiv.innerHTML = '';
-            cart.forEach(item => {
-                const total = item.price * item.quantity;
-                subtotal += total;
-                itemsDiv.innerHTML += `
-                    <div class="cart-item">
-                        <img src="${item.image}" class="cart-item-img" onerror="this.src='https://via.placeholder.com/60x60?text=Product'">
-                        <div>
-                            <div class="cart-item-title">${item.name.substring(0, 40)}</div>
-                            <div>${total.toLocaleString()} TZS</div>
-                            <div class="cart-quantity">
-                                <button class="quantity-btn" onclick="updateQuantity(${item.id}, -1)">-</button>
-                                <span>${item.quantity}</span>
-                                <button class="quantity-btn" onclick="updateQuantity(${item.id}, 1)">+</button>
-                            </div>
-                        </div>
-                    </div>
-                `;
-            });
-            const delivery = subtotal > 1000000 ? 0 : 25000;
-            const total = subtotal + delivery;
-            document.getElementById('cartSubtotal').innerText = subtotal.toLocaleString() + ' TZS';
-            document.getElementById('cartDelivery').innerText = delivery.toLocaleString() + ' TZS';
-            document.getElementById('cartTotal').innerText = total.toLocaleString() + ' TZS';
-        }
-
-        function updateQuantity(id, delta) {
-            const index = cart.findIndex(i => i.id === id);
-            if (index >= 0) {
-                cart[index].quantity += delta;
-                if (cart[index].quantity <= 0) {
-                    cart.splice(index, 1);
-                }
-                localStorage.setItem('kinguCart', JSON.stringify(cart));
-                updateCartUI();
-                updateCartCount();
-            }
-        }
-
-        function updateCartCount() {
-            const count = cart.reduce((sum, i) => sum + i.quantity, 0);
-            document.getElementById('cartCount').innerText = count;
-        }
-
-        function openCart() { document.getElementById('cartSidebar').classList.add('open'); }
-        function closeCart() { document.getElementById('cartSidebar').classList.remove('open'); }
         
-        function checkout() {
-            if (cart.length === 0) {
-                alert('Your cart is empty!');
-                return;
-            }
-            let message = "🛒 *Kingu Electrical Order*\n\n";
-            cart.forEach(item => {
-                message += `📦 ${item.name}\n   Quantity: ${item.quantity} × ${item.price.toLocaleString()} TZS = ${(item.price * item.quantity).toLocaleString()} TZS\n`;
-            });
-            const total = cart.reduce((s, i) => s + (i.price * i.quantity), 0);
-            message += `\n💰 *Subtotal: ${total.toLocaleString()} TZS*`;
-            message += `\n🚚 Delivery: ${total > 1000000 ? 'FREE' : '25,000 TZS'}`;
-            message += `\n💵 *Total: ${(total + (total > 1000000 ? 0 : 25000)).toLocaleString()} TZS*`;
-            message += `\n\nPlease confirm my order. Thank you!`;
-            window.open(`https://wa.me/255682843552?text=${encodeURIComponent(message)}`, '_blank');
-        }
-
-        function resetFilters() {
-            currentFilter = 'all';
-            searchTerm = '';
-            document.getElementById('globalSearch').value = '';
-            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-            document.querySelector('.filter-btn[data-filter="all"]').classList.add('active');
-            displayCategory(currentCategory);
-        }
-
-        // Event listeners
-        document.querySelectorAll('.category-nav a').forEach(a => {
-            a.addEventListener('click', (e) => {
-                e.preventDefault();
-                document.querySelectorAll('.category-nav a').forEach(l => l.classList.remove('active'));
-                a.classList.add('active');
-                currentCategory = a.dataset.category;
-                document.querySelectorAll('.category-section').forEach(s => s.classList.remove('active'));
-                document.getElementById(currentCategory).classList.add('active');
-                displayCategory(currentCategory);
-            });
-        });
-
-        document.querySelectorAll('.filter-btn').forEach(b => {
-            b.addEventListener('click', () => {
-                document.querySelectorAll('.filter-btn').forEach(f => f.classList.remove('active'));
-                b.classList.add('active');
-                currentFilter = b.dataset.filter;
-                displayCategory(currentCategory);
-            });
-        });
-
-        document.getElementById('globalSearch').addEventListener('input', (e) => {
-            searchTerm = e.target.value.toLowerCase();
-            displayCategory(currentCategory);
-        });
-
-        document.querySelectorAll('.sort-select').forEach(s => {
-            s.addEventListener('change', (e) => {
-                categoryStates[s.dataset.category].sortBy = e.target.value;
-                displayCategory(s.dataset.category);
-            });
-        });
-
-        document.querySelectorAll('.view-btn').forEach(v => {
-            v.addEventListener('click', () => {
-                const cat = v.dataset.category;
-                categoryStates[cat].view = v.dataset.view;
-                document.querySelectorAll(`.view-btn[data-category="${cat}"]`).forEach(b => b.classList.remove('active'));
-                v.classList.add('active');
-                displayCategory(cat);
-            });
-        });
-
-        document.getElementById('quickOrderForm').addEventListener('submit', (e) => {
-            e.preventDefault();
-            const name = document.getElementById('orderName').value;
-            const phone = document.getElementById('orderPhone').value;
-            const category = document.getElementById('orderCategory').value;
-            const requirements = document.getElementById('orderRequirements').value;
-            const msg = `📋 *Quick Order Request*\n\n👤 Name: ${name}\n📞 Phone: ${phone}\n📂 Category: ${category}\n📝 Requirements: ${requirements}`;
-            window.open(`https://wa.me/255682843552?text=${encodeURIComponent(msg)}`, '_blank');
-            e.target.reset();
-            alert('Request sent! We will contact you shortly.');
-        });
-
-        // Initialize
+        function addToCart(id){ const p=products.find(pr=>pr.id===id); const existing=cart.find(i=>i.id===id); if(existing) existing.quantity++; else cart.push({...p,quantity:1}); localStorage.setItem('kinguCart',JSON.stringify(cart)); updateCartUI(); updateCartCount(); alert(`✓ ${p.name} added`);}
+        function updateCartUI(){ let sub=0; const div=document.getElementById('cartItems'); div.innerHTML=''; cart.forEach(i=>{ const tot=i.price*i.quantity; sub+=tot; div.innerHTML+=`<div class="cart-item"><div><strong>${i.name.substring(0,35)}</strong></div><div>${tot.toLocaleString()} TZS</div><div class="cart-quantity"><button class="quantity-btn" onclick="updateQuantity(${i.id},-1)">-</button><span>${i.quantity}</span><button class="quantity-btn" onclick="updateQuantity(${i.id},1)">+</button></div></div>`; }); const delivery=sub>1000000?0:25000; document.getElementById('cartSubtotal').innerText=sub.toLocaleString()+' TZS'; document.getElementById('cartDelivery').innerText=delivery.toLocaleString()+' TZS'; document.getElementById('cartTotal').innerText=(sub+delivery).toLocaleString()+' TZS';}
+        function updateQuantity(id,delta){ const idx=cart.findIndex(i=>i.id===id); if(idx>=0){ cart[idx].quantity+=delta; if(cart[idx].quantity<=0) cart.splice(idx,1); localStorage.setItem('kinguCart',JSON.stringify(cart)); updateCartUI(); updateCartCount();}}
+        function updateCartCount(){ const c=cart.reduce((s,i)=>s+i.quantity,0); document.getElementById('cartCount').innerText=c;}
+        function openCart(){ document.getElementById('cartSidebar').classList.add('open');}
+        function closeCart(){ document.getElementById('cartSidebar').classList.remove('open');}
+        function checkout(){ if(cart.length===0){ alert('Cart empty'); return;} let msg="🛒 *Kingu Electrical Order*\n\n"; cart.forEach(i=>{ msg+=`📦 ${i.name}\n   ${i.quantity} x ${i.price.toLocaleString()} TZS = ${(i.price*i.quantity).toLocaleString()} TZS\n`;}); const total=cart.reduce((s,i)=>s+(i.price*i.quantity),0); const delivery=total>1000000?0:25000; msg+=`\n💰 Subtotal: ${total.toLocaleString()} TZS\n🚚 Delivery: ${delivery.toLocaleString()} TZS\n💵 Total: ${(total+delivery).toLocaleString()} TZS`; window.open(`https://wa.me/255682843552?text=${encodeURIComponent(msg)}`,'_blank');}
+        
+        document.querySelectorAll('.category-nav a').forEach(a=>{ a.addEventListener('click',(e)=>{ e.preventDefault(); document.querySelectorAll('.category-nav a').forEach(l=>l.classList.remove('active')); a.classList.add('active'); currentCategory=a.dataset.category; document.querySelectorAll('.category-section').forEach(s=>s.classList.remove('active')); document.getElementById(currentCategory).classList.add('active'); displayCategory(currentCategory);});});
+        document.querySelectorAll('.filter-btn').forEach(btn=>{ btn.addEventListener('click',()=>{ document.querySelectorAll('.filter-btn').forEach(f=>f.classList.remove('active')); btn.classList.add('active'); currentFilter=btn.dataset.filter; displayCategory(currentCategory);});});
+        document.getElementById('globalSearch').addEventListener('input',(e)=>{ searchTerm=e.target.value.toLowerCase(); displayCategory(currentCategory);});
+        document.getElementById('quickOrderForm').addEventListener('submit',(e)=>{ e.preventDefault(); const msg=`📋 *Quick Order Request*\n\nName: ${document.getElementById('orderName').value}\nPhone: ${document.getElementById('orderPhone').value}\nCategory: ${document.getElementById('orderCategory').value}\nRequirements: ${document.getElementById('orderRequirements').value}`; window.open(`https://wa.me/255682843552?text=${encodeURIComponent(msg)}`,'_blank'); e.target.reset(); alert('Request sent! We will contact you shortly.');});
+        
+        renderCategorySections();
         displayCategory('all');
-        updateCartUI();
-        updateCartCount();
-        
-        window.addToCart = addToCart;
-        window.updateQuantity = updateQuantity;
-        window.openCart = openCart;
-        window.closeCart = closeCart;
-        window.checkout = checkout;
-        window.resetFilters = resetFilters;
+        updateCartUI(); updateCartCount();
+        window.addToCart=addToCart; window.updateQuantity=updateQuantity; window.openCart=openCart; window.closeCart=closeCart; window.checkout=checkout;
     </script>
 </body>
 </html>
