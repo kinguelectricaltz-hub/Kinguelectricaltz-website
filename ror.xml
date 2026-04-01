@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:ror="http://rorweb.com/0.1/" >
+<channel>
+  <title>ROR Sitemap for https://kingueletrical.com/Kinguelectrical-shop.html</title>
+  <link>https://kingueletrical.com/Kinguelectrical-shop.html</link>
+
+<item>
+     <link>https://kingueletrical.com/Kinguelectrical-shop.html</link>
+     <title>Kingu Electrical Shop | Complete Electrical Products &amp; Services Tanzania</title>
+     <description>Complete electrical products: Armoured Cables, MCBs, Contactors, Changeover Switches, Timers, Meters, Cable Trays, Transformers, Pumps &amp; more. Order online!</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>0</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>https://kingueletrical.com/</link>
+     <title>Kingu Electrical Company Limited | Electrical &amp; Generator Experts in Tanzania</title>
+     <description>Kingu Electrical Company Limited provides professional electrical engineering, generator installation, PLC automation, ATS systems, and industrial electrical services across Tanzania.</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>1</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+</channel>
+</rss>
+  
