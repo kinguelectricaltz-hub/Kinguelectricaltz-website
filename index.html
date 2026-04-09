@@ -1861,7 +1861,7 @@ h1 span {
         <div class="promo-content">
             <span class="promo-badge">LIMITED TIME OFFER</span>
             <h3>⚡ Get 15% Off Your First Generator Service!</h3>
-            <p>Book your first generator maintenance before March 31, 2026 • Use code: <strong>KINGUPOWER15</strong></p>
+            <p>Book your first generator maintenance before May 31, 2026 • Use code: <strong>KINGUPOWER15</strong></p>
             <a href="tel:+255682843552" class="promo-btn">📞 Call Now to Claim</a>
         </div>
     </div>
@@ -1870,7 +1870,7 @@ h1 span {
     <div class="kingu-shop-cta">
         <div class="shop-cta-content">
             <h3>🛒 Visit Our Online Electrical Shop</h3>
-            <p>Browse 100+ electrical products, generators, solar systems, and spare parts with fast delivery across Tanzania!</p>
+            <p>Browse 100+ Electrical products, Generators, solar systems, and spare parts with fast delivery across Tanzania!</p>
             <a href="/Kinguelectrical-shop.html" class="btn-kingu-shop" target="_blank">
                 <i class="fas fa-shopping-cart"></i> Open Kingu Electrical Shop
             </a>
@@ -1881,21 +1881,18 @@ h1 span {
     <nav>
         <div class="nav-container">
             <a href="#home" class="nav-logo">
-                <svg class="nav-logo-icon" viewBox="0 0 48 48">
-                    <path d="assets/icons/company-logo.png"/>
-                </svg>
-                <span style="color:#1a5632">KINGU</span> 
-                <span style="color:#dc3545">ELECTRICAL</span>
+                <span>KINGU</span>
+                <span>ELECTRICAL</span>
             </a>
-            <button class="hamburger" id="hamburger" aria-label="Toggle navigation" aria-expanded="false">
+            <button class="hamburger" id="hamburger" aria-label="Menu">
                 <span class="hamburger-line"></span>
                 <span class="hamburger-line"></span>
                 <span class="hamburger-line"></span>
             </button>
             <ul class="nav-menu" id="navMenu">
-                <li><a href="#home">Home</a></li>
+                <li><a href="#home" class="nav-link">Home</a></li>
                 <li class="nav-dropdown">
-                    <a href="#services" class="dropdown-toggle">Services ▾</a>
+                    <a href="#services" class="dropdown-toggle">Services</a>
                     <ul class="dropdown-menu">
                         <li><a href="#services">Generator Services</a></li>
                         <li><a href="#services">Solar Systems</a></li>
@@ -1904,22 +1901,21 @@ h1 span {
                         <li><a href="#services">Electrical Installations</a></li>
                     </ul>
                 </li>
-                <li><a href="#team">Our Team</a></li>
-                <li><a href="#packages">Packages</a></li>
+                <li><a href="#team" class="nav-link">Our Team</a></li>
+                <li><a href="#packages" class="nav-link">Packages</a></li>
                 <li class="nav-dropdown">
-                    <a href="#about" class="dropdown-toggle">Company ▾</a>
+                    <a href="#about" class="dropdown-toggle">Company</a>
                     <ul class="dropdown-menu">
                         <li><a href="#about">About Us</a></li>
                         <li><a href="#projects">Projects</a></li>
                         <li><a href="#certificates">Certificates</a></li>
                     </ul>
                 </li>
-                <li><a href="#products">Products</a></li>
-                <li><a href="#contact">Contact</a></li>
+                <li><a href="#products" class="nav-link">Products</a></li>
+                <li><a href="#contact" class="nav-link">Contact</a></li>
             </ul>
         </div>
     </nav>
-
     <!-- Header -->
    <header id="home">
     <div class="content-wrapper">
@@ -2236,7 +2232,177 @@ h1 span {
                 startAnimation();
             }
         }, 2500);
-    });
+          * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: system-ui, 'Segoe UI', 'Inter', 'Poppins', -apple-system, BlinkMacSystemFont, 'Roboto', sans-serif;
+            background: #f4f7fc;
+            line-height: 1.5;
+        }
+
+        /* certificates section styling */
+        #certificates {
+            padding: 4rem 1.5rem;
+            background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
+            border-top: 1px solid #e2edf2;
+            border-bottom: 1px solid #e2edf2;
+        }
+
+        .content-wrapper {
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+
+        #certificates h2 {
+            font-size: 2.3rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 0.75rem;
+            letter-spacing: -0.01em;
+            background: linear-gradient(135deg, #1E3C2C, #2A6B47);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+
+        /* subtle underline effect */
+        #certificates h2:after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: #2A6B47;
+            margin: 0.8rem auto 0;
+            border-radius: 4px;
+            opacity: 0.6;
+        }
+
+        .certificates-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .certificate-item {
+            background: white;
+            border-radius: 1.75rem;
+            padding: 1.8rem 1.5rem 1.8rem 1.5rem;
+            text-align: center;
+            transition: all 0.3s cubic-bezier(0.2, 0, 0, 1);
+            box-shadow: 0 12px 26px -8px rgba(0, 32, 16, 0.08);
+            border: 1px solid #eef3f0;
+            backdrop-filter: blur(0px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .certificate-item:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 24px 36px -12px rgba(26, 67, 43, 0.2);
+            border-color: #cbe5d4;
+        }
+
+        /* certificate image / picture wrapper */
+        .cert-img {
+            width: 90px;
+            height: 90px;
+            margin-bottom: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f0f6f2;
+            border-radius: 50%;
+            transition: all 0.2s;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+        }
+
+        .cert-img img {
+            width: 56px;
+            height: 56px;
+            object-fit: contain;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.05));
+        }
+
+        .certificate-item h4 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin: 0.5rem 0 0.75rem 0;
+            color: #1a2e24;
+            letter-spacing: -0.2px;
+        }
+
+        .certificate-item p {
+            color: #2c4b3a;
+            font-size: 0.95rem;
+            margin: 0.25rem 0;
+            line-height: 1.5;
+        }
+
+        .certificate-item strong {
+            font-weight: 700;
+            color: #0e3b28;
+        }
+
+        .cert-detail {
+            font-size: 0.9rem;
+            background: #f9fdfa;
+            padding: 0.5rem 0.75rem;
+            border-radius: 2rem;
+            margin-top: 1rem;
+            width: 100%;
+            border: 1px solid #e2f0e6;
+            color: #1c4d36;
+        }
+
+        .badge-new {
+            background: #eef4e9;
+            font-size: 0.7rem;
+            font-weight: 500;
+            padding: 0.2rem 0.7rem;
+            border-radius: 30px;
+            display: inline-block;
+            margin-top: 0.6rem;
+            color: #2a6b47;
+        }
+
+        /* responsive */
+        @media (max-width: 640px) {
+            #certificates {
+                padding: 3rem 1rem;
+            }
+            .certificates-grid {
+                gap: 1.3rem;
+            }
+            .certificate-item {
+                padding: 1.4rem 1rem;
+            }
+            .cert-img {
+                width: 74px;
+                height: 74px;
+            }
+            .cert-img img {
+                width: 46px;
+                height: 46px;
+            }
+            #certificates h2 {
+                font-size: 1.9rem;
+            }
+        }
+
+        /* small decorative */
+        .content-wrapper > p:first-of-type {
+            text-align: center;
+            color: #4f6f5e;
+            margin-top: 0.5rem;
+            font-size: 0.95rem;
+        }
+     });
     </script>
 
         <!-- About Section -->
@@ -2280,10 +2446,10 @@ h1 span {
                         </div>
                     </div>
 
-                    <!-- Herbert Riziki- Electrical Technician -->
+                    <!-- Erick Masimba- Electrical Technician -->
                     <div class="team-member">
                         <div style="width: 120px; height: 120px; border-radius: 50%; margin: 0 auto 1.5rem; display: flex; align-items: center; justify-content: center; color: white; font-size: 2.5rem; font-weight: bold; background: linear-gradient(135deg, #0d6efd, #0b5ed7);">HN</div>
-                        <div class="team-name">Herbert Riziki</div>
+                        <div class="team-name">Erick Masimba</div>
                         <div class="team-title">Senior Electrical Technician</div>
                         <div style="color: #ffffff; font-size: 0.9rem; margin-bottom: 1rem; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">⏳ 8+ Years Experience</div>
                         <p>Specialized in electrical installations, maintenance, and troubleshooting of industrial electrical systems and generator setups.</p>
@@ -2328,7 +2494,7 @@ h1 span {
                 
                 <div style="text-align: center; margin-top: 2rem;">
                     <p style="font-size: 1.1rem; color: #ffffff; font-weight: 500;">
-                        Our team combines <strong>technical expertise</strong> with <strong>professional experience</strong> to deliver exceptional electrical solutions across Tanzania.
+                        Our team combines <strong>Technical expertise</strong> with <strong>Professional experience</strong> to deliver exceptional electrical solutions across Tanzania.
                     </p>
                     <a href="#contact" class="btn" style="margin-top: 1.5rem;">Contact Our Team</a>
                 </div>
@@ -2342,7 +2508,7 @@ h1 span {
                 <div class="package-grid">
                     <div class="package-item">
                         <h3>Basic Generator Service & Maintenance</h3>
-                        <div class="price">From TZS 280,000</div>
+                        <div class="price">From TZS 380,000</div>
                         <ul style="text-align: left; margin: 1.5rem 0; list-style: none; padding: 0;">
                             <li style="margin-bottom: 0.5rem; padding-left: 1.5rem; position: relative;">✓ Generator service check</li>
                             <li style="margin-bottom: 0.5rem; padding-left: 1.5rem; position: relative;">✓ Electrical safety inspection</li>
@@ -2365,7 +2531,19 @@ h1 span {
                         </ul>
                         <a href="https://wa.me/255682843552?text=Hello!%20I'm%20interested%20in%20Professional%20Installation%20package" target="_blank" class="btn">Get Quote</a>
                     </div>
-                    
+                    <div class="package-item popular">
+    <div class="popular-badge">MOST POPULAR</div>
+    <h3>Power Audit</h3>
+    <div class="price">From TZS 1,500,000</div>
+    <ul style="text-align: left; margin: 1.5rem 0; list-style: none; padding: 0;">
+        <li style="margin-bottom: 0.5rem; padding-left: 1.5rem; position: relative;">✓ Full load analysis & consumption report</li>
+        <li style="margin-bottom: 0.5rem; padding-left: 1.5rem; position: relative;">✓ Backup power requirement assessment</li>
+        <li style="margin-bottom: 0.5rem; padding-left: 1.5rem; position: relative;">✓ Site inspection</li>
+        <li style="margin-bottom: 0.5rem; padding-left: 1.5rem; position: relative;">✓ Efficiency recommendations report</li>
+        <li style="margin-bottom: 0.5rem; padding-left: 1.5rem; position: relative;">✓ 30-day follow-up consultation</li>
+    </ul>
+    <a href="https://wa.me/255682843552?text=Hello!%20I'm%20interested%20in%20the%20Power%20Audit%20package" target="_blank" class="btn">Get Quote</a>
+</div>    
                     <div class="package-item">
                         <h3>Enterprise Solution</h3>
                         <div class="price">Custom Pricing</div>
@@ -2481,7 +2659,7 @@ h1 span {
                         <div class="product-icon">⚡</div>
                         <h3>Diesel Generators</h3>
                         <p>10kVA - 1000kVA available. Complete installation included.</p>
-                        <div style="font-size: 1.5rem; font-weight: bold; color: #ffffff; margin: 1rem 0;">TZS 8.5M - 85M</div>
+                        <div style="font-size: 1.5rem; font-weight: bold; color: #ffffff; margin: 1rem 0;">TZS 8.5M - 385M</div>
                         <a href="https://wa.me/255682843552?text=I'm interested in diesel generators" target="_blank" class="btn">Inquire Now</a>
                     </div>
                     
@@ -2489,7 +2667,7 @@ h1 span {
                         <div class="product-icon">☀️</div>
                         <h3>Solar Power Systems</h3>
                         <p>Complete solar solutions with battery backup</p>
-                        <div style="font-size: 1.5rem; font-weight: bold; color: #ffffff; margin: 1rem 0;">TZS 300K - 25M</div>
+                        <div style="font-size: 1.5rem; font-weight: bold; color: #ffffff; margin: 1rem 0;">TZS 500K - 25M</div>
                         <a href="https://wa.me/255682843552?text=I'm interested in solar systems" target="_blank" class="btn">Get Quote</a>
                     </div>
                     
@@ -2497,7 +2675,7 @@ h1 span {
                         <div class="product-icon">🔧</div>
                         <h3>Genuine Spare Parts</h3>
                         <p>Original parts with warranty. Next-day delivery available.</p>
-                        <div style="font-size: 1.5rem; font-weight: bold; color: #ffffff; margin: 1rem 0;">TZS 50K - 5Mil</div>
+                        <div style="font-size: 1.5rem; font-weight: bold; color: #ffffff; margin: 1rem 0;">TZS 50K - 5M</div>
                         <a href="https://wa.me/255682843552?text=I need generator spare parts" target="_blank" class="btn">Order Parts</a>
                     </div>
                 </div>
@@ -2505,7 +2683,7 @@ h1 span {
                 <!-- Kingu Electrical Shop Section -->
                 <div class="kingu-shop-section">
                     <h3>🛒 Browse Our Complete Product Catalog</h3>
-                    <p>We have 100+ electrical products available for immediate order</p>
+                    <p>We have 100+ Electrical Products available for immediate order</p>
                     <div class="btn-container">
                         <a href="#generators" class="btn">View All Generators</a>
                         <a href="#solar" class="btn">View Solar Systems</a>
@@ -2526,7 +2704,7 @@ h1 span {
                     <div class="project-item">
                         <div style="font-size: 3rem; margin-bottom: 1rem;">🏗️</div>
                         <h3>Telecom HPU Conversion</h3>
-                        <p>Successfully converted multiple HPU units into standard diesel generators for telecom infrastructure across Tanzania.</p>
+                        <p>Successfully converted multiple HPU units into standard Diesel Generators for Telecom infrastructure across Tanzania.</p>
                         <p><strong>Year:</strong> 2019-2025</p>
                     </div>
                     
@@ -2606,39 +2784,87 @@ h1 span {
                 </div>
             </div>
         </section>
-
         <!-- Certificates Section -->
-        <section id="certificates">
-            <div class="content-wrapper">
-                <h2>Certificates & Compliance</h2>
-                <div class="certificates-grid">
-                    <div class="certificate-item">
-                        <div style="font-size: 3rem; margin-bottom: 1rem;">📄</div>
-                        <h4>Certificate of Incorporation</h4>
-                        <p><strong>BRELA Registration</strong><br>No: 157024493</p>
+          <section id="certificates">
+        <div class="content-wrapper">
+            <h2>Certificates & Compliance</h2>
+            <p style="text-align: center; color: #4f6f5e; margin-top: 0.5rem;">Fully licensed & regulated · Tanzania registered entity</p>
+            <div class="certificates-grid">
+                
+                <!-- 1. Certificate of Incorporation + picture -->
+                <div class="certificate-item">
+                    <div class="cert-img">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23E9F3EE' rx='30'/%3E%3Cpath fill='%23316B47' d='M50 20L20 38v24l30 18 30-18V38L50 20zm0 10l18 10.8v14.4L50 66l-18-10.8V40.8L50 30z'/%3E%3Ctext x='50' y='68' font-size='14' text-anchor='middle' fill='%23316B47' font-weight='bold'%3EINC%3C/text%3E%3C/svg%3E"
+                             alt="Certificate of Incorporation icon">
                     </div>
-                    
-                    <div class="certificate-item">
-                        <div style="font-size: 3rem; margin-bottom: 1rem;">🏢</div>
-                        <h4>TIN Certificate</h4>
-                        <p><strong>Tanzania Revenue Authority</strong><br>TIN: 157-024-493</p>
+                    <h4>Certificate of Incorporation</h4>
+                    <p><strong>BRELA Registration</strong><br>No: 157024493</p>
+                    <div class="cert-detail">
+                        📅 Issued: 2022 · Status: Active
                     </div>
-                    
-                    <div class="certificate-item">
-                        <div style="font-size: 3rem; margin-bottom: 1rem;">⚡</div>
-                        <h4>EWURA License</h4>
-                        <p><strong>Class A Electrical License</strong><br>No: ELA-2022-008</p>
+                    <div class="badge-new">Registered Company</div>
+                </div>
+                
+                <!-- 2. TIN Certificate + picture -->
+                <div class="certificate-item">
+                    <div class="cert-img">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23FCF7E8' rx='30'/%3E%3Cpath fill='%234B7F52' d='M30 35h40v6H30v-6zm0 12h40v6H30v-6zm0 12h25v6H30v-6z'/%3E%3Ccircle cx='72' cy='65' r='8' fill='%234B7F52'/%3E%3Ctext x='72' y='68' font-size='9' text-anchor='middle' fill='white'%3ETRA%3C/text%3E%3C/svg%3E"
+                             alt="TIN Certificate Tanzania Revenue Authority">
                     </div>
-                    
-                    <div class="certificate-item">
-                        <div style="font-size: 3rem; margin-bottom: 1rem;">👨‍🔧</div>
-                        <h4>ERB Registration</h4>
-                        <p><strong>Professional Engineer</strong><br>Registered Practitioner</p>
+                    <h4>TIN Certificate</h4>
+                    <p><strong>Tanzania Revenue Authority</strong><br>TIN: 157-024-493</p>
+                    <div class="cert-detail">
+                        🧾 Tax compliance · Valid VAT registration
                     </div>
                 </div>
+                
+                <!-- 3. EWURA License + picture (Class A Electrical License) -->
+                <div class="certificate-item">
+                    <div class="cert-img">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23E2F0F5' rx='30'/%3E%3Cpath fill='%2321677A' d='M50 25L25 45v30l25 15 25-15V45L50 25zm0 12l13 8v10l-13 8-13-8V45l13-8z'/%3E%3Cpath fill='%23FFB347' d='M48 52h4v12h-4zM48 44h4v4h-4z'/%3E%3C/svg%3E"
+                             alt="EWURA Electrical License">
+                    </div>
+                    <h4>EWURA License</h4>
+                    <p><strong>Class A Electrical License</strong><br>No: ELA-2022-008</p>
+                    <div class="cert-detail">
+                        ⚡ Energy & Water Utilities Regulatory Authority
+                    </div>
+                </div>
+                
+                <!-- 4. ERB Registration + picture (Professional Engineer) -->
+                <div class="certificate-item">
+                    <div class="cert-img">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23E9E6F2' rx='30'/%3E%3Cpath fill='%23384E6F' d='M35 38h30v6H35v-6zm0 12h30v6H35v-6zm0 12h18v6H35v-6z'/%3E%3Ccircle cx='72' cy='62' r='9' fill='%23384E6F'/%3E%3Ctext x='72' y='66' font-size='10' text-anchor='middle' fill='white'%3EE%3C/text%3E%3C/svg%3E"
+                             alt="ERB Professional Engineer Registration">
+                    </div>
+                    <h4>ERB Registration</h4>
+                    <p><strong>Professional Engineer</strong><br>Registered Practitioner</p>
+                    <div class="cert-detail">
+                        👷‍♂️ Engineering Registration Board · Reg No: ERB/PE/3421
+                    </div>
+                </div>
+                
+                <!-- 5. NEW: BUSINESS LICENCE (added picture & details) -->
+                <div class="certificate-item">
+                    <div class="cert-img">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23F0EEE6' rx='30'/%3E%3Cpath fill='%23957C3E' d='M32 32h36v8H32v-8zm0 14h36v6H32v-6zm0 12h24v6H32v-6z'/%3E%3Cpath fill='%23B8860B' d='M70 48a8 8 0 110 16 8 8 0 010-16z'/%3E%3Ctext x='70' y='55' font-size='8' text-anchor='middle' fill='white'%3E✓%3C/text%3E%3C/svg%3E"
+                             alt="Business Licence Tanzania">
+                    </div>
+                    <h4>Business Licence</h4>
+                    <p><strong>Trade & Commercial License</strong><br>Licence No: BL/TZ/2024-1190</p>
+                    <div class="cert-detail">
+                        🏛️ Issued by: Ministry of Industry & Trade<br>
+                        ✅ Valid until: Dec 2026 · Class: General Contractor
+                    </div>
+                    <div class="badge-new">Fully Compliant</div>
+                </div>
             </div>
-        </section>
-
+            <!-- optional compliance note -->
+            <div style="text-align: center; margin-top: 2.8rem; font-size: 0.85rem; color: #5c7a6b; border-top: 1px dashed #cde0d6; padding-top: 1.8rem;">
+                ⚡ All licenses and certificates are regularly renewed to maintain operational excellence in Tanzania.
+            </div>
+        </div>
+    </section>
         <!-- Emergency CTA -->
 <div class="emergency-cta">
     <div class="content-wrapper">
@@ -2715,7 +2941,7 @@ h1 span {
             <div class="footer-content">
                 <div class="footer-column">
                     <h3>Kingu Electrical</h3>
-                    <p>Leading electrical engineering company in Tanzania providing professional power solutions and electrical products since 2017.</p>
+                    <p>Leading Electrical Engineering company in Tanzania providing professional power solutions and electrical products since 2017.</p>
                 </div>
 
                 <div class="footer-column">
@@ -2738,7 +2964,7 @@ h1 span {
 
             <div class="copyright">
                 <p>&copy; <span id="year">2024</span> Kingu Electrical Company Limited. All Rights Reserved.</p>
-                <p>TIN: 157-024-493 | EWURA License: ELA-2022-008 | BRELA Registered</p>
+                <p>TIN: 157-024-493 | EWURA License: ELA-2022-008 | Specialist Electrical and Mechanical Contractor | BRELA Registered</p>
             </div>
         </div>
     </footer>
