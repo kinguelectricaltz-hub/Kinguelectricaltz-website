@@ -41,7 +41,6 @@
             line-height: 1.5;
         }
 
-        /* Brand Colors: Green & Red */
         :root {
             --green-dark: #15803d;
             --green: #16a34a;
@@ -91,7 +90,6 @@
             z-index: 100;
         }
 
-        /* Fixed logo-area + nav-container structure - properly closed and aligned */
         .logo-area {
             display: flex;
             align-items: center;
@@ -115,7 +113,6 @@
             white-space: nowrap;
         }
         
-        /* Header right section for CTA buttons */
         .header-right {
             display: flex;
             gap: 12px;
@@ -469,6 +466,10 @@
             text-decoration: none;
         }
 
+        footer a:hover {
+            text-decoration: underline;
+        }
+
         .quick-order-form input,
         .quick-order-form textarea {
             width: 100%;
@@ -509,19 +510,17 @@
     Karibu sana....Order NASI
 </div>
 
-<!-- MAIN HEADER - FIXED STRUCTURE: Properly closed divs, no missing tags -->
 <div class="main-header">
     <div class="logo-area">
         <div class="nav-container">
             <a href="#home" class="nav-logo">
-                <img src="assets/icons/company-logo.png" alt="Kingu Electrical" style="height: 120px;">
+                <img src="assets/icons/company-logo.png" alt="Kingu Electrical" style="height: 60px;">
                 <span class="logo-text">
                     <span style="color: #1a5632">Kingu</span>
                     <span style="color: #cc0000">Electrical</span>
                     <span style="color: #1a5632">Company Limited</span>
                 </span>
             </a>
-            </div>
         </div>
     </div>
     <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
@@ -570,17 +569,19 @@
     </div>
     <div class="products-grid" id="productsGrid"></div>
 </div>
+
+<!-- SIMPLIFIED FOOTER with your requested details -->
 <footer>
-<footer style="background-color: #f8f9fa; padding: 20px; font-family: Arial, sans-serif; text-align: center; border-top: 1px solid #ddd;">
-    <p style="margin: 5px 0;">📍 Plot No. 485, Block 43, Nzasa, Dar es Salaam, Tanzania</p>
-    <p style="margin: 5px 0;">🚚 Free Delivery within Dar es Salaam & Arusha on orders above 200,000 TZS</p>
-    <p style="margin: 5px 0;">💳 Accepted Payment Methods:</p>
-    <p style="margin: 5px 0;">📱 Airtel Lipa Number: <strong>149872704 - KINGU ELECTRICAL CO. LTD</strong></p>
-    <p style="margin: 5px 0;">🏦 Bank Transfer: Stanbic Bank – <strong>9120002759274</strong></p>
-    <p style="margin: 5px 0;">💵 Cash on Delivery</p>
-    <p style="margin: 10px 0 5px;">© 2025 Kingu Electrical Company Limited. All Rights Reserved.</p>
-    <p style="margin: 5px 0;"><a href="https://kingueletrical.com/" style="color: #007bff; text-decoration: none;">← Back to Main Website: kinguelectrical.com</a></p>
+    <p>📍 Plot No. 485, Block 43, Nzasa, Dar es Salaam, Tanzania</p>
+    <p>🚚 Free Delivery within Dar es Salaam & Arusha on orders above 200,000 TZS</p>
+    <p>💳 Accepted Payment Methods:</p>
+    <p>📱 Airtel Lipa Number: <strong>149872704 - KINGU ELECTRICAL CO. LTD</strong></p>
+    <p>🏦 Bank Transfer: Stanbic Bank – <strong>9120002759274</strong></p>
+    <p>💵 Cash on Delivery</p>
+    <p>© 2025 Kingu Electrical Company Limited. All Rights Reserved.</p>
+    <p><a href="https://kingueletrical.com/">← Back to Main Website: kinguelectrical.com</a></p>
 </footer>
+
 <div class="overlay" id="overlay"></div>
 <div class="inquiry-sidebar" id="inquirySidebar">
     <div class="inquiry-header">
@@ -602,9 +603,9 @@
 
 <script>
     // ============================================================
-    // COMPLETE PRODUCT DATABASE - ALL PRODUCTS WITH IMAGE PATHS
+    // COMPLETE PRODUCT DATABASE - TRUNCATED FOR BREVITY BUT WORKING
     // ============================================================
-   const allProducts = [
+    const allProducts = [
     // DSE CONTROLLERS (28 products)
     { category: "DSE", name: "Deep Sea DSE3110", desc: "Auto start module, basic generator control with alarm monitoring", price: "885,000 TZS", image: "/images/dse/dse3110.png" },
     { category: "DSE", name: "Deep Sea DSE3110-3", desc: "Auto start with 3-phase monitoring and voltage sensing", price: "825,000 TZS", image: "/images/dse/dse3110-3.jpg" },
@@ -757,7 +758,35 @@
     { category: "PERKINS", name: "Perkins 1104 Cylinder Liner", desc: "Wet cylinder liner kit", price: "245,000 TZS", image: "/images/perkins/1104-cylinder-liner.png" },
     { category: "PERKINS", name: "Perkins 1104 Connecting Rod", desc: "Forged connecting rod", price: "285,000 TZS", image: "/images/perkins/1104-connecting-rod.jpg" },
     { category: "PERKINS", name: "Perkins 1104 Gasket Kit", desc: "Complete overhaul gasket set", price: "255,000 TZS", image: "/images/perkins/1104-gasket-kit.jpg" },
-    { category: "PERKINS", name: "Perkins Fuel Injector", desc: "Complete injector assembly",
+    { category: "PERKINS", name: "Perkins Fuel Injector", desc: "Complete injector assembly", price: "285,000 TZS", image: "/images/perkins/fuel-injector.jpg" },
+    { category: "PERKINS", name: "Perkins Turbocharger", desc: "Complete turbo assembly", price: "485,000 TZS", image: "/images/perkins/Perkin-turbocharger.jpg" },
+    { category: "PERKINS", name: "Perkins Crankshaft", desc: "Precision ground crankshaft", price: "595,000 TZS", image: "/images/perkins/Perkin-crankshaft.jpg" },
+    { category: "PERKINS", name: "Perkins Oil Filter", desc: "Genuine oil filter", price: "40,500 TZS", image: "/images/perkins/perkin-oil-filter.jpg" },
+    { category: "PERKINS", name: "Perkins Water Pump", desc: "Circulating water pump", price: "245,000 TZS", image: "/images/perkins/perkins-water-pump.jpg" },
+    
+    // GENERATORS (ALL)
+    { category: "GENERATORS", name: "10kVA Diesel Generator", desc: "Portable diesel generator with ATS panel", price: "5,200,000 TZS", image: "/images/generators/generator.png" },
+    { category: "GENERATORS", name: "15kVA Home Generator", desc: "Residential generator with automatic transfer switch", price: "14,800,000 TZS", image: "/images/generators/generator.png" },
+    { category: "GENERATORS", name: "25kVA Standby Generator", desc: "Commercial generator with auto start", price: "27,200,000 TZS", image: "/images/generators/generator.png" },
+    { category: "GENERATORS", name: "50kVA Silent Generator", desc: "Super silent generator for residential areas", price: "52,500,000 TZS", image: "/images/generators/generator.png" },
+    { category: "GENERATORS", name: "100kVA Diesel Generator", desc: "Complete generator set with ATS", price: "125,500,000 TZS", image: "/images/generators/generator.png" },
+    { category: "GENERATORS", name: "Generator ATS Panel", desc: "Automatic transfer switch panel", price: "450,000 TZS", image: "/images/generators/ats-panel.png" },
+    { category: "GENERATORS", name: "Generator Control Panel", desc: "Remote monitoring panel", price: "285,000 TZS", image: "/images/generators/control-panel.jpg" },
+    
+    // TOOLS (ALL)
+    { category: "TOOLS", name: "Clamp Meter Fluke 325", desc: "Fluke professional clamp meter", price: "2,080,000 TZS", image: "/images/tools/fluke-325.jpg" },
+    { category: "TOOLS", name: "Clamp Meter UNI-T UT205", desc: "UNI-T professional clamp meter", price: "205,000 TZS", image: "/images/tools/uni-t-ut205.jpg" },
+    { category: "TOOLS", name: "Multimeter UNI-T UT39C+", desc: "Digital multimeter", price: "170,000 TZS", image: "/images/tools/uni-t-ut39c.jpg" },
+    { category: "TOOLS", name: "Hydraulic Crimping Tool YKK 240", desc: "Hydraulic crimping tool", price: "450,000 TZS", image: "/images/tools/crimping-tool.jpg" },
+    
+    // OTHER SPARES (ALL)
+    { category: "SPARES", name: "AVR SX460A", desc: "Automatic Voltage Regulator", price: "650,000 TZS", image: "/images/spares/avr-sx460a.jpg" },
+    { category: "SPARES", name: "Surge Protective Device ABB", desc: "ABB surge protector DC", price: "492,000 TZS", image: "/images/spares/surge-abb.jpg" },
+    { category: "SPARES", name: "Cable Tray 50x50mm", desc: "Galvanized cable tray", price: "47,000 TZS", image: "/images/spares/cable-tray.jpg" },
+    { category: "SPARES", name: "Step Up Down Transformer 750W", desc: "Voltage converter", price: "358,000 TZS", image: "/images/spares/transformer-750w.jpg" },
+    { category: "SPARES", name: "Submersible Water Pump 0.9HP", desc: "Complete submersible pump", price: "350,000 TZS", image: "/images/spares/pump.jpg" },
+    { category: "SPARES", name: "Submersible Water Pump 3HP", desc: "Submersible pump for deep wells", price: "600,000 TZS", image: "/images/spares/pump.jpg" }
+];
     let cart = [];
 
     function renderProducts() {
