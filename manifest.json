@@ -1,49 +1,41 @@
 {
-    "name": "Kingu Electrical Company Ltd",
-    "short_name": "Kingu Electrical",
-    "description": "Professional electrical engineering services in Tanzania",
-    "start_url": "/?source=pwa",
-    "scope": "/",
-    "display": "standalone",
-    "background_color": "#1a5632",
-    "theme_color": "#1a5632",
-    "orientation": "portrait",
-    "categories": ["business", "utilities"],
-    "lang": "en-TZ",
-    
-    "icons": [
-        {
-            "src": "/icon-192.png",
-            "sizes": "192x192",
-            "type": "image/png",
-            "purpose": "any maskable"
-        },
-        {
-            "src": "/icon-512.png",
-            "sizes": "512x512",
-            "type": "image/png",
-            "purpose": "any maskable"
-        }
-    ],
-    
-    "shortcuts": [
-        {
-            "name": "Contact Us",
-            "short_name": "Contact",
-            "description": "Get in touch with electrical experts",
-            "url": "/#contact"
-        },
-        {
-            "name": "Emergency Service",
-            "short_name": "Emergency",
-            "description": "24/7 Emergency electrical service",
-            "url": "/#contact?emergency=true"
-        },
-        {
-            "name": "Kingu Shop",
-            "short_name": "Shop",
-            "description": "Browse electrical products",
-            "url": "/Kinguelectrical-shop.html"
-        }
-    ]
+ "name": "App",
+ "icons": [
+  {
+   "src": "\/android-icon-36x36.png",
+   "sizes": "36x36",
+   "type": "image\/png",
+   "density": "0.75"
+  },
+  {
+   "src": "\/android-icon-48x48.png",
+   "sizes": "48x48",
+   "type": "image\/png",
+   "density": "1.0"
+  },
+  {
+   "src": "\/android-icon-72x72.png",
+   "sizes": "72x72",
+   "type": "image\/png",
+   "density": "1.5"
+  },
+  {
+   "src": "\/android-icon-96x96.png",
+   "sizes": "96x96",
+   "type": "image\/png",
+   "density": "2.0"
+  },
+  {
+   "src": "\/android-icon-144x144.png",
+   "sizes": "144x144",
+   "type": "image\/png",
+   "density": "3.0"
+  },
+  {
+   "src": "\/android-icon-192x192.png",
+   "sizes": "192x192",
+   "type": "image\/png",
+   "density": "4.0"
+  }
+ ]
 }
