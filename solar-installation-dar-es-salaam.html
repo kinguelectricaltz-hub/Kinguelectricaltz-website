@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solar Installation Dar es Salaam | Kingu Electrical</title>
+    <meta name="description" content="Professional solar installation services in Dar es Salaam. Complete solar power systems for residential, commercial, and industrial clients. Free site inspection. Call +255 672 912 802.">
+    <meta name="keywords" content="Solar Installation Dar es Salaam, Solar Power Systems Tanzania, Solar Panels Dar es Salaam, Kingu Electrical">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: #0a0a0a;
+            color: white;
+            min-height: 100vh;
+        }
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('Background.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            opacity: 0.9;
+            z-index: -1;
+            filter: brightness(1.1);
+        }
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: -1;
+        }
+        
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 0;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+        }
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 15px;
+            height: 70px;
+        }
+        .nav-logo {
+            color: white;
+            font-weight: 700;
+            font-size: 1.1rem;
+            text-decoration: none;
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .nav-logo img {
+            height: 50px;
+            width: auto;
+        }
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 30px;
+            height: 24px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            z-index: 1001;
+        }
+        .hamburger-line {
+            width: 100%;
+            height: 3px;
+            background-color: white;
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+        .hamburger[aria-expanded="true"] .hamburger-line:nth-child(1) {
+            transform: translateY(10px) rotate(45deg);
+        }
+        .hamburger[aria-expanded="true"] .hamburger-line:nth-child(2) {
+            opacity: 0;
+        }
+        .hamburger[aria-expanded="true"] .hamburger-line:nth-child(3) {
+            transform: translateY(-10px) rotate(-45deg);
+        }
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 0.25rem;
+            margin: 0;
+            padding: 0;
+        }
+        .nav-menu > li > a {
+            color: white;
+            text-decoration: none;
+            padding: 0.75rem 1rem;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            white-space: nowrap;
+            font-size: 0.95rem;
+            display: block;
+        }
+        .nav-menu > li > a:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+        }
+        
+        .page-content {
+            padding: 120px 20px 60px;
+            max-width: 1200px;
+            margin: 0 auto;
+            color: white;
+        }
+        .page-content h1 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            color: white;
+            text-shadow: 0 4px 8px rgba(0,0,0,0.5);
+        }
+        .page-content h2 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 2rem;
+            margin: 2rem 0 1rem;
+            color: #ffffff;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+        .page-content h3 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.5rem;
+            margin: 1.5rem 0 0.75rem;
+            color: #ffffff;
+        }
+        .page-content p, .page-content li {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: rgba(255,255,255,0.9);
+        }
+        .page-content ul, .page-content ol {
+            padding-left: 1.5rem;
+            margin: 1rem 0;
+        }
+        .page-content li {
+            margin-bottom: 0.5rem;
+        }
+        .page-content .section {
+            background: rgba(255,255,255,0.1);
+            padding: 2rem;
+            border-radius: 12px;
+            margin: 2rem 0;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        .page-content .cta-box {
+            background: rgba(220, 53, 69, 0.2);
+            padding: 2rem;
+            border-radius: 12px;
+            text-align: center;
+            border: 2px solid #dc3545;
+            margin: 2rem 0;
+        }
+        .page-content .cta-box a {
+            display: inline-block;
+            background: #dc3545;
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 1rem;
+            transition: all 0.3s ease;
+        }
+        .page-content .cta-box a:hover {
+            background: #c82333;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(220, 53, 69, 0.4);
+        }
+        .page-content table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            background: rgba(255,255,255,0.05);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .page-content table th,
+        .page-content table td {
+            padding: 0.75rem 1rem;
+            border: 1px solid rgba(255,255,255,0.2);
+            text-align: left;
+            color: white;
+        }
+        .page-content table th {
+            background: rgba(255,255,255,0.15);
+            font-weight: 600;
+        }
+        .btn-back {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(255,255,255,0.3);
+            transition: all 0.3s ease;
+        }
+        .btn-back:hover {
+            background: rgba(255,255,255,0.3);
+        }
+        .city-tag {
+            display: inline-block;
+            background: #1a5632;
+            color: white;
+            padding: 0.3rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        footer {
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            padding: 3rem 15px 1.5rem;
+            text-align: center;
+            margin-top: 2rem;
+            width: 100%;
+        }
+        .footer-content {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .footer-column h3 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+            color: #ffffff;
+        }
+        .footer-column p, .footer-column a {
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+        }
+        .footer-column a {
+            display: block;
+            color: #ffffff;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        .footer-column a:hover {
+            color: #1a5632;
+        }
+        .copyright {
+            border-top: 1px solid rgba(255,255,255,0.2);
+            padding-top: 1.5rem;
+            font-size: 0.9rem;
+            color: rgba(255,255,255,0.7);
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        @media (max-width: 1024px) {
+            .hamburger {
+                display: flex;
+            }
+            .nav-menu {
+                position: fixed;
+                top: 70px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 70px);
+                background: rgba(0, 0, 0, 0.98);
+                flex-direction: column;
+                align-items: center;
+                padding: 1rem 0;
+                transition: left 0.3s ease;
+                z-index: 999;
+                backdrop-filter: blur(20px);
+                overflow-y: auto;
+                gap: 0;
+            }
+            .nav-menu.active {
+                left: 0;
+            }
+            .nav-menu > li {
+                width: 100%;
+                text-align: center;
+                border-bottom: 1px solid rgba(255,255,255,0.1);
+            }
+            .nav-menu > li > a {
+                padding: 1.25rem;
+                font-size: 1.1rem;
+                border-radius: 0;
+                width: 100%;
+            }
+        }
+        @media (max-width: 768px) {
+            .page-content h1 {
+                font-size: 2rem;
+            }
+            .page-content h2 {
+                font-size: 1.6rem;
+            }
+            .page-content h3 {
+                font-size: 1.3rem;
+            }
+            .page-content .section {
+                padding: 1.5rem;
+            }
+            .page-content table {
+                font-size: 0.9rem;
+            }
+            .page-content table th,
+            .page-content table td {
+                padding: 0.5rem;
+            }
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+        }
+        @media (max-width: 480px) {
+            .page-content h1 {
+                font-size: 1.6rem;
+            }
+            .page-content p, .page-content li {
+                font-size: 1rem;
+            }
+            .city-tag {
+                font-size: 0.8rem;
+                padding: 0.2rem 0.8rem;
+            }
+            .page-content .cta-box {
+                padding: 1.5rem;
+            }
+            .page-content .cta-box a {
+                padding: 0.8rem 1.5rem;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <div class="nav-container">
+        <a href="index.html" class="nav-logo">
+            <img src="assets/icons/company-logo.png" alt="Kingu Electrical">
+            <span><span style="color: #1a5632">Kingu</span> <span style="color: #cc0000">Electrical</span></span>
+        </a>
+        <button class="hamburger" id="hamburger" aria-label="Menu">
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+        </button>
+        <ul class="nav-menu" id="navMenu">
+            <li><a href="index.html#home">Home</a></li>
+            <li><a href="index.html#services">Services</a></li>
+            <li><a href="index.html#team">Our Team</a></li>
+            <li><a href="index.html#packages">Packages</a></li>
+            <li><a href="index.html#about">Company</a></li>
+            <li><a href="index.html#products">Products</a></li>
+            <li><a href="index.html#contact">Contact</a></li>
+        </ul>
+    </div>
+</nav>
+
+<div class="page-content">
+    <a href="index.html" class="btn-back">← Back to Home</a>
+    
+    <h1>Professional Solar Installation in Dar es Salaam</h1>
+    
+    <p><strong>Kingu Electrical Company Limited</strong> provides professional solar installation services in Dar es Salaam for residential, commercial, and industrial clients. With over 10 years of experience and EWURA licensed engineers, we design and install solar power systems that reduce electricity costs and provide reliable renewable energy.</p>
+    
+    <div class="section">
+        <h2>📍 Service Areas in Dar es Salaam</h2>
+        <div>
+            <span class="city-tag">Kinondoni District</span>
+            <span class="city-tag">Ilala District</span>
+            <span class="city-tag">Temeke District</span>
+            <span class="city-tag">Ubungo Area</span>
+            <span class="city-tag">Kigamboni</span>
+            <span class="city-tag">Mbezi Beach</span>
+            <span class="city-tag">Masaki</span>
+            <span class="city-tag">Oyster Bay</span>
+            <span class="city-tag">Mikocheni</span>
+            <span class="city-tag">Tabata</span>
+        </div>
+    </div>
+    
+    <div class="section">
+        <h2>Why Choose Solar Power in Tanzania?</h2>
+        <p>Tanzania receives abundant sunshine throughout the year, making solar power an ideal renewable energy solution. By switching to solar, you can:</p>
+        <ul>
+            <li>☀️ <strong>Reduce electricity bills</strong> by up to 70%</li>
+            <li>☀️ <strong>Ensure reliable power</strong> during grid outages</li>
+            <li>☀️ <strong>Lower your carbon footprint</strong> and contribute to a sustainable future</li>
+            <li>☀️ <strong>Protect against rising electricity costs</strong></li>
+            <li>☀️ <strong>Increase property value</strong> with a modern solar system</li>
+        </ul>
+    </div>
+    
+    <div class="section">
+        <h2>Our Solar Installation Process</h2>
+        
+        <h3>Step 1: Free Site Assessment</h3>
+        <p>Our solar experts visit your location in Dar es Salaam to:</p>
+        <ul>
+            <li>Assess your energy consumption</li>
+            <li>Evaluate roof space and orientation</li>
+            <li>Check for shading issues</li>
+            <li>Provide a detailed system design and quotation</li>
+        </ul>
+        
+        <h3>Step 2: System Design</h3>
+        <p>We design a custom solar solution including:</p>
+        <ul>
+            <li>Solar panel selection (monocrystalline/polycrystalline)</li>
+            <li>Inverter sizing (string/hybrid/micro-inverters)</li>
+            <li>Battery storage options (lithium-ion/lead-acid)</li>
+            <li>Mounting structure design</li>
+            <li>Electrical system integration</li>
+        </ul>
+        
+        <h3>Step 3: Professional Installation</h3>
+        <p>Our certified team handles:</p>
+        <ul>
+            <li>Solar panel mounting and positioning</li>
+            <li>Inverter and battery installation</li>
+            <li>Electrical wiring and connections</li>
+            <li>System grounding and safety measures</li>
+            <li>Grid connection (if applicable)</li>
+        </ul>
+        
+        <h3>Step 4: Testing & Commissioning</h3>
+        <p>We conduct thorough testing:</p>
+        <ul>
+            <li>System performance verification</li>
+            <li>Safety and compliance checks</li>
+            <li>Client training on system operation</li>
+            <li>System monitoring setup</li>
+        </ul>
+        
+        <h3>Step 5: Handover & Support</h3>
+        <p>You receive:</p>
+        <ul>
+            <li>Complete system documentation</li>
+            <li>Operation and maintenance manuals</li>
+            <li>Warranty certificate</li>
+            <li>24/7 support contact</li>
+        </ul>
+    </div>
+    
+    <div class="section">
+        <h2>Solar System Options</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>System Type</th>
+                    <th>Power Range</th>
+                    <th>Best For</th>
+                    <th>Price Range (TZS)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Residential Solar</strong></td>
+                    <td>1kW – 5kW</td>
+                    <td>Homes, small apartments</td>
+                    <td>500,000 – 5,000,000</td>
+                </tr>
+                <tr>
+                    <td><strong>Commercial Solar</strong></td>
+                    <td>5kW – 50kW</td>
+                    <td>Offices, hotels, retail stores</td>
+                    <td>5,000,000 – 25,000,000</td>
+                </tr>
+                <tr>
+                    <td><strong>Industrial Solar</strong></td>
+                    <td>50kW – 500kW</td>
+                    <td>Factories, warehouses, farms</td>
+                    <td>25,000,000 – 100,000,000+</td>
+                </tr>
+                <tr>
+                    <td><strong>Solar + Battery Storage</strong></td>
+                    <td>3kW – 100kW+</td>
+                    <td>Power backup, off-grid solutions</td>
+                    <td>Custom Quote</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    
+    <div class="section">
+        <h2>Why Choose Kingu Electrical for Solar Installation?</h2>
+        <ul>
+            <li>✅ <strong>EWURA Class A Licensed</strong> – Fully licensed and compliant with Tanzanian regulations</li>
+            <li>✅ <strong>10+ Years Experience</strong> – Proven track record in solar installations</li>
+            <li>✅ <strong>Quality Equipment</strong> – We use premium solar panels, inverters, and batteries</li>
+            <li>✅ <strong>Professional Installation</strong> – Certified and experienced installation team</li>
+            <li>✅ <strong>Warranty Coverage</strong> – Equipment and installation warranties included</li>
+            <li>✅ <strong>After-Sales Support</strong> – Ongoing maintenance and support</li>
+        </ul>
+    </div>
+    
+    <div class="section">
+        <h2>Frequently Asked Questions</h2>
+        
+        <h3>Q: How much does solar installation cost in Dar es Salaam?</h3>
+        <p>A: Costs range from TZS 500,000 for small residential systems to over TZS 100,000,000 for large industrial installations. We provide free quotes after site inspection.</p>
+        
+        <h3>Q: How long does installation take?</h3>
+        <p>A: Most installations are completed within 3-7 working days, depending on system size and complexity.</p>
+        
+        <h3>Q: Can I use solar power during grid outages?</h3>
+        <p>A: Yes, with battery storage systems, you can store solar energy and use it during grid outages.</p>
+        
+        <h3>Q: What maintenance is required?</h3>
+        <p>A: Minimal maintenance is needed—regular cleaning of panels and occasional system checks. We offer maintenance contracts for peace of mind.</p>
+        
+        <h3>Q: Is solar power reliable in Tanzania?</h3>
+        <p>A: Yes, Tanzania receives abundant sunshine year-round, making solar power a reliable and cost-effective energy solution.</p>
+    </div>
+    
+    <div class="cta-box">
+        <h2>📞 Contact Us for Solar Installation in Dar es Salaam</h2>
+        <p><strong>Call us:</strong> +255 672 912 802 | +255 763 957 908</p>
+        <p><strong>Email:</strong> Kinguelectricaltz@gmail.com</p>
+        <p><strong>Visit us:</strong> Plot No. 485, Block 43, Nzasa, Dar es Salaam</p>
+        <a href="https://wa.me/255682843552?text=Hello!%20I'm%20interested%20in%20solar%20installation%20in%20Dar%20es%20Salaam">📅 Book a Free Site Assessment</a>
+    </div>
+</div>
+
+<footer>
+    <div class="footer-content">
+        <div class="footer-column">
+            <h3>Kingu Electrical</h3>
+            <p>Leading Electrical Engineering company in Tanzania providing professional power solutions and electrical products since 2017.</p>
+        </div>
+        <div class="footer-column">
+            <h3>Quick Links</h3>
+            <a href="index.html#home">Home</a>
+            <a href="index.html#about">About Us</a>
+            <a href="index.html#services">Our Services</a>
+            <a href="index.html#products">Products</a>
+            <a href="index.html#contact">Contact Us</a>
+            <a href="solar-installation-dar-es-salaam.html">Solar Installation</a>
+        </div>
+        <div class="footer-column">
+            <h3>Contact Info</h3>
+            <p><i class="fas fa-phone"></i> +255 682 843 552</p>
+            <p><i class="fas fa-phone"></i> +255 672 912 802</p>
+            <p><i class="fas fa-envelope"></i> Kinguelectricaltz@gmail.com</p>
+        </div>
+    </div>
+    <div class="copyright">
+        <p>&copy; <span id="year">2024</span> Kingu Electrical Company Limited. All Rights Reserved.</p>
+        <p>TIN: 157-024-493 | EWURA License: ELA-2022-008</p>
+    </div>
+</footer>
+
+<script>
+    const hamburger = document.getElementById('hamburger');
+    const navMenu = document.getElementById('navMenu');
+    
+    hamburger.addEventListener('click', () => {
+        const isExpanded = hamburger.getAttribute('aria-expanded') === 'true';
+        hamburger.setAttribute('aria-expanded', !isExpanded);
+        navMenu.classList.toggle('active');
+        document.body.style.overflow = !isExpanded ? 'hidden' : 'auto';
+    });
+    
+    document.querySelectorAll('.nav-menu a').forEach(link => {
+        link.addEventListener('click', () => {
+            hamburger.setAttribute('aria-expanded', 'false');
+            navMenu.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        });
+    });
+    
+    document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+
+</body>
+</html>
