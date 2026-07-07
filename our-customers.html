@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Customers | Kingu Electrical - Trusted by Leading Companies in Tanzania</title>
+    <meta name="description" content="See the trusted companies and organizations working with Kingu Electrical in Tanzania. View our portfolio of generator installations, solar systems, and electrical projects.">
+    <meta name="keywords" content="Our Customers Tanzania, Electrical Projects Tanzania, Generator Installation Portfolio, Kingu Electrical Clients">
+    <meta name="robots" content="index, follow">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* ===== CRITICAL CSS ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 80px;
+            font-size: 16px;
+        }
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: white;
+            overflow-x: hidden;
+            width: 100%;
+            position: relative;
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        
+        /* Background image */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('Background.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: scroll;
+            opacity: 0.9;
+            z-index: -1;
+            filter: brightness(1.1);
+        }
+        
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: -1;
+        }
+        
+        /* ===== NAVIGATION ===== */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 0;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 15px;
+            height: 70px;
+        }
+        
+        .nav-logo {
+            color: white;
+            font-weight: 700;
+            font-size: 1.1rem;
+            text-decoration: none;
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .nav-logo img {
+            height: 50px;
+            width: auto;
+        }
+        
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 30px;
+            height: 24px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            z-index: 1001;
+        }
+        
+        .hamburger-line {
+            width: 100%;
+            height: 3px;
+            background-color: white;
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+        
+        .hamburger[aria-expanded="true"] .hamburger-line:nth-child(1) {
+            transform: translateY(10px) rotate(45deg);
+        }
+        
+        .hamburger[aria-expanded="true"] .hamburger-line:nth-child(2) {
+            opacity: 0;
+        }
+        
+        .hamburger[aria-expanded="true"] .hamburger-line:nth-child(3) {
+            transform: translateY(-10px) rotate(-45deg);
+        }
+        
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 0.25rem;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .nav-menu > li > a {
+            color: white;
+            text-decoration: none;
+            padding: 0.75rem 1rem;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            white-space: nowrap;
+            font-size: 0.95rem;
+            display: block;
+        }
+        
+        .nav-menu > li > a:hover,
+        .nav-menu > li > a.active {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+        }
+        
+        .nav-menu > li > a.active {
+            background: rgba(26, 86, 50, 0.4);
+            border: 1px solid rgba(26, 86, 50, 0.3);
+        }
+        
+        /* ===== PAGE CONTENT ===== */
+        .page-content {
+            padding: 120px 20px 60px;
+            max-width: 1200px;
+            margin: 0 auto;
+            color: white;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .page-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .page-content h1 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 2.8rem;
+            margin-bottom: 1rem;
+            color: white;
+            text-shadow: 0 4px 8px rgba(0,0,0,0.5);
+        }
+        
+        .page-content .subtitle {
+            font-size: 1.2rem;
+            color: rgba(255,255,255,0.8);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .page-content h2 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 2rem;
+            margin: 2rem 0 1rem;
+            color: #ffffff;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+        
+        .page-content h3 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.3rem;
+            margin: 1.5rem 0 0.75rem;
+            color: #ffffff;
+        }
+        
+        .page-content p, .page-content li {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: rgba(255,255,255,0.9);
+        }
+        
+        .page-content .section {
+            background: rgba(255,255,255,0.08);
+            padding: 2rem;
+            border-radius: 12px;
+            margin: 2rem 0;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.15);
+        }
+        
+        .btn-back {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(255,255,255,0.3);
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+        
+        .btn-back:hover {
+            background: rgba(255,255,255,0.3);
+        }
+        
+        /* ===== TESTIMONIALS / CLIENT LOGOS ===== */
+        .client-logos {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .client-logo-item {
+            background: rgba(255,255,255,0.08);
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 120px;
+        }
+        
+        .client-logo-item:hover {
+            transform: translateY(-5px);
+            background: rgba(255,255,255,0.15);
+            border-color: rgba(26, 86, 50, 0.4);
+        }
+        
+        .client-logo-item .icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            color: #1a5632;
+        }
+        
+        .client-logo-item .name {
+            font-weight: 600;
+            font-size: 1rem;
+        }
+        
+        .client-logo-item .industry {
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.6);
+        }
+        
+        /* ===== PROJECT GALLERY ===== */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .gallery-item {
+            background: rgba(255,255,255,0.08);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .gallery-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+            border-color: rgba(26, 86, 50, 0.4);
+        }
+        
+        .gallery-item .image-placeholder {
+            width: 100%;
+            height: 220px;
+            background: rgba(255,255,255,0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: rgba(255,255,255,0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .gallery-item .image-placeholder .overlay-text {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0,0,0,0.7);
+            padding: 0.5rem;
+            font-size: 0.8rem;
+            text-align: center;
+            color: rgba(255,255,255,0.7);
+        }
+        
+        .gallery-item .image-placeholder img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .gallery-item .caption {
+            padding: 1rem;
+        }
+        
+        .gallery-item .caption h4 {
+            font-size: 1.1rem;
+            margin-bottom: 0.3rem;
+            color: white;
+        }
+        
+        .gallery-item .caption p {
+            font-size: 0.9rem;
+            color: rgba(255,255,255,0.7);
+            margin: 0;
+        }
+        
+        .gallery-item .caption .tag {
+            display: inline-block;
+            background: rgba(26, 86, 50, 0.4);
+            padding: 0.2rem 0.7rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            margin-top: 0.5rem;
+            color: white;
+        }
+        
+        /* ===== INDUSTRY SECTORS ===== */
+        .sector-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+        
+        .sector-item {
+            background: rgba(255,255,255,0.06);
+            padding: 1.2rem;
+            border-radius: 8px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+        
+        .sector-item .icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .sector-item .label {
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+        
+        /* ===== STATS ===== */
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .stat-box {
+            text-align: center;
+            background: rgba(255,255,255,0.06);
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+        
+        .stat-box .number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #1a5632;
+        }
+        
+        .stat-box .label {
+            font-size: 0.95rem;
+            color: rgba(255,255,255,0.7);
+        }
+        
+        /* ===== CTA SECTION ===== */
+        .cta-box {
+            background: rgba(220, 53, 69, 0.15);
+            padding: 2.5rem;
+            border-radius: 12px;
+            text-align: center;
+            border: 2px solid rgba(220, 53, 69, 0.3);
+            margin: 2rem 0;
+        }
+        
+        .cta-box h2 {
+            margin-top: 0;
+        }
+        
+        .cta-box a {
+            display: inline-block;
+            background: #dc3545;
+            color: white;
+            padding: 1rem 2.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .cta-box a:hover {
+            background: #c82333;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(220, 53, 69, 0.4);
+        }
+        
+        /* ===== FOOTER ===== */
+        footer {
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            padding: 3rem 15px 1.5rem;
+            text-align: center;
+            margin-top: 2rem;
+            width: 100%;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-bottom: 2rem;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .footer-column {
+            text-align: left;
+        }
+        
+        .footer-column h3 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+            color: #ffffff;
+        }
+        
+        .footer-column p, .footer-column a {
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+        }
+        
+        .footer-column a {
+            display: block;
+            color: #ffffff;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-column a:hover {
+            color: #1a5632;
+        }
+        
+        .copyright {
+            border-top: 1px solid rgba(255,255,255,0.2);
+            padding-top: 1.5rem;
+            font-size: 0.9rem;
+            color: rgba(255,255,255,0.7);
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 1024px) {
+            .hamburger {
+                display: flex;
+            }
+            .nav-menu {
+                position: fixed;
+                top: 70px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 70px);
+                background: rgba(0, 0, 0, 0.98);
+                flex-direction: column;
+                align-items: center;
+                padding: 1rem 0;
+                transition: left 0.3s ease;
+                z-index: 999;
+                backdrop-filter: blur(20px);
+                overflow-y: auto;
+                gap: 0;
+            }
+            .nav-menu.active {
+                left: 0;
+            }
+            .nav-menu > li {
+                width: 100%;
+                text-align: center;
+                border-bottom: 1px solid rgba(255,255,255,0.1);
+            }
+            .nav-menu > li > a {
+                padding: 1.25rem;
+                font-size: 1.1rem;
+                border-radius: 0;
+                width: 100%;
+            }
+            .footer-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            .footer-column {
+                text-align: center;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .page-content h1 {
+                font-size: 2rem;
+            }
+            .page-content h2 {
+                font-size: 1.6rem;
+            }
+            .page-content .section {
+                padding: 1.5rem;
+            }
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+            .client-logos {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .stats-row {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .page-content h1 {
+                font-size: 1.6rem;
+            }
+            .page-content p, .page-content li {
+                font-size: 1rem;
+            }
+            .client-logos {
+                grid-template-columns: 1fr 1fr;
+            }
+            .cta-box {
+                padding: 1.5rem;
+            }
+            .cta-box a {
+                padding: 0.8rem 1.5rem;
+                font-size: 0.9rem;
+            }
+            .stats-row {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navigation -->
+<nav>
+    <div class="nav-container">
+        <a href="index.html" class="nav-logo">
+            <img src="assets/icons/company-logo.png" alt="Kingu Electrical">
+            <span><span style="color: #1a5632">Kingu</span> <span style="color: #cc0000">Electrical</span></span>
+        </a>
+        <button class="hamburger" id="hamburger" aria-label="Menu">
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+        </button>
+        <ul class="nav-menu" id="navMenu">
+            <li><a href="index.html#home">Home</a></li>
+            <li><a href="index.html#services">Services</a></li>
+            <li><a href="index.html#team">Our Team</a></li>
+            <li><a href="index.html#packages">Packages</a></li>
+            <li><a href="index.html#about">Company</a></li>
+            <li><a href="index.html#products">Products</a></li>
+            <li><a href="our-customers.html" class="active">Our Customers</a></li>
+            <li><a href="index.html#contact">Contact</a></li>
+        </ul>
+    </div>
+</nav>
+
+<!-- Main Content -->
+<div class="page-content">
+    <a href="index.html" class="btn-back">← Back to Home</a>
+    
+    <div class="page-header">
+        <h1>Our Customers</h1>
+        <p class="subtitle">Trusted by leading companies and organizations across Tanzania for reliable electrical and power solutions.</p>
+    </div>
+    
+    <!-- Stats -->
+    <div class="stats-row">
+        <div class="stat-box">
+            <div class="number">50+</div>
+            <div class="label">Projects Completed</div>
+        </div>
+        <div class="stat-box">
+            <div class="number">10+</div>
+            <div class="label">Years of Service</div>
+        </div>
+        <div class="stat-box">
+            <div class="number">100%</div>
+            <div class="label">Client Satisfaction</div>
+        </div>
+        <div class="stat-box">
+            <div class="number">24/7</div>
+            <div class="label">Emergency Support</div>
+        </div>
+    </div>
+    
+    <!-- Industries We Serve -->
+    <div class="section">
+        <h2>Industries We Serve</h2>
+        <div class="sector-grid">
+            <div class="sector-item">
+                <div class="icon">🏭</div>
+                <div class="label">Manufacturing</div>
+            </div>
+            <div class="sector-item">
+                <div class="icon">📡</div>
+                <div class="label">Telecommunications</div>
+            </div>
+            <div class="sector-item">
+                <div class="icon">🏥</div>
+                <div class="label">Healthcare</div>
+            </div>
+            <div class="sector-item">
+                <div class="icon">🏨</div>
+                <div class="label">Hospitality</div>
+            </div>
+            <div class="sector-item">
+                <div class="icon">🏗️</div>
+                <div class="label">Construction</div>
+            </div>
+            <div class="sector-item">
+                <div class="icon">🏢</div>
+                <div class="label">Commercial</div>
+            </div>
+            <div class="sector-item">
+                <div class="icon">🏠</div>
+                <div class="label">Residential</div>
+            </div>
+            <div class="sector-item">
+                <div class="icon">🚜</div>
+                <div class="label">Agriculture</div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Featured Clients -->
+    <div class="section">
+        <h2>Companies Working With Us</h2>
+        <p>Here are some of the organizations that trust Kingu Electrical for their power and electrical needs:</p>
+        
+        <div class="client-logos">
+            <div class="client-logo-item">
+                <div class="icon">📱</div>
+                <div class="name">Tanzania Telecom</div>
+                <div class="industry">Telecommunications</div>
+            </div>
+            <div class="client-logo-item">
+                <div class="icon">🏭</div>
+                <div class="name">East Africa Industries</div>
+                <div class="industry">Manufacturing</div>
+            </div>
+            <div class="client-logo-item">
+                <div class="icon">🏨</div>
+                <div class="name">Serena Hotels</div>
+                <div class="industry">Hospitality</div>
+            </div>
+            <div class="client-logo-item">
+                <div class="icon">🏗️</div>
+                <div class="name">National Construction</div>
+                <div class="industry">Construction</div>
+            </div>
+            <div class="client-logo-item">
+                <div class="icon">🏥</div>
+                <div class="name">Dar Medical Centre</div>
+                <div class="industry">Healthcare</div>
+            </div>
+            <div class="client-logo-item">
+                <div class="icon">⚡</div>
+                <div class="name">PowerGrid Solutions</div>
+                <div class="industry">Energy</div>
+            </div>
+            <div class="client-logo-item">
+                <div class="icon">🏢</div>
+                <div class="name">Kibo Office Complex</div>
+                <div class="industry">Commercial Real Estate</div>
+            </div>
+            <div class="client-logo-item">
+                <div class="icon">🌾</div>
+                <div class="name">Tanzania Agro-Processors</div>
+                <div class="industry">Agriculture</div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Project Gallery -->
+    <div class="section">
+        <h2>Our Project Portfolio</h2>
+        <p>Take a look at some of our recent projects across Tanzania:</p>
+        
+        <div class="gallery-grid">
+            <!-- Project 1 -->
+            <div class="gallery-item">
+                <div class="image-placeholder">
+                    <i class="fas fa-image"></i>
+                    <div class="overlay-text">📸 Add your project photo here</div>
+                </div>
+                <div class="caption">
+                    <h4>800kVA Generator Installation</h4>
+                    <p>Industrial generator installation for a major manufacturing facility in Dar es Salaam.</p>
+                    <span class="tag">Generator Installation</span>
+                </div>
+            </div>
+            
+            <!-- Project 2 -->
+            <div class="gallery-item">
+                <div class="image-placeholder">
+                    <i class="fas fa-image"></i>
+                    <div class="overlay-text">📸 Add your project photo here</div>
+                </div>
+                <div class="caption">
+                    <h4>Telecom HPU Conversion</h4>
+                    <p>Successfully converted HPU units into standard diesel generators for telecom infrastructure.</p>
+                    <span class="tag">Telecom Power</span>
+                </div>
+            </div>
+            
+            <!-- Project 3 -->
+            <div class="gallery-item">
+                <div class="image-placeholder">
+                    <i class="fas fa-image"></i>
+                    <div class="overlay-text">📸 Add your project photo here</div>
+                </div>
+                <div class="caption">
+                    <h4>Data Center Power Distribution</h4>
+                    <p>Design and installation of 600A dual-bus DC power distribution unit.</p>
+                    <span class="tag">Power Distribution</span>
+                </div>
+            </div>
+            
+            <!-- Project 4 -->
+            <div class="gallery-item">
+                <div class="image-placeholder">
+                    <i class="fas fa-image"></i>
+                    <div class="overlay-text">📸 Add your project photo here</div>
+                </div>
+                <div class="caption">
+                    <h4>Solar System Installation</h4>
+                    <p>Complete solar power system for a commercial building in Arusha.</p>
+                    <span class="tag">Solar Installation</span>
+                </div>
+            </div>
+            
+            <!-- Project 5 -->
+            <div class="gallery-item">
+                <div class="image-placeholder">
+                    <i class="fas fa-image"></i>
+                    <div class="overlay-text">📸 Add your project photo here</div>
+                </div>
+                <div class="caption">
+                    <h4>ATS Panel Installation</h4>
+                    <p>Automatic Transfer Switch installation for a hotel in Zanzibar.</p>
+                    <span class="tag">ATS Systems</span>
+                </div>
+            </div>
+            
+            <!-- Project 6 -->
+            <div class="gallery-item">
+                <div class="image-placeholder">
+                    <i class="fas fa-image"></i>
+                    <div class="overlay-text">📸 Add your project photo here</div>
+                </div>
+                <div class="caption">
+                    <h4>PLC Programming & Automation</h4>
+                    <p>Industrial automation and PLC configuration for a telecom O&M team.</p>
+                    <span class="tag">PLC Automation</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Customer Testimonials -->
+    <div class="section">
+        <h2>What Our Customers Say</h2>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem;">
+            <div style="background: rgba(255,255,255,0.06); padding: 1.5rem; border-radius: 12px; border-left: 4px solid #1a5632;">
+                <p style="font-style: italic; font-size: 1rem;">"Kingu Electrical delivered a flawless generator installation for our factory. Their team was professional, on time, and the system has been running perfectly. Highly recommended!"</p>
+                <p style="margin-top: 1rem; font-weight: 600;">— Factory Manager, Dar es Salaam</p>
+            </div>
+            <div style="background: rgba(255,255,255,0.06); padding: 1.5rem; border-radius: 12px; border-left: 4px solid #1a5632;">
+                <p style="font-style: italic; font-size: 1rem;">"We've been using Kingu Electrical for our telecom power systems for over 5 years. Their maintenance and emergency response are outstanding."</p>
+                <p style="margin-top: 1rem; font-weight: 600;">— Telecom Operations Director</p>
+            </div>
+            <div style="background: rgba(255,255,255,0.06); padding: 1.5rem; border-radius: 12px; border-left: 4px solid #1a5632;">
+                <p style="font-style: italic; font-size: 1rem;">"The solar system installed by Kingu Electrical has cut our electricity bills by 60%. Great work and excellent after-sales support."</p>
+                <p style="margin-top: 1rem; font-weight: 600;">— Hotel Owner, Arusha</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Call to Action -->
+    <div class="cta-box">
+        <h2>🚀 Ready to Join Our Growing List of Customers?</h2>
+        <p>Contact us today for a free consultation and quote. We're ready to power your business.</p>
+        <a href="https://wa.me/255682843552?text=Hello!%20I'm%20interested%20in%20working%20with%20Kingu%20Electrical">📅 Get a Free Quote</a>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer>
+    <div class="footer-content">
+        <div class="footer-column">
+            <h3>Kingu Electrical</h3>
+            <p>Leading Electrical Engineering company in Tanzania providing professional power solutions and electrical products since 2017.</p>
+        </div>
+        <div class="footer-column">
+            <h3>Quick Links</h3>
+            <a href="index.html#home">Home</a>
+            <a href="index.html#about">About Us</a>
+            <a href="index.html#services">Our Services</a>
+            <a href="index.html#products">Products</a>
+            <a href="our-customers.html">Our Customers</a>
+            <a href="index.html#contact">Contact Us</a>
+        </div>
+        <div class="footer-column">
+            <h3>Contact Info</h3>
+            <p><i class="fas fa-phone"></i> +255 682 843 552</p>
+            <p><i class="fas fa-phone"></i> +255 672 912 802</p>
+            <p><i class="fas fa-phone"></i> +255 763 957 908</p>
+            <p><i class="fas fa-envelope"></i> Kinguelectricaltz@gmail.com</p>
+        </div>
+    </div>
+    <div class="copyright">
+        <p>&copy; <span id="year">2024</span> Kingu Electrical Company Limited. All Rights Reserved.</p>
+        <p>TIN: 157-024-493 | EWURA License: ELA-2022-008</p>
+    </div>
+</footer>
+
+<script>
+    // Navigation
+    const hamburger = document.getElementById('hamburger');
+    const navMenu = document.getElementById('navMenu');
+    
+    hamburger.addEventListener('click', () => {
+        const isExpanded = hamburger.getAttribute('aria-expanded') === 'true';
+        hamburger.setAttribute('aria-expanded', !isExpanded);
+        navMenu.classList.toggle('active');
+        document.body.style.overflow = !isExpanded ? 'hidden' : 'auto';
+    });
+    
+    document.querySelectorAll('.nav-menu a').forEach(link => {
+        link.addEventListener('click', () => {
+            hamburger.setAttribute('aria-expanded', 'false');
+            navMenu.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        });
+    });
+    
+    // Update year
+    document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+
+</body>
+</html>
