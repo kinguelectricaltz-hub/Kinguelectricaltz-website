@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complete Generator Maintenance Checklist for Tanzania Businesses | Kingu Electrical</title>
+    <meta name="description" content="Free generator maintenance checklist for businesses in Tanzania. Learn how to service diesel generators, extend lifespan, and prevent breakdowns. Download our PDF guide.">
+    <meta name="keywords" content="Generator Maintenance Checklist Tanzania, Diesel Generator Service, Generator Maintenance Guide, Kingu Electrical">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: #0a0a0a;
+            color: white;
+            min-height: 100vh;
+        }
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('Background.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            opacity: 0.9;
+            z-index: -1;
+            filter: brightness(1.1);
+        }
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: -1;
+        }
+        
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 0;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+        }
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 15px;
+            height: 70px;
+        }
+        .nav-logo {
+            color: white;
+            font-weight: 700;
+            font-size: 1.1rem;
+            text-decoration: none;
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .nav-logo img {
+            height: 50px;
+            width: auto;
+        }
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 30px;
+            height: 24px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            z-index: 1001;
+        }
+        .hamburger-line {
+            width: 100%;
+            height: 3px;
+            background-color: white;
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+        .hamburger[aria-expanded="true"] .hamburger-line:nth-child(1) {
+            transform: translateY(10px) rotate(45deg);
+        }
+        .hamburger[aria-expanded="true"] .hamburger-line:nth-child(2) {
+            opacity: 0;
+        }
+        .hamburger[aria-expanded="true"] .hamburger-line:nth-child(3) {
+            transform: translateY(-10px) rotate(-45deg);
+        }
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 0.25rem;
+            margin: 0;
+            padding: 0;
+        }
+        .nav-menu > li > a {
+            color: white;
+            text-decoration: none;
+            padding: 0.75rem 1rem;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            white-space: nowrap;
+            font-size: 0.95rem;
+            display: block;
+        }
+        .nav-menu > li > a:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+        }
+        
+        .page-content {
+            padding: 120px 20px 60px;
+            max-width: 1200px;
+            margin: 0 auto;
+            color: white;
+        }
+        .page-content h1 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            color: white;
+            text-shadow: 0 4px 8px rgba(0,0,0,0.5);
+        }
+        .page-content h2 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 2rem;
+            margin: 2rem 0 1rem;
+            color: #ffffff;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+        .page-content h3 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.5rem;
+            margin: 1.5rem 0 0.75rem;
+            color: #ffffff;
+        }
+        .page-content h4 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.2rem;
+            margin: 1.2rem 0 0.5rem;
+            color: #ffffff;
+        }
+        .page-content p, .page-content li {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: rgba(255,255,255,0.9);
+        }
+        .page-content ul, .page-content ol {
+            padding-left: 1.5rem;
+            margin: 1rem 0;
+        }
+        .page-content li {
+            margin-bottom: 0.5rem;
+        }
+        .page-content .section {
+            background: rgba(255,255,255,0.1);
+            padding: 2rem;
+            border-radius: 12px;
+            margin: 2rem 0;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        .page-content .cta-box {
+            background: rgba(220, 53, 69, 0.2);
+            padding: 2rem;
+            border-radius: 12px;
+            text-align: center;
+            border: 2px solid #dc3545;
+            margin: 2rem 0;
+        }
+        .page-content .cta-box a {
+            display: inline-block;
+            background: #dc3545;
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 1rem;
+            transition: all 0.3s ease;
+        }
+        .page-content .cta-box a:hover {
+            background: #c82333;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(220, 53, 69, 0.4);
+        }
+        .btn-back {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(255,255,255,0.3);
+            transition: all 0.3s ease;
+        }
+        .btn-back:hover {
+            background: rgba(255,255,255,0.3);
+        }
+        .download-box {
+            background: rgba(26, 86, 50, 0.3);
+            padding: 2rem;
+            border-radius: 12px;
+            text-align: center;
+            border: 2px solid #1a5632;
+            margin: 2rem 0;
+        }
+        .download-box a {
+            display: inline-block;
+            background: #1a5632;
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 1rem;
+            transition: all 0.3s ease;
+        }
+        .download-box a:hover {
+            background: #0d3d21;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(26, 86, 50, 0.4);
+        }
+        .checklist-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+        }
+        .checklist-item .check {
+            color: #1a5632;
+            font-weight: bold;
+            font-size: 1.2rem;
+            min-width: 24px;
+        }
+        .warning-box {
+            background: rgba(220, 53, 69, 0.15);
+            padding: 1.5rem;
+            border-radius: 12px;
+            border-left: 4px solid #dc3545;
+            margin: 1.5rem 0;
+        }
+        .warning-box ul {
+            list-style: none;
+            padding: 0;
+        }
+        .warning-box li {
+            padding: 0.3rem 0;
+        }
+        .warning-box li::before {
+            content: '⚠️ ';
+        }
+        
+        footer {
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            padding: 3rem 15px 1.5rem;
+            text-align: center;
+            margin-top: 2rem;
+            width: 100%;
+        }
+        .footer-content {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .footer-column h3 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+            color: #ffffff;
+        }
+        .footer-column p, .footer-column a {
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+        }
+        .footer-column a {
+            display: block;
+            color: #ffffff;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        .footer-column a:hover {
+            color: #1a5632;
+        }
+        .copyright {
+            border-top: 1px solid rgba(255,255,255,0.2);
+            padding-top: 1.5rem;
+            font-size: 0.9rem;
+            color: rgba(255,255,255,0.7);
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        @media (max-width: 1024px) {
+            .hamburger {
+                display: flex;
+            }
+            .nav-menu {
+                position: fixed;
+                top: 70px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 70px);
+                background: rgba(0, 0, 0, 0.98);
+                flex-direction: column;
+                align-items: center;
+                padding: 1rem 0;
+                transition: left 0.3s ease;
+                z-index: 999;
+                backdrop-filter: blur(20px);
+                overflow-y: auto;
+                gap: 0;
+            }
+            .nav-menu.active {
+                left: 0;
+            }
+            .nav-menu > li {
+                width: 100%;
+                text-align: center;
+                border-bottom: 1px solid rgba(255,255,255,0.1);
+            }
+            .nav-menu > li > a {
+                padding: 1.25rem;
+                font-size: 1.1rem;
+                border-radius: 0;
+                width: 100%;
+            }
+        }
+        @media (max-width: 768px) {
+            .page-content h1 {
+                font-size: 2rem;
+            }
+            .page-content h2 {
+                font-size: 1.6rem;
+            }
+            .page-content h3 {
+                font-size: 1.3rem;
+            }
+            .page-content .section {
+                padding: 1.5rem;
+            }
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+        }
+        @media (max-width: 480px) {
+            .page-content h1 {
+                font-size: 1.6rem;
+            }
+            .page-content p, .page-content li {
+                font-size: 1rem;
+            }
+            .page-content .cta-box {
+                padding: 1.5rem;
+            }
+            .page-content .cta-box a {
+                padding: 0.8rem 1.5rem;
+                font-size: 0.9rem;
+            }
+            .download-box {
+                padding: 1.5rem;
+            }
+            .download-box a {
+                padding: 0.8rem 1.5rem;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <div class="nav-container">
+        <a href="index.html" class="nav-logo">
+            <img src="assets/icons/company-logo.png" alt="Kingu Electrical">
+            <span><span style="color: #1a5632">Kingu</span> <span style="color: #cc0000">Electrical</span></span>
+        </a>
+        <button class="hamburger" id="hamburger" aria-label="Menu">
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+        </button>
+        <ul class="nav-menu" id="navMenu">
+            <li><a href="index.html#home">Home</a></li>
+            <li><a href="index.html#services">Services</a></li>
+            <li><a href="index.html#team">Our Team</a></li>
+            <li><a href="index.html#packages">Packages</a></li>
+            <li><a href="index.html#about">Company</a></li>
+            <li><a href="index.html#products">Products</a></li>
+            <li><a href="index.html#contact">Contact</a></li>
+        </ul>
+    </div>
+</nav>
+
+<div class="page-content">
+    <a href="index.html" class="btn-back">← Back to Home</a>
+    
+    <h1>Complete Generator Maintenance Checklist for Tanzania Businesses</h1>
+    
+    <div class="section">
+        <h2>Why Generator Maintenance Matters in Tanzania</h2>
+        <p>Tanzania's power grid faces frequent fluctuations and outages, making diesel generators essential for businesses. However, <strong>generator breakdowns cost Tanzanian businesses millions in lost productivity annually.</strong> Regular maintenance is not optional—it's critical.</p>
+        <p>At Kingu Electrical, we've serviced generators across Dar es Salaam, Arusha, Dodoma, Mwanza, and Mbeya for over 10 years. Our experience shows that proper maintenance can:</p>
+        <ul>
+            <li>Increase generator lifespan by <strong>up to 50%</strong></li>
+            <li>Reduce breakdowns by <strong>80%</strong></li>
+            <li>Lower fuel consumption by <strong>15%</strong></li>
+            <li>Ensure 100% readiness during power outages</li>
+        </ul>
+    </div>
+    
+    <div class="section">
+        <h2>Daily Generator Maintenance Checklist</h2>
+        
+        <div class="checklist-item">
+            <span class="check">☐</span>
+            <div><strong>1. Visual Inspection</strong><br>
+            - Check for visible leaks (fuel, oil, coolant)<br>
+            - Look for damaged wires or loose connections<br>
+            - Ensure air intake and exhaust are clear<br>
+            - Verify battery connections are tight and corrosion-free</div>
+        </div>
+        
+        <div class="checklist-item">
+            <span class="check">☐</span>
+            <div><strong>2. Fluid Level Checks</strong><br>
+            - <strong>Engine Oil Level</strong> – Check with dipstick; top up if low<br>
+            - <strong>Coolant Level</strong> – Maintain between minimum and maximum marks<br>
+            - <strong>Fuel Level</strong> – Ensure sufficient diesel in the tank<br>
+            - <strong>Battery Electrolyte</strong> – Check and top up with distilled water</div>
+        </div>
+        
+        <div class="checklist-item">
+            <span class="check">☐</span>
+            <div><strong>3. Control Panel</strong><br>
+            - Check for warning lights or error codes<br>
+            - Verify automatic start/stop functions<br>
+            - Note any unusual readings (voltage, frequency, temperature)</div>
+        </div>
+    </div>
+    
+    <div class="section">
+        <h2>Weekly Generator Maintenance Checklist</h2>
+        
+        <div class="checklist-item">
+            <span class="check">☐</span>
+            <div><strong>1. Test Run (No Load)</strong><br>
+            - Run generator for 10-15 minutes without load<br>
+            - Check for unusual vibrations or noises<br>
+            - Observe exhaust color (should be light grey)<br>
+            - Verify all gauges show normal readings</div>
+        </div>
+        
+        <div class="checklist-item">
+            <span class="check">☐</span>
+            <div><strong>2. Belt and Hose Inspection</strong><br>
+            - Check drive belts for cracks or wear<br>
+            - Inspect hoses for leaks or bulges<br>
+            - Ensure tension is correct (if adjustable)</div>
+        </div>
+        
+        <div class="checklist-item">
+            <span class="check">☐</span>
+            <div><strong>3. Air Filter</strong><br>
+            - Check air filter for dirt or blockages<br>
+            - Clean or replace if necessary<br>
+            - Inspect intake piping for damage</div>
+        </div>
+    </div>
+    
+    <div class="section">
+        <h2>Monthly Generator Maintenance Checklist</h2>
+        
+        <div class="checklist-item">
+            <span class="check">☐</span>
+            <div><strong>1. Load Test</strong><br>
+            - Run generator at 70-80% load for 1 hour<br>
+            - Monitor temperature and pressure readings<br>
+            - Check transfer switch operation<br>
+            - Test automatic start during actual power failure</div>
+        </div>
+        
+        <div class="checklist-item">
+            <span class="check">☐</span>
+            <div><strong>2. Fuel System</strong><br>
+            - Drain water from fuel filter (daily/weekly in humid areas)<br>
+            - Check fuel lines for leaks<br>
+            - Test fuel quality (no water contamination)</div>
+        </div>
+        
+        <div class="checklist-item">
+            <span class="check">☐</span>
+            <div><strong>3. Battery</strong><br>
+            - Clean battery terminals and apply anti-corrosion spray<br>
+            - Check charging system voltage<br>
+            - Load test battery (replace every 2-3 years)</div>
+        </div>
+    </div>
+    
+    <div class="section">
+        <h2>Quarterly Generator Maintenance Checklist</h2>
+        
+        <div class="checklist-item">
+            <span class="check">☐</span>
+            <div><strong>1. Engine Oil Change</strong><br>
+            - Change engine oil and oil filter<br>
+            - Use manufacturer-recommended oil grade<br>
+            - Record oil change date for log book</div>
+        </div>
+        
+        <div class="checklist-item">
+            <span class="check">☐</span>
+            <div><strong>2. Cooling System</strong><br>
+            - Clean radiator and cooling fins<br>
+            - Check coolant concentration (50/50 mix)<br>
+            - Replace coolant every 2 years or 2000 hours</div>
+        </div>
+        
+        <div class="checklist-item">
+            <span class="check">☐</span>
+            <div><strong>3. Electrical System</strong><br>
+            - Check and tighten all electrical connections<br>
+            - Test ATS operation<br>
+            - Inspect earth rods and cables</div>
+        </div>
+    </div>
+    
+    <div class="section">
+        <h2>Annual Generator Maintenance Checklist</h2>
+        
+        <div class="checklist-item">
+            <span class="check">☐</span>
+            <div><strong>1. Major Service</strong><br>
+            - Valve clearance adjustment<br>
+            - Fuel injector testing and cleaning<br>
+            - Turbocharger inspection<br>
+            - Full bearing and seal check</div>
+        </div>
+        
+        <div class="checklist-item">
+            <span class="check">☐</span>
+            <div><strong>2. Professional Testing</strong><br>
+            - Full load bank test<br>
+            - Flue gas analysis<br>
+            - Vibration analysis<br>
+            - Power quality testing</div>
+        </div>
+        
+        <div class="checklist-item">
+            <span class="check">☐</span>
+            <div><strong>3. Documentation Review</strong><br>
+            - Update service records<br>
+            - Review warranty status<br>
+            - Check EWURA compliance<br>
+            - Update emergency response plan</div>
+        </div>
+    </div>
+    
+    <div class="section">
+        <h2>Generator Maintenance Log Template</h2>
+        <table style="width:100%; border-collapse:collapse; background:rgba(255,255,255,0.05); border-radius:8px; overflow:hidden;">
+            <thead>
+                <tr style="background:rgba(255,255,255,0.15);">
+                    <th style="padding:0.75rem 1rem; border:1px solid rgba(255,255,255,0.2); text-align:left; color:white;">Date</th>
+                    <th style="padding:0.75rem 1rem; border:1px solid rgba(255,255,255,0.2); text-align:left; color:white;">Service Performed</th>
+                    <th style="padding:0.75rem 1rem; border:1px solid rgba(255,255,255,0.2); text-align:left; color:white;">Technician</th>
+                    <th style="padding:0.75rem 1rem; border:1px solid rgba(255,255,255,0.2); text-align:left; color:white;">Next Service Due</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="padding:0.75rem 1rem; border:1px solid rgba(255,255,255,0.2); color:white;">—</td>
+                    <td style="padding:0.75rem 1rem; border:1px solid rgba(255,255,255,0.2); color:white;">—</td>
+                    <td style="padding:0.75rem 1rem; border:1px solid rgba(255,255,255,0.2); color:white;">—</td>
+                    <td style="padding:0.75rem 1rem; border:1px solid rgba(255,255,255,0.2); color:white;">—</td>
+                </tr>
+                <tr>
+                    <td style="padding:0.75rem 1rem; border:1px solid rgba(255,255,255,0.2); color:white;">—</td>
+                    <td style="padding:0.75rem 1rem; border:1px solid rgba(255,255,255,0.2); color:white;">—</td>
+                    <td style="padding:0.75rem 1rem; border:1px solid rgba(255,255,255,0.2); color:white;">—</td>
+                    <td style="padding:0.75rem 1rem; border:1px solid rgba(255,255,255,0.2); color:white;">—</td>
+                </tr>
+                <tr>
+                    <td style="padding:0.75rem 1rem; border:1px solid rgba(255,255,255,0.2); color:white;">—</td>
+                    <td style="padding:0.75rem 1rem; border:1px solid rgba(255,255,255,0.2); color:white;">—</td>
+                    <td style="padding:0.75rem 1rem; border:1px solid rgba(255,255,255,0.2); color:white;">—</td>
+                    <td style="padding:0.75rem 1rem; border:1px solid rgba(255,255,255,0.2); color:white;">—</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    
+    <div class="warning-box">
+        <h3>⚠️ Signs Your Generator Needs Professional Attention</h3>
+        <ul>
+            <li>Difficulty starting or frequent stalling</li>
+            <li>Unexplained black or white exhaust smoke</li>
+            <li>Unusual knocking or rattling sounds</li>
+            <li>Frequent tripping of circuit breakers</li>
+            <li>Voltage fluctuations or dimming lights</li>
+            <li>Fuel consumption has increased noticeably</li>
+        </ul>
+    </div>
+    
+    <div class="download-box">
+        <h2>📄 Download Our Complete Generator Maintenance PDF</h2>
+        <p>Get the printable version with more detailed checklists, service schedules, and maintenance log sheets.</p>
+        <a href="https://drive.google.com/drive/folders/1oQ5Nk5mDd-jpA7ZsP4E75XnD2E6h52cj" target="_blank"><i class="fas fa-file-pdf"></i> Download Free PDF</a>
+    </div>
+    
+    <div class="section">
+        <h2>Professional Generator Maintenance Services in Tanzania</h2>
+        <p>At Kingu Electrical, we offer:</p>
+        <ul>
+            <li>✅ <strong>Scheduled Maintenance Contracts</strong> – Annual, semi-annual, or quarterly</li>
+            <li>✅ <strong>24/7 Emergency Repair</strong> – Response within 2 hours in major cities</li>
+            <li>✅ <strong>OEM Spare Parts</strong> – Genuine Perkins, Cummins, and more</li>
+            <li>✅ <strong>EWURA Licensed Technicians</strong> – All work meets Tanzanian standards</li>
+        </ul>
+    </div>
+    
+    <div class="cta-box">
+        <h2>📞 Contact Us for Generator Maintenance</h2>
+        <p><strong>Dar es Salaam:</strong> +255 672 912 802</p>
+        <p><strong>Arusha:</strong> +255 763 957 908</p>
+        <p><strong>Emergency:</strong> +255 682 843 552</p>
+        <p><strong>Email:</strong> Kinguelectricaltz@gmail.com</p>
+        <p style="margin-top: 0.5rem; font-size: 0.9rem;"><strong>Serving:</strong> Dar es Salaam, Arusha, Dodoma, Mwanza, Mbeya, Zanzibar, and nationwide.</p>
+        <a href="https://wa.me/255682843552?text=Hello!%20I%20need%20generator%20maintenance%20services">📅 Book Maintenance Service</a>
+    </div>
+</div>
+
+<footer>
+    <div class="footer-content">
+        <div class="footer-column">
+            <h3>Kingu Electrical</h3>
+            <p>Leading Electrical Engineering company in Tanzania providing professional power solutions and electrical products since 2017.</p>
+        </div>
+        <div class="footer-column">
+            <h3>Quick Links</h3>
+            <a href="index.html#home">Home</a>
+            <a href="index.html#about">About Us</a>
+            <a href="index.html#services">Our Services</a>
+            <a href="index.html#products">Products</a>
+            <a href="index.html#contact">Contact Us</a>
+            <a href="generator-maintenance-checklist.html">Maintenance Guide</a>
+        </div>
+        <div class="footer-column">
+            <h3>Contact Info</h3>
+            <p><i class="fas fa-phone"></i> +255 682 843 552</p>
+            <p><i class="fas fa-phone"></i> +255 672 912 802</p>
+            <p><i class="fas fa-envelope"></i> Kinguelectricaltz@gmail.com</p>
+        </div>
+    </div>
+    <div class="copyright">
+        <p>&copy; <span id="year">2024</span> Kingu Electrical Company Limited. All Rights Reserved.</p>
+        <p>TIN: 157-024-493 | EWURA License: ELA-2022-008</p>
+    </div>
+</footer>
+
+<script>
+    const hamburger = document.getElementById('hamburger');
+    const navMenu = document.getElementById('navMenu');
+    
+    hamburger.addEventListener('click', () => {
+        const isExpanded = hamburger.getAttribute('aria-expanded') === 'true';
+        hamburger.setAttribute('aria-expanded', !isExpanded);
+        navMenu.classList.toggle('active');
+        document.body.style.overflow = !isExpanded ? 'hidden' : 'auto';
+    });
+    
+    document.querySelectorAll('.nav-menu a').forEach(link => {
+        link.addEventListener('click', () => {
+            hamburger.setAttribute('aria-expanded', 'false');
+            navMenu.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        });
+    });
+    
+    document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+
+</body>
+</html>
